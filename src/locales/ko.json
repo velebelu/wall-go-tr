@@ -1,0 +1,66 @@
+{
+  "common": {
+    "confirm": "확인",
+    "cancel": "취소"
+  },
+  "menu": {
+    "title": "Wall Go · 벽 바둑",
+    "mode": {
+      "pvp": "🤝 2인 플레이",
+      "ai": "🤖 AI 대전"
+    },
+    "rule": "게임 규칙",
+    "ai": {
+      "select": "AI 난이도 및 선/후 선택:",
+      "level": "AI 수준:",
+      "levels": {
+        "practice": "🎲 연습",
+        "easy": "🌱 초급",
+        "middle": "🐵 중급",
+        "hard": "👾 고급"
+      },
+      "first": "🐰 선",
+      "second": "🐢 후",
+      "random": "🎲 랜덤",
+      "back": "뒤로"
+    },
+    "confirmHome": "게임이 아직 끝나지 않았습니다. 홈으로 돌아가시겠습니까?\n현재 진행 상황이 사라집니다.",
+    "home": "홈으로 돌아가기"
+  },
+  "rule": {
+    "title": "게임 규칙 안내",
+    "content": "【게임 목표】\n\n7×7 보드에서 자신의 말을 움직이고 벽을 세워 ‘영역’(자신의 말만 포함된 폐쇄 구역)을 만듭니다. 게임 종료 시 각 플레이어의 영역 내 칸 수를 세어, 더 많은 쪽이 승리합니다.\n\n【보드와 인원】\n&nbsp;•&nbsp;보드: 7×7 칸\n&nbsp;•&nbsp;플레이어:\n&nbsp;&nbsp;&nbsp;•&nbsp;2인: 빨강, 파랑 각 4개의 말\n&nbsp;&nbsp;&nbsp;•&nbsp;3/4인: 노랑/하늘색 추가, 각 색 2개의 말\n&nbsp;•&nbsp;벽: 무제한, 플레이어별 색상\n\n【게임 진행】\n배치 단계\n&nbsp;•&nbsp;2인: 시작 위치 고정. 빨강 [1,1],[5,5]; 파랑 [1,5],[5,1]. 나머지 2개는 빨강, 파랑, 파랑, 빨강 순서로 번갈아 배치\n&nbsp;•&nbsp;3/4인: 각자 2개 말을 정순·역순으로 번갈아 배치 (예: A→B→C→C→B→A)\n\n행동 단계 (턴제)\n&nbsp;1.&nbsp;움직일 수 있는 자신의 말을 선택\n&nbsp;2.&nbsp;0, 1, 2칸 이동:\n&nbsp;&nbsp;&nbsp;•&nbsp;각 스텝은 상하좌우만 가능\n&nbsp;&nbsp;&nbsp;•&nbsp;벽이나 다른 말을 넘을 수 없음\n&nbsp;3.&nbsp;이동 후, 해당 말의 사방 중 벽이 없는 곳에 벽을 1개 설치 (0칸 이동도 필수)\n\n【벽과 경계】\n&nbsp;•&nbsp;보드의 외곽은 벽으로 간주\n&nbsp;•&nbsp;2인: 설치한 벽은 제거 불가\n&nbsp;•&nbsp;3/4인: 각자 1회 ‘벽 부수기’ 기회, 자신의 턴에 사용 가능\n\n【시간 제한】\n&nbsp;•&nbsp;매 턴 90초 제한\n&nbsp;•&nbsp;초과 시 무작위로 벽 설치 후 턴 종료\n\n【종료 조건】\n&nbsp;•&nbsp;모든 플레이어의 말이 각기 다른 영역에 있을 때 게임 종료\n\n【점수 계산】\n&nbsp;•&nbsp;각 영역 내 칸 수, 1칸 1점\n&nbsp;•&nbsp;총점이 같으면 가장 큰 단일 영역의 칸 수가 많은 쪽이 승리\n\n【승패 판정】\n&nbsp;•&nbsp;점수가 높은 쪽이 승리\n&nbsp;•&nbsp;총점과 최대 영역이 모두 같으면 무승부\n\n──&nbsp;즐겁게 플레이하세요!",
+    "close": "닫기"
+  },
+  "game": {
+    "phase": {
+      "placing": "배치 단계",
+      "playing": "행동 단계",
+      "finished": "점수 계산"
+    },
+    "winner": "🥇 승자:",
+    "tie": "🤜🤛 무승부!",
+    "again": "다시 플레이",
+    "red": "빨강",
+    "blue": "파랑",
+    "wall": {
+      "top": "위",
+      "bottom": "아래",
+      "left": "왼쪽",
+      "right": "오른쪽",
+      "aria": "({{x}},{{y}}) 위치에 {{dir}} 벽 설치"
+    }
+  },
+  "seo": {
+    "title": "Wall Go | 전략 보드게임 | 데빌스 플랜 영감 기반",
+    "description": "Wall Go – 넷플릭스 '데빌스 플랜'에서 영감을 받은 무료 전략 보드게임. 친구 또는 AI와 대전, 현대적 UI, 별도 가입 없이 즉시 플레이 가능!",
+    "keywords": "Wall Go, Devil's Plan, 전략 게임, 보드게임, 벽 바둑, open source, 브라우저 게임, wallgo, 데빌스 플랜 게임, 무료 보드게임"
+  },
+  "nav": {
+    "undo": "실행 취소",
+    "redo": "다시 실행",
+    "undoAria": "실행 취소",
+    "redoAria": "다시 실행",
+    "menu": "메뉴"
+  }
+}
