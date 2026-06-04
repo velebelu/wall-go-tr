@@ -115,3 +115,6 @@ and more!
 ## License
 
 MIT © 2025 Gary Chu
+
+
+Proyecto TR sobre IA y estrategia territorial.
