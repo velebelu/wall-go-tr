@@ -1,1 +1,2 @@
-fecha,tipo_jugador_1,tipo_jugador_2,dificultad_ia_1,dificultad_ia_2,ganador,territorio_jugador_1,territorio_jugador_2,turnos,muros_totales,movimientos_jugador_1,movimientos_jugador_2,observaciones
+id_partida,fecha,tipo_partida,jugador_rojo,jugador_azul,ganador,turnos,territorio_rojo,territorio_azul,muros_colocados,observaciones
+1,2026-06-08,partida_prueba,humano,humano,sin_calcular,10,0,0,3,"Prueba manual del juego básico"
