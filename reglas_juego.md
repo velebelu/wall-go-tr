@@ -75,3 +75,6 @@ Al finalizar cada partida se registrarán los siguientes datos:
 - Muros usados por el jugador 2.
 - Movimientos realizados por el jugador 1.
 - Movimientos realizados por el jugador 2.
+- Dificultad de la IA del jugador 1, si corresponde.
+- Dificultad de la IA del jugador 2, si corresponde.
+- Observaciones de la partida.
