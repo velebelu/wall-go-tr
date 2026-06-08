@@ -1,2 +1,2 @@
 id_partida,fecha,tipo_partida,jugador_rojo,jugador_azul,ganador,turnos,territorio_rojo,territorio_azul,muros_colocados,observaciones
-1,2026-06-08,partida_prueba,humano,humano,sin_calcular,10,0,0,3,"Prueba manual del juego básico"
+1,2026-06-08,humano_vs_humano,humano,humano,rojo,0,29,20,0,"Partida finalizada. Gana rojo 29 a 20."
