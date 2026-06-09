@@ -10,7 +10,7 @@
       "select": "Select AI level and side:",
       "level": "AI Level:",
       "levels": {
-        "practice": "🎲 Practice",
+        "practice": "🎲 Random AI",
         "easy": "🌱 Easy",
         "middle": "🐵 Medium",
         "hard": "👾 Hard"
