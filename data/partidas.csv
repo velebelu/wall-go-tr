@@ -1,2 +1,4 @@
 id_partida,fecha,tipo_partida,jugador_rojo,jugador_azul,ganador,turnos,territorio_rojo,territorio_azul,muros_colocados,observaciones
 1,2026-06-08,humano_vs_humano,humano,humano,rojo,0,29,20,0,"Partida finalizada. Gana rojo 29 a 20."
+2,2026-06-09,humano,humano,rojo,33,16,"Partida de prueba entre dos jugadores humanos."
+1,2026-06-09,humano,ia_random_practice,rojo,43,6,"Partida humano contra IA Practice. Practice corresponde a IA aleatoria."
