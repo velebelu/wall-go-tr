@@ -1,4 +1,5 @@
 export * from './PlayerAgent'
 export * from './HumanAgent'
 export * from './RandomAgent'
+export * from './HeuristicAgent'
 export * from './MinimaxAgent'

@@ -11,6 +11,7 @@
       "level": "AI Level:",
       "levels": {
         "practice": "🎲 Random AI",
+        "heuristic": "Heuristic AI",
         "easy": "🌱 Easy",
         "middle": "🐵 Medium",
         "hard": "👾 Hard"

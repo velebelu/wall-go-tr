@@ -1,6 +1,11 @@
 // src/agents/AIWorker.ts
 import type { GameSnapshot, PlayerAction } from '@/lib/types'
-import { getLegalActions, getRandomAction, getBestPlacement } from '@/utils/ai'
+import {
+  getBestHeuristicAction,
+  getBestPlacement,
+  getLegalActions,
+  getRandomAction,
+} from '@/utils/ai'
 import { MinimaxAI } from '@/ai/minimax-ai'
 
 function calculateMinimaxPlayingAction(gameState: GameSnapshot, depth = 2): PlayerAction {
@@ -38,6 +43,7 @@ self.onmessage = (
 
     if (gameState.phase === 'placing') {
       switch (aiType) {
+        case 'heuristic':
         case 'minimax':
           action = getBestPlacement(gameState)
           break
@@ -48,6 +54,9 @@ self.onmessage = (
       }
     } else if (gameState.phase === 'playing') {
       switch (aiType) {
+        case 'heuristic':
+          action = getBestHeuristicAction(gameState)
+          break
         case 'minimax':
           action = calculateMinimaxPlayingAction(
             gameState,

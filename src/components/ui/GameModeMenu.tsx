@@ -6,7 +6,7 @@ import type { AiLevel, GameMode, AiSide } from '@/lib/types'
 
 const GAME_MODES: GameMode[] = ['pvp', 'ai']
 
-const AI_LEVELS: AiLevel[] = ['practice', 'easy', 'middle', 'hard']
+const AI_LEVELS: AiLevel[] = ['practice', 'heuristic', 'easy', 'middle', 'hard']
 
 export default function GameModeMenu({
   setMode,

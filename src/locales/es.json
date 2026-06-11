@@ -14,7 +14,8 @@
       "select": "Selecciona nivel y turno de IA:",
       "level": "Nivel de IA:",
       "levels": {
-        "practice": "🎲 Práctica",
+        "practice": "🎲 IA aleatoria",
+        "heuristic": "IA heurística",
         "easy": "🌱 Fácil",
         "middle": "🐵 Medio",
         "hard": "👾 Difícil"

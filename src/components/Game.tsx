@@ -7,7 +7,7 @@ import { useGame } from '@/store/index'
 import { checkGameEnd } from '@/utils/game'
 import { useRef, useEffect, useCallback, useState } from 'react'
 import { TurnManager } from '@/agents/TurnManager'
-import { HumanAgent, RandomAgent, MinimaxAgent } from '@/agents'
+import { HumanAgent, RandomAgent, HeuristicAgent, MinimaxAgent } from '@/agents'
 import { snapshotFromState } from '@/store/gameState'
 import ConfirmDialog from './ui/ConfirmDialog'
 import TurnTimer from './ui/TurnTimer'
@@ -72,6 +72,7 @@ export default function Game({
     humanAgentRef.current = human
     const aiMap = {
       practice: new RandomAgent(),
+      heuristic: new HeuristicAgent(),
       easy: new MinimaxAgent(2),
       middle: new MinimaxAgent(4),
       hard: new MinimaxAgent(6),
