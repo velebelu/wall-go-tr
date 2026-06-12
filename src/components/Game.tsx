@@ -5,6 +5,7 @@ import Board from './Board/Board'
 import { useTranslation } from 'react-i18next'
 import { useGame } from '@/store/index'
 import { checkGameEnd } from '@/utils/game'
+import { saveGameResult } from '@/utils/saveGame'
 import { useRef, useEffect, useCallback, useState } from 'react'
 import { TurnManager } from '@/agents/TurnManager'
 import { HumanAgent, RandomAgent, HeuristicAgent, MinimaxAgent } from '@/agents'
@@ -47,6 +48,8 @@ export default function Game({
     redo,
     canUndo,
     canRedo,
+    players,
+    humanSide,
   } = useGame()
   const live = checkGameEnd(board, [...PLAYER_LIST])
   const { t } = useTranslation()
@@ -177,6 +180,83 @@ export default function Game({
   useEffect(() => {
     onTurnEnd()
   }, [onTurnEnd, turn, phase, result, live])
+
+  // Guard to avoid saving multiple times if the finished screen re-renders
+  const savedRef = useRef(false)
+  useEffect(() => {
+    if (phase !== 'finished' || !result) return
+    if (savedRef.current) return
+
+    // Compute a deterministic id for this finished state to prevent duplicates
+    const hashStr = JSON.stringify({ board, result, players })
+    let h = 0
+    for (let i = 0; i < hashStr.length; i++) {
+      h = (h * 31 + hashStr.charCodeAt(i)) | 0
+    }
+    const id = `g_${(h >>> 0).toString(16)}`
+
+    // Count walls placed
+    let walls = 0
+    for (let y = 0; y < board.length; y++) {
+      for (let x = 0; x < board.length; x++) {
+        if (board[y][x].wallLeft) walls++
+        if (board[y][x].wallTop) walls++
+      }
+    }
+
+    // Approximate turns as number of history entries - 1
+    const historyLen = useGame.getState()._history?.length ?? 1
+    const turnos = Math.max(0, historyLen - 1)
+
+    // Map AI level to human-readable CSV strings
+    const aiTipoMap: Record<string, string> = {
+      practice: 'humano_vs_ia_aleatoria',
+      heuristic: 'humano_vs_ia_heuristica',
+      easy: 'humano_vs_ia_facil',
+      middle: 'humano_vs_ia_media',
+      hard: 'humano_vs_ia_dificil',
+    }
+    const aiPlayerMap: Record<string, string> = {
+      practice: 'ia_aleatoria',
+      heuristic: 'ia_heuristica',
+      easy: 'ia_facil',
+      middle: 'ia_media',
+      hard: 'ia_dificil',
+    }
+
+    let tipo_partida = 'pvp'
+    if (gameMode === 'ai') tipo_partida = aiTipoMap[aiLevel] ?? 'humano_vs_ia'
+
+    const playerLabel = (side: 'R' | 'B') => {
+      if (gameMode !== 'ai') return 'humano'
+      // If humanSide is null (shouldn't happen), assume players[0] is human
+      if (!humanSide) return 'humano'
+      if (humanSide === side) return 'humano'
+      return aiPlayerMap[aiLevel] ?? 'ia'
+    }
+
+    const jugador_rojo = playerLabel('R')
+    const jugador_azul = playerLabel('B')
+
+    const ganador = result.tie ? 'empate' : result.winner === 'R' ? 'rojo' : result.winner === 'B' ? 'azul' : 'desconocido'
+
+    const payload = {
+      id_partida: id,
+      fecha: new Date().toISOString(),
+      tipo_partida,
+      jugador_rojo,
+      jugador_azul,
+      ganador,
+      turnos,
+      territorio_rojo: result.score?.R ?? 0,
+      territorio_azul: result.score?.B ?? 0,
+      muros_colocados: walls,
+      observaciones: 'Guardado automático para recogida de datos TR',
+    }
+
+    saveGameResult(payload)
+    savedRef.current = true
+  }, [phase, result, board, players, gameMode, aiLevel, humanSide])
 
   return (
     <div
