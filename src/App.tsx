@@ -6,7 +6,7 @@ import RuleDialog from './components/ui/RuleDialog'
 import SeoHelmet from './components/SeoHelmet'
 import type { AiLevel } from './lib/types'
 
-type GameMode = 'pvp' | 'ai'
+type GameMode = 'pvp' | 'ai' | 'ai-vs-ai'
 type AiSide = 'R' | 'B'
 
 export default function App() {

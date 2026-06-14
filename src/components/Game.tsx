@@ -22,10 +22,10 @@ export default function Game({
   dark,
   setDark,
 }: {
-  gameMode: 'pvp' | 'ai'
+  gameMode: 'pvp' | 'ai' | 'ai-vs-ai'
   aiSide: 'R' | 'B'
   aiLevel: AiLevel
-  setGameMode: (m: 'pvp' | 'ai' | null) => void
+  setGameMode: (m: 'pvp' | 'ai' | 'ai-vs-ai' | null) => void
   setShowRule: (b: boolean) => void
   dark: boolean
   setDark: (d: boolean | ((d: boolean) => boolean)) => void
@@ -71,6 +71,40 @@ export default function Game({
 
   const setupTurnManager = useCallback(() => {
     if (!gameMode) return
+    
+    // Para modo ai-vs-ai: rojo = aleatoria, azul = heurística
+    if (gameMode === 'ai-vs-ai') {
+      const agents = {
+        R: new RandomAgent(),
+        B: new HeuristicAgent(),
+      }
+      turnManagerRef.current = new TurnManager({
+        agents,
+        getGameState: () => snapshotFromState(latestStateRef.current!),
+        applyAction: async (action: PlayerAction) => {
+          if (action.type === 'place') {
+            placeStone(action.pos)
+          } else if (action.type === 'move') {
+            if (action.from) selectStone(action.from)
+            moveTo(action.pos)
+          } else if (action.type === 'wall' && action.dir) {
+            if (action.from) selectStone(action.from)
+            buildWall(action.pos, action.dir)
+          }
+        },
+        isGameOver: (state) => state.phase === 'finished' || !!state.result || (state.stepsTaken > 200),
+        turnTimeLimit: 5_000, // Más rápido para IA vs IA
+        onTurnStart: (state) => {
+          if (state.phase !== 'playing') return
+          setTurnStart(Date.now())
+          setTimeLeft(5_000)
+        },
+      })
+      turnManagerStartedRef.current = false
+      return
+    }
+
+    // Para modo pvp y ai: lógica original con HumanAgent
     const human = new HumanAgent()
     humanAgentRef.current = human
     const aiMap = {
@@ -119,6 +153,8 @@ export default function Game({
     }
     if (gameMode === 'ai') {
       useGame.getState().setHumanSide(aiSide === 'R' ? 'B' : 'R')
+    } else if (gameMode === 'ai-vs-ai') {
+      useGame.getState().setHumanSide(null)
     } else {
       useGame.getState().setHumanSide(null)
     }
@@ -226,8 +262,12 @@ export default function Game({
 
     let tipo_partida = 'pvp'
     if (gameMode === 'ai') tipo_partida = aiTipoMap[aiLevel] ?? 'humano_vs_ia'
+    if (gameMode === 'ai-vs-ai') tipo_partida = 'ia_vs_ia_automatico'
 
     const playerLabel = (side: 'R' | 'B') => {
+      if (gameMode === 'ai-vs-ai') {
+        return side === 'R' ? 'ia_aleatoria' : 'ia_heuristica'
+      }
       if (gameMode !== 'ai') return 'humano'
       // If humanSide is null (shouldn't happen), assume players[0] is human
       if (!humanSide) return 'humano'

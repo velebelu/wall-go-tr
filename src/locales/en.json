@@ -3,7 +3,8 @@
     "title": "Wall Go",
     "mode": {
       "pvp": "🤝 2 Players",
-      "ai": "🤖 vs AI"
+      "ai": "🤖 vs AI",
+      "ai-vs-ai": "🤖 AI vs AI"
     },
     "rule": "Game Rules",
     "ai": {

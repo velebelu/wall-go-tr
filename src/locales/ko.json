@@ -7,7 +7,8 @@
     "title": "Wall Go · 벽 바둑",
     "mode": {
       "pvp": "🤝 2인 플레이",
-      "ai": "🤖 AI 대전"
+      "ai": "🤖 AI 대전",
+      "ai-vs-ai": "🤖 AI 대 AI"
     },
     "rule": "게임 규칙",
     "ai": {

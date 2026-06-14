@@ -7,7 +7,8 @@
     "title": "Wall Go · ウォール碁",
     "mode": {
       "pvp": "🤝 2人対戦",
-      "ai": "🤖 AIと対戦"
+      "ai": "🤖 AIと対戦",
+      "ai-vs-ai": "🤖 AI対AI"
     },
     "rule": "ルールを見る",
     "ai": {

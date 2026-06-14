@@ -4,8 +4,6 @@ import GameButton from './GameButton'
 import { useTranslation } from 'react-i18next'
 import type { AiLevel, GameMode, AiSide } from '@/lib/types'
 
-const GAME_MODES: GameMode[] = ['pvp', 'ai']
-
 const AI_LEVELS: AiLevel[] = ['practice', 'heuristic', 'easy', 'middle', 'hard']
 
 export default function GameModeMenu({
@@ -63,16 +61,27 @@ export default function GameModeMenu({
         {t('menu.title', 'Wall Go')}
       </h1>
       <div className="flex flex-col gap-4 w-full max-w-xs animate-fade-in min-h-[120px] transition-all duration-500">
-        {GAME_MODES.map((m) => (
-          <GameButton
-            key={m}
-            onClick={m === 'ai' ? () => setShowAiSelect(true) : () => setMode(m as GameMode)}
-            className="text-lg py-3"
-            active={m === 'ai' && showAiSelect}
-          >
-            {t(`menu.mode.${m}`)}
-          </GameButton>
-        ))}
+        <GameButton
+          onClick={() => setMode('pvp')}
+          className="text-lg py-3"
+        >
+          {t('menu.mode.pvp')}
+        </GameButton>
+        <GameButton
+          onClick={() => setShowAiSelect(true)}
+          className="text-lg py-3"
+          active={showAiSelect}
+        >
+          {t('menu.mode.ai')}
+        </GameButton>
+        <GameButton
+          onClick={() => {
+            setMode('ai-vs-ai')
+          }}
+          className="text-lg py-3 !bg-emerald-500 !dark:!bg-emerald-600 !text-white !shadow-lg hover:!bg-emerald-600 hover:!dark:bg-emerald-500"
+        >
+          {t('menu.mode.ai-vs-ai', '🤖 IA vs IA')}
+        </GameButton>
       </div>
       {/* AI difficulty and turn order selection merged (difficulty is a dropdown menu) */}
       <div

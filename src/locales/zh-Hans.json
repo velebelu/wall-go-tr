@@ -7,7 +7,8 @@
     "title": "Wall Go · 墙壁围棋",
     "mode": {
       "pvp": "🤝 双人对战",
-      "ai": "🤖 vs AI"
+      "ai": "🤖 vs AI",
+      "ai-vs-ai": "🤖 AI vs AI"
     },
     "rule": "游戏规则",
     "ai": {
