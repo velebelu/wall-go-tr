@@ -11,7 +11,13 @@ export interface Cell {
   wallLeft: Player | null // left wall
 }
 
-export type GameMode = 'pvp' | 'ai' | 'ai-vs-ai'
+export type GameMode =
+  | 'pvp'
+  | 'ai'
+  | 'ai-vs-ai'
+  | 'random-vs-heuristic'
+  | 'learning-vs-random'
+  | 'learning-vs-heuristic'
 export type AiSide = 'R' | 'B'
 export type AiLevel = 'practice' | 'heuristic' | 'easy' | 'middle' | 'hard'
 export type Phase = 'selecting' | 'placing' | 'playing' | 'finished'

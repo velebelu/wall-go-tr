@@ -82,6 +82,35 @@ export default function GameModeMenu({
         >
           {t('menu.mode.ai-vs-ai', '🤖 IA vs IA')}
         </GameButton>
+        <div className="mt-4 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900">
+          <div className="mb-2 text-sm font-semibold text-zinc-700 dark:text-zinc-200">
+            {t('menu.mode.experimentalTitle', 'Experimental modes')}
+          </div>
+          <GameButton
+            onClick={() => {
+              setMode('random-vs-heuristic')
+            }}
+            className="text-base py-3"
+          >
+            {t('menu.mode.random_vs_heuristic', 'IA aleatoria vs IA heurística')}
+          </GameButton>
+          <GameButton
+            onClick={() => {
+              setMode('learning-vs-random')
+            }}
+            className="text-base py-3"
+          >
+            {t('menu.mode.learning_vs_random', 'IA aprendiz vs IA aleatoria')}
+          </GameButton>
+          <GameButton
+            onClick={() => {
+              setMode('learning-vs-heuristic')
+            }}
+            className="text-base py-3"
+          >
+            {t('menu.mode.learning_vs_heuristic', 'IA aprendiz vs IA heurística')}
+          </GameButton>
+        </div>
       </div>
       {/* AI difficulty and turn order selection merged (difficulty is a dropdown menu) */}
       <div

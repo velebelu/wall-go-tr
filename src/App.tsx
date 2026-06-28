@@ -4,10 +4,7 @@ import Footer from './components/ui/Footer'
 import GameModeMenu from './components/ui/GameModeMenu'
 import RuleDialog from './components/ui/RuleDialog'
 import SeoHelmet from './components/SeoHelmet'
-import type { AiLevel } from './lib/types'
-
-type GameMode = 'pvp' | 'ai' | 'ai-vs-ai'
-type AiSide = 'R' | 'B'
+import type { AiLevel, GameMode, AiSide } from './lib/types'
 
 export default function App() {
   const [showRule, setShowRule] = useState(false)

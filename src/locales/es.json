@@ -8,7 +8,11 @@
     "mode": {
       "pvp": "🤝 Dos jugadores",
       "ai": "🤖 vs IA",
-      "ai-vs-ai": "🤖 IA vs IA"
+      "ai-vs-ai": "🤖 IA vs IA",
+      "experimentalTitle": "Modos experimentales",
+      "random_vs_heuristic": "IA aleatoria vs IA heurística",
+      "learning_vs_random": "IA aprendiz vs IA aleatoria",
+      "learning_vs_heuristic": "IA aprendiz vs IA heurística"
     },
     "rule": "Reglas del Juego",
     "ai": {

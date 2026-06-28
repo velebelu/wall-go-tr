@@ -1,4 +1,4 @@
-import { PLAYER_LIST, type AiLevel, type PlayerAction, type State } from '@/lib/types'
+import { PLAYER_LIST, type AiLevel, type GameMode, type PlayerAction, type State } from '@/lib/types'
 import GameButton from './ui/GameButton'
 import Navbar from './ui/Navbar'
 import Board from './Board/Board'
@@ -22,10 +22,10 @@ export default function Game({
   dark,
   setDark,
 }: {
-  gameMode: 'pvp' | 'ai' | 'ai-vs-ai'
+  gameMode: GameMode
   aiSide: 'R' | 'B'
   aiLevel: AiLevel
-  setGameMode: (m: 'pvp' | 'ai' | 'ai-vs-ai' | null) => void
+  setGameMode: (m: GameMode | null) => void
   setShowRule: (b: boolean) => void
   dark: boolean
   setDark: (d: boolean | ((d: boolean) => boolean)) => void
@@ -73,14 +73,49 @@ export default function Game({
   const setupTurnManager = useCallback(() => {
     if (!gameMode) return
 
-    // Para modo ai-vs-ai: rojo = LearningAgent, azul = RandomAgent
-    if (gameMode === 'ai-vs-ai') {
-      const learningAgent = new LearningAgent()
-      learningAgentRef.current = learningAgent
-      const agents = {
-        R: learningAgent,
-        B: new RandomAgent(),
+    const isExperimentalAiVsAi =
+      gameMode === 'ai-vs-ai' ||
+      gameMode === 'random-vs-heuristic' ||
+      gameMode === 'learning-vs-random' ||
+      gameMode === 'learning-vs-heuristic'
+
+    if (isExperimentalAiVsAi) {
+      learningAgentRef.current = null
+      let agents: Record<'R' | 'B', any>
+
+      if (gameMode === 'random-vs-heuristic') {
+        agents = {
+          R: new RandomAgent(),
+          B: new HeuristicAgent(),
+        }
+      } else if (gameMode === 'learning-vs-random') {
+        const learningAgent = new LearningAgent()
+        learningAgentRef.current = learningAgent
+        agents = {
+          R: learningAgent,
+          B: new RandomAgent(),
+        }
+      } else if (gameMode === 'learning-vs-heuristic') {
+        const learningAgent = new LearningAgent()
+        learningAgentRef.current = learningAgent
+        agents = {
+          R: learningAgent,
+          B: new HeuristicAgent(),
+        }
+      } else if (gameMode === 'ai-vs-ai') {
+        agents = {
+          R: new RandomAgent(),
+          B: new HeuristicAgent(),
+        }
+      } else {
+        const learningAgent = new LearningAgent()
+        learningAgentRef.current = learningAgent
+        agents = {
+          R: learningAgent,
+          B: new RandomAgent(),
+        }
       }
+
       turnManagerRef.current = new TurnManager({
         agents,
         getGameState: () => snapshotFromState(latestStateRef.current!),
@@ -97,7 +132,7 @@ export default function Game({
         },
         isGameOver: (state) =>
           state.phase === 'finished' || !!state.result || state.stepsTaken > 200,
-        turnTimeLimit: 5_000, // Más rápido para IA vs IA
+        turnTimeLimit: 5_000,
         onTurnStart: (state) => {
           if (state.phase !== 'playing') return
           setTurnStart(Date.now())
@@ -155,9 +190,15 @@ export default function Game({
       useGame.getState().setHumanSide(null)
       return
     }
+    const isAiVsAiMode =
+      gameMode === 'ai-vs-ai' ||
+      gameMode === 'random-vs-heuristic' ||
+      gameMode === 'learning-vs-random' ||
+      gameMode === 'learning-vs-heuristic'
+
     if (gameMode === 'ai') {
       useGame.getState().setHumanSide(aiSide === 'R' ? 'B' : 'R')
-    } else if (gameMode === 'ai-vs-ai') {
+    } else if (isAiVsAiMode) {
       useGame.getState().setHumanSide(null)
     } else {
       useGame.getState().setHumanSide(null)
@@ -267,10 +308,22 @@ export default function Game({
     let tipo_partida = 'pvp'
     if (gameMode === 'ai') tipo_partida = aiTipoMap[aiLevel] ?? 'humano_vs_ia'
     if (gameMode === 'ai-vs-ai') tipo_partida = 'ia_vs_ia_automatico'
+    if (gameMode === 'random-vs-heuristic') tipo_partida = 'ia_aleatoria_vs_ia_heuristica'
+    if (gameMode === 'learning-vs-random') tipo_partida = 'ia_aprendiz_vs_ia_aleatoria'
+    if (gameMode === 'learning-vs-heuristic') tipo_partida = 'ia_aprendiz_vs_ia_heuristica'
 
     const playerLabel = (side: 'R' | 'B') => {
       if (gameMode === 'ai-vs-ai') {
         return side === 'R' ? 'ia_aleatoria' : 'ia_heuristica'
+      }
+      if (gameMode === 'random-vs-heuristic') {
+        return side === 'R' ? 'ia_aleatoria' : 'ia_heuristica'
+      }
+      if (gameMode === 'learning-vs-random') {
+        return side === 'R' ? 'ia_aprendiz' : 'ia_aleatoria'
+      }
+      if (gameMode === 'learning-vs-heuristic') {
+        return side === 'R' ? 'ia_aprendiz' : 'ia_heuristica'
       }
       if (gameMode !== 'ai') return 'humano'
       // If humanSide is null (shouldn't happen), assume players[0] is human
@@ -290,8 +343,8 @@ export default function Game({
           ? 'azul'
           : 'desconocido'
 
-    // Actualizar LearningAgent si existe (para modo ai-vs-ai)
-    if (gameMode === 'ai-vs-ai' && learningAgentRef.current) {
+    // Actualizar LearningAgent si existe (para modos con agente aprendiz)
+    if (learningAgentRef.current) {
       const learningResult = result.tie ? 'draw' : result.winner === 'R' ? 'win' : 'loss'
       learningAgentRef.current.updateAfterGame(learningResult, 'R')
       learningAgentRef.current.logStats()

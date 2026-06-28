@@ -4,7 +4,11 @@
     "mode": {
       "pvp": "🤝 2 Players",
       "ai": "🤖 vs AI",
-      "ai-vs-ai": "🤖 AI vs AI"
+      "ai-vs-ai": "🤖 AI vs AI",
+      "experimentalTitle": "Experimental modes",
+      "random_vs_heuristic": "Random AI vs Heuristic AI",
+      "learning_vs_random": "Learning AI vs Random AI",
+      "learning_vs_heuristic": "Learning AI vs Heuristic AI"
     },
     "rule": "Game Rules",
     "ai": {
