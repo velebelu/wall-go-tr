@@ -8,7 +8,7 @@ import { checkGameEnd } from '@/utils/game'
 import { saveGameResult } from '@/utils/saveGame'
 import { useRef, useEffect, useCallback, useState } from 'react'
 import { TurnManager } from '@/agents/TurnManager'
-import { HumanAgent, RandomAgent, HeuristicAgent, MinimaxAgent } from '@/agents'
+import { HumanAgent, RandomAgent, HeuristicAgent, MinimaxAgent, LearningAgent } from '@/agents'
 import { snapshotFromState } from '@/store/gameState'
 import ConfirmDialog from './ui/ConfirmDialog'
 import TurnTimer from './ui/TurnTimer'
@@ -61,6 +61,7 @@ export default function Game({
   // --- 代理主流程整合 ---
   const turnManagerRef = useRef<TurnManager | null>(null)
   const humanAgentRef = useRef<HumanAgent | null>(null)
+  const learningAgentRef = useRef<LearningAgent | null>(null)
   // 直接用 useGame() 的完整 state 當 snapshot
   const latestStateRef = useRef<State | null>(null)
   useEffect(() => {
@@ -71,12 +72,14 @@ export default function Game({
 
   const setupTurnManager = useCallback(() => {
     if (!gameMode) return
-    
-    // Para modo ai-vs-ai: rojo = aleatoria, azul = heurística
+
+    // Para modo ai-vs-ai: rojo = LearningAgent, azul = RandomAgent
     if (gameMode === 'ai-vs-ai') {
+      const learningAgent = new LearningAgent()
+      learningAgentRef.current = learningAgent
       const agents = {
-        R: new RandomAgent(),
-        B: new HeuristicAgent(),
+        R: learningAgent,
+        B: new RandomAgent(),
       }
       turnManagerRef.current = new TurnManager({
         agents,
@@ -92,7 +95,8 @@ export default function Game({
             buildWall(action.pos, action.dir)
           }
         },
-        isGameOver: (state) => state.phase === 'finished' || !!state.result || (state.stepsTaken > 200),
+        isGameOver: (state) =>
+          state.phase === 'finished' || !!state.result || state.stepsTaken > 200,
         turnTimeLimit: 5_000, // Más rápido para IA vs IA
         onTurnStart: (state) => {
           if (state.phase !== 'playing') return
@@ -278,7 +282,20 @@ export default function Game({
     const jugador_rojo = playerLabel('R')
     const jugador_azul = playerLabel('B')
 
-    const ganador = result.tie ? 'empate' : result.winner === 'R' ? 'rojo' : result.winner === 'B' ? 'azul' : 'desconocido'
+    const ganador = result.tie
+      ? 'empate'
+      : result.winner === 'R'
+        ? 'rojo'
+        : result.winner === 'B'
+          ? 'azul'
+          : 'desconocido'
+
+    // Actualizar LearningAgent si existe (para modo ai-vs-ai)
+    if (gameMode === 'ai-vs-ai' && learningAgentRef.current) {
+      const learningResult = result.tie ? 'draw' : result.winner === 'R' ? 'win' : 'loss'
+      learningAgentRef.current.updateAfterGame(learningResult, 'R')
+      learningAgentRef.current.logStats()
+    }
 
     const payload = {
       id_partida: id,
