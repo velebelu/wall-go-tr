@@ -3,6 +3,18 @@ import type { GameSnapshot, PlayerAction } from '@/lib/types'
 import { toSerializableSnapshot } from './serialize'
 import { sleep } from '@/utils/sleep'
 
+export function calculateFinalReward(
+  result: 'win' | 'loss' | 'draw',
+  territoryAprendiz: number,
+  territoryRival: number,
+): number {
+  const baseReward = result === 'win' ? 1 : result === 'loss' ? -1 : 0.3
+  const territoryDiff = territoryAprendiz - territoryRival
+  const normalizedDiff = territoryDiff / 49
+  const finalReward = baseReward + normalizedDiff
+  return Math.max(-1.5, Math.min(1.5, finalReward))
+}
+
 /**
  * LearningAgent: Un agente que aprende mediante una tabla Q simplificada.
  *
@@ -129,15 +141,27 @@ export class LearningAgent implements PlayerAgent {
    * Parámetros:
    * - result: resultado de la partida ('win' | 'loss' | 'draw')
    * - playerSide: lado del jugador ('R' | 'B')
+   * - territoryAprendiz: territorio final del agente aprendiz
+   * - territoryRival: territorio final del rival
    */
-  public updateAfterGame(result: 'win' | 'loss' | 'draw', playerSide: 'R' | 'B'): void {
+  public updateAfterGame(
+    result: 'win' | 'loss' | 'draw',
+    playerSide: 'R' | 'B',
+    territoryAprendiz = 0,
+    territoryRival = 0,
+  ): void {
     if (this.gameTrace.length === 0) {
       console.log('[LearningAgent] No game trace to learn from')
       return
     }
 
-    // Recompensa basada en resultado
-    const reward = result === 'win' ? 1 : result === 'draw' ? 0.3 : -1
+    const reward = calculateFinalReward(result, territoryAprendiz, territoryRival)
+    const territoryDiff = territoryAprendiz - territoryRival
+
+    console.log('[LearningAgent] territorioAprendiz:', territoryAprendiz)
+    console.log('[LearningAgent] territorioRival:', territoryRival)
+    console.log('[LearningAgent] diferencia de territorio:', territoryDiff)
+    console.log('[LearningAgent] recompensa final aplicada:', reward)
 
     // Retropropagación simple: ajustar valores Q de atrás hacia adelante
     let nextValue = 0

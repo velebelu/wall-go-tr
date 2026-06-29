@@ -346,7 +346,9 @@ export default function Game({
     // Actualizar LearningAgent si existe (para modos con agente aprendiz)
     if (learningAgentRef.current) {
       const learningResult = result.tie ? 'draw' : result.winner === 'R' ? 'win' : 'loss'
-      learningAgentRef.current.updateAfterGame(learningResult, 'R')
+      const territoryAprendiz = result.score?.R ?? 0
+      const territoryRival = result.score?.B ?? 0
+      learningAgentRef.current.updateAfterGame(learningResult, 'R', territoryAprendiz, territoryRival)
       learningAgentRef.current.logStats()
     }
 
