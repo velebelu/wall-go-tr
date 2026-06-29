@@ -18,8 +18,10 @@ export type GameMode =
   | 'random-vs-heuristic'
   | 'learning-vs-random'
   | 'learning-vs-heuristic'
+  | 'heuristic-training'
 export type AiSide = 'R' | 'B'
 export type AiLevel = 'practice' | 'heuristic' | 'easy' | 'middle' | 'hard'
+export type HeuristicMode = 'default' | 'offensive' | 'defensive'
 export type Phase = 'selecting' | 'placing' | 'playing' | 'finished'
 export type WallDir = 'top' | 'left' | 'right' | 'bottom'
 export const PLAYER_LIST = ['R', 'B'] as readonly Player[]

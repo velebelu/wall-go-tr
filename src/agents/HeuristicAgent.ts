@@ -1,12 +1,14 @@
 import type { PlayerAgent } from './PlayerAgent'
-import type { GameSnapshot, PlayerAction } from '@/lib/types'
+import type { GameSnapshot, PlayerAction, HeuristicMode } from '@/lib/types'
 import { toSerializableSnapshot } from './serialize'
 import { sleep } from '@/utils/sleep'
 
 export class HeuristicAgent implements PlayerAgent {
   private worker: Worker
+  private readonly mode: HeuristicMode
 
-  constructor() {
+  constructor(mode: HeuristicMode = 'default') {
+    this.mode = mode
     this.worker = new Worker(new URL('./AIWorker.ts', import.meta.url), {
       type: 'module',
     })
@@ -51,6 +53,9 @@ export class HeuristicAgent implements PlayerAgent {
       this.worker.postMessage({
         aiType: 'heuristic',
         gameState: toSerializableSnapshot(gameState),
+        config: {
+          policy: this.mode,
+        },
       })
     })
   }

@@ -1,5 +1,6 @@
 import type { PlayerAgent } from './PlayerAgent'
-import type { GameSnapshot, PlayerAction } from '@/lib/types'
+import type { GameSnapshot, PlayerAction, Player } from '@/lib/types'
+import { getTerritoryMap } from '@/utils/territory'
 import { toSerializableSnapshot } from './serialize'
 import { sleep } from '@/utils/sleep'
 
@@ -28,7 +29,7 @@ export class LearningAgent implements PlayerAgent {
   // Tabla Q simplificada: mapeo de "stateKey + actionKey" -> valor
   private qTable: Map<string, number> = new Map()
   // Registro de acciones durante la partida actual
-  private gameTrace: Array<{ state: GameSnapshot; action: PlayerAction }> = []
+  private gameTrace: Array<{ state: GameSnapshot; action: PlayerAction; reward: number }> = []
   // Parámetros de aprendizaje
   private learningRate: number = 0.1
   private discountFactor: number = 0.9
@@ -70,6 +71,47 @@ export class LearningAgent implements PlayerAgent {
     return 'unknown'
   }
 
+  private static calculateTerritoryCounts(gameState: GameSnapshot): Record<Player, number> {
+    const territory = getTerritoryMap(gameState.board)
+    const totals: Record<Player, number> = { R: 0, B: 0 }
+    for (let y = 0; y < territory.length; y++) {
+      for (let x = 0; x < territory[y].length; x++) {
+        const owner = territory[y][x]
+        if (owner) totals[owner]++
+      }
+    }
+    return totals
+  }
+
+  private calculateIntermediateReward(
+    prevState: GameSnapshot,
+    nextState: GameSnapshot,
+    playerSide: Player,
+  ): number {
+    const opponent: Player = playerSide === 'R' ? 'B' : 'R'
+    const prevTerritory = LearningAgent.calculateTerritoryCounts(prevState)
+    const nextTerritory = LearningAgent.calculateTerritoryCounts(nextState)
+    const prevDiff = prevTerritory[playerSide] - prevTerritory[opponent]
+    const nextDiff = nextTerritory[playerSide] - nextTerritory[opponent]
+    const delta = nextDiff - prevDiff
+    const reward = Math.max(-0.1, Math.min(0.1, delta * 0.05))
+
+    console.log('[LearningAgent] diferencia de territorio antes:', prevDiff)
+    console.log('[LearningAgent] diferencia de territorio después:', nextDiff)
+    console.log('[LearningAgent] recompensa intermedia aplicada:', reward)
+
+    return reward
+  }
+
+  public recordTransition(
+    prevState: GameSnapshot,
+    action: PlayerAction,
+    nextState: GameSnapshot,
+  ): void {
+    const reward = this.calculateIntermediateReward(prevState, nextState, prevState.turn)
+    this.gameTrace.push({ state: prevState, action, reward })
+  }
+
   /**
    * Obtiene el valor Q para un par estado-acción.
    * Si no existe, retorna 0 (optimista).
@@ -106,9 +148,7 @@ export class LearningAgent implements PlayerAgent {
           if (event.data.stack) errMsg += '\nStack: ' + event.data.stack
           reject(new Error(errMsg))
         } else if (event.data.action) {
-          // Registrar la acción en el historial
           const action = event.data.action
-          this.gameTrace.push({ state: gameState, action })
           resolve(action)
         } else {
           reject(
@@ -155,26 +195,26 @@ export class LearningAgent implements PlayerAgent {
       return
     }
 
-    const reward = calculateFinalReward(result, territoryAprendiz, territoryRival)
+    const finalReward = calculateFinalReward(result, territoryAprendiz, territoryRival)
     const territoryDiff = territoryAprendiz - territoryRival
 
     console.log('[LearningAgent] territorioAprendiz:', territoryAprendiz)
     console.log('[LearningAgent] territorioRival:', territoryRival)
     console.log('[LearningAgent] diferencia de territorio:', territoryDiff)
-    console.log('[LearningAgent] recompensa final aplicada:', reward)
+    console.log('[LearningAgent] recompensa final aplicada:', finalReward)
 
     // Retropropagación simple: ajustar valores Q de atrás hacia adelante
     let nextValue = 0
     for (let i = this.gameTrace.length - 1; i >= 0; i--) {
-      const { state, action } = this.gameTrace[i]!
+      const { state, action, reward: stepReward } = this.gameTrace[i]!
       // Solo actualizar si es turno del agente
       if (state.turn === playerSide) {
         const stateKey = this.getStateKey(state)
         const actionKey = this.getActionKey(action)
         const currentQ = this.getQValue(stateKey, actionKey)
-        // Q-learning update: Q(s,a) = Q(s,a) + α * (r + γ * maxQ(s',a') - Q(s,a))
+        const totalReward = stepReward + (i === this.gameTrace.length - 1 ? finalReward : 0)
         const newQ =
-          currentQ + this.learningRate * (reward + this.discountFactor * nextValue - currentQ)
+          currentQ + this.learningRate * (totalReward + this.discountFactor * nextValue - currentQ)
         this.setQValue(stateKey, actionKey, newQ)
         nextValue = newQ
       }

@@ -100,6 +100,7 @@ self.onmessage = (
       return
     }
 
+    const heuristicMode = (event.data.config?.policy as 'default' | 'offensive' | 'defensive') ?? 'default'
     if (gameState.phase === 'placing') {
       switch (aiType) {
         case 'heuristic':
@@ -120,7 +121,7 @@ self.onmessage = (
     } else if (gameState.phase === 'playing') {
       switch (aiType) {
         case 'heuristic':
-          action = getBestHeuristicAction(gameState)
+          action = getBestHeuristicAction(gameState, heuristicMode)
           break
         case 'minimax':
           action = calculateMinimaxPlayingAction(

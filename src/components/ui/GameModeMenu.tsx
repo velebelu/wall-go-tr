@@ -110,6 +110,14 @@ export default function GameModeMenu({
           >
             {t('menu.mode.learning_vs_heuristic', 'IA aprendiz vs IA heurística')}
           </GameButton>
+          <GameButton
+            onClick={() => {
+              setMode('heuristic-training')
+            }}
+            className="text-base py-3"
+          >
+            {t('menu.mode.heuristic_training', 'Entrenamiento heurístico automático')}
+          </GameButton>
         </div>
       </div>
       {/* AI difficulty and turn order selection merged (difficulty is a dropdown menu) */}

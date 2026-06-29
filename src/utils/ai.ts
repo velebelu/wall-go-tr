@@ -129,7 +129,10 @@ export function getBestPlacement(state: GameSnapshot): PlayerAction {
 
 // 行動
 // 複製遊戲狀態（淺拷貝，僅用於模擬）
-export function getBestHeuristicAction(state: GameSnapshot): PlayerAction | null {
+export function getBestHeuristicAction(
+  state: GameSnapshot,
+  policy: 'default' | 'offensive' | 'defensive' = 'default',
+): PlayerAction | null {
   const actions = getLegalActions(state)
   if (actions.length === 0) return null
 
@@ -137,7 +140,7 @@ export function getBestHeuristicAction(state: GameSnapshot): PlayerAction | null
   const bestActions: PlayerAction[] = []
 
   for (const action of actions) {
-    const score = scoreHeuristicAction(state, action)
+    const score = scoreHeuristicAction(state, action, policy)
     if (score > best) {
       best = score
       bestActions.length = 0
@@ -150,7 +153,11 @@ export function getBestHeuristicAction(state: GameSnapshot): PlayerAction | null
   return getRandomAction(bestActions)
 }
 
-function scoreHeuristicAction(state: GameSnapshot, action: PlayerAction): number {
+function scoreHeuristicAction(
+  state: GameSnapshot,
+  action: PlayerAction,
+  policy: 'default' | 'offensive' | 'defensive',
+): number {
   if (action.type === 'place') {
     return placeScore(state.board, action.pos.x, action.pos.y, state.turn)
   }
@@ -173,7 +180,53 @@ function scoreHeuristicAction(state: GameSnapshot, action: PlayerAction): number
     if (wallTouchesOpponent(nextBoard, state.turn, wallAction.pos, wallAction.dir)) score += 10
   }
 
+  if (policy === 'offensive') {
+    const opponentPressure = countOpponentNearby(nextBoard, state.turn, action)
+    score += opponentPressure * 2
+    score += freeAround * 1.5
+  } else if (policy === 'defensive') {
+    const ownTerritory = estimateTerritoryPotential(nextBoard, state.turn)
+    score += ownTerritory * 3
+    score -= Math.max(0, 2 - freeAround) * 5
+  }
+
   return score
+}
+
+function countOpponentNearby(board: Cell[][], me: Player, action: PlayerAction): number {
+  const checkPos = action.type === 'move' ? action.pos : action.pos
+  let count = 0
+  getAdjacentPositions(board, checkPos).forEach((pos) => {
+    if (board[pos.y][pos.x].stone && board[pos.y][pos.x].stone !== me) count++
+  })
+  return count
+}
+
+function estimateTerritoryPotential(board: Cell[][], me: Player): number {
+  let score = 0
+  board.forEach((row, y) =>
+    row.forEach((cell, x) => {
+      if (!cell.stone) {
+        const owner = estimateTerritoryOwner(board, { x, y })
+        if (owner === me) score += 1
+        else if (owner !== null) score -= 0.5
+      }
+    }),
+  )
+  return score
+}
+
+function estimateTerritoryOwner(board: Cell[][], pos: Pos): Player | null {
+  const adjacent = getAdjacentPositions(board, pos)
+  const owners = new Set<Player>()
+  adjacent.forEach((next) => {
+    const stone = board[next.y][next.x].stone
+    if (stone) owners.add(stone)
+  })
+  if (owners.size === 1) {
+    return owners.values().next().value as Player
+  }
+  return null
 }
 
 function applyActionToBoard(board: Cell[][], player: Player, action: PlayerAction): Cell[][] {

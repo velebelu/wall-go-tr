@@ -1,4 +1,10 @@
-import { PLAYER_LIST, type AiLevel, type GameMode, type PlayerAction, type State } from '@/lib/types'
+import {
+  PLAYER_LIST,
+  type AiLevel,
+  type GameMode,
+  type PlayerAction,
+  type State,
+} from '@/lib/types'
 import GameButton from './ui/GameButton'
 import Navbar from './ui/Navbar'
 import Board from './Board/Board'
@@ -10,6 +16,7 @@ import { useRef, useEffect, useCallback, useState } from 'react'
 import { TurnManager } from '@/agents/TurnManager'
 import { HumanAgent, RandomAgent, HeuristicAgent, MinimaxAgent, LearningAgent } from '@/agents'
 import { snapshotFromState } from '@/store/gameState'
+import { runHeuristicTraining } from '@/training/TrainingRunner'
 import ConfirmDialog from './ui/ConfirmDialog'
 import TurnTimer from './ui/TurnTimer'
 
@@ -69,9 +76,19 @@ export default function Game({
   }, [board, turn, selected, legal, phase, result])
 
   const turnManagerStartedRef = useRef(false)
+  const trainingStartedRef = useRef(false)
+  const [trainingProgress, setTrainingProgress] = useState<{ current: number; total: number } | null>(
+    null,
+  )
 
   const setupTurnManager = useCallback(() => {
     if (!gameMode) return
+
+    if (gameMode === 'heuristic-training') {
+      learningAgentRef.current = null
+      turnManagerRef.current = null
+      return
+    }
 
     const isExperimentalAiVsAi =
       gameMode === 'ai-vs-ai' ||
@@ -120,6 +137,7 @@ export default function Game({
         agents,
         getGameState: () => snapshotFromState(latestStateRef.current!),
         applyAction: async (action: PlayerAction) => {
+          const prevState = snapshotFromState(useGame.getState())
           if (action.type === 'place') {
             placeStone(action.pos)
           } else if (action.type === 'move') {
@@ -128,6 +146,11 @@ export default function Game({
           } else if (action.type === 'wall' && action.dir) {
             if (action.from) selectStone(action.from)
             buildWall(action.pos, action.dir)
+          }
+
+          if (learningAgentRef.current && prevState.turn === 'R') {
+            const nextState = snapshotFromState(useGame.getState())
+            learningAgentRef.current.recordTransition(prevState, action, nextState)
           }
         },
         isGameOver: (state) =>
@@ -210,6 +233,29 @@ export default function Game({
     setPhase('placing')
     setupTurnManager()
   }, [gameMode, aiSide, setPhase, setupTurnManager])
+
+  useEffect(() => {
+    if (gameMode !== 'heuristic-training') {
+      trainingStartedRef.current = false
+      setTrainingProgress(null)
+      return
+    }
+
+    if (trainingStartedRef.current) return
+
+    trainingStartedRef.current = true
+    setTrainingProgress({ current: 0, total: 20 })
+
+    runHeuristicTraining(20, (current, total) => {
+      setTrainingProgress({ current, total })
+    })
+      .then(() => {
+        setTrainingProgress({ current: 20, total: 20 })
+      })
+      .catch((error) => {
+        console.error('[Game] Error en entrenamiento heurístico:', error)
+      })
+  }, [gameMode])
 
   useEffect(() => {
     if (!turnManagerRef.current) return
@@ -461,6 +507,16 @@ export default function Game({
           </GameButton>
         )}
       </div>
+      {trainingProgress && (
+        <div className="w-full max-w-xl text-center py-3 rounded-2xl bg-amber-100/80 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700 mb-4">
+          <p className="font-semibold text-zinc-800 dark:text-zinc-100">
+            Entrenamiento heurístico automático: {trainingProgress.current} / {trainingProgress.total}
+          </p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-300">
+            Se ejecutan partidas automáticas y se descargarán los resultados en CSV al finalizar.
+          </p>
+        </div>
+      )}
       <div className="board-container flex flex-col aspect-ratio-1 items-center w-[min(800px,100dvh-280px)] max-w-[calc(100dvw-32px)] transition-all">
         <Board
           board={board}

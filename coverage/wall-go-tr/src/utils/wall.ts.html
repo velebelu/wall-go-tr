@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">23.07% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/39</span>
+                <span class='fraction'>9/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/2</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">23.07% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/39</span>
+                <span class='fraction'>9/39</span>
             </div>
         
             
@@ -122,13 +122,13 @@
 <a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -136,23 +136,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -178,13 +178,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// src/utils/wall.ts
 import type { Cell, PlayerAction, Pos } from '@/lib/types'
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export const DIRS: [dx: number, dy: number, wallKey: 'left' | 'top'][] = [</span>
-<span class="cstat-no" title="statement not covered" >  [1, 0, 'left'], // 往右要看右格的 left 牆</span>
-<span class="cstat-no" title="statement not covered" >  [-1, 0, 'left'], // 往左看自身 left 牆</span>
-<span class="cstat-no" title="statement not covered" >  [0, 1, 'top'], // 往下看下格 top 牆</span>
-<span class="cstat-no" title="statement not covered" >  [0, -1, 'top'], // 往上看自身 top 牆</span>
-<span class="cstat-no" title="statement not covered" >]</span>
-<span class="cstat-no" title="statement not covered" >const DIRS_NAME = ['right', 'left', 'bottom', 'top'] as const</span>
+export const DIRS: [dx: number, dy: number, wallKey: 'left' | 'top'][] = [
+  [1, 0, 'left'], // 往右要看右格的 left 牆
+  [-1, 0, 'left'], // 往左看自身 left 牆
+  [0, 1, 'top'], // 往下看下格 top 牆
+  [0, -1, 'top'], // 往上看自身 top 牆
+]
+const DIRS_NAME = ['right', 'left', 'bottom', 'top'] as const
 /**
  * Helper method to check if there is a wall between two adjacent positions.
  * @param board - The game board.
@@ -192,7 +192,7 @@ import type { Cell, PlayerAction, Pos } from '@/lib/types'
  * @param to - The neighboring position.
  * @returns True if there is a wall between from and to, false otherwise.
  */
-<span class="cstat-no" title="statement not covered" >export function isWallBetween(board: Cell[][], from: Pos, to: Pos): boolean {</span>
+export <span class="fstat-no" title="function not covered" >function isWallBetween(board: Cell[][], from: Pos, to: Pos): boolean {</span>
 <span class="cstat-no" title="statement not covered" >  const dx = to.x - from.x</span>
 <span class="cstat-no" title="statement not covered" >  const dy = to.y - from.y</span>
 &nbsp;
@@ -208,7 +208,7 @@ import type { Cell, PlayerAction, Pos } from '@/lib/types'
 /**
  * 產生所有合法建牆行動
  */
-<span class="cstat-no" title="statement not covered" >export function getLegalWallActions(board: Cell[][], x: number, y: number): PlayerAction[] {</span>
+export <span class="fstat-no" title="function not covered" >function getLegalWallActions(board: Cell[][], x: number, y: number): PlayerAction[] {</span>
 <span class="cstat-no" title="statement not covered" >  const actions: PlayerAction[] = []</span>
 <span class="cstat-no" title="statement not covered" >  const size = board.length</span>
 &nbsp;
@@ -238,7 +238,7 @@ import type { Cell, PlayerAction, Pos } from '@/lib/types'
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-29T10:33:37.827Z
+                at 2026-06-29T17:18:50.169Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
