@@ -4,8 +4,14 @@ import { useGame } from '@/store/index'
 import { snapshotFromState } from '@/store/gameState'
 import { checkGameEnd } from '@/utils/game'
 import { getTerritoryMap } from '@/utils/territory'
-import { type PlayerAction, type Player } from '@/lib/types'
+import { type PlayerAction, type Player, type GameSnapshot } from '@/lib/types'
 import type { TrainingResult, TrainingActionRecord } from './trainingTypes'
+import {
+  buildTrainingTraceGameRecord,
+  createTrainingTraceFileName,
+  downloadTrainingTraceFile,
+  saveTrainingTraceToLocalStorage,
+} from '@/utils/trainingTrace'
 
 function csvEscape(value: string | number | '' | undefined): string {
   if (value === undefined || value === null) return ''
@@ -118,6 +124,7 @@ export async function runHeuristicTraining(
   for (let currentGame = 1; currentGame <= totalGames; currentGame++) {
     useGame.getState().resetGame()
     const gameId = `training_${Date.now()}_${currentGame}`
+    const initialState = snapshotFromState(useGame.getState())
 
     const offensive = new HeuristicAgent('offensive')
     const defensive = new HeuristicAgent('defensive')
@@ -127,6 +134,7 @@ export async function runHeuristicTraining(
     }
 
     let actionCounter = 0
+    const traceActions: Array<{ turn: number; player: Player; state: GameSnapshot; action: PlayerAction }> = []
     const turnManager = new TurnManager({
       agents,
       getGameState: () => snapshotFromState(useGame.getState()),
@@ -145,6 +153,12 @@ export async function runHeuristicTraining(
         const nextState = snapshotFromState(useGame.getState())
         const territory = getTerritoryCounts(nextState.board)
         actionCounter += 1
+        traceActions.push({
+          turn: actionCounter,
+          player: prevState.turn,
+          state: prevState,
+          action,
+        })
         actionRows.push(
           buildActionRecord(
             gameId,
@@ -166,11 +180,26 @@ export async function runHeuristicTraining(
     defensive.terminate()
 
     const finishedState = useGame.getState()
-    const result = finishedState.result ?? checkGameEnd(finishedState.board, finishedState.players)
+    const finalizedState = snapshotFromState(finishedState)
+    const result = finalizedState.result ?? checkGameEnd(finalizedState.board, finalizedState.players)
     const territoryCounts = result.score
       ? { R: result.score.R, B: result.score.B }
-      : getTerritoryCounts(finishedState.board)
-    const walls = countWalls(finishedState.board)
+      : getTerritoryCounts(finalizedState.board)
+    const walls = countWalls(finalizedState.board)
+
+    const traceRecord = buildTrainingTraceGameRecord({
+      id: `training_game_${String(currentGame).padStart(3, '0')}`,
+      createdAt: new Date().toISOString(),
+      initialState,
+      finalState: finalizedState,
+      players: { R: 'heuristic', B: 'heuristic' },
+      finalScore: territoryCounts,
+      actions: traceActions,
+    })
+
+    const traceFileName = createTrainingTraceFileName(currentGame)
+    downloadTrainingTraceFile(traceFileName, traceRecord)
+    saveTrainingTraceToLocalStorage(traceFileName, traceRecord)
 
     summaryRows.push({
       id_partida: gameId,
