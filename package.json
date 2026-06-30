@@ -14,6 +14,7 @@
     "test:ui": "vitest --ui",
     "test:watch": "vitest watch",
     "training:import-qtable": "ts-node --esm --transpileOnly src/training/importWinningTracesToQTable.ts",
+    "training:compare-learning": "node --import ./scripts/run-ts-node-esm.mjs src/training/compareLearningAgents.ts",
     "prepare": "husky"
   },
   "dependencies": {

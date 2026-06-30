@@ -3,6 +3,11 @@ import type { GameSnapshot, PlayerAction, Player } from '@/lib/types'
 import { getTerritoryMap } from '@/utils/territory'
 import { toSerializableSnapshot } from './serialize'
 import { sleep } from '@/utils/sleep'
+import {
+  getLearningActionKey,
+  getLearningStateKey,
+  type QTableSnapshot,
+} from './learningPolicy'
 
 export function calculateFinalReward(
   result: 'win' | 'loss' | 'draw',
@@ -38,12 +43,19 @@ export class LearningAgent implements PlayerAgent {
   // Identificador único para localStorage
   private readonly storageKey = 'wall-go-learning-agent-q-table'
 
-  constructor() {
+  constructor(options: {
+    loadFromLocalStorage?: boolean
+    initialQTable?: QTableSnapshot
+  } = {}) {
     this.worker = new Worker(new URL('./AIWorker.ts', import.meta.url), {
       type: 'module',
     })
-    // Cargar tabla Q de localStorage si existe
-    this.loadFromLocalStorage()
+    if (options.initialQTable) {
+      this.loadQTable(options.initialQTable)
+    } else if (options.loadFromLocalStorage !== false) {
+      // Cargar tabla Q de localStorage si existe
+      this.loadFromLocalStorage()
+    }
   }
 
   /**
@@ -51,24 +63,14 @@ export class LearningAgent implements PlayerAgent {
    * Simplificada: usa fase, turno, número de piedras colocadas y posiciones aproximadas.
    */
   private getStateKey(gameState: GameSnapshot): string {
-    const { phase, turn, stonesPlaced } = gameState
-    const stoneCountR = stonesPlaced['R'] ?? 0
-    const stonCountB = stonesPlaced['B'] ?? 0
-    return `${phase}|${turn}|${stoneCountR}|${stonCountB}|${gameState.stepsTaken}`
+    return getLearningStateKey(gameState)
   }
 
   /**
    * Obtiene una clave que representa una acción.
    */
   private getActionKey(action: PlayerAction): string {
-    if (action.type === 'place') {
-      return `place|${action.pos.x}|${action.pos.y}`
-    } else if (action.type === 'move') {
-      return `move|${action.from?.x}|${action.from?.y}|${action.pos.x}|${action.pos.y}`
-    } else if (action.type === 'wall') {
-      return `wall|${action.pos.x}|${action.pos.y}|${action.dir}`
-    }
-    return 'unknown'
+    return getLearningActionKey(action)
   }
 
   private static calculateTerritoryCounts(gameState: GameSnapshot): Record<Player, number> {
@@ -267,8 +269,8 @@ export class LearningAgent implements PlayerAgent {
   /**
    * Retorna el estado actual de la tabla Q (para debugging/persistencia).
    */
-  public getQTableSnapshot(): Record<string, number> {
-    const snapshot: Record<string, number> = {}
+  public getQTableSnapshot(): QTableSnapshot {
+    const snapshot: QTableSnapshot = {}
     for (const [key, value] of this.qTable.entries()) {
       snapshot[key] = value
     }
@@ -278,7 +280,7 @@ export class LearningAgent implements PlayerAgent {
   /**
    * Carga un estado de tabla Q previamente guardado.
    */
-  public loadQTable(snapshot: Record<string, number>): void {
+  public loadQTable(snapshot: QTableSnapshot): void {
     this.qTable.clear()
     for (const [key, value] of Object.entries(snapshot)) {
       this.qTable.set(key, value)

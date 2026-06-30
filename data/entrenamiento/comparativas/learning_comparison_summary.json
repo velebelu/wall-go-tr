@@ -1,0 +1,283 @@
+{
+  "createdAt": "2026-06-30T15:56:38.182Z",
+  "experiments": [
+    {
+      "name": "learning_empty_vs_random",
+      "games": 30,
+      "players": {
+        "R": "learning-empty",
+        "B": "random"
+      },
+      "wins": {
+        "R": 0,
+        "B": 30,
+        "tie": 0
+      },
+      "winRates": {
+        "R": 0,
+        "B": 100,
+        "tie": 0
+      },
+      "averageTerritory": {
+        "R": 5.1,
+        "B": 38.5667
+      },
+      "averageTerritoryDiff": -33.4667,
+      "averageTurns": 66.3333,
+      "blocksOf10": [
+        {
+          "block": 1,
+          "fromGame": 1,
+          "toGame": 10,
+          "games": 10,
+          "wins": {
+            "R": 0,
+            "B": 10,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 0,
+            "B": 100,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 4.7,
+            "B": 39.3
+          },
+          "averageTerritoryDiff": -34.6,
+          "averageTurns": 67.3
+        },
+        {
+          "block": 2,
+          "fromGame": 11,
+          "toGame": 20,
+          "games": 10,
+          "wins": {
+            "R": 0,
+            "B": 10,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 0,
+            "B": 100,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 5.1,
+            "B": 37.3
+          },
+          "averageTerritoryDiff": -32.2,
+          "averageTurns": 63.9
+        },
+        {
+          "block": 3,
+          "fromGame": 21,
+          "toGame": 30,
+          "games": 10,
+          "wins": {
+            "R": 0,
+            "B": 10,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 0,
+            "B": 100,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 5.5,
+            "B": 39.1
+          },
+          "averageTerritoryDiff": -33.6,
+          "averageTurns": 67.8
+        }
+      ]
+    },
+    {
+      "name": "learning_pretrained_vs_random",
+      "games": 30,
+      "players": {
+        "R": "learning-pretrained",
+        "B": "random"
+      },
+      "wins": {
+        "R": 2,
+        "B": 27,
+        "tie": 1
+      },
+      "winRates": {
+        "R": 6.6667,
+        "B": 90,
+        "tie": 3.3333
+      },
+      "averageTerritory": {
+        "R": 7.6333,
+        "B": 34.2333
+      },
+      "averageTerritoryDiff": -26.6,
+      "averageTurns": 72.9,
+      "blocksOf10": [
+        {
+          "block": 1,
+          "fromGame": 1,
+          "toGame": 10,
+          "games": 10,
+          "wins": {
+            "R": 1,
+            "B": 9,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 10,
+            "B": 90,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 7.9,
+            "B": 37.3
+          },
+          "averageTerritoryDiff": -29.4,
+          "averageTurns": 74.2
+        },
+        {
+          "block": 2,
+          "fromGame": 11,
+          "toGame": 20,
+          "games": 10,
+          "wins": {
+            "R": 0,
+            "B": 10,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 0,
+            "B": 100,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 6.3,
+            "B": 31.1
+          },
+          "averageTerritoryDiff": -24.8,
+          "averageTurns": 77.7
+        },
+        {
+          "block": 3,
+          "fromGame": 21,
+          "toGame": 30,
+          "games": 10,
+          "wins": {
+            "R": 1,
+            "B": 8,
+            "tie": 1
+          },
+          "winRates": {
+            "R": 10,
+            "B": 80,
+            "tie": 10
+          },
+          "averageTerritory": {
+            "R": 8.7,
+            "B": 34.3
+          },
+          "averageTerritoryDiff": -25.6,
+          "averageTurns": 66.8
+        }
+      ],
+      "pretrainedQTableEntries": 739
+    },
+    {
+      "name": "learning_pretrained_vs_heuristic",
+      "games": 30,
+      "players": {
+        "R": "learning-pretrained",
+        "B": "heuristic"
+      },
+      "wins": {
+        "R": 0,
+        "B": 30,
+        "tie": 0
+      },
+      "winRates": {
+        "R": 0,
+        "B": 100,
+        "tie": 0
+      },
+      "averageTerritory": {
+        "R": 4.5333,
+        "B": 42.4333
+      },
+      "averageTerritoryDiff": -37.9,
+      "averageTurns": 42.0333,
+      "blocksOf10": [
+        {
+          "block": 1,
+          "fromGame": 1,
+          "toGame": 10,
+          "games": 10,
+          "wins": {
+            "R": 0,
+            "B": 10,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 0,
+            "B": 100,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 4.1,
+            "B": 42.7
+          },
+          "averageTerritoryDiff": -38.6,
+          "averageTurns": 41.5
+        },
+        {
+          "block": 2,
+          "fromGame": 11,
+          "toGame": 20,
+          "games": 10,
+          "wins": {
+            "R": 0,
+            "B": 10,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 0,
+            "B": 100,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 4.5,
+            "B": 42.4
+          },
+          "averageTerritoryDiff": -37.9,
+          "averageTurns": 43.7
+        },
+        {
+          "block": 3,
+          "fromGame": 21,
+          "toGame": 30,
+          "games": 10,
+          "wins": {
+            "R": 0,
+            "B": 10,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 0,
+            "B": 100,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 5,
+            "B": 42.2
+          },
+          "averageTerritoryDiff": -37.2,
+          "averageTurns": 40.9
+        }
+      ],
+      "pretrainedQTableEntries": 739
+    }
+  ]
+}
