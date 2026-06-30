@@ -13,6 +13,7 @@
     "test:unit": "vitest run src --coverage",
     "test:ui": "vitest --ui",
     "test:watch": "vitest watch",
+    "training:import-qtable": "ts-node --esm --transpileOnly src/training/importWinningTracesToQTable.ts",
     "prepare": "husky"
   },
   "dependencies": {
