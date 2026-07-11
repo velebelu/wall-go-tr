@@ -1,4 +1,4 @@
-import { existsSync, mkdtempSync, readFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -18,6 +18,7 @@ import {
   runLearningAgentQ3Training,
   saveQ3Checkpoint0,
   updateQValueQ3,
+  validateQ3Checkpoint0,
 } from './trainLearningAgentQ3'
 import {
   DEFAULT_Q2_TRAINING_CONFIG,
@@ -36,6 +37,13 @@ function makePlayingState() {
   state.turn = 'R'
   state.stonesPlaced = { R: 4, B: 4 }
   return state
+}
+
+function readCheckpoint0(baseDir: string): { qTable: string; metadata: string } {
+  return {
+    qTable: readFileSync(path.join(baseDir, 'checkpoint_0', 'qtable_q3_0.json'), 'utf8'),
+    metadata: readFileSync(path.join(baseDir, 'checkpoint_0', 'metadata.json'), 'utf8'),
+  }
 }
 
 describe('trainLearningAgentQ3 configuration', () => {
@@ -184,6 +192,97 @@ describe('trainLearningAgentQ3 workflow', () => {
     expect(JSON.parse(readFileSync(path.join(outputDir, 'qtable_q3_0.json'), 'utf8'))).toEqual({})
   })
 
+  it('creates checkpoint 0 when it does not exist', async () => {
+    const baseDir = makeTempDir()
+
+    await runLearningAgentQ3Training({
+      totalGames: 1,
+      outputDir: path.join(baseDir, 'checkpoint_1'),
+      finalCheckpoint: 1,
+      progressEvery: 0,
+      maxTurns: 4,
+    })
+
+    expect(existsSync(path.join(baseDir, 'checkpoint_0', 'qtable_q3_0.json'))).toBe(true)
+    expect(existsSync(path.join(baseDir, 'checkpoint_0', 'metadata.json'))).toBe(true)
+  })
+
+  it('reuses a valid checkpoint 0 without modifying it', async () => {
+    const baseDir = makeTempDir()
+    saveQ3Checkpoint0({ outputDir: path.join(baseDir, 'checkpoint_0'), seed: 3 })
+    const before = readCheckpoint0(baseDir)
+
+    const result = await runLearningAgentQ3Training({
+      totalGames: 1,
+      outputDir: path.join(baseDir, 'checkpoint_1'),
+      finalCheckpoint: 1,
+      progressEvery: 0,
+      maxTurns: 4,
+      seed: 3,
+    })
+
+    expect(readCheckpoint0(baseDir)).toEqual(before)
+    expect(result.metadata.checkpoint0Reused).toBe(true)
+    expect(result.metadata.checkpoint0Validated).toBe(true)
+  })
+
+  it('rejects checkpoint 0 when its qtable is not empty and does not train', async () => {
+    const baseDir = makeTempDir()
+    const checkpoint0 = path.join(baseDir, 'checkpoint_0')
+    saveQ3Checkpoint0({ outputDir: checkpoint0 })
+    writeFileSync(path.join(checkpoint0, 'qtable_q3_0.json'), '{ "bad": 1 }\n', 'utf8')
+
+    await expect(
+      runLearningAgentQ3Training({
+        totalGames: 1,
+        outputDir: path.join(baseDir, 'checkpoint_1'),
+        finalCheckpoint: 1,
+        progressEvery: 0,
+      }),
+    ).rejects.toThrow('must be empty')
+    expect(existsSync(path.join(baseDir, 'checkpoint_1'))).toBe(false)
+  })
+
+  it('rejects checkpoint 0 when metadata is missing', () => {
+    const outputDir = makeTempDir()
+    writeFileSync(path.join(outputDir, 'qtable_q3_0.json'), '{}\n', 'utf8')
+
+    expect(() => validateQ3Checkpoint0(outputDir)).toThrow('missing metadata.json')
+  })
+
+  it('rejects checkpoint 0 when metadata indicates another model', () => {
+    const outputDir = makeTempDir()
+    saveQ3Checkpoint0({ outputDir })
+    const metadataPath = path.join(outputDir, 'metadata.json')
+    const metadata = JSON.parse(readFileSync(metadataPath, 'utf8'))
+    metadata.model = 'Q2'
+    writeFileSync(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`, 'utf8')
+
+    expect(() => validateQ3Checkpoint0(outputDir)).toThrow('metadata.model must be Q3')
+  })
+
+  it('rejects checkpoint 0 when startedFromEmptyQTable is not true', () => {
+    const outputDir = makeTempDir()
+    saveQ3Checkpoint0({ outputDir })
+    const metadataPath = path.join(outputDir, 'metadata.json')
+    const metadata = JSON.parse(readFileSync(metadataPath, 'utf8'))
+    metadata.startedFromEmptyQTable = false
+    writeFileSync(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`, 'utf8')
+
+    expect(() => validateQ3Checkpoint0(outputDir)).toThrow('startedFromEmptyQTable')
+  })
+
+  it('rejects checkpoint 0 when reward or hyperparameters do not match Q2', () => {
+    const outputDir = makeTempDir()
+    saveQ3Checkpoint0({ outputDir })
+    const metadataPath = path.join(outputDir, 'metadata.json')
+    const metadata = JSON.parse(readFileSync(metadataPath, 'utf8'))
+    metadata.alpha = 0.2
+    writeFileSync(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`, 'utf8')
+
+    expect(() => validateQ3Checkpoint0(outputDir)).toThrow('alpha must match Q2')
+  })
+
   it('does not overwrite existing output without explicit overwrite', async () => {
     const outputDir = makeTempDir()
     saveQ3Checkpoint0({ outputDir })
@@ -196,6 +295,24 @@ describe('trainLearningAgentQ3 workflow', () => {
         progressEvery: 0,
       }),
     ).rejects.toThrow('already exists')
+  })
+
+  it('keeps checkpoint 500 protection even when checkpoint 0 is reusable', async () => {
+    const baseDir = makeTempDir()
+    saveQ3Checkpoint0({ outputDir: path.join(baseDir, 'checkpoint_0') })
+    const outputDir = path.join(baseDir, 'checkpoint_500')
+    saveQ3Checkpoint0({ outputDir })
+    const before = readCheckpoint0(baseDir)
+
+    await expect(
+      runLearningAgentQ3Training({
+        totalGames: 1,
+        outputDir,
+        finalCheckpoint: 500,
+        progressEvery: 0,
+      }),
+    ).rejects.toThrow('already exists')
+    expect(readCheckpoint0(baseDir)).toEqual(before)
   })
 
   it('writes metadata with complete configuration and Q3 representation stats', async () => {

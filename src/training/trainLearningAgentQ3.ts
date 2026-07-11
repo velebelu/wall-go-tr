@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
@@ -78,6 +78,8 @@ export interface Q3TrainingMetadata {
   stateRepresentation: 'Q3'
   initialization: 'empty'
   startedFromEmptyQTable: boolean
+  checkpoint0Reused?: boolean
+  checkpoint0Validated?: boolean
   trainingGames: number
   seed?: number
   alpha: number
@@ -414,6 +416,89 @@ export function createFixedEvaluationQTableQ3(qTable: QTableSnapshot): QTableSna
   return { ...qTable }
 }
 
+function readJsonFile<T>(filePath: string): T {
+  return JSON.parse(readFileSync(filePath, 'utf8')) as T
+}
+
+function assertCondition(condition: boolean, message: string): void {
+  if (!condition) throw new Error(`Invalid Q3 checkpoint_0: ${message}`)
+}
+
+export function validateQ3Checkpoint0(outputDir = path.join(Q3_BASE_DIR, 'checkpoint_0')): void {
+  const qTablePath = path.join(outputDir, 'qtable_q3_0.json')
+  const metadataPath = path.join(outputDir, 'metadata.json')
+
+  assertCondition(existsSync(qTablePath), 'missing qtable_q3_0.json')
+  assertCondition(existsSync(metadataPath), 'missing metadata.json')
+
+  const qTable = readJsonFile<QTableSnapshot>(qTablePath)
+  const metadata = readJsonFile<Partial<Q3TrainingMetadata>>(metadataPath)
+
+  assertCondition(
+    qTable && typeof qTable === 'object' && !Array.isArray(qTable),
+    'qtable_q3_0.json must contain an object',
+  )
+  assertCondition(Object.keys(qTable).length === 0, 'qtable_q3_0.json must be empty')
+  assertCondition(metadata.model === 'Q3', 'metadata.model must be Q3')
+  assertCondition(metadata.initialization === 'empty', 'metadata.initialization must be empty')
+  assertCondition(metadata.startedFromEmptyQTable === true, 'startedFromEmptyQTable must be true')
+  assertCondition(metadata.trainingGames === 0, 'trainingGames must be 0')
+  assertCondition(metadata.stateRepresentation === 'Q3', 'stateRepresentation must be Q3')
+  assertCondition(
+    JSON.stringify(metadata.rewardConfiguration) === JSON.stringify(Q2_REWARD_CONFIG),
+    'rewardConfiguration must match Q2',
+  )
+  assertCondition(metadata.alpha === DEFAULT_Q2_TRAINING_CONFIG.alpha, 'alpha must match Q2')
+  assertCondition(metadata.gamma === DEFAULT_Q2_TRAINING_CONFIG.gamma, 'gamma must match Q2')
+  assertCondition(
+    metadata.epsilonInitial === DEFAULT_Q2_TRAINING_CONFIG.epsilonStart,
+    'epsilonInitial must match Q2',
+  )
+  assertCondition(
+    metadata.epsilonMin === DEFAULT_Q2_TRAINING_CONFIG.epsilonMin,
+    'epsilonMin must match Q2',
+  )
+  assertCondition(
+    metadata.epsilonDecay === DEFAULT_Q2_TRAINING_CONFIG.epsilonDecay,
+    'epsilonDecay must match Q2',
+  )
+  assertCondition(
+    metadata.opponentConfiguration?.random === 0 && metadata.opponentConfiguration?.heuristic === 0,
+    'opponentConfiguration must be empty random training baseline',
+  )
+  assertCondition(
+    metadata.configurationComparisonWithQ2?.sameMaxTurns === true,
+    'maxTurns must match Q2',
+  )
+  assertCondition(metadata.qTableEntries === 0, 'qTableEntries must be 0')
+  assertCondition(metadata.wins === 0, 'wins must be 0')
+  assertCondition(metadata.losses === 0, 'losses must be 0')
+  assertCondition(metadata.ties === 0, 'ties must be 0')
+  assertCondition(metadata.qHits === 0, 'qHits must be 0')
+  assertCondition(metadata.qMisses === 0, 'qMisses must be 0')
+  assertCondition(
+    Object.values(metadata.actionDistribution ?? {}).every((value) => value === 0),
+    'actionDistribution must be empty',
+  )
+}
+
+export function prepareQ3Checkpoint0(
+  options: {
+    outputDir?: string
+    seed?: number
+    overwrite?: boolean
+  } = {},
+): { reused: boolean; validated: boolean } {
+  const outputDir = options.outputDir ?? path.join(Q3_BASE_DIR, 'checkpoint_0')
+  if (!existsSync(outputDir) || readdirSync(outputDir).length === 0) {
+    saveQ3Checkpoint0(options)
+    return { reused: false, validated: true }
+  }
+
+  validateQ3Checkpoint0(outputDir)
+  return { reused: true, validated: true }
+}
+
 function buildMetadata(params: {
   config: Q3TrainingConfig
   stats: Q3TrainingStats
@@ -423,6 +508,7 @@ function buildMetadata(params: {
   epsilonFinal: number
   durationMs: number
   outputFiles: Q3TrainingMetadata['outputFiles']
+  checkpoint0: { reused: boolean; validated: boolean }
 }): Q3TrainingMetadata {
   const games = params.stats.games
   return {
@@ -431,6 +517,8 @@ function buildMetadata(params: {
     stateRepresentation: 'Q3',
     initialization: 'empty',
     startedFromEmptyQTable: true,
+    checkpoint0Reused: params.checkpoint0.reused,
+    checkpoint0Validated: params.checkpoint0.validated,
     trainingGames: params.config.totalGames,
     ...(params.config.seed === undefined ? {} : { seed: params.config.seed }),
     alpha: params.config.alpha,
@@ -515,6 +603,7 @@ export function saveQ3Checkpoint0(
     epsilonFinal: config.epsilonStart,
     durationMs: 0,
     outputFiles,
+    checkpoint0: { reused: false, validated: true },
   })
   saveQ3Checkpoint({ qTable: {}, outputDir, checkpoint: 0, metadata, overwrite: config.overwrite })
   return metadata
@@ -666,7 +755,7 @@ export async function runLearningAgentQ3Training(
     actionDistribution: { place: 0, move: 0, wall: 0, 'move-wall': 0 },
   }
 
-  saveQ3Checkpoint0({
+  const checkpoint0 = prepareQ3Checkpoint0({
     outputDir: path.join(path.dirname(config.outputDir), 'checkpoint_0'),
     seed: config.seed,
     overwrite: config.overwrite,
@@ -706,6 +795,7 @@ export async function runLearningAgentQ3Training(
     epsilonFinal: epsilon,
     durationMs: Date.now() - startedAt,
     outputFiles,
+    checkpoint0,
   })
   const trainingSummary = {
     model: 'Q3',
