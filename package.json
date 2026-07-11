@@ -19,6 +19,7 @@
     "training:train-learning-q2": "node --import ./scripts/run-ts-node-esm.mjs src/training/trainLearningAgentQ2.ts",
     "training:q3": "node --import ./scripts/run-ts-node-esm.mjs src/training/trainLearningAgentQ3.ts pilot-10",
     "training:q3:500": "node --import ./scripts/run-ts-node-esm.mjs src/training/trainLearningAgentQ3.ts train-500",
+    "training:evaluate-q3-500": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateLearningAgentQ3.ts",
     "training:analyze-q3-heuristic-traces": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeHeuristicTracesForQ3.ts",
     "training:analyze-q3-representation": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeQ3Representation.ts",
     "prepare": "husky"
