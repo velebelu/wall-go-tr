@@ -1,0 +1,220 @@
+{
+  "model": "Q3",
+  "baseRewardModel": "Q2",
+  "stateRepresentation": "Q3",
+  "initialization": "empty",
+  "startedFromEmptyQTable": true,
+  "trainingGames": 10,
+  "seed": 3,
+  "alpha": 0.1,
+  "gamma": 0.9,
+  "epsilonInitial": 0.6,
+  "epsilonFinal": 0.597,
+  "epsilonMin": 0.05,
+  "epsilonDecay": 0.9995,
+  "rewardConfiguration": {
+    "win": 100,
+    "loss": -100,
+    "tie": 0,
+    "finalTerritoryDiffMultiplier": 1,
+    "intermediateTerritoryDeltaMultiplier": 0.01,
+    "intermediateMin": -0.05,
+    "intermediateMax": 0.05
+  },
+  "opponentConfiguration": {
+    "random": 10,
+    "heuristic": 0
+  },
+  "boardSize": 7,
+  "createdAt": "2026-07-11T13:11:30.031Z",
+  "durationMs": 6148,
+  "qTableEntries": 241,
+  "uniqueQ3StatesVisited": 80,
+  "visitedStateActionPairs": 241,
+  "qHits": 3,
+  "qMisses": 241,
+  "actionDistribution": {
+    "place": 20,
+    "move": 0,
+    "wall": 36,
+    "move-wall": 188
+  },
+  "wins": 3,
+  "losses": 6,
+  "ties": 1,
+  "winRate": 30,
+  "resultsByColor": {
+    "R": {
+      "wins": 1,
+      "losses": 3,
+      "ties": 1
+    },
+    "B": {
+      "wins": 2,
+      "losses": 3,
+      "ties": 0
+    }
+  },
+  "averageTerritory": {
+    "learning": 11.6,
+    "opponent": 21.8
+  },
+  "averageTerritoryDiff": -10.2,
+  "averageTurns": 85.9,
+  "representationStats": {
+    "uniqueStateKeys": 80,
+    "visitsByState": {
+      "q3|phase:placing|step:0|sp:2,2|td:E|mob:16-35,16-35|trap:0,0|walls:0": 5,
+      "q3|phase:placing|step:0|sp:3,4|td:E|mob:16-35,16-35|trap:0,0|walls:0": 5,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|walls:0": 4,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|walls:1-8": 37,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,1|walls:1-8": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|walls:9-20": 41,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,0|walls:9-20": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:1,0|walls:9-20": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:1,0|walls:9-20": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:W1|mob:6-15,16-35|trap:1,0|walls:9-20": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:W1|mob:6-15,16-35|trap:1,0|walls:21-36": 5,
+      "q3|phase:playing|step:0|sp:4,4|td:W1|mob:1-5,6-15|trap:2,0|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:W1|mob:1-5,6-15|trap:3,0|walls:21-36": 1,
+      "q3|phase:placing|step:0|sp:2,3|td:E|mob:16-35,16-35|trap:0,0|walls:0": 5,
+      "q3|phase:placing|step:0|sp:3,3|td:E|mob:16-35,16-35|trap:0,0|walls:0": 5,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:0,0|walls:9-20": 3,
+      "q3|phase:playing|step:0|sp:4,4|td:L1|mob:16-35,6-15|trap:0,0|walls:21-36": 4,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:0,0|walls:21-36": 4,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:0,0|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:0,1|walls:21-36": 4,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:0,2|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|walls:21-36": 8,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:0,1|walls:21-36": 5,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,1|walls:21-36": 9,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:0,1|walls:37+": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,1|walls:37+": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:L3|mob:6-15,6-15|trap:1,1|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:L3|mob:6-15,6-15|trap:2,1|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:1-5,1-5|trap:2,1|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:1-5,1-5|trap:2,2|walls:37+": 3,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:1-5,0|trap:3,4|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:0,0|trap:4,4|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:0,0|walls:9-20": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,0|walls:21-36": 3,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:2,0|walls:21-36": 3,
+      "q3|phase:playing|step:0|sp:4,4|td:W1|mob:6-15,16-35|trap:2,0|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:W1|mob:1-5,16-35|trap:2,0|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:W1|mob:1-5,16-35|trap:3,0|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:L3|mob:1-5,16-35|trap:3,0|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:L2|mob:1-5,16-35|trap:3,0|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:36+,16-35|trap:0,0|walls:0": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:0,0|walls:21-36": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:L1|mob:6-15,1-5|trap:0,1|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:L1|mob:6-15,6-15|trap:0,1|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:W1|mob:6-15,1-5|trap:0,1|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:W2|mob:6-15,6-15|trap:0,1|walls:37+": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:W2|mob:6-15,1-5|trap:0,1|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:W2|mob:6-15,6-15|trap:0,2|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,1|walls:9-20": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:1,1|walls:9-20": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,1|walls:9-20": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:0,1|walls:9-20": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,1|walls:21-36": 4,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:0,1|walls:21-36": 3,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,1|walls:21-36": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:W1|mob:6-15,6-15|trap:1,0|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,0|walls:21-36": 6,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:1-5,6-15|trap:2,0|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:W1|mob:1-5,6-15|trap:3,0|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,0|walls:9-20": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:2,1|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:W2|mob:6-15,1-5|trap:1,2|walls:37+": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:W2|mob:6-15,6-15|trap:1,2|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:W2|mob:6-15,1-5|trap:2,2|walls:37+": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:1-5,1-5|trap:3,2|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:0,1-5|trap:4,2|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:36+,16-35|trap:0,0|walls:1-8": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:0,1|walls:9-20": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,1-5|trap:2,2|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:1-5,6-15|trap:2,2|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:3,2|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,1-5|trap:3,3|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,2|walls:21-36": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,2|walls:37+": 3,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,1-5|trap:1,2|walls:37+": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,1-5|trap:1,3|walls:37+": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:1,0|walls:21-36": 1,
+      "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,0|walls:37+": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:L1|mob:6-15,6-15|trap:1,0|walls:37+": 2,
+      "q3|phase:playing|step:0|sp:4,4|td:L2|mob:6-15,6-15|trap:1,0|walls:37+": 1
+    },
+    "statesVisitedOnce": 41,
+    "statesWithAtLeast2": 39,
+    "statesWithAtLeast5": 11,
+    "statesWithAtLeast10": 2,
+    "statesWithAtLeast20": 2,
+    "maxVisits": 41,
+    "meanVisits": 3.05,
+    "medianVisits": 1,
+    "bucketDistributions": {
+      "td": {
+        "E": 207,
+        "W1": 15,
+        "L1": 8,
+        "L3": 3,
+        "L2": 2,
+        "W2": 9
+      },
+      "mobMine": {
+        "0": 2,
+        "16-35": 141,
+        "6-15": 84,
+        "1-5": 15,
+        "36+": 2
+      },
+      "mobOpponent": {
+        "0": 2,
+        "16-35": 150,
+        "6-15": 74,
+        "1-5": 18
+      },
+      "trapMine": {
+        "0": 159,
+        "1": 57,
+        "2": 17,
+        "3": 9,
+        "4": 2
+      },
+      "trapOpponent": {
+        "0": 168,
+        "1": 50,
+        "2": 21,
+        "3": 3,
+        "4": 2
+      },
+      "walls": {
+        "0": 25,
+        "1-8": 40,
+        "9-20": 60,
+        "21-36": 79,
+        "37+": 40
+      }
+    },
+    "actionKeysPerState": {
+      "max": 40,
+      "mean": 3.0125
+    },
+    "differentiatedMoveWallActions": 170
+  },
+  "configurationComparisonWithQ2": {
+    "sameRewardConfiguration": true,
+    "sameHyperparameters": true,
+    "sameOpponentConfiguration": true,
+    "sameMaxTurns": true,
+    "differences": [
+      "state/action key functions: Q3 instead of Q2"
+    ]
+  },
+  "outputFiles": {
+    "qTable": "data\\entrenamiento\\q3\\piloto_10\\qtable_q3_10.json",
+    "metadata": "data\\entrenamiento\\q3\\piloto_10\\metadata.json",
+    "trainingSummary": "data\\entrenamiento\\q3\\piloto_10\\training_summary.json"
+  }
+}
