@@ -7,6 +7,7 @@ import {
   getRandomAction,
 } from '@/utils/ai'
 import { MinimaxAI } from '@/ai/minimax-ai'
+import { chooseLearningAction, type QTableEntries } from './learningPolicy'
 
 function calculateMinimaxPlayingAction(gameState: GameSnapshot, depth = 2): PlayerAction {
   const ai = new MinimaxAI(depth)
@@ -15,66 +16,6 @@ function calculateMinimaxPlayingAction(gameState: GameSnapshot, depth = 2): Play
   return ai.getBestMove(gameState)
 }
 
-// --- Funciones para LearningAgent ---
-function getStateKey(gameState: GameSnapshot): string {
-  const { phase, turn, stonesPlaced } = gameState
-  const stoneCountR = stonesPlaced['R'] ?? 0
-  const stonCountB = stonesPlaced['B'] ?? 0
-  return `${phase}|${turn}|${stoneCountR}|${stonCountB}|${gameState.stepsTaken}`
-}
-
-function getActionKey(action: PlayerAction): string {
-  if (action.type === 'place') {
-    return `place|${action.pos.x}|${action.pos.y}`
-  } else if (action.type === 'move') {
-    return `move|${action.from?.x}|${action.from?.y}|${action.pos.x}|${action.pos.y}`
-  } else if (action.type === 'wall') {
-    return `wall|${action.pos.x}|${action.pos.y}|${action.dir}`
-  }
-  return 'unknown'
-}
-
-function getQValue(qTable: Array<[string, number]>, stateKey: string, actionKey: string): number {
-  const key = `${stateKey}|||${actionKey}`
-  const entry = qTable.find(([k]) => k === key)
-  return entry ? entry[1] : 0
-}
-
-function chooseLearningAction(
-  gameState: GameSnapshot,
-  legalActions: PlayerAction[],
-  epsilon: number,
-  qTable: Array<[string, number]>,
-): PlayerAction {
-  if (legalActions.length === 0) {
-    throw new Error('No legal actions available')
-  }
-
-  const stateKey = getStateKey(gameState)
-  const explore = Math.random() < epsilon
-
-  if (explore) {
-    // Exploración: acción aleatoria
-    return legalActions[Math.floor(Math.random() * legalActions.length)]!
-  }
-
-  // Explotación: acción con mayor Q
-  let bestAction = legalActions[0]!
-  let bestValue = getQValue(qTable, stateKey, getActionKey(bestAction))
-
-  for (const action of legalActions) {
-    const actionKey = getActionKey(action)
-    const value = getQValue(qTable, stateKey, actionKey)
-    if (value > bestValue) {
-      bestValue = value
-      bestAction = action
-    }
-  }
-
-  return bestAction
-}
-
-// --- Worker message handler ---
 self.onmessage = (
   event: MessageEvent<{ aiType: string; gameState: GameSnapshot; config: Record<string, unknown> }>,
 ) => {
@@ -84,7 +25,6 @@ self.onmessage = (
   try {
     const legalActions = getLegalActions(gameState)
 
-    // Handle case where game is finished first
     if (gameState.phase === 'finished') {
       self.postMessage({
         action: null,
@@ -100,7 +40,8 @@ self.onmessage = (
       return
     }
 
-    const heuristicMode = (event.data.config?.policy as 'default' | 'offensive' | 'defensive') ?? 'default'
+    const heuristicMode =
+      (event.data.config?.policy as 'default' | 'offensive' | 'defensive') ?? 'default'
     if (gameState.phase === 'placing') {
       switch (aiType) {
         case 'heuristic':
@@ -109,7 +50,7 @@ self.onmessage = (
           break
         case 'learning': {
           const epsilon = (event.data.config?.epsilon as number) ?? 0.3
-          const qTable = (event.data.config?.qTable as Array<[string, number]>) ?? []
+          const qTable = (event.data.config?.qTable as QTableEntries) ?? []
           action = chooseLearningAction(gameState, legalActions, epsilon, qTable)
           break
         }
@@ -131,7 +72,7 @@ self.onmessage = (
           break
         case 'learning': {
           const epsilon = (event.data.config?.epsilon as number) ?? 0.3
-          const qTable = (event.data.config?.qTable as Array<[string, number]>) ?? []
+          const qTable = (event.data.config?.qTable as QTableEntries) ?? []
           action = chooseLearningAction(gameState, legalActions, epsilon, qTable)
           break
         }
@@ -141,7 +82,6 @@ self.onmessage = (
           break
       }
     } else {
-      // Fallback for unexpected phase, though 'finished' is handled above
       self.postMessage({ error: `Unexpected game phase: ${gameState.phase}` })
       return
     }
@@ -149,9 +89,6 @@ self.onmessage = (
     if (action) {
       self.postMessage({ action })
     } else {
-      // If action is null here, it implies an issue in decision logic for non-finished phases
-      // or a specific AI logic failed to return an action.
-      // As a robust fallback, if legal actions were available, pick a random one.
       self.postMessage({
         action: getRandomAction(legalActions)!,
         info: 'Fell back to random action.',

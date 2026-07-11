@@ -5,24 +5,39 @@ import type { Cell, GameSnapshot, Player, PlayerAction, WallDir } from '@/lib/ty
 import { PLAYER_LIST } from '@/lib/types'
 import {
   chooseLearningAction,
-  getLearningQTableKey,
+  type LearningActionDiagnostics,
   type QTableSnapshot,
 } from '@/agents/learningPolicy'
-import { getBestHeuristicAction, getBestPlacement, getLegalActions, getRandomAction } from '@/utils/ai'
+import {
+  getBestHeuristicAction,
+  getBestPlacement,
+  getLegalActions,
+  getRandomAction,
+} from '@/utils/ai'
 import { checkGameEnd } from '@/utils/game'
 import { isLegalMove } from '@/utils/move'
 import { getTerritoryMap } from '@/utils/territory'
 import { advanceTurn, placingTurnIndex } from '@/store/actions'
 import { makeInitialState, snapshotFromState } from '@/store/gameState'
-import { calculateFinalReward } from '@/agents/LearningAgent'
 
 export const DEFAULT_COMPARISON_GAMES = 30
 export const DEFAULT_PRETRAINED_QTABLE_PATH =
   'data/entrenamiento/qtable/qtable_from_heuristics.json'
 export const DEFAULT_COMPARISON_OUTPUT_DIR = 'data/entrenamiento/comparativas'
 
-type AgentKind = 'learning-empty' | 'learning-pretrained' | 'random' | 'heuristic'
+export type AgentKind = 'learning-empty' | 'learning-pretrained' | 'random' | 'heuristic'
 type LearningKind = Extract<AgentKind, 'learning-empty' | 'learning-pretrained'>
+
+export interface LearningDiagnosticsSummary {
+  totalDecisions: number
+  qTableHits: number
+  qTableHitRate: number
+  totalMaxTiedActions: number
+  tiedBestActionDecisions: number
+  distinctQTableKeysConsulted: number
+  initialQTableEntries: number
+  qTableChangedDuringEvaluation: boolean
+}
 
 export interface GameComparisonResult {
   experiment: string
@@ -33,6 +48,7 @@ export interface GameComparisonResult {
   territory: Record<Player, number>
   territoryDiff: number
   turns: number
+  learningDiagnostics?: Partial<Record<Player, LearningDiagnosticsSummary>>
 }
 
 export interface MetricsBlock {
@@ -58,21 +74,23 @@ export interface ExperimentSummary {
   averageTurns: number
   blocksOf10: MetricsBlock[]
   pretrainedQTableEntries?: number
+  learningDiagnostics?: LearningDiagnosticsSummary
 }
 
 interface LearningRuntime {
-  kind: LearningKind
   qTable: QTableSnapshot
   epsilon: number
-  trace: Array<{ state: GameSnapshot; action: PlayerAction; reward: number }>
+  initialQTableEntries: number
+  initialQTableFingerprint: string
+  diagnostics: LearningActionDiagnostics
 }
 
-interface ExperimentDefinition {
+export interface ExperimentDefinition {
   name: string
   players: Record<Player, AgentKind>
 }
 
-const EXPERIMENTS: ExperimentDefinition[] = [
+export const EXPERIMENTS: ExperimentDefinition[] = [
   {
     name: 'learning_empty_vs_random',
     players: { R: 'learning-empty', B: 'random' },
@@ -105,11 +123,19 @@ const EXPERIMENTS: ExperimentDefinition[] = [
     name: 'learning_empty_vs_learning_pretrained',
     players: { R: 'learning-empty', B: 'learning-pretrained' },
   },
+  {
+    name: 'random_vs_random',
+    players: { R: 'random', B: 'random' },
+  },
+  {
+    name: 'heuristic_vs_heuristic',
+    players: { R: 'heuristic', B: 'heuristic' },
+  },
+  {
+    name: 'learning_empty_vs_learning_empty',
+    players: { R: 'learning-empty', B: 'learning-empty' },
+  },
 ]
-
-function getOpponent(player: Player): Player {
-  return player === 'R' ? 'B' : 'R'
-}
 
 function average(values: number[]): number {
   if (values.length === 0) return 0
@@ -120,7 +146,7 @@ function roundMetric(value: number): number {
   return Number(value.toFixed(4))
 }
 
-function getTerritoryCounts(board: Cell[][]): Record<Player, number> {
+export function getTerritoryCounts(board: Cell[][]): Record<Player, number> {
   const territory = getTerritoryMap(board)
   const totals: Record<Player, number> = { R: 0, B: 0 }
   for (let y = 0; y < territory.length; y++) {
@@ -132,56 +158,79 @@ function getTerritoryCounts(board: Cell[][]): Record<Player, number> {
   return totals
 }
 
-function calculateIntermediateReward(
-  prevState: GameSnapshot,
-  nextState: GameSnapshot,
-  playerSide: Player,
-): number {
-  const opponent = getOpponent(playerSide)
-  const prevTerritory = getTerritoryCounts(prevState.board)
-  const nextTerritory = getTerritoryCounts(nextState.board)
-  const prevDiff = prevTerritory[playerSide] - prevTerritory[opponent]
-  const nextDiff = nextTerritory[playerSide] - nextTerritory[opponent]
-  return Math.max(-0.1, Math.min(0.1, (nextDiff - prevDiff) * 0.05))
-}
-
-function updateLearningAfterGame(
-  learning: LearningRuntime,
-  playerSide: Player,
-  winner: Player | 'tie',
-  territory: Record<Player, number>,
-): void {
-  const opponent = getOpponent(playerSide)
-  const result = winner === 'tie' ? 'draw' : winner === playerSide ? 'win' : 'loss'
-  const finalReward = calculateFinalReward(result, territory[playerSide], territory[opponent])
-  let nextValue = 0
-
-  for (let i = learning.trace.length - 1; i >= 0; i--) {
-    const { state, action, reward } = learning.trace[i]!
-    if (state.turn !== playerSide) continue
-
-    const key = getLearningQTableKey(state, action)
-    const currentQ = learning.qTable[key] ?? 0
-    const totalReward = reward + (i === learning.trace.length - 1 ? finalReward : 0)
-    const newQ = currentQ + 0.1 * (totalReward + 0.9 * nextValue - currentQ)
-    learning.qTable[key] = newQ
-    nextValue = newQ
-  }
-
-  learning.epsilon = Math.max(0.05, learning.epsilon * 0.995)
-  learning.trace = []
-}
-
-function buildLearningRuntime(kind: LearningKind, pretrainedQTable: QTableSnapshot): LearningRuntime {
+function createLearningDiagnostics(): LearningActionDiagnostics {
   return {
-    kind,
-    qTable: kind === 'learning-pretrained' ? { ...pretrainedQTable } : {},
-    epsilon: 0,
-    trace: [],
+    decisions: 0,
+    qTableHits: 0,
+    totalMaxTiedActions: 0,
+    tiedBestActionDecisions: 0,
+    consultedKeys: new Set<string>(),
   }
 }
 
-function applyActionToState(state: GameSnapshot, action: PlayerAction): GameSnapshot {
+function qTableFingerprint(qTable: QTableSnapshot): string {
+  return JSON.stringify(qTable)
+}
+
+function summarizeLearningDiagnostics(runtime: LearningRuntime): LearningDiagnosticsSummary {
+  return {
+    totalDecisions: runtime.diagnostics.decisions,
+    qTableHits: runtime.diagnostics.qTableHits,
+    qTableHitRate: runtime.diagnostics.decisions
+      ? roundMetric((runtime.diagnostics.qTableHits / runtime.diagnostics.decisions) * 100)
+      : 0,
+    totalMaxTiedActions: runtime.diagnostics.totalMaxTiedActions,
+    tiedBestActionDecisions: runtime.diagnostics.tiedBestActionDecisions,
+    distinctQTableKeysConsulted: runtime.diagnostics.consultedKeys.size,
+    initialQTableEntries: runtime.initialQTableEntries,
+    qTableChangedDuringEvaluation:
+      qTableFingerprint(runtime.qTable) !== runtime.initialQTableFingerprint,
+  }
+}
+
+function mergeLearningDiagnostics(
+  summaries: Array<LearningDiagnosticsSummary | undefined>,
+): LearningDiagnosticsSummary | undefined {
+  const present = summaries.filter((summary): summary is LearningDiagnosticsSummary =>
+    Boolean(summary),
+  )
+  if (present.length === 0) return undefined
+
+  const totalDecisions = present.reduce((sum, summary) => sum + summary.totalDecisions, 0)
+  const qTableHits = present.reduce((sum, summary) => sum + summary.qTableHits, 0)
+  return {
+    totalDecisions,
+    qTableHits,
+    qTableHitRate: totalDecisions ? roundMetric((qTableHits / totalDecisions) * 100) : 0,
+    totalMaxTiedActions: present.reduce((sum, summary) => sum + summary.totalMaxTiedActions, 0),
+    tiedBestActionDecisions: present.reduce(
+      (sum, summary) => sum + summary.tiedBestActionDecisions,
+      0,
+    ),
+    distinctQTableKeysConsulted: present.reduce(
+      (sum, summary) => sum + summary.distinctQTableKeysConsulted,
+      0,
+    ),
+    initialQTableEntries: Math.max(...present.map((summary) => summary.initialQTableEntries)),
+    qTableChangedDuringEvaluation: present.some((summary) => summary.qTableChangedDuringEvaluation),
+  }
+}
+
+function buildLearningRuntime(
+  kind: LearningKind,
+  pretrainedQTable: QTableSnapshot,
+): LearningRuntime {
+  const qTable = kind === 'learning-pretrained' ? { ...pretrainedQTable } : {}
+  return {
+    qTable,
+    epsilon: 0,
+    initialQTableEntries: Object.keys(qTable).length,
+    initialQTableFingerprint: qTableFingerprint(qTable),
+    diagnostics: createLearningDiagnostics(),
+  }
+}
+
+export function applyActionToState(state: GameSnapshot, action: PlayerAction): GameSnapshot {
   const next = snapshotFromState(state)
 
   if (action.type === 'place') {
@@ -259,7 +308,12 @@ function applyActionToState(state: GameSnapshot, action: PlayerAction): GameSnap
   return next
 }
 
-function placeWall(board: Cell[][], pos: { x: number; y: number }, dir: WallDir, player: Player): void {
+function placeWall(
+  board: Cell[][],
+  pos: { x: number; y: number },
+  dir: WallDir,
+  player: Player,
+): void {
   if (dir === 'top') board[pos.y][pos.x].wallTop = player
   if (dir === 'left') board[pos.y][pos.x].wallLeft = player
   if (dir === 'right') board[pos.y][pos.x + 1].wallLeft = player
@@ -290,10 +344,16 @@ async function chooseAction(
     throw new Error(`Missing runtime for ${agent}`)
   }
 
-  return chooseLearningAction(state, legalActions, learningRuntime.epsilon, learningRuntime.qTable)
+  return chooseLearningAction(
+    state,
+    legalActions,
+    learningRuntime.epsilon,
+    learningRuntime.qTable,
+    learningRuntime.diagnostics,
+  )
 }
 
-async function runSingleGame(params: {
+export async function runSingleGame(params: {
   experiment: ExperimentDefinition
   game: number
   pretrainedQTable: QTableSnapshot
@@ -303,7 +363,10 @@ async function runSingleGame(params: {
     PLAYER_LIST.filter((player) => params.experiment.players[player].startsWith('learning')).map(
       (player) => [
         player,
-        buildLearningRuntime(params.experiment.players[player] as LearningKind, params.pretrainedQTable),
+        buildLearningRuntime(
+          params.experiment.players[player] as LearningKind,
+          params.pretrainedQTable,
+        ),
       ],
     ),
   ) as Partial<Record<Player, LearningRuntime>>
@@ -315,26 +378,10 @@ async function runSingleGame(params: {
     const prevState = snapshotFromState(state)
     const action = await chooseAction(prevState, agent, learningRuntimes[player])
     state = applyActionToState(state, action)
-    const learningRuntime = learningRuntimes[player]
-    if (learningRuntime) {
-      learningRuntime.trace.push({
-        state: prevState,
-        action,
-        reward: calculateIntermediateReward(prevState, state, player),
-      })
-    }
     turns++
 
     if (action.followUp && state.phase !== 'finished') {
-      const followPrevState = snapshotFromState(state)
       state = applyActionToState(state, action.followUp)
-      if (learningRuntime) {
-        learningRuntime.trace.push({
-          state: followPrevState,
-          action: action.followUp,
-          reward: calculateIntermediateReward(followPrevState, state, player),
-        })
-      }
       turns++
     }
   }
@@ -354,22 +401,13 @@ async function runSingleGame(params: {
   const territory = state.result?.score ?? getTerritoryCounts(state.board)
   const winner = state.result?.tie ? 'tie' : (state.result?.winner ?? 'tie')
 
-  for (const player of PLAYER_LIST) {
-    const learningRuntime = learningRuntimes[player]
-    if (learningRuntime) {
-      updateLearningAfterGame(learningRuntime, player, winner, territory)
-    }
-  }
-// Durante la evaluación no se actualiza la tabla Q.
-// Se mide el rendimiento de los modelos tal como estaban al inicio de la partida.
-/*
-for (const player of PLAYER_LIST) {
-  const learningRuntime = learningRuntimes[player]
-  if (learningRuntime) {
-    updateLearningAfterGame(learningRuntime, player, winner, territory)
-  }
-}
-*/
+  const learningDiagnostics = Object.fromEntries(
+    PLAYER_LIST.flatMap((player) => {
+      const runtime = learningRuntimes[player]
+      return runtime ? [[player, summarizeLearningDiagnostics(runtime)]] : []
+    }),
+  ) as Partial<Record<Player, LearningDiagnosticsSummary>>
+
   return {
     experiment: params.experiment.name,
     game: params.game,
@@ -379,6 +417,7 @@ for (const player of PLAYER_LIST) {
     territory,
     territoryDiff: territory.R - territory.B,
     turns,
+    ...(Object.keys(learningDiagnostics).length === 0 ? {} : { learningDiagnostics }),
   }
 }
 
@@ -433,6 +472,9 @@ export function summarizeExperiment(
   pretrainedQTableEntries?: number,
 ): ExperimentSummary {
   const metrics = calculateMetricsBlock(results, 0)
+  const learningDiagnostics = mergeLearningDiagnostics(
+    results.flatMap((result) => Object.values(result.learningDiagnostics ?? {})),
+  )
   return {
     name,
     games: results.length,
@@ -444,6 +486,7 @@ export function summarizeExperiment(
     averageTurns: metrics.averageTurns,
     blocksOf10: groupResultsByBlocksOf10(results),
     ...(pretrainedQTableEntries === undefined ? {} : { pretrainedQTableEntries }),
+    ...(learningDiagnostics === undefined ? {} : { learningDiagnostics }),
   }
 }
 
@@ -487,19 +530,23 @@ function loadQTable(qTablePath: string): QTableSnapshot {
   return JSON.parse(readFileSync(path.resolve(qTablePath), 'utf8')) as QTableSnapshot
 }
 
-export async function runLearningAgentComparison(options: {
-  games?: number
-  qTablePath?: string
-  outputDir?: string
-} = {}) {
+export async function runLearningAgentComparison(
+  options: {
+    games?: number
+    qTablePath?: string
+    outputDir?: string
+    experiments?: ExperimentDefinition[]
+  } = {},
+) {
   const games = options.games ?? DEFAULT_COMPARISON_GAMES
   const outputDir = options.outputDir ?? DEFAULT_COMPARISON_OUTPUT_DIR
   const qTablePath = options.qTablePath ?? DEFAULT_PRETRAINED_QTABLE_PATH
+  const comparisonExperiments = options.experiments ?? EXPERIMENTS
   const pretrainedQTable = loadQTable(qTablePath)
   const allResults: GameComparisonResult[] = []
   const experiments: ExperimentSummary[] = []
 
-  for (const experiment of EXPERIMENTS) {
+  for (const experiment of comparisonExperiments) {
     const experimentResults: GameComparisonResult[] = []
     for (let game = 1; game <= games; game++) {
       const result = await runSingleGame({ experiment, game, pretrainedQTable })
@@ -553,6 +600,8 @@ if (isDirectExecution()) {
   const result = await runLearningAgentComparison({ games })
   console.log(`[compareLearningAgents] Experiments: ${EXPERIMENTS.length}`)
   console.log(`[compareLearningAgents] Games per experiment: ${games}`)
-  console.log(`[compareLearningAgents] Pretrained Q-table entries: ${result.pretrainedQTableEntries}`)
+  console.log(
+    `[compareLearningAgents] Pretrained Q-table entries: ${result.pretrainedQTableEntries}`,
+  )
   console.log(`[compareLearningAgents] Output: ${result.outputDir}`)
 }
