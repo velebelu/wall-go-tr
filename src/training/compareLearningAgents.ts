@@ -78,12 +78,32 @@ const EXPERIMENTS: ExperimentDefinition[] = [
     players: { R: 'learning-empty', B: 'random' },
   },
   {
+    name: 'random_vs_learning_empty',
+    players: { R: 'random', B: 'learning-empty' },
+  },
+  {
     name: 'learning_pretrained_vs_random',
     players: { R: 'learning-pretrained', B: 'random' },
   },
   {
+    name: 'random_vs_learning_pretrained',
+    players: { R: 'random', B: 'learning-pretrained' },
+  },
+  {
     name: 'learning_pretrained_vs_heuristic',
     players: { R: 'learning-pretrained', B: 'heuristic' },
+  },
+  {
+    name: 'heuristic_vs_learning_pretrained',
+    players: { R: 'heuristic', B: 'learning-pretrained' },
+  },
+  {
+    name: 'learning_pretrained_vs_learning_empty',
+    players: { R: 'learning-pretrained', B: 'learning-empty' },
+  },
+  {
+    name: 'learning_empty_vs_learning_pretrained',
+    players: { R: 'learning-empty', B: 'learning-pretrained' },
   },
 ]
 
@@ -156,7 +176,7 @@ function buildLearningRuntime(kind: LearningKind, pretrainedQTable: QTableSnapsh
   return {
     kind,
     qTable: kind === 'learning-pretrained' ? { ...pretrainedQTable } : {},
-    epsilon: 0.3,
+    epsilon: 0,
     trace: [],
   }
 }
@@ -340,7 +360,16 @@ async function runSingleGame(params: {
       updateLearningAfterGame(learningRuntime, player, winner, territory)
     }
   }
-
+// Durante la evaluación no se actualiza la tabla Q.
+// Se mide el rendimiento de los modelos tal como estaban al inicio de la partida.
+/*
+for (const player of PLAYER_LIST) {
+  const learningRuntime = learningRuntimes[player]
+  if (learningRuntime) {
+    updateLearningAfterGame(learningRuntime, player, winner, territory)
+  }
+}
+*/
   return {
     experiment: params.experiment.name,
     game: params.game,
