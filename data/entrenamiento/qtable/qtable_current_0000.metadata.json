@@ -1,0 +1,25 @@
+{
+  "createdAt": "2026-07-11T09:31:24.543Z",
+  "games": 0,
+  "qTableSize": 0,
+  "epsilonStart": 0.6,
+  "epsilonFinal": 0.6,
+  "alpha": 0.1,
+  "gamma": 0.9,
+  "wins": 0,
+  "losses": 0,
+  "ties": 0,
+  "averageTerritory": {
+    "learning": 0,
+    "opponent": 0
+  },
+  "opponents": {
+    "random": 0,
+    "heuristic": 0
+  },
+  "colorDistribution": {
+    "R": 0,
+    "B": 0
+  },
+  "qTablePath": "data\\entrenamiento\\qtable\\qtable_current_0000.json"
+}

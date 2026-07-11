@@ -1,0 +1,25 @@
+{
+  "createdAt": "2026-07-11T09:32:39.840Z",
+  "games": 5000,
+  "qTableSize": 1420,
+  "epsilonStart": 0.6,
+  "epsilonFinal": 0.05,
+  "alpha": 0.1,
+  "gamma": 0.9,
+  "wins": 1173,
+  "losses": 3757,
+  "ties": 70,
+  "averageTerritory": {
+    "learning": 11.4252,
+    "opponent": 28.1236
+  },
+  "opponents": {
+    "random": 3000,
+    "heuristic": 2000
+  },
+  "colorDistribution": {
+    "R": 2500,
+    "B": 2500
+  },
+  "qTablePath": "data\\entrenamiento\\qtable\\qtable_current_5000.json"
+}
