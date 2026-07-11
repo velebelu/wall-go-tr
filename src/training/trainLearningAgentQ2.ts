@@ -39,6 +39,9 @@ export interface Q2TrainingMetadata {
   createdAt: string
   model: 'Q2'
   games: number
+  newGames?: number
+  sourceCheckpoint?: string
+  previousGames?: number
   qTableSize: number
   epsilonStart: number
   epsilonFinal: number
@@ -283,6 +286,19 @@ function createEmptyStats(): Q2TrainingStats {
   }
 }
 
+function statsFromMetadata(metadata: Q2TrainingMetadata): Q2TrainingStats {
+  return {
+    games: metadata.games,
+    wins: metadata.wins,
+    losses: metadata.losses,
+    ties: metadata.ties,
+    learningTerritoryTotal: metadata.averageTerritory.learning * metadata.games,
+    opponentTerritoryTotal: metadata.averageTerritory.opponent * metadata.games,
+    opponents: { ...metadata.opponents },
+    colorDistribution: { ...metadata.colorDistribution },
+  }
+}
+
 function addStats(stats: Q2TrainingStats, gameStats: Omit<Q2TrainingStats, 'games'>): void {
   stats.games += 1
   stats.wins += gameStats.wins
@@ -373,6 +389,9 @@ async function runQ2TrainingGame(params: {
 
 function buildMetadata(params: {
   games: number
+  newGames?: number
+  sourceCheckpoint?: string
+  previousGames?: number
   qTable: QTableSnapshot
   epsilonStart: number
   epsilonFinal: number
@@ -385,6 +404,9 @@ function buildMetadata(params: {
     createdAt: new Date().toISOString(),
     model: 'Q2',
     games: params.games,
+    ...(params.newGames === undefined ? {} : { newGames: params.newGames }),
+    ...(params.sourceCheckpoint === undefined ? {} : { sourceCheckpoint: params.sourceCheckpoint }),
+    ...(params.previousGames === undefined ? {} : { previousGames: params.previousGames }),
     qTableSize: Object.keys(params.qTable).length,
     epsilonStart: params.epsilonStart,
     epsilonFinal: roundMetric(params.epsilonFinal),
@@ -431,6 +453,10 @@ export function saveQ2Checkpoint(params: {
 
 export function loadQ2Checkpoint(qTablePath: string): QTableSnapshot {
   return JSON.parse(readFileSync(path.resolve(qTablePath), 'utf8')) as QTableSnapshot
+}
+
+export function loadQ2Metadata(metadataPath: string): Q2TrainingMetadata {
+  return JSON.parse(readFileSync(path.resolve(metadataPath), 'utf8')) as Q2TrainingMetadata
 }
 
 export async function runLearningAgentQ2Training(
@@ -515,6 +541,72 @@ export async function runLearningAgentQ2Training(
   })
 
   return { qTable, metadata, checkpoints }
+}
+
+export async function continueLearningAgentQ2Training(options: {
+  sourceQTablePath: string
+  sourceMetadataPath: string
+  targetGames: number
+  outputDir?: string
+  epsilonDecay?: number
+  epsilonMin?: number
+  maxTurns?: number
+  progressEvery?: number
+}): Promise<{ qTable: QTableSnapshot; metadata: Q2TrainingMetadata }> {
+  const sourceMetadata = loadQ2Metadata(options.sourceMetadataPath)
+  const qTable = loadQ2Checkpoint(options.sourceQTablePath)
+  const outputDir = options.outputDir ?? Q2_QTABLE_DIR
+  const epsilonDecay = options.epsilonDecay ?? DEFAULT_Q2_TRAINING_CONFIG.epsilonDecay
+  const epsilonMin = options.epsilonMin ?? DEFAULT_Q2_TRAINING_CONFIG.epsilonMin
+  const maxTurns = options.maxTurns ?? DEFAULT_Q2_TRAINING_CONFIG.maxTurns
+  const progressEvery = options.progressEvery ?? DEFAULT_Q2_TRAINING_CONFIG.progressEvery
+
+  if (options.targetGames <= sourceMetadata.games) {
+    throw new Error('targetGames must be greater than source checkpoint games')
+  }
+
+  const stats = statsFromMetadata(sourceMetadata)
+  let epsilon = sourceMetadata.epsilonFinal
+  const newGames = options.targetGames - sourceMetadata.games
+
+  for (let game = sourceMetadata.games + 1; game <= options.targetGames; game++) {
+    const gameStats = await runQ2TrainingGame({
+      gameNumber: game,
+      qTable,
+      epsilon,
+      alpha: sourceMetadata.alpha,
+      gamma: sourceMetadata.gamma,
+      maxTurns,
+    })
+    epsilon = Math.max(epsilon * epsilonDecay, epsilonMin)
+    addStats(stats, gameStats)
+
+    const completedNewGames = game - sourceMetadata.games
+    if (progressEvery > 0 && completedNewGames % progressEvery === 0) {
+      console.log(
+        `[trainLearningAgentQ2] continued ${completedNewGames}/${newGames} games (${game}/${options.targetGames} total), qTable=${Object.keys(qTable).length}, epsilon=${epsilon.toFixed(4)}`,
+      )
+    }
+  }
+
+  const checkpoint = checkpointName(options.targetGames)
+  const qTablePath = path.join(outputDir, `qtable_q2_${checkpoint}.json`)
+  const metadata = buildMetadata({
+    games: options.targetGames,
+    newGames,
+    previousGames: sourceMetadata.games,
+    sourceCheckpoint: options.sourceQTablePath,
+    qTable,
+    epsilonStart: sourceMetadata.epsilonFinal,
+    epsilonFinal: epsilon,
+    alpha: sourceMetadata.alpha,
+    gamma: sourceMetadata.gamma,
+    stats,
+    qTablePath,
+  })
+  saveQ2Checkpoint({ qTable, outputDir, games: options.targetGames, metadata })
+
+  return { qTable, metadata }
 }
 
 function csvEscape(value: string | number): string {
@@ -633,10 +725,28 @@ if (isDirectExecution()) {
     await runLearningAgentQ2Training()
   } else if (command === 'evaluate') {
     const qTablePath = process.argv[3] ?? path.join(Q2_QTABLE_DIR, 'qtable_q2_0500.json')
+    const checkpoint = path.basename(qTablePath).replace('qtable_q2_', '').replace('.json', '')
     await evaluateQ2Checkpoint({
       qTablePath,
-      outputDir: path.join(Q2_EVALUATION_DIR, 'checkpoint_0500'),
+      outputDir: path.join(Q2_EVALUATION_DIR, `checkpoint_${checkpoint}`),
     })
+  } else if (command === 'continue-2000') {
+    const sourceQTablePath = path.join(Q2_QTABLE_DIR, 'qtable_q2_0500.json')
+    const sourceMetadataPath = path.join(Q2_QTABLE_DIR, 'qtable_q2_0500.metadata.json')
+    const training = await continueLearningAgentQ2Training({
+      sourceQTablePath,
+      sourceMetadataPath,
+      targetGames: 2000,
+    })
+    const qTablePath = path.join(Q2_QTABLE_DIR, 'qtable_q2_2000.json')
+    const evaluation = await evaluateQ2Checkpoint({
+      qTablePath,
+      outputDir: path.join(Q2_EVALUATION_DIR, 'checkpoint_2000'),
+    })
+    console.log(
+      `[trainLearningAgentQ2] Q2-2000 qTable entries: ${Object.keys(training.qTable).length}`,
+    )
+    console.log(`[trainLearningAgentQ2] Q2-2000 evaluation output: ${evaluation.outputDir}`)
   } else {
     throw new Error(`Unknown command: ${command}`)
   }

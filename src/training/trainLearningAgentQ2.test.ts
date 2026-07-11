@@ -8,6 +8,7 @@ import {
   Q2_QTABLE_DIR,
   calculateFinalRewardQ2,
   calculateIntermediateRewardQ2,
+  continueLearningAgentQ2Training,
   evaluateQ2Checkpoint,
   getMaxQValueQ2,
   getQ2LearningSideForGame,
@@ -22,7 +23,12 @@ function makeTempDir(): string {
   return mkdtempSync(path.join(os.tmpdir(), 'wall-go-q2-'))
 }
 
-function makeMetadata(games: number, qTableSize: number, qTablePath: string): Q2TrainingMetadata {
+function makeMetadata(
+  games: number,
+  qTableSize: number,
+  qTablePath: string,
+  overrides: Partial<Q2TrainingMetadata> = {},
+): Q2TrainingMetadata {
   return {
     createdAt: '2026-07-11T00:00:00.000Z',
     model: 'Q2',
@@ -49,6 +55,7 @@ function makeMetadata(games: number, qTableSize: number, qTablePath: string): Q2
       intermediateMax: 0.05,
     },
     qTablePath,
+    ...overrides,
   }
 }
 
@@ -189,5 +196,89 @@ describe('trainLearningAgentQ2 workflow', () => {
     })
 
     expect(loadQ2Checkpoint(qTablePath)).toEqual(qTable)
+  })
+
+  it('continues from an existing checkpoint without resetting Q-table or epsilon', async () => {
+    const outputDir = makeTempDir()
+    const sourceQTable = { 'sentinel-key': 42 }
+    const sourceQTablePath = path.join(outputDir, 'qtable_q2_0002.json')
+    const sourceMetadata = makeMetadata(2, 1, sourceQTablePath, {
+      epsilonFinal: 0.4673,
+      wins: 1,
+      losses: 1,
+      averageTerritory: { learning: 10, opponent: 12 },
+      opponents: { random: 2, heuristic: 0 },
+      colorDistribution: { R: 1, B: 1 },
+    })
+    saveQ2Checkpoint({ qTable: sourceQTable, outputDir, games: 2, metadata: sourceMetadata })
+    const sourceMetadataPath = path.join(outputDir, 'qtable_q2_0002.metadata.json')
+    const sourceBefore = readFileSync(sourceQTablePath, 'utf8')
+
+    const result = await continueLearningAgentQ2Training({
+      sourceQTablePath,
+      sourceMetadataPath,
+      targetGames: 4,
+      outputDir,
+      epsilonDecay: 1,
+      progressEvery: 0,
+      maxTurns: 2,
+    })
+
+    expect(readFileSync(sourceQTablePath, 'utf8')).toBe(sourceBefore)
+    expect(result.qTable['sentinel-key']).toBe(42)
+    expect(Object.keys(result.qTable).length).toBeGreaterThan(1)
+    expect(result.metadata.previousGames).toBe(2)
+    expect(result.metadata.newGames).toBe(2)
+    expect(result.metadata.games).toBe(4)
+    expect(result.metadata.epsilonStart).toBe(0.4673)
+    expect(result.metadata.epsilonFinal).toBe(0.4673)
+    expect(result.metadata.colorDistribution).toEqual({ R: 2, B: 2 })
+    expect(result.metadata.opponents).toEqual({ random: 4, heuristic: 0 })
+  })
+
+  it('keeps a continued Q2 checkpoint fixed during evaluation', async () => {
+    const outputDir = makeTempDir()
+    const sourceQTablePath = path.join(outputDir, 'qtable_q2_0002.json')
+    const sourceMetadata = makeMetadata(2, 1, sourceQTablePath, {
+      epsilonFinal: 0.4673,
+      colorDistribution: { R: 1, B: 1 },
+      opponents: { random: 2, heuristic: 0 },
+    })
+    saveQ2Checkpoint({
+      qTable: { 'sentinel-key': 42 },
+      outputDir,
+      games: 2,
+      metadata: sourceMetadata,
+    })
+
+    await continueLearningAgentQ2Training({
+      sourceQTablePath,
+      sourceMetadataPath: path.join(outputDir, 'qtable_q2_0002.metadata.json'),
+      targetGames: 4,
+      outputDir,
+      progressEvery: 0,
+      maxTurns: 2,
+    })
+
+    const continuedQTablePath = path.join(outputDir, 'qtable_q2_0004.json')
+    const before = readFileSync(continuedQTablePath, 'utf8')
+    const evaluation = await evaluateQ2Checkpoint({
+      qTablePath: continuedQTablePath,
+      outputDir: path.join(outputDir, 'evaluation'),
+      plan: [
+        {
+          experiment: {
+            name: 'q2_continued_test_vs_random',
+            players: { R: 'learning-pretrained', B: 'random' },
+          },
+          games: 1,
+        },
+      ],
+    })
+
+    expect(readFileSync(continuedQTablePath, 'utf8')).toBe(before)
+    expect(
+      evaluation.summary.experiments[0].learningDiagnostics?.qTableChangedDuringEvaluation,
+    ).toBe(false)
   })
 })
