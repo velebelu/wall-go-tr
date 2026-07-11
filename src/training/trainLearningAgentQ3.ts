@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -80,6 +81,25 @@ export interface Q3TrainingMetadata {
   startedFromEmptyQTable: boolean
   checkpoint0Reused?: boolean
   checkpoint0Validated?: boolean
+  continuedFromCheckpoint?: number
+  sourceCheckpoint?: string
+  previousQTableHash?: string
+  additionalTrainingGames?: number
+  totalTrainingGames?: number
+  epsilonContinuationInitial?: number
+  previousQTableEntries?: number
+  previousUniqueQ3StatesVisited?: number
+  previousUniqueQ3StatesFromQTable?: number
+  finalUniqueQ3StatesFromQTable?: number
+  additionalTrainingStats?: {
+    wins: number
+    losses: number
+    ties: number
+    qHits: number
+    qMisses: number
+    qTableEntriesBefore: number
+    qTableEntriesAfter: number
+  }
   trainingGames: number
   seed?: number
   alpha: number
@@ -420,6 +440,24 @@ function readJsonFile<T>(filePath: string): T {
   return JSON.parse(readFileSync(filePath, 'utf8')) as T
 }
 
+export function loadQ3Checkpoint(qTablePath: string): QTableSnapshot {
+  return readJsonFile<QTableSnapshot>(path.resolve(qTablePath))
+}
+
+export function loadQ3Metadata(metadataPath: string): Q3TrainingMetadata {
+  return readJsonFile<Q3TrainingMetadata>(path.resolve(metadataPath))
+}
+
+function qTableStateCount(qTable: QTableSnapshot): number {
+  return new Set(Object.keys(qTable).map((key) => key.split('|||')[0] ?? key)).size
+}
+
+function qTableHash(qTablePath: string): string {
+  return createHash('sha256')
+    .update(readFileSync(path.resolve(qTablePath)))
+    .digest('hex')
+}
+
 function assertCondition(condition: boolean, message: string): void {
   if (!condition) throw new Error(`Invalid Q3 checkpoint_0: ${message}`)
 }
@@ -509,6 +547,7 @@ function buildMetadata(params: {
   durationMs: number
   outputFiles: Q3TrainingMetadata['outputFiles']
   checkpoint0: { reused: boolean; validated: boolean }
+  continuation?: Partial<Q3TrainingMetadata>
 }): Q3TrainingMetadata {
   const games = params.stats.games
   return {
@@ -519,6 +558,7 @@ function buildMetadata(params: {
     startedFromEmptyQTable: true,
     checkpoint0Reused: params.checkpoint0.reused,
     checkpoint0Validated: params.checkpoint0.validated,
+    ...params.continuation,
     trainingGames: params.config.totalGames,
     ...(params.config.seed === undefined ? {} : { seed: params.config.seed }),
     alpha: params.config.alpha,
@@ -552,6 +592,33 @@ function buildMetadata(params: {
     representationStats: params.representationStats,
     configurationComparisonWithQ2: buildConfigComparison(params.config),
     outputFiles: params.outputFiles,
+  }
+}
+
+function statsFromMetadata(metadata: Q3TrainingMetadata): Q3TrainingStats {
+  return {
+    games: metadata.trainingGames,
+    wins: metadata.wins,
+    losses: metadata.losses,
+    ties: metadata.ties,
+    learningTerritoryTotal: metadata.averageTerritory.learning * metadata.trainingGames,
+    opponentTerritoryTotal: metadata.averageTerritory.opponent * metadata.trainingGames,
+    territoryDiffTotal: metadata.averageTerritoryDiff * metadata.trainingGames,
+    turnsTotal: metadata.averageTurns * metadata.trainingGames,
+    colorDistribution: {
+      R:
+        (metadata.resultsByColor.R.wins ?? 0) +
+        (metadata.resultsByColor.R.losses ?? 0) +
+        (metadata.resultsByColor.R.ties ?? 0),
+      B:
+        (metadata.resultsByColor.B.wins ?? 0) +
+        (metadata.resultsByColor.B.losses ?? 0) +
+        (metadata.resultsByColor.B.ties ?? 0),
+    },
+    resultsByColor: {
+      R: { ...metadata.resultsByColor.R },
+      B: { ...metadata.resultsByColor.B },
+    },
   }
 }
 
@@ -806,6 +873,158 @@ export async function runLearningAgentQ3Training(
     losses: metadata.losses,
     ties: metadata.ties,
     winRate: metadata.winRate,
+    representationStats: representationSummary,
+  }
+
+  saveQ3Checkpoint({
+    qTable,
+    outputDir: config.outputDir,
+    checkpoint: config.finalCheckpoint,
+    metadata,
+    trainingSummary,
+    overwrite: config.overwrite,
+  })
+
+  return { qTable, metadata }
+}
+
+export async function continueLearningAgentQ3Training(options: {
+  sourceQTablePath: string
+  sourceMetadataPath: string
+  targetGames: number
+  outputDir: string
+  seed: number
+  progressEvery?: number
+  overwrite?: boolean
+}): Promise<{ qTable: QTableSnapshot; metadata: Q3TrainingMetadata }> {
+  const sourceQTablePath = path.resolve(options.sourceQTablePath)
+  const sourceMetadata = loadQ3Metadata(options.sourceMetadataPath)
+  const qTable = loadQ3Checkpoint(sourceQTablePath)
+  const previousQTableHash = qTableHash(sourceQTablePath)
+  const previousQTableEntries = Object.keys(qTable).length
+  const previousUniqueQ3StatesFromQTable = qTableStateCount(qTable)
+
+  if (sourceMetadata.model !== 'Q3') throw new Error('Source metadata must be Q3')
+  if (sourceMetadata.trainingGames >= options.targetGames) {
+    throw new Error('targetGames must be greater than source trainingGames')
+  }
+  if (sourceMetadata.seed !== options.seed) {
+    throw new Error(
+      `Source seed ${sourceMetadata.seed} does not match requested seed ${options.seed}`,
+    )
+  }
+
+  const config: Q3TrainingConfig = {
+    ...DEFAULT_Q3_TRAINING_CONFIG,
+    totalGames: options.targetGames,
+    outputDir: options.outputDir,
+    finalCheckpoint: options.targetGames,
+    seed: options.seed,
+    alpha: sourceMetadata.alpha,
+    gamma: sourceMetadata.gamma,
+    epsilonStart: sourceMetadata.epsilonFinal,
+    epsilonMin: sourceMetadata.epsilonMin,
+    epsilonDecay: sourceMetadata.epsilonDecay,
+    progressEvery: options.progressEvery ?? DEFAULT_Q3_TRAINING_CONFIG.progressEvery,
+    overwrite: options.overwrite ?? false,
+  }
+  assertOutputCanBeWritten(config.outputDir, config.overwrite)
+
+  const stats = statsFromMetadata(sourceMetadata)
+  const additionalStats = createStats()
+  const representationStats = createRepresentationStats()
+  const diagnostics: Omit<Q3TrainingDiagnostics, 'representation'> = {
+    qHits: 0,
+    qMisses: 0,
+    actionDistribution: { place: 0, move: 0, wall: 0, 'move-wall': 0 },
+  }
+  const rng = getRng(config.seed)
+  const startedAt = Date.now()
+  let epsilon = sourceMetadata.epsilonFinal
+
+  for (let game = sourceMetadata.trainingGames + 1; game <= options.targetGames; game++) {
+    const gameStats = await runQ3TrainingGame({
+      gameNumber: game,
+      qTable,
+      epsilon,
+      alpha: config.alpha,
+      gamma: config.gamma,
+      maxTurns: config.maxTurns,
+      rng,
+      diagnostics,
+      representationStats,
+    })
+    epsilon = Math.max(epsilon * config.epsilonDecay, config.epsilonMin)
+    addStats(stats, gameStats)
+    addStats(additionalStats, gameStats)
+
+    const completed = game - sourceMetadata.trainingGames
+    const totalAdditional = options.targetGames - sourceMetadata.trainingGames
+    if (config.progressEvery > 0 && completed % config.progressEvery === 0) {
+      console.log(
+        `[trainLearningAgentQ3] continued ${completed}/${totalAdditional} games (${game}/${options.targetGames} total), qTable=${Object.keys(qTable).length}, epsilon=${epsilon.toFixed(4)}`,
+      )
+    }
+  }
+
+  const outputFiles = buildOutputFiles(config.outputDir, config.finalCheckpoint)
+  const representationSummary = summarizeRepresentationStats(representationStats)
+  const metadata = buildMetadata({
+    config,
+    stats,
+    diagnostics: {
+      qHits: (sourceMetadata.qHits ?? 0) + diagnostics.qHits,
+      qMisses: (sourceMetadata.qMisses ?? 0) + diagnostics.qMisses,
+      actionDistribution: {
+        place:
+          (sourceMetadata.actionDistribution.place ?? 0) + diagnostics.actionDistribution.place,
+        move: (sourceMetadata.actionDistribution.move ?? 0) + diagnostics.actionDistribution.move,
+        wall: (sourceMetadata.actionDistribution.wall ?? 0) + diagnostics.actionDistribution.wall,
+        'move-wall':
+          (sourceMetadata.actionDistribution['move-wall'] ?? 0) +
+          diagnostics.actionDistribution['move-wall'],
+      },
+    },
+    representationStats: representationSummary,
+    qTable,
+    epsilonFinal: epsilon,
+    durationMs: Date.now() - startedAt,
+    outputFiles,
+    checkpoint0: { reused: true, validated: true },
+    continuation: {
+      continuedFromCheckpoint: sourceMetadata.trainingGames,
+      sourceCheckpoint: sourceQTablePath,
+      previousQTableHash,
+      additionalTrainingGames: options.targetGames - sourceMetadata.trainingGames,
+      totalTrainingGames: options.targetGames,
+      epsilonContinuationInitial: sourceMetadata.epsilonFinal,
+      previousQTableEntries,
+      previousUniqueQ3StatesVisited: sourceMetadata.uniqueQ3StatesVisited,
+      previousUniqueQ3StatesFromQTable,
+      finalUniqueQ3StatesFromQTable: qTableStateCount(qTable),
+      additionalTrainingStats: {
+        wins: additionalStats.wins,
+        losses: additionalStats.losses,
+        ties: additionalStats.ties,
+        qHits: diagnostics.qHits,
+        qMisses: diagnostics.qMisses,
+        qTableEntriesBefore: previousQTableEntries,
+        qTableEntriesAfter: Object.keys(qTable).length,
+      },
+    },
+  })
+  const trainingSummary = {
+    model: 'Q3',
+    trainingGames: options.targetGames,
+    continuedFromCheckpoint: sourceMetadata.trainingGames,
+    additionalTrainingGames: options.targetGames - sourceMetadata.trainingGames,
+    seed: config.seed,
+    qTableEntries: Object.keys(qTable).length,
+    wins: metadata.wins,
+    losses: metadata.losses,
+    ties: metadata.ties,
+    winRate: metadata.winRate,
+    additionalTrainingStats: metadata.additionalTrainingStats,
     representationStats: representationSummary,
   }
 
