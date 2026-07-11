@@ -65,6 +65,9 @@ describe('analyzeQ3Representation', () => {
     expect(analysis.keys.uniqueQ3StateKeys).toBeGreaterThan(0)
     expect(analysis.keys.uniqueQ3StateActionPairs).toBe(2)
     expect(analysis.moveWallVariants[0]?.variantCount).toBe(1)
+    expect(analysis.bucketDistributions).not.toHaveProperty('lowMine')
+    expect(analysis.bucketDistributions).not.toHaveProperty('lowOpponent')
+    expect(analysis.playersAfterNormalization[0]?.q3StateKey ?? '').not.toContain('|low:')
   })
 
   it('keeps independent walls when the pair is not safe', () => {

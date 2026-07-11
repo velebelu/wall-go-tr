@@ -169,7 +169,6 @@ export function getLearningStateKeyQ3(state: GameSnapshot): string {
       opponentMobility.totalDestinations,
     )}`,
     `trap:${mineMobility.trapPieces},${opponentMobility.trapPieces}`,
-    `low:${mineMobility.lowPieces},${opponentMobility.lowPieces}`,
     `walls:${bucketWallsQ3(countWallsQ3(state.board))}`,
   ].join('|')
 }

@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-07-11T12:56:59.938Z",
+  "createdAt": "2026-07-11T13:02:24.121Z",
   "inputFiles": [
     "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_001.json",
     "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_002.json",
@@ -44,21 +44,21 @@
   "keys": {
     "uniqueLegacyStateKeys": 786,
     "uniqueQ2StateKeys": 6,
-    "uniqueQ3StateKeys": 127,
-    "uniqueQ3StateActionPairs": 719,
-    "legacyToQ3StateReductionPercentage": 83.8422,
-    "q2ToQ3StateReductionPercentage": -2016.6667,
+    "uniqueQ3StateKeys": 108,
+    "uniqueQ3StateActionPairs": 718,
+    "legacyToQ3StateReductionPercentage": 86.2595,
+    "q2ToQ3StateReductionPercentage": -1700,
     "q2ToQ3Explanation": "Negative means Q3 expands the number of state keys compared with Q2 on these traces."
   },
   "visits": {
     "min": 1,
-    "max": 154,
-    "mean": 6.6772,
+    "max": 161,
+    "mean": 7.8519,
     "median": 3,
-    "statesVisitedOnce": 39,
-    "statesWithAtLeast2": 88,
-    "statesWithAtLeast5": 33,
-    "statesWithAtLeast10": 18,
+    "statesVisitedOnce": 30,
+    "statesWithAtLeast2": 78,
+    "statesWithAtLeast5": 38,
+    "statesWithAtLeast10": 20,
     "statesWithAtLeast20": 8
   },
   "bucketDistributions": {
@@ -91,14 +91,6 @@
       "1": 225,
       "2": 18
     },
-    "lowMine": {
-      "0": 818,
-      "1": 30
-    },
-    "lowOpponent": {
-      "0": 819,
-      "1": 29
-    },
     "walls": {
       "0": 100,
       "1-8": 160,
@@ -113,156 +105,156 @@
   },
   "playersAfterNormalization": [
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|low:0,0|walls:9-20",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|walls:9-20",
       "players": "B|R",
-      "visits": 154
+      "visits": 161
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|low:0,0|walls:1-8",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|walls:1-8",
       "players": "B|R",
       "visits": 101
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,36+|trap:0,0|low:0,0|walls:1-8",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,36+|trap:0,0|walls:1-8",
       "players": "B|R",
       "visits": 54
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:1,0|low:0,0|walls:9-20",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:1,0|walls:9-20",
       "players": "B|R",
       "visits": 22
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,1|low:0,0|walls:9-20",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,1|walls:9-20",
       "players": "B|R",
       "visits": 18
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,1|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,1|walls:21-36",
       "players": "B|R",
       "visits": 18
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|walls:21-36",
       "players": "B|R",
       "visits": 16
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:1,1|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:1,1|walls:21-36",
       "players": "B|R",
       "visits": 16
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,1|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:0,0|walls:21-36",
       "players": "B|R",
       "visits": 15
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:0,0|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:0,0|walls:21-36",
+      "players": "B|R",
+      "visits": 15
+    },
+    {
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,1|walls:21-36",
+      "players": "B|R",
+      "visits": 15
+    },
+    {
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,0|walls:21-36",
       "players": "B|R",
       "visits": 12
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:L1|mob:6-15,6-15|trap:1,1|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:L1|mob:6-15,6-15|trap:1,1|walls:21-36",
       "players": "B|R",
       "visits": 12
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:W1|mob:6-15,6-15|trap:1,1|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:0,1|walls:21-36",
       "players": "B|R",
       "visits": 11
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:0,0|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:W1|mob:6-15,6-15|trap:1,1|walls:21-36",
       "players": "B|R",
-      "visits": 10
+      "visits": 11
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:1,1|low:0,0|walls:9-20",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:1,1|walls:9-20",
       "players": "B|R",
       "visits": 9
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,1|low:0,0|walls:37+",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,1|walls:37+",
       "players": "B|R",
       "visits": 9
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:0,1|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,0|walls:9-20",
       "players": "B|R",
       "visits": 8
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,0|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:0,0|walls:21-36",
       "players": "B|R",
-      "visits": 8
+      "visits": 7
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,0|low:0,0|walls:9-20",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:L1|mob:6-15,6-15|trap:0,1|walls:37+",
       "players": "B|R",
-      "visits": 8
-    },
-    {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:0,0|low:0,0|walls:21-36",
-      "players": "B|R",
-      "visits": 6
-    },
-    {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:W1|mob:6-15,6-15|trap:1,1|low:0,0|walls:37+",
-      "players": "B|R",
-      "visits": 6
+      "visits": 7
     }
   ],
   "perspectiveEquivalenceExamples": [
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|low:0,0|walls:9-20",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|walls:9-20",
       "players": "B|R",
-      "visits": 154
+      "visits": 161
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|low:0,0|walls:1-8",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|walls:1-8",
       "players": "B|R",
       "visits": 101
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,36+|trap:0,0|low:0,0|walls:1-8",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,36+|trap:0,0|walls:1-8",
       "players": "B|R",
       "visits": 54
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:1,0|low:0,0|walls:9-20",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:1,0|walls:9-20",
       "players": "B|R",
       "visits": 22
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,1|low:0,0|walls:9-20",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,1|walls:9-20",
       "players": "B|R",
       "visits": 18
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,1|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:1,1|walls:21-36",
       "players": "B|R",
       "visits": 18
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,16-35|trap:0,0|walls:21-36",
       "players": "B|R",
       "visits": 16
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:1,1|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:1,1|walls:21-36",
       "players": "B|R",
       "visits": 16
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,6-15|trap:1,1|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:0,0|walls:21-36",
       "players": "B|R",
       "visits": 15
     },
     {
-      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:16-35,6-15|trap:0,0|low:0,0|walls:21-36",
+      "q3StateKey": "q3|phase:playing|step:0|sp:4,4|td:E|mob:6-15,16-35|trap:0,0|walls:21-36",
       "players": "B|R",
-      "visits": 12
+      "visits": 15
     }
   ],
   "moveWallVariants": [
@@ -459,8 +451,6 @@
   ],
   "warnings": [
     "td:E concentrates 80.5425% of observations",
-    "trapOpponent:0 concentrates 71.3443% of observations",
-    "lowMine:0 concentrates 96.4623% of observations",
-    "lowOpponent:0 concentrates 96.5802% of observations"
+    "trapOpponent:0 concentrates 71.3443% of observations"
   ]
 }

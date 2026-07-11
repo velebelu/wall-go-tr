@@ -82,6 +82,15 @@ describe('learningPolicyQ3 state key', () => {
     )
   })
 
+  it('does not include low in the Q3 state key and preserves the remaining field order', () => {
+    const state = makeInitialState()
+
+    expect(getLearningStateKeyQ3(state)).toBe(
+      'q3|phase:placing|step:0|sp:2,2|td:E|mob:16-35,16-35|trap:0,0|walls:0',
+    )
+    expect(getLearningStateKeyQ3(state)).not.toContain('|low:')
+  })
+
   it('counts trap and low pieces without double-counting traps', () => {
     const state = clearBoard(makeInitialState())
     state.phase = 'playing'
@@ -108,7 +117,7 @@ describe('learningPolicyQ3 state key', () => {
     expect(mobility.trapPieces).toBe(1)
     expect(mobility.lowPieces).toBe(1)
     expect(getLearningStateKeyQ3(state)).toContain('trap:1,')
-    expect(getLearningStateKeyQ3(state)).toContain('low:1,')
+    expect(getLearningStateKeyQ3(state)).not.toContain('|low:')
   })
 
   it('does not mutate the state', () => {

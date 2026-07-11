@@ -108,14 +108,7 @@ export interface Q3RepresentationAnalysis {
     statesWithAtLeast20: number
   }
   bucketDistributions: Record<
-    | 'td'
-    | 'mobMine'
-    | 'mobOpponent'
-    | 'trapMine'
-    | 'trapOpponent'
-    | 'lowMine'
-    | 'lowOpponent'
-    | 'walls',
+    'td' | 'mobMine' | 'mobOpponent' | 'trapMine' | 'trapOpponent' | 'walls',
     Record<string, number>
   >
   playersBeforeNormalization: Record<Player, number>
@@ -345,8 +338,6 @@ export function analyzeQ3Representation(
     mobOpponent: {},
     trapMine: {},
     trapOpponent: {},
-    lowMine: {},
-    lowOpponent: {},
     walls: {},
   }
   const moveWallVariants: Record<string, Record<string, true>> = {}
@@ -368,9 +359,6 @@ export function analyzeQ3Representation(
     const [trapMine, trapOpponent] = (parts.trap ?? ',').split(',')
     addCount(bucketDistributions.trapMine, trapMine ?? '')
     addCount(bucketDistributions.trapOpponent, trapOpponent ?? '')
-    const [lowMine, lowOpponent] = (parts.low ?? ',').split(',')
-    addCount(bucketDistributions.lowMine, lowMine ?? '')
-    addCount(bucketDistributions.lowOpponent, lowOpponent ?? '')
     addCount(bucketDistributions.walls, parts.walls ?? '')
 
     const row = stateRows[q3StateKey] ?? {
