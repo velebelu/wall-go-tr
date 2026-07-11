@@ -17,6 +17,7 @@
     "training:compare-learning": "node --import ./scripts/run-ts-node-esm.mjs src/training/compareLearningAgents.ts",
     "training:train-learning": "node --import ./scripts/run-ts-node-esm.mjs src/training/trainLearningAgent.ts",
     "training:train-learning-q2": "node --import ./scripts/run-ts-node-esm.mjs src/training/trainLearningAgentQ2.ts",
+    "training:analyze-q3-heuristic-traces": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeHeuristicTracesForQ3.ts",
     "prepare": "husky"
   },
   "dependencies": {
