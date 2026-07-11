@@ -1,0 +1,235 @@
+{
+  "createdAt": "2026-07-11T16:16:58.468Z",
+  "model": "Q3",
+  "checkpoint": "Q3-500",
+  "qTablePath": "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\q3\\checkpoint_2000\\qtable_q3_2000.json",
+  "qTableEntries": 21641,
+  "qTableHashBefore": "84b86bc30dcd86c3ec06f525d578c1641adb5e67bd8da1122199c1074d4e9450",
+  "qTableHashAfter": "84b86bc30dcd86c3ec06f525d578c1641adb5e67bd8da1122199c1074d4e9450",
+  "qTableChangedDuringEvaluation": false,
+  "seeds": {
+    "baseSeed": 302000,
+    "gamesPerColor": 100,
+    "maxTurns": 250
+  },
+  "learningEmptyDefinition": {
+    "name": "learning-empty-Q3",
+    "representation": "Q3",
+    "table": "empty",
+    "learnsDuringEvaluation": false,
+    "sharesQ3Table": false
+  },
+  "experiments": [
+    {
+      "rival": "random",
+      "games": 200,
+      "wins": 45,
+      "losses": 149,
+      "ties": 6,
+      "winRate": 22.5,
+      "byColor": {
+        "R": {
+          "games": 100,
+          "wins": 28,
+          "losses": 68,
+          "ties": 4,
+          "winRate": 28
+        },
+        "B": {
+          "games": 100,
+          "wins": 17,
+          "losses": 81,
+          "ties": 2,
+          "winRate": 17
+        }
+      },
+      "averageTerritoryQ3": 12.265,
+      "averageTerritoryRival": 24.045,
+      "averageTerritorialDiff": -11.78,
+      "medianTerritorialDiff": -15,
+      "averageTurns": 80.945,
+      "endedByTurnLimit": 0,
+      "actionsTotal": 4676,
+      "qHits": 3591,
+      "qMisses": 1085,
+      "qHitRate": 76.7964,
+      "actionDistribution": {
+        "place": 400,
+        "move": 0,
+        "wall": 1040,
+        "move-wall": 3236,
+        "unknown": 0
+      },
+      "invalidKeys": 0,
+      "q2KeysFound": 0,
+      "stateKeysAllQ3": true,
+      "moveWallComplete": true,
+      "uniqueQ3StatesConsulted": 370,
+      "stateActionPairsConsulted": 43710,
+      "qTableEntriesNeverConsulted": 16250,
+      "qTableUsagePercentage": 24.911,
+      "decisionsNoKnownAction": 696,
+      "decisionsOneKnownAction": 310,
+      "decisionsMultipleKnownActions": 3670,
+      "averageSelectedQValue": 0.1459,
+      "tieBreakDecisionPercentage": 23.3961,
+      "qTableChangedDuringEvaluation": false,
+      "hashBefore": "84b86bc30dcd86c3ec06f525d578c1641adb5e67bd8da1122199c1074d4e9450",
+      "hashAfter": "84b86bc30dcd86c3ec06f525d578c1641adb5e67bd8da1122199c1074d4e9450"
+    },
+    {
+      "rival": "learning-empty-Q3",
+      "games": 200,
+      "wins": 52,
+      "losses": 144,
+      "ties": 4,
+      "winRate": 26,
+      "byColor": {
+        "R": {
+          "games": 100,
+          "wins": 29,
+          "losses": 68,
+          "ties": 3,
+          "winRate": 29
+        },
+        "B": {
+          "games": 100,
+          "wins": 23,
+          "losses": 76,
+          "ties": 1,
+          "winRate": 23
+        }
+      },
+      "averageTerritoryQ3": 12.615,
+      "averageTerritoryRival": 25.16,
+      "averageTerritorialDiff": -12.545,
+      "medianTerritorialDiff": -19.5,
+      "averageTurns": 79.195,
+      "endedByTurnLimit": 0,
+      "actionsTotal": 4579,
+      "qHits": 3501,
+      "qMisses": 1078,
+      "qHitRate": 76.4577,
+      "actionDistribution": {
+        "place": 400,
+        "move": 0,
+        "wall": 1008,
+        "move-wall": 3171,
+        "unknown": 0
+      },
+      "invalidKeys": 0,
+      "q2KeysFound": 0,
+      "stateKeysAllQ3": true,
+      "moveWallComplete": true,
+      "uniqueQ3StatesConsulted": 364,
+      "stateActionPairsConsulted": 43299,
+      "qTableEntriesNeverConsulted": 16272,
+      "qTableUsagePercentage": 24.8094,
+      "decisionsNoKnownAction": 663,
+      "decisionsOneKnownAction": 306,
+      "decisionsMultipleKnownActions": 3610,
+      "averageSelectedQValue": 0.1518,
+      "tieBreakDecisionPercentage": 23.4767,
+      "qTableChangedDuringEvaluation": false,
+      "hashBefore": "84b86bc30dcd86c3ec06f525d578c1641adb5e67bd8da1122199c1074d4e9450",
+      "hashAfter": "84b86bc30dcd86c3ec06f525d578c1641adb5e67bd8da1122199c1074d4e9450"
+    },
+    {
+      "rival": "heuristic",
+      "games": 200,
+      "wins": 0,
+      "losses": 200,
+      "ties": 0,
+      "winRate": 0,
+      "byColor": {
+        "R": {
+          "games": 100,
+          "wins": 0,
+          "losses": 100,
+          "ties": 0,
+          "winRate": 0
+        },
+        "B": {
+          "games": 100,
+          "wins": 0,
+          "losses": 100,
+          "ties": 0,
+          "winRate": 0
+        }
+      },
+      "averageTerritoryQ3": 5.475,
+      "averageTerritoryRival": 41.11,
+      "averageTerritorialDiff": -35.635,
+      "medianTerritorialDiff": -36,
+      "averageTurns": 47.035,
+      "endedByTurnLimit": 0,
+      "actionsTotal": 2741,
+      "qHits": 1831,
+      "qMisses": 910,
+      "qHitRate": 66.8004,
+      "actionDistribution": {
+        "place": 400,
+        "move": 0,
+        "wall": 487,
+        "move-wall": 1854,
+        "unknown": 0
+      },
+      "invalidKeys": 0,
+      "q2KeysFound": 0,
+      "stateKeysAllQ3": true,
+      "moveWallComplete": true,
+      "uniqueQ3StatesConsulted": 70,
+      "stateActionPairsConsulted": 9867,
+      "qTableEntriesNeverConsulted": 20300,
+      "qTableUsagePercentage": 6.1966,
+      "decisionsNoKnownAction": 747,
+      "decisionsOneKnownAction": 188,
+      "decisionsMultipleKnownActions": 1806,
+      "averageSelectedQValue": 0.0349,
+      "tieBreakDecisionPercentage": 33.0901,
+      "qTableChangedDuringEvaluation": false,
+      "hashBefore": "84b86bc30dcd86c3ec06f525d578c1641adb5e67bd8da1122199c1074d4e9450",
+      "hashAfter": "84b86bc30dcd86c3ec06f525d578c1641adb5e67bd8da1122199c1074d4e9450"
+    }
+  ],
+  "q2Comparison": {
+    "note": "Descriptive comparison only. Q3 uses learning-empty-Q3, while Q2 summaries may use learning-empty with Q2 keys.",
+    "q3_500": [
+      {
+        "rival": "random",
+        "winRate": 22.5,
+        "averageTerritorialDiff": -11.78,
+        "colorWinRates": {
+          "R": 28,
+          "B": 17
+        },
+        "qHitRate": 76.7964
+      },
+      {
+        "rival": "learning-empty-Q3",
+        "winRate": 26,
+        "averageTerritorialDiff": -12.545,
+        "colorWinRates": {
+          "R": 29,
+          "B": 23
+        },
+        "qHitRate": 76.4577
+      },
+      {
+        "rival": "heuristic",
+        "winRate": 0,
+        "averageTerritorialDiff": -35.635,
+        "colorWinRates": {
+          "R": 0,
+          "B": 0
+        },
+        "qHitRate": 66.8004
+      }
+    ],
+    "q2Sources": {
+      "q2_500": "data/entrenamiento/q2/evaluaciones/checkpoint_0500/learning_comparison_summary.json",
+      "q2_2000": "data/entrenamiento/q2/evaluaciones/checkpoint_2000/learning_comparison_summary.json",
+      "q2_2000_eval100": "data/entrenamiento/q2/evaluaciones/checkpoint_2000_eval100/learning_comparison_summary.json"
+    }
+  }
+}
