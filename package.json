@@ -16,6 +16,7 @@
     "training:import-qtable": "ts-node --esm --transpileOnly src/training/importWinningTracesToQTable.ts",
     "training:compare-learning": "node --import ./scripts/run-ts-node-esm.mjs src/training/compareLearningAgents.ts",
     "training:train-learning": "node --import ./scripts/run-ts-node-esm.mjs src/training/trainLearningAgent.ts",
+    "training:train-learning-q2": "node --import ./scripts/run-ts-node-esm.mjs src/training/trainLearningAgentQ2.ts",
     "prepare": "husky"
   },
   "dependencies": {
