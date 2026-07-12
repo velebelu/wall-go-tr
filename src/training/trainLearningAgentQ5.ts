@@ -3,7 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import type { QTableSnapshot } from '@/agents/learningPolicy'
-import { calculatePlayerMobilityQ3 } from '@/agents/learningPolicyQ3'
+import { calculatePlayerMobilityQ3, getLearningQTableKeyQ3 } from '@/agents/learningPolicyQ3'
 import { makeInitialState, snapshotFromState } from '@/store/gameState'
 import * as ai from '@/utils/ai'
 import { applyActionToState, getTerritoryCounts } from './compareLearningAgents'
@@ -22,9 +22,17 @@ export const Q5_BASE_DIR = 'data/entrenamiento/q5'
 export const Q5_PILOT_40_DIR = path.join(Q5_BASE_DIR, 'pilot_40')
 export const Q5_CHECKPOINT_500_DIR = path.join(Q5_BASE_DIR, 'checkpoint_500')
 export const Q5_FINAL_FINETUNING_500_DIR = path.join(Q5_BASE_DIR, 'final_finetuning/checkpoint_500')
+export const Q5_INSTRUMENTED_PILOT_100_DIR = path.join(
+  Q5_BASE_DIR,
+  'final_finetuning/instrumented_pilot_100',
+)
 export const Q5_HEURISTIC_INITIAL_QTABLE_PATH = path.join(
   Q5_BASE_DIR,
   'heuristic_initial_qtable/qtable_q5_heuristic_initial.json',
+)
+export const Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH = path.join(
+  Q5_BASE_DIR,
+  'heuristic_initial_qtable/build_summary.json',
 )
 
 export type Q5OpponentKind = Q4OpponentKind
@@ -37,7 +45,7 @@ export interface Q5TrainingScheduleItem {
 
 export interface Q5TrainingConfig {
   totalGames: number
-  checkpoint: 'pilot_40' | 500 | 'final_finetuning_500'
+  checkpoint: 'pilot_40' | 500 | 'final_finetuning_500' | 'instrumented_pilot_100'
   seed: number
   outputDir: string
   alpha: number
@@ -49,7 +57,9 @@ export interface Q5TrainingConfig {
   progressEvery: number
   overwrite: boolean
   initialQTablePath?: string
+  initialQTableBuildSummaryPath?: string
   schedule?: Q5TrainingScheduleItem[]
+  instrumentedUpdates?: boolean
 }
 
 export const Q5_REWARD_CONFIG = {
@@ -181,6 +191,53 @@ interface Q5GameRecord {
   reward: Q5RewardLog
 }
 
+type Q5ConfidenceBucket = '1 observation' | '2-5 observations' | '6-20 observations' | 'more than 20' | 'new'
+
+interface Q5StateActionConfidence {
+  observations: number
+  confidence: Q5ConfidenceBucket
+  alpha: number
+}
+
+interface Q5UpdateLogEntry {
+  game: number
+  state: string
+  action: string
+  stateActionKey: string
+  oldQ: number
+  reward: number
+  maxNextQ: number
+  target: number
+  rawDelta: number
+  appliedDelta: number
+  newQ: number
+  alpha: number
+  inheritedFrequency: number
+  confidence: Q5ConfidenceBucket
+  opponent: Q5OpponentKind
+  color: Player
+  turn: number
+  terminal: boolean
+  rewardComponent: 'intermediate' | 'final'
+}
+
+interface Q5InstrumentedUpdateSummary {
+  totalUpdates: number
+  alphaDistribution: Record<string, number>
+  clampCount: number
+  maxAbsAppliedDelta: number
+  invalidValueCount: number
+  changesByConfidence: Record<
+    Q5ConfidenceBucket,
+    {
+      updates: number
+      meanAbsAppliedDelta: number
+      maxAbsAppliedDelta: number
+      clampedUpdates: number
+    }
+  >
+}
+
 interface RewardSummary {
   averageTotalReward: number
   averageTerritoryReward: number
@@ -235,7 +292,7 @@ export interface Q5TrainingMetadata {
   model: 'Q5'
   seed: number
   totalGames: number
-  checkpoint: 'pilot_40' | 500 | 'final_finetuning_500'
+  checkpoint: 'pilot_40' | 500 | 'final_finetuning_500' | 'instrumented_pilot_100'
   startedFromEmptyQTable: boolean
   initialization: 'empty' | 'heuristic_initial'
   sourceQTable?: {
@@ -279,6 +336,12 @@ export interface Q5TrainingMetadata {
     inheritedAbsoluteChangeMean: number
     inheritedAbsoluteChangeMax: number
   }
+  instrumentedUpdates?: {
+    enabled: boolean
+    deltaClamp: { min: number; max: number }
+    learningRateByConfidence: Record<Q5ConfidenceBucket, number>
+    updateSummary: Q5InstrumentedUpdateSummary
+  }
   createdAt: string
   durationMs: number
   outputFiles: {
@@ -286,6 +349,7 @@ export interface Q5TrainingMetadata {
     metadata: string
     trainingSummary: string
     rewardLog: string
+    qUpdateLog?: string
   }
 }
 
@@ -360,8 +424,47 @@ export function buildQ5FinalFineTuning500Schedule(): Q5TrainingScheduleItem[] {
   return schedule
 }
 
+export function buildQ5InstrumentedPilot100Schedule(): Q5TrainingScheduleItem[] {
+  return buildQ5FinalFineTuning500Schedule()
+    .slice(0, 100)
+    .map((item, index) => ({ ...item, game: index + 1 }))
+}
+
 function loadQTable(qTablePath: string): QTableSnapshot {
   return JSON.parse(readFileSync(path.resolve(qTablePath), 'utf8')) as QTableSnapshot
+}
+
+function confidenceFromObservations(observations: number): Q5ConfidenceBucket {
+  if (observations <= 0) return 'new'
+  if (observations === 1) return '1 observation'
+  if (observations <= 5) return '2-5 observations'
+  if (observations <= 20) return '6-20 observations'
+  return 'more than 20'
+}
+
+export const Q5_ALPHA_BY_CONFIDENCE: Record<Q5ConfidenceBucket, number> = {
+  '1 observation': 0.03,
+  '2-5 observations': 0.02,
+  '6-20 observations': 0.01,
+  'more than 20': 0.005,
+  new: 0.03,
+}
+
+function loadQ5ConfidenceMap(buildSummaryPath?: string): Map<string, Q5StateActionConfidence> {
+  if (!buildSummaryPath) return new Map()
+  const summary = JSON.parse(readFileSync(path.resolve(buildSummaryPath), 'utf8')) as {
+    entries?: Array<{ stateActionKey: string; observations: number }>
+  }
+  const confidenceMap = new Map<string, Q5StateActionConfidence>()
+  for (const entry of summary.entries ?? []) {
+    const confidence = confidenceFromObservations(entry.observations)
+    confidenceMap.set(entry.stateActionKey, {
+      observations: entry.observations,
+      confidence,
+      alpha: Q5_ALPHA_BY_CONFIDENCE[confidence],
+    })
+  }
+  return confidenceMap
 }
 
 function cloneQTable(qTable: QTableSnapshot): QTableSnapshot {
@@ -584,6 +687,152 @@ function finalizeRewardLog(log: Q5RewardLog, finalReward: Q5FinalRewardBreakdown
     totalReward: roundMetric(log.totalReward),
     minIntermediateReward: roundMetric(log.minIntermediateReward),
     maxIntermediateReward: roundMetric(log.maxIntermediateReward),
+  }
+}
+
+function getMaxQValueQ5(
+  state: GameSnapshot | undefined,
+  qTable: QTableSnapshot,
+  terminal: boolean,
+): number {
+  if (terminal || !state || state.phase === 'finished') return 0
+  const legalActions = ai.getLegalActions(state)
+  if (legalActions.length === 0) return 0
+  return Math.max(...legalActions.map((action) => qTable[getLearningQTableKeyQ3(state, action)] ?? 0))
+}
+
+function getInstrumentedConfidence(
+  key: string,
+  confidenceMap: Map<string, Q5StateActionConfidence>,
+): Q5StateActionConfidence {
+  return (
+    confidenceMap.get(key) ?? {
+      observations: 0,
+      confidence: 'new',
+      alpha: Q5_ALPHA_BY_CONFIDENCE.new,
+    }
+  )
+}
+
+function updateQValueQ5Instrumented(params: {
+  qTable: QTableSnapshot
+  state: GameSnapshot
+  action: PlayerAction
+  reward: number
+  nextState: GameSnapshot | undefined
+  terminal: boolean
+  gamma: number
+  confidenceMap: Map<string, Q5StateActionConfidence>
+  game: number
+  opponent: Q5OpponentKind
+  color: Player
+  turn: number
+  rewardComponent: 'intermediate' | 'final'
+}): Q5UpdateLogEntry {
+  const key = getLearningQTableKeyQ3(params.state, params.action)
+  const [stateKey, actionKey] = key.split('|||')
+  const currentQ = params.qTable[key] ?? 0
+  const maxNextQ = getMaxQValueQ5(params.nextState, params.qTable, params.terminal)
+  const target = params.reward + params.gamma * maxNextQ
+  const confidence = getInstrumentedConfidence(key, params.confidenceMap)
+  const rawDelta = confidence.alpha * (target - currentQ)
+  const appliedDelta = clamp(rawDelta, -1, 1)
+  const newQ = currentQ + appliedDelta
+  params.qTable[key] = newQ
+
+  return {
+    game: params.game,
+    state: stateKey ?? key,
+    action: actionKey ?? '',
+    stateActionKey: key,
+    oldQ: roundMetric(currentQ),
+    reward: roundMetric(params.reward),
+    maxNextQ: roundMetric(maxNextQ),
+    target: roundMetric(target),
+    rawDelta: roundMetric(rawDelta),
+    appliedDelta: roundMetric(appliedDelta),
+    newQ: roundMetric(newQ),
+    alpha: confidence.alpha,
+    inheritedFrequency: confidence.observations,
+    confidence: confidence.confidence,
+    opponent: params.opponent,
+    color: params.color,
+    turn: params.turn,
+    terminal: params.terminal,
+    rewardComponent: params.rewardComponent,
+  }
+}
+
+function createEmptyInstrumentedBucket(): Q5InstrumentedUpdateSummary['changesByConfidence'][Q5ConfidenceBucket] {
+  return {
+    updates: 0,
+    meanAbsAppliedDelta: 0,
+    maxAbsAppliedDelta: 0,
+    clampedUpdates: 0,
+  }
+}
+
+function summarizeInstrumentedUpdates(logs: Q5UpdateLogEntry[]): Q5InstrumentedUpdateSummary {
+  const changesByConfidence: Q5InstrumentedUpdateSummary['changesByConfidence'] = {
+    '1 observation': createEmptyInstrumentedBucket(),
+    '2-5 observations': createEmptyInstrumentedBucket(),
+    '6-20 observations': createEmptyInstrumentedBucket(),
+    'more than 20': createEmptyInstrumentedBucket(),
+    new: createEmptyInstrumentedBucket(),
+  }
+  const absoluteTotals: Record<Q5ConfidenceBucket, number> = {
+    '1 observation': 0,
+    '2-5 observations': 0,
+    '6-20 observations': 0,
+    'more than 20': 0,
+    new: 0,
+  }
+  const alphaDistribution: Record<string, number> = {}
+  let clampCount = 0
+  let maxAbsAppliedDelta = 0
+  let invalidValueCount = 0
+
+  for (const log of logs) {
+    alphaDistribution[String(log.alpha)] = (alphaDistribution[String(log.alpha)] ?? 0) + 1
+    const absApplied = Math.abs(log.appliedDelta)
+    const bucket = changesByConfidence[log.confidence]
+    bucket.updates++
+    absoluteTotals[log.confidence] += absApplied
+    bucket.maxAbsAppliedDelta = Math.max(bucket.maxAbsAppliedDelta, absApplied)
+    maxAbsAppliedDelta = Math.max(maxAbsAppliedDelta, absApplied)
+    if (Math.abs(log.rawDelta) > 1) {
+      clampCount++
+      bucket.clampedUpdates++
+    }
+    if (
+      !Number.isFinite(log.oldQ) ||
+      !Number.isFinite(log.reward) ||
+      !Number.isFinite(log.maxNextQ) ||
+      !Number.isFinite(log.target) ||
+      !Number.isFinite(log.rawDelta) ||
+      !Number.isFinite(log.appliedDelta) ||
+      !Number.isFinite(log.newQ)
+    ) {
+      invalidValueCount++
+    }
+  }
+
+  for (const [confidence, bucket] of Object.entries(changesByConfidence) as Array<
+    [Q5ConfidenceBucket, Q5InstrumentedUpdateSummary['changesByConfidence'][Q5ConfidenceBucket]]
+  >) {
+    bucket.meanAbsAppliedDelta = bucket.updates
+      ? roundMetric(absoluteTotals[confidence] / bucket.updates)
+      : 0
+    bucket.maxAbsAppliedDelta = roundMetric(bucket.maxAbsAppliedDelta)
+  }
+
+  return {
+    totalUpdates: logs.length,
+    alphaDistribution,
+    clampCount,
+    maxAbsAppliedDelta: roundMetric(maxAbsAppliedDelta),
+    invalidValueCount,
+    changesByConfidence,
   }
 }
 
@@ -812,6 +1061,9 @@ async function runQ5TrainingGame(params: {
   gamma: number
   maxTurns: number
   rng: () => number
+  instrumentedUpdates: boolean
+  confidenceMap: Map<string, Q5StateActionConfidence>
+  updateLogs: Q5UpdateLogEntry[]
 }): Promise<
   Omit<
     Q5GameRecord,
@@ -833,16 +1085,36 @@ async function runQ5TrainingGame(params: {
     const isLearningTurn = prevState.turn === learningSide
 
     if (isLearningTurn && pending) {
-      updateQValueQ4({
-        qTable: params.qTable,
-        state: pending.state,
-        action: pending.action,
-        reward: pendingReward,
-        nextState: prevState,
-        terminal: false,
-        alpha: params.alpha,
-        gamma: params.gamma,
-      })
+      if (params.instrumentedUpdates) {
+        params.updateLogs.push(
+          updateQValueQ5Instrumented({
+            qTable: params.qTable,
+            state: pending.state,
+            action: pending.action,
+            reward: pendingReward,
+            nextState: prevState,
+            terminal: false,
+            gamma: params.gamma,
+            confidenceMap: params.confidenceMap,
+            game: params.scheduleItem.game,
+            opponent: params.scheduleItem.opponent,
+            color: learningSide,
+            turn: turns,
+            rewardComponent: 'intermediate',
+          }),
+        )
+      } else {
+        updateQValueQ4({
+          qTable: params.qTable,
+          state: pending.state,
+          action: pending.action,
+          reward: pendingReward,
+          nextState: prevState,
+          terminal: false,
+          alpha: params.alpha,
+          gamma: params.gamma,
+        })
+      }
       pending = undefined
       pendingReward = 0
     }
@@ -883,16 +1155,36 @@ async function runQ5TrainingGame(params: {
   const finalReward = calculateFinalRewardQ5(winner, territory, learningSide)
 
   if (pending) {
-    updateQValueQ4({
-      qTable: params.qTable,
-      state: pending.state,
-      action: pending.action,
-      reward: pendingReward + finalReward.finalReward,
-      nextState: undefined,
-      terminal: true,
-      alpha: params.alpha,
-      gamma: params.gamma,
-    })
+    if (params.instrumentedUpdates) {
+      params.updateLogs.push(
+        updateQValueQ5Instrumented({
+          qTable: params.qTable,
+          state: pending.state,
+          action: pending.action,
+          reward: pendingReward + finalReward.finalReward,
+          nextState: undefined,
+          terminal: true,
+          gamma: params.gamma,
+          confidenceMap: params.confidenceMap,
+          game: params.scheduleItem.game,
+          opponent: params.scheduleItem.opponent,
+          color: learningSide,
+          turn: turns,
+          rewardComponent: 'final',
+        }),
+      )
+    } else {
+      updateQValueQ4({
+        qTable: params.qTable,
+        state: pending.state,
+        action: pending.action,
+        reward: pendingReward + finalReward.finalReward,
+        nextState: undefined,
+        terminal: true,
+        alpha: params.alpha,
+        gamma: params.gamma,
+      })
+    }
   }
 
   return {
@@ -921,6 +1213,8 @@ export async function runLearningAgentQ5Training(
   const rng = createSeededRngQ4(config.seed)
   const initialQTable = config.initialQTablePath ? loadQTable(config.initialQTablePath) : {}
   const qTable: QTableSnapshot = cloneQTable(initialQTable)
+  const confidenceMap = loadQ5ConfidenceMap(config.initialQTableBuildSummaryPath)
+  const updateLogs: Q5UpdateLogEntry[] = []
   const initialQTableEntries = Object.keys(qTable).length
   if (!config.initialQTablePath && initialQTableEntries !== 0) {
     throw new Error('Q5 pilot must start from an empty Q-table')
@@ -942,6 +1236,9 @@ export async function runLearningAgentQ5Training(
       gamma: config.gamma,
       maxTurns: config.maxTurns,
       rng,
+      instrumentedUpdates: config.instrumentedUpdates ?? false,
+      confidenceMap,
+      updateLogs,
     })
     epsilon = Math.max(epsilon * config.epsilonDecay, config.epsilonMin)
     games.push({
@@ -966,12 +1263,16 @@ export async function runLearningAgentQ5Training(
         ? 'qtable_q5_500.json'
         : config.checkpoint === 'final_finetuning_500'
           ? 'qtable_q5_final_finetuning_500.json'
-          : 'qtable_q5_pilot_40.json',
+          : config.checkpoint === 'instrumented_pilot_100'
+            ? 'qtable_q5_instrumented_pilot_100.json'
+            : 'qtable_q5_pilot_40.json',
     ),
     metadata: path.join(config.outputDir, 'metadata.json'),
     trainingSummary: path.join(config.outputDir, 'training_summary.json'),
     rewardLog: path.join(config.outputDir, 'reward_log.json'),
+    qUpdateLog: config.instrumentedUpdates ? path.join(config.outputDir, 'q_update_log.jsonl') : undefined,
   }
+  const instrumentedUpdateSummary = summarizeInstrumentedUpdates(updateLogs)
   const summary = summarizeGames({
     games,
     epsilonInitial: config.epsilonStart,
@@ -1019,6 +1320,14 @@ export async function runLearningAgentQ5Training(
     rewardLog: games.map((game) => game.reward),
     summary,
     qTableDelta: calculateQTableDelta(initialQTable, qTable),
+    instrumentedUpdates: config.instrumentedUpdates
+      ? {
+          enabled: true,
+          deltaClamp: { min: -1, max: 1 },
+          learningRateByConfidence: Q5_ALPHA_BY_CONFIDENCE,
+          updateSummary: instrumentedUpdateSummary,
+        }
+      : undefined,
     createdAt: new Date().toISOString(),
     durationMs: Date.now() - startedAt,
     outputFiles,
@@ -1029,6 +1338,13 @@ export async function runLearningAgentQ5Training(
   writeJson(outputFiles.metadata, metadata)
   writeJson(outputFiles.trainingSummary, summary)
   writeJson(outputFiles.rewardLog, metadata.rewardLog)
+  if (outputFiles.qUpdateLog) {
+    writeFileSync(
+      outputFiles.qUpdateLog,
+      `${updateLogs.map((log) => JSON.stringify(log)).join('\n')}\n`,
+      'utf8',
+    )
+  }
 
   return { qTable, metadata }
 }
@@ -1150,6 +1466,68 @@ export function validateQ5FinalFineTuning500Metadata(metadata: Q5TrainingMetadat
   if (!metadata.qTableDelta) throw new Error('Q5 fine-tuning must record qTable delta')
 }
 
+export function validateQ5InstrumentedPilot100Metadata(metadata: Q5TrainingMetadata): void {
+  if (metadata.model !== 'Q5') throw new Error('metadata.model must be Q5')
+  if (metadata.seed !== 3) throw new Error('Q5 instrumented pilot seed must be 3')
+  if (metadata.checkpoint !== 'instrumented_pilot_100') {
+    throw new Error('Q5 instrumented pilot checkpoint mismatch')
+  }
+  if (metadata.totalGames !== 100) throw new Error('Q5 instrumented pilot must contain 100 games')
+  if (metadata.newTrainingGames !== 100) {
+    throw new Error('Q5 instrumented pilot must run 100 games')
+  }
+  if (metadata.startedFromEmptyQTable) throw new Error('Q5 instrumented pilot must not start empty')
+  if (metadata.initialization !== 'heuristic_initial') {
+    throw new Error('Q5 instrumented pilot must initialize from heuristic table')
+  }
+  if (metadata.initialQTableEntries !== 19652) {
+    throw new Error('Q5 instrumented pilot initial table mismatch')
+  }
+  if (metadata.sourceQTable?.path !== Q5_HEURISTIC_INITIAL_QTABLE_PATH) {
+    throw new Error('Q5 instrumented pilot source path mismatch')
+  }
+  if (metadata.summary.gamesByOpponent.random !== 50) {
+    throw new Error('Q5 instrumented pilot random mismatch')
+  }
+  if (metadata.summary.gamesByOpponent.heuristic !== 50) {
+    throw new Error('Q5 instrumented pilot heuristic mismatch')
+  }
+  for (const key of ['random_R', 'random_B', 'heuristic_R', 'heuristic_B']) {
+    if (metadata.summary.gamesByCombination[key] !== 25) {
+      throw new Error(`Q5 instrumented pilot ${key} mismatch`)
+    }
+  }
+  if (metadata.hyperparameters.gamma !== 0.9) throw new Error('Q5 instrumented pilot gamma mismatch')
+  if (metadata.hyperparameters.epsilonStart !== 0.15) {
+    throw new Error('Q5 instrumented pilot epsilonStart mismatch')
+  }
+  if (metadata.hyperparameters.epsilonMin !== 0.02) {
+    throw new Error('Q5 instrumented pilot epsilonMin mismatch')
+  }
+  if (metadata.hyperparameters.epsilonDecay !== 0.9995) {
+    throw new Error('Q5 instrumented pilot epsilonDecay mismatch')
+  }
+  if (metadata.hyperparameters.maxTurns !== 250) {
+    throw new Error('Q5 instrumented pilot maxTurns mismatch')
+  }
+  const expectedEpsilon = Number((0.15 * 0.9995 ** 100).toFixed(4))
+  if (metadata.summary.epsilonFinal !== expectedEpsilon) {
+    throw new Error('Q5 instrumented pilot epsilon final mismatch')
+  }
+  if (!metadata.instrumentedUpdates?.enabled) {
+    throw new Error('Q5 instrumented pilot must record instrumented updates')
+  }
+  if (metadata.instrumentedUpdates.updateSummary.maxAbsAppliedDelta > 1) {
+    throw new Error('Q5 instrumented pilot applied delta clamp mismatch')
+  }
+  if (metadata.instrumentedUpdates.updateSummary.invalidValueCount !== 0) {
+    throw new Error('Q5 instrumented pilot invalid update values')
+  }
+  if (!metadata.outputFiles.qUpdateLog) {
+    throw new Error('Q5 instrumented pilot must write q_update_log.jsonl')
+  }
+}
+
 async function main(): Promise<void> {
   const command = process.argv[2] ?? 'pilot-40'
   if (command === 'train-500') {
@@ -1186,6 +1564,30 @@ async function main(): Promise<void> {
     )
     console.log(
       `[trainLearningAgentQ5] Q5 fine-tuning output: ${result.metadata.outputFiles.metadata}`,
+    )
+    return
+  }
+  if (command === 'instrumented-pilot-100') {
+    const result = await runLearningAgentQ5Training({
+      totalGames: 100,
+      checkpoint: 'instrumented_pilot_100',
+      seed: 3,
+      outputDir: Q5_INSTRUMENTED_PILOT_100_DIR,
+      initialQTablePath: Q5_HEURISTIC_INITIAL_QTABLE_PATH,
+      initialQTableBuildSummaryPath: Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH,
+      schedule: buildQ5InstrumentedPilot100Schedule(),
+      alpha: 0.03,
+      epsilonStart: 0.15,
+      epsilonMin: 0.02,
+      instrumentedUpdates: true,
+    })
+    validateQ5InstrumentedPilot100Metadata(result.metadata)
+    console.log(`[trainLearningAgentQ5] Q5 instrumented pilot games: ${result.metadata.totalGames}`)
+    console.log(
+      `[trainLearningAgentQ5] Q5 instrumented pilot entries: ${Object.keys(result.qTable).length}`,
+    )
+    console.log(
+      `[trainLearningAgentQ5] Q5 instrumented pilot output: ${result.metadata.outputFiles.metadata}`,
     )
     return
   }

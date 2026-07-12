@@ -7,15 +7,19 @@ import { makeInitialState } from '@/store/gameState'
 import { DEFAULT_Q4_TRAINING_CONFIG } from './trainLearningAgentQ4'
 import {
   DEFAULT_Q5_TRAINING_CONFIG,
+  Q5_ALPHA_BY_CONFIDENCE,
+  Q5_HEURISTIC_INITIAL_QTABLE_PATH,
   Q5_REWARD_CONFIG,
   buildBalancedQ5Schedule,
   buildQ5Checkpoint500Schedule,
   buildQ5FinalFineTuning500Schedule,
+  buildQ5InstrumentedPilot100Schedule,
   calculateFinalRewardQ5,
   calculateIntermediateRewardQ5FromMetrics,
   loadQ5Metadata,
   runLearningAgentQ5Training,
   validateQ5FinalFineTuning500Metadata,
+  validateQ5InstrumentedPilot100Metadata,
   validateQ5PilotMetadata,
   type Q5TrainingMetadata,
   type Q5TrainingScheduleItem,
@@ -364,6 +368,43 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     }
   })
 
+  it('builds the exact instrumented pilot 100 balanced schedule', () => {
+    const schedule = buildQ5InstrumentedPilot100Schedule()
+
+    expect(countSchedule(schedule)).toEqual({
+      random: 50,
+      heuristic: 50,
+      R: 50,
+      B: 50,
+      random_R: 25,
+      random_B: 25,
+      heuristic_R: 25,
+      heuristic_B: 25,
+    })
+    for (let index = 0; index < schedule.length; index += 4) {
+      expect(countSchedule(schedule.slice(index, index + 4))).toEqual({
+        random: 2,
+        heuristic: 2,
+        R: 2,
+        B: 2,
+        random_R: 1,
+        random_B: 1,
+        heuristic_R: 1,
+        heuristic_B: 1,
+      })
+    }
+  })
+
+  it('defines conservative alpha by inherited confidence for instrumented fine-tuning', () => {
+    expect(Q5_ALPHA_BY_CONFIDENCE).toEqual({
+      '1 observation': 0.03,
+      '2-5 observations': 0.02,
+      '6-20 observations': 0.01,
+      'more than 20': 0.005,
+      new: 0.03,
+    })
+  })
+
   it('validates final fine-tuning metadata shape without running 500 games', () => {
     const result = {
       model: 'Q5',
@@ -492,6 +533,208 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
 
     expect(() => validateQ5FinalFineTuning500Metadata(result)).not.toThrow()
   })
+
+  it('validates instrumented pilot metadata shape without running 100 games', () => {
+    const result = {
+      model: 'Q5',
+      seed: 3,
+      totalGames: 100,
+      checkpoint: 'instrumented_pilot_100',
+      startedFromEmptyQTable: false,
+      initialization: 'heuristic_initial',
+      sourceQTable: { path: Q5_HEURISTIC_INITIAL_QTABLE_PATH, entries: 19652 },
+      initialQTableEntries: 19652,
+      newTrainingGames: 100,
+      stateRepresentation: 'Q3',
+      policyModel: 'Q3/Q4',
+      baselineExperiment: 'Q4',
+      onlyExperimentalChange: 'reward',
+      rewardModel: 'Q5',
+      rewardConfiguration: Q5_REWARD_CONFIG,
+      hyperparameters: {
+        alpha: 0.03,
+        gamma: 0.9,
+        epsilonStart: 0.15,
+        epsilonMin: 0.02,
+        epsilonDecay: 0.9995,
+        maxTurns: 250,
+      },
+      targetDistribution: {
+        opponents: { random: 50, heuristic: 50 },
+        colors: { R: 50, B: 50 },
+        combinations: {
+          random_R: 25,
+          random_B: 25,
+          heuristic_R: 25,
+          heuristic_B: 25,
+        },
+      },
+      heuristicPolicy: {
+        placement: 'getBestPlacement',
+        playing: 'getBestHeuristicAction',
+        policy: 'default',
+      },
+      schedule: buildQ5InstrumentedPilot100Schedule(),
+      games: [],
+      rewardLog: [],
+      summary: {
+        gamesByOpponent: { random: 50, heuristic: 50 },
+        gamesByColor: { R: 50, B: 50 },
+        gamesByCombination: {
+          random_R: 25,
+          random_B: 25,
+          heuristic_R: 25,
+          heuristic_B: 25,
+        },
+        results: { games: 100, wins: 0, losses: 0, ties: 0 },
+        resultsByOpponent: {
+          random: { games: 50, wins: 0, losses: 0, ties: 0 },
+          heuristic: { games: 50, wins: 0, losses: 0, ties: 0 },
+        },
+        resultsByColor: {
+          R: { games: 50, wins: 0, losses: 0, ties: 0 },
+          B: { games: 50, wins: 0, losses: 0, ties: 0 },
+        },
+        resultsByCombination: {
+          random_R: { games: 25, wins: 0, losses: 0, ties: 0 },
+          random_B: { games: 25, wins: 0, losses: 0, ties: 0 },
+          heuristic_R: { games: 25, wins: 0, losses: 0, ties: 0 },
+          heuristic_B: { games: 25, wins: 0, losses: 0, ties: 0 },
+        },
+        qTotal: { qHits: 0, qMisses: 0, qHitRate: 0 },
+        qByOpponent: {
+          random: { qHits: 0, qMisses: 0, qHitRate: 0 },
+          heuristic: { qHits: 0, qMisses: 0, qHitRate: 0 },
+        },
+        qByColor: {
+          R: { qHits: 0, qMisses: 0, qHitRate: 0 },
+          B: { qHits: 0, qMisses: 0, qHitRate: 0 },
+        },
+        averageTerritory: { q5: 0, opponent: 0 },
+        averageTerritoryDiff: 0,
+        averageTurns: 0,
+        epsilonInitial: 0.15,
+        epsilonFinal: Number((0.15 * 0.9995 ** 100).toFixed(4)),
+        initialQTableEntries: 19652,
+        finalQTableEntries: 19652,
+        tableGrowth: 0,
+        uniqueQ3StatesVisited: 0,
+        rewards: {
+          averageTotalReward: 0,
+          averageTerritoryReward: 0,
+          averageMobilityReward: 0,
+          averageTrappedReward: 0,
+          averageLowMobilityReward: 0,
+          averageIntermediateReward: 0,
+          averageFinalReward: 0,
+          minTotalReward: 0,
+          maxTotalReward: 0,
+          minIntermediateReward: 0,
+          maxIntermediateReward: 0,
+          clampCounts: {
+            territory: 0,
+            mobility: 0,
+            trap: 0,
+            lowMobility: 0,
+            total: 0,
+            finalTerritory: 0,
+          },
+          trappedPiecesCreated: 0,
+          trappedPiecesFreed: 0,
+        },
+      },
+      qTableDelta: {
+        modifiedExistingValues: 1,
+        addedStateActionPairs: 0,
+        unchangedExistingValues: 19651,
+        inheritedAbsoluteChangeMean: 0.001,
+        inheritedAbsoluteChangeMax: 0.1,
+      },
+      instrumentedUpdates: {
+        enabled: true,
+        deltaClamp: { min: -1, max: 1 },
+        learningRateByConfidence: Q5_ALPHA_BY_CONFIDENCE,
+        updateSummary: {
+          totalUpdates: 1,
+          alphaDistribution: { '0.03': 1 },
+          clampCount: 0,
+          maxAbsAppliedDelta: 0.1,
+          invalidValueCount: 0,
+          changesByConfidence: {
+            '1 observation': {
+              updates: 1,
+              meanAbsAppliedDelta: 0.1,
+              maxAbsAppliedDelta: 0.1,
+              clampedUpdates: 0,
+            },
+            '2-5 observations': {
+              updates: 0,
+              meanAbsAppliedDelta: 0,
+              maxAbsAppliedDelta: 0,
+              clampedUpdates: 0,
+            },
+            '6-20 observations': {
+              updates: 0,
+              meanAbsAppliedDelta: 0,
+              maxAbsAppliedDelta: 0,
+              clampedUpdates: 0,
+            },
+            'more than 20': {
+              updates: 0,
+              meanAbsAppliedDelta: 0,
+              maxAbsAppliedDelta: 0,
+              clampedUpdates: 0,
+            },
+            new: {
+              updates: 0,
+              meanAbsAppliedDelta: 0,
+              maxAbsAppliedDelta: 0,
+              clampedUpdates: 0,
+            },
+          },
+        },
+      },
+      createdAt: '2026-07-12T00:00:00.000Z',
+      durationMs: 0,
+      outputFiles: {
+        qTable: 'qtable.json',
+        metadata: 'metadata.json',
+        trainingSummary: 'training_summary.json',
+        rewardLog: 'reward_log.json',
+        qUpdateLog: 'q_update_log.jsonl',
+      },
+    } satisfies Q5TrainingMetadata
+
+    expect(() => validateQ5InstrumentedPilot100Metadata(result)).not.toThrow()
+  })
+
+  it('writes an instrumented update log and clamps every individual Q delta', async () => {
+    const outputDir = path.join(makeTempDir(), 'instrumented_pilot_4')
+    const result = await runLearningAgentQ5Training({
+      totalGames: 4,
+      checkpoint: 'instrumented_pilot_100',
+      seed: 3,
+      outputDir,
+      progressEvery: 0,
+      maxTurns: 8,
+      schedule: buildQ5InstrumentedPilot100Schedule().slice(0, 4),
+      instrumentedUpdates: true,
+      epsilonStart: 0.15,
+      epsilonMin: 0.02,
+    })
+    const metadata = loadQ5Metadata(path.join(outputDir, 'metadata.json'))
+    const logPath = metadata.outputFiles.qUpdateLog
+
+    expect(logPath).toBeDefined()
+    const lines = readFileSync(path.resolve(logPath!), 'utf8').trim().split('\n')
+    expect(lines.length).toBe(result.metadata.instrumentedUpdates?.updateSummary.totalUpdates)
+    for (const line of lines) {
+      const update = JSON.parse(line) as { appliedDelta: number; rawDelta: number; newQ: number }
+      expect(Number.isFinite(update.newQ)).toBe(true)
+      expect(Math.abs(update.appliedDelta)).toBeLessThanOrEqual(1)
+      expect(Number.isFinite(update.rawDelta)).toBe(true)
+    }
+  }, 15000)
 
   it('writes and reloads a valid Q5 pilot with reward logs', async () => {
     const outputDir = path.join(makeTempDir(), 'pilot_40')

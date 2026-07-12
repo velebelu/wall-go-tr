@@ -1,0 +1,21 @@
+{
+  "createdAt": "2026-07-12T15:57:14.810Z",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\final_finetuning\\instrumented_pilot_100\\qtable_q5_instrumented_pilot_100.json",
+  "qTableEntries": 20393,
+  "hashBefore": "e9be4dd905042f5a367bd0bb9030db89ae2ddaec47dbf4b903e11d1a50c6fd93",
+  "hashAfter": "e9be4dd905042f5a367bd0bb9030db89ae2ddaec47dbf4b903e11d1a50c6fd93",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\evaluaciones\\instrumented_pilot_100_eval200",
+  "protocol": {
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "totalGames": 400,
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "alphaUpdates": false,
+    "qTableFrozen": true
+  }
+}
