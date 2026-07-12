@@ -60,6 +60,10 @@ export const Q5_HYBRID_FINAL_CHECKPOINT_500_EVAL_DIR = path.join(
   Q5_BASE_DIR,
   'hybrid/evaluacion_final_checkpoint_500_eval200',
 )
+export const Q5_HYBRID_FINAL_CHECKPOINT_500_EXTENDED_VALIDATION_DIR = path.join(
+  Q5_BASE_DIR,
+  'hybrid/validacion_extendida_final_checkpoint_500',
+)
 
 export type Q5OpponentKind = Q4OpponentKind
 
@@ -2203,15 +2207,16 @@ function summarizeBlockVariability(values: number[]) {
 function summarizeExtendedThresholdVariant(
   variant: Q5ThresholdPolicyVariant | { id: 'heuristic'; minConfidence: null; minMargin: null },
   results: Q5ThresholdEvaluationGameResult[],
+  seedBase = 702000,
 ) {
   const blockSummaries = [1, 2, 3, 4, 5].map((block) => {
     const blockResults = results.filter(
-      (result) => Math.floor((result.seed - 702001) / 400) + 1 === block,
+      (result) => Math.floor((result.seed - seedBase - 1) / 400) + 1 === block,
     )
     return {
       block,
-      seedStart: 702000 + (block - 1) * 400 + 1,
-      seedEnd: 702000 + block * 400,
+      seedStart: seedBase + (block - 1) * 400 + 1,
+      seedEnd: seedBase + block * 400,
       aggregate: summarizeExtendedThresholdGroup(blockResults),
       byRival: {
         random: summarizeExtendedThresholdGroup(blockResults.filter((result) => result.rival === 'random')),
@@ -2533,6 +2538,249 @@ export async function evaluateQ5HybridFinalCheckpoint500(options: {
     confidenceDefinition: summary.confidenceDefinition,
   })
   return { summary, results: allResults }
+}
+
+function extendedPairKey(result: Q5ThresholdEvaluationGameResult): string {
+  return `${result.seed}|${result.rival}|${result.colorQ5}|${result.game}`
+}
+
+function pairedComparisonToCsv(rows: Array<{
+  seed: number
+  block: number
+  rival: Q5OpponentKind
+  game: number
+  colorQ5: Player
+  q5Winner: Player | 'tie'
+  heuristicWinner: Player | 'tie'
+  q5Won: boolean
+  heuristicWon: boolean
+  q5TerritorialDiff: number
+  heuristicTerritorialDiff: number
+  diffDelta: number
+  q5AcceptedOverrides: number
+  q5RejectedOverrides: number
+}>): string {
+  const headers = [
+    'seed',
+    'block',
+    'rival',
+    'game',
+    'colorQ5',
+    'q5Winner',
+    'heuristicWinner',
+    'q5Won',
+    'heuristicWon',
+    'q5TerritorialDiff',
+    'heuristicTerritorialDiff',
+    'diffDelta',
+    'q5AcceptedOverrides',
+    'q5RejectedOverrides',
+  ]
+  return [
+    headers.join(','),
+    ...rows.map((row) =>
+      [
+        row.seed,
+        row.block,
+        row.rival,
+        row.game,
+        row.colorQ5,
+        row.q5Winner,
+        row.heuristicWinner,
+        row.q5Won,
+        row.heuristicWon,
+        row.q5TerritorialDiff,
+        row.heuristicTerritorialDiff,
+        row.diffDelta,
+        row.q5AcceptedOverrides,
+        row.q5RejectedOverrides,
+      ]
+        .map(csvEscape)
+        .join(','),
+    ),
+  ].join('\n')
+}
+
+export async function evaluateQ5HybridFinalCheckpoint500Extended(options: {
+  qTablePath?: string
+  qUpdateLogPath?: string
+  outputDir?: string
+  overwrite?: boolean
+} = {}): Promise<{ summary: unknown; results: Q5ThresholdEvaluationGameResult[] }> {
+  const outputDir = path.resolve(
+    options.outputDir ?? Q5_HYBRID_FINAL_CHECKPOINT_500_EXTENDED_VALIDATION_DIR,
+  )
+  assertOutputCanBeWritten(outputDir, options.overwrite ?? false)
+  const qTablePath = path.resolve(
+    options.qTablePath ?? path.join(Q5_HYBRID_FINAL_CHECKPOINT_500_DIR, 'qtable_q5_hybrid_final_500.json'),
+  )
+  const qTable = Object.freeze({ ...loadQTable(qTablePath) }) as QTableSnapshot
+  const hashBefore = hashFile(qTablePath)
+  const fingerprintBefore = qTableFingerprint(qTable)
+  const confidenceMap = loadQ5ConfidenceMap(Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH)
+  const qUpdateLogPath =
+    options.qUpdateLogPath ?? path.join(Q5_HYBRID_FINAL_CHECKPOINT_500_DIR, 'q_update_log.jsonl')
+  const qLearningUpdateCounts = loadQUpdateCountsFromJsonl(qUpdateLogPath)
+  const variant: Q5ThresholdPolicyVariant = { id: 'E', minConfidence: 10, minMargin: 0.5 }
+  const q5Results: Q5ThresholdEvaluationGameResult[] = []
+  const heuristicResults: Q5ThresholdEvaluationGameResult[] = []
+
+  for (let block = 1; block <= 5; block++) {
+    let gameInBlock = 0
+    for (const rival of ['random', 'heuristic'] as const) {
+      for (const colorQ5 of ['R', 'B'] as const) {
+        for (let game = 1; game <= 100; game++) {
+          gameInBlock++
+          const seed = 802000 + (block - 1) * 400 + gameInBlock
+          const q5Result = await runSingleThresholdEvaluationGame({
+            variant,
+            rival,
+            game,
+            seed,
+            q5Color: colorQ5,
+            qTable,
+            qTablePath,
+            initialFileHash: hashBefore,
+            initialFingerprint: fingerprintBefore,
+            confidenceMap,
+            qLearningUpdateCounts,
+          })
+          if (q5Result.qTableChangedDuringEvaluation) {
+            throw new Error('Q5 hybrid final extended validation qTable changed during evaluation')
+          }
+          q5Results.push(q5Result)
+          heuristicResults.push(
+            await runSingleHeuristicControlEvaluationGame({
+              rival,
+              game,
+              seed,
+              q5Color: colorQ5,
+            }),
+          )
+        }
+      }
+    }
+  }
+
+  const pairedRows = q5Results.map((q5Result) => {
+    const heuristicResult = heuristicResults.find(
+      (result) => extendedPairKey(result) === extendedPairKey(q5Result),
+    )
+    if (!heuristicResult) throw new Error('Missing paired heuristic result')
+    return {
+      seed: q5Result.seed,
+      block: Math.floor((q5Result.seed - 802001) / 400) + 1,
+      rival: q5Result.rival,
+      game: q5Result.game,
+      colorQ5: q5Result.colorQ5,
+      q5Winner: q5Result.winner,
+      heuristicWinner: heuristicResult.winner,
+      q5Won: q5Result.q5Won,
+      heuristicWon: heuristicResult.q5Won,
+      q5TerritorialDiff: q5Result.territorialDiff,
+      heuristicTerritorialDiff: heuristicResult.territorialDiff,
+      diffDelta: q5Result.territorialDiff - heuristicResult.territorialDiff,
+      q5AcceptedOverrides: q5Result.decisions.qOverridesAccepted,
+      q5RejectedOverrides: q5Result.decisions.qOverridesRejected,
+    }
+  })
+
+  const q5Summary = summarizeExtendedThresholdVariant(variant, q5Results, 802000)
+  const heuristicSummary = summarizeExtendedThresholdVariant(
+    { id: 'heuristic', minConfidence: null, minMargin: null },
+    heuristicResults,
+    802000,
+  )
+  const pairedByRival = Object.fromEntries(
+    (['random', 'heuristic'] as const).map((rival) => {
+      const rows = pairedRows.filter((row) => row.rival === rival)
+      const q5Better = rows.filter(
+        (row) =>
+          (row.q5Won && !row.heuristicWon) ||
+          (row.q5Won === row.heuristicWon && row.diffDelta > 0),
+      ).length
+      const heuristicBetter = rows.filter(
+        (row) =>
+          (!row.q5Won && row.heuristicWon) ||
+          (row.q5Won === row.heuristicWon && row.diffDelta < 0),
+      ).length
+      const sameOutcomeAndDiff = rows.length - q5Better - heuristicBetter
+      return [
+        rival,
+        {
+          games: rows.length,
+          q5Better,
+          heuristicBetter,
+          sameOutcomeAndDiff,
+          q5BetterRate: roundMetric((q5Better / rows.length) * 100),
+          heuristicBetterRate: roundMetric((heuristicBetter / rows.length) * 100),
+          averageTerritorialDiffDelta: roundMetric(
+            rows.reduce((sum, row) => sum + row.diffDelta, 0) / rows.length,
+          ),
+          gamesWithAcceptedOverrides: rows.filter((row) => row.q5AcceptedOverrides > 0).length,
+          acceptedOverrides: rows.reduce((sum, row) => sum + row.q5AcceptedOverrides, 0),
+        },
+      ]
+    }),
+  )
+  const hashAfter = hashFile(qTablePath)
+  const summary = {
+    createdAt: new Date().toISOString(),
+    model: 'Q5',
+    experiment: 'hybrid_final_checkpoint_500_extended_validation',
+    qTablePath,
+    qTableEntries: Object.keys(qTable).length,
+    qTableHashBefore: hashBefore,
+    qTableHashAfter: hashAfter,
+    qTableChangedDuringEvaluation: hashBefore !== hashAfter || qTableFingerprint(qTable) !== fingerprintBefore,
+    confidenceDefinition: {
+      value: 'max(originalDatasetObservations, qLearningUpdatesAfterInitialization)',
+      originalDatasetObservations: Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH,
+      qLearningUpdatesAfterInitialization: qUpdateLogPath,
+      qLearningUpdateCountsLoaded: qLearningUpdateCounts.size,
+    },
+    protocol: {
+      epsilon: 0,
+      learnsDuringEvaluation: false,
+      qTableFrozen: true,
+      alphaUpdates: false,
+      representation: 'Q3',
+      seedBase: 802000,
+      blocks: 5,
+      gamesPerBlock: 400,
+      gamesPerModel: 2000,
+      gamesPerRival: 1000,
+      gamesPerColorPerRival: 500,
+      maxTurns: 250,
+      variant,
+      models: ['Q5-hybrid-final-500', 'heuristic-original'],
+    },
+    models: {
+      q5HybridFinal500: q5Summary,
+      heuristicOriginal: heuristicSummary,
+    },
+    pairedComparison: pairedByRival,
+  }
+  if (summary.qTableChangedDuringEvaluation) {
+    throw new Error('Q5 hybrid final extended validation qTable changed during evaluation')
+  }
+
+  mkdirSync(outputDir, { recursive: true })
+  writeJson(path.join(outputDir, 'extended_validation_summary.json'), summary)
+  writeFileSync(
+    path.join(outputDir, 'extended_validation_results.csv'),
+    `${thresholdResultsToCsv([...q5Results, ...heuristicResults])}\n`,
+    'utf8',
+  )
+  writeFileSync(path.join(outputDir, 'paired_comparison.csv'), `${pairedComparisonToCsv(pairedRows)}\n`, 'utf8')
+  writeJson(path.join(outputDir, 'metadata.json'), {
+    createdAt: summary.createdAt,
+    qTablePath,
+    outputDir,
+    confidenceDefinition: summary.confidenceDefinition,
+    protocol: summary.protocol,
+  })
+  return { summary, results: [...q5Results, ...heuristicResults] }
 }
 
 async function runQ5TrainingGame(params: {
@@ -3251,6 +3499,14 @@ async function main(): Promise<void> {
     const result = await evaluateQ5HybridFinalCheckpoint500()
     console.log(`[trainLearningAgentQ5] Q5 hybrid final evaluation games: ${result.results.length}`)
     console.log(`[trainLearningAgentQ5] Q5 hybrid final evaluation output: ${Q5_HYBRID_FINAL_CHECKPOINT_500_EVAL_DIR}`)
+    return
+  }
+  if (command === 'hybrid-validate-final-500-extended') {
+    const result = await evaluateQ5HybridFinalCheckpoint500Extended()
+    console.log(`[trainLearningAgentQ5] Q5 hybrid final extended validation games: ${result.results.length}`)
+    console.log(
+      `[trainLearningAgentQ5] Q5 hybrid final extended validation output: ${Q5_HYBRID_FINAL_CHECKPOINT_500_EXTENDED_VALIDATION_DIR}`,
+    )
     return
   }
   if (command === 'train-500') {

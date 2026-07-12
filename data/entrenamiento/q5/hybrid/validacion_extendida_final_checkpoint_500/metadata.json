@@ -1,0 +1,34 @@
+{
+  "createdAt": "2026-07-12T19:25:08.434Z",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\qtable_q5_hybrid_final_500.json",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\validacion_extendida_final_checkpoint_500",
+  "confidenceDefinition": {
+    "value": "max(originalDatasetObservations, qLearningUpdatesAfterInitialization)",
+    "originalDatasetObservations": "data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json",
+    "qLearningUpdatesAfterInitialization": "data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\q_update_log.jsonl",
+    "qLearningUpdateCountsLoaded": 6809
+  },
+  "protocol": {
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "qTableFrozen": true,
+    "alphaUpdates": false,
+    "representation": "Q3",
+    "seedBase": 802000,
+    "blocks": 5,
+    "gamesPerBlock": 400,
+    "gamesPerModel": 2000,
+    "gamesPerRival": 1000,
+    "gamesPerColorPerRival": 500,
+    "maxTurns": 250,
+    "variant": {
+      "id": "E",
+      "minConfidence": 10,
+      "minMargin": 0.5
+    },
+    "models": [
+      "Q5-hybrid-final-500",
+      "heuristic-original"
+    ]
+  }
+}
