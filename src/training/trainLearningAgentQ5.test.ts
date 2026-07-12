@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -14,6 +14,7 @@ import {
   buildBalancedQ5Schedule,
   buildQ5Checkpoint500Schedule,
   buildQ5FinalFineTuning500Schedule,
+  buildQ5HybridFinal1000ContinuationSchedule,
   buildQ5HybridPilot100Schedule,
   buildQ5InstrumentedPilot100Schedule,
   calculateFinalRewardQ5,
@@ -23,6 +24,7 @@ import {
   loadQ5Metadata,
   runLearningAgentQ5Training,
   validateQ5FinalFineTuning500Metadata,
+  validateQ5HybridFinal1000Metadata,
   validateQ5HybridPilot100Metadata,
   validateQ5InstrumentedPilot100Metadata,
   validateQ5PilotMetadata,
@@ -165,9 +167,9 @@ describe('trainLearningAgentQ5 configuration', () => {
     expect(source).not.toContain('qtable_q3')
     expect(source).not.toContain('qtable_q2')
     expect(source).not.toContain('qtable_q1')
-    expect(source).not.toContain('checkpoint_1000')
     expect(source).not.toContain('checkpoint_1500')
     expect(source).not.toContain('checkpoint_2000')
+    expect(source).not.toContain('hybrid-final-2000')
     expect(source).not.toContain('evaluateLearningAgent')
     expect(source).not.toContain('seed: 13')
     expect(source).not.toContain('seed: 23')
@@ -349,6 +351,35 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
   it('builds the exact final fine-tuning 500 balanced schedule', () => {
     const schedule = buildQ5FinalFineTuning500Schedule()
 
+    expect(countSchedule(schedule)).toEqual({
+      random: 250,
+      heuristic: 250,
+      R: 250,
+      B: 250,
+      random_R: 125,
+      random_B: 125,
+      heuristic_R: 125,
+      heuristic_B: 125,
+    })
+    for (let index = 0; index < schedule.length; index += 4) {
+      expect(countSchedule(schedule.slice(index, index + 4))).toEqual({
+        random: 2,
+        heuristic: 2,
+        R: 2,
+        B: 2,
+        random_R: 1,
+        random_B: 1,
+        heuristic_R: 1,
+        heuristic_B: 1,
+      })
+    }
+  })
+
+  it('builds the exact hybrid final 1000 continuation schedule', () => {
+    const schedule = buildQ5HybridFinal1000ContinuationSchedule()
+
+    expect(schedule[0].game).toBe(501)
+    expect(schedule[schedule.length - 1]?.game).toBe(1000)
     expect(countSchedule(schedule)).toEqual({
       random: 250,
       heuristic: 250,
@@ -1015,6 +1046,52 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
       expect(Math.abs(update.appliedDelta)).toBeLessThanOrEqual(1)
       expect(Number.isFinite(update.rawDelta)).toBe(true)
     }
+  }, 15000)
+
+  it('continues hybrid final training from a prior checkpoint without resetting epsilon or confidence updates', async () => {
+    const tempDir = makeTempDir()
+    const state = snapshotFromState(makeInitialState())
+    const action = getLegalActions(state)[0]
+    const stateActionKey = getLearningQTableKeyQ3(state, action)
+    const initialQTablePath = path.join(tempDir, 'qtable_q5_hybrid_final_500.json')
+    const previousLogPath = path.join(tempDir, 'q_update_log.jsonl')
+    writeFileSync(initialQTablePath, `${JSON.stringify({ [stateActionKey]: 0.5 }, null, 2)}\n`, 'utf8')
+    writeFileSync(
+      previousLogPath,
+      `${JSON.stringify({ stateActionKey })}\n${JSON.stringify({ stateActionKey })}\n`,
+      'utf8',
+    )
+
+    const result = await runLearningAgentQ5Training({
+      totalGames: 4,
+      accumulatedTotalGames: 1000,
+      checkpoint: 'hybrid_final_1000',
+      seed: 3,
+      outputDir: path.join(tempDir, 'final_checkpoint_1000'),
+      initialQTablePath,
+      initializationLabel: 'hybrid_final_500',
+      previousQUpdateLogPath: previousLogPath,
+      schedule: buildQ5HybridFinal1000ContinuationSchedule().slice(0, 4),
+      progressEvery: 0,
+      maxTurns: 8,
+      alpha: 0.03,
+      epsilonStart: 0.077875209331346,
+      epsilonMin: 0.02,
+      instrumentedUpdates: true,
+      thresholdPolicy: { id: 'E', minConfidence: 10, minMargin: 0.5 },
+    })
+
+    expect(result.metadata.totalGames).toBe(1000)
+    expect(result.metadata.newTrainingGames).toBe(4)
+    expect(result.metadata.games).toHaveLength(4)
+    expect(result.metadata.initialization).toBe('hybrid_final_500')
+    expect(result.metadata.initialQTableEntries).toBe(1)
+    expect(result.metadata.continuation?.qLearningUpdateCountsLoadedBeforeTraining).toBe(1)
+    expect(result.metadata.summary.epsilonInitial).toBe(0.077875209331346)
+    expect(result.metadata.summary.epsilonFinal).toBe(Number((0.077875209331346 * 0.9995 ** 4).toFixed(4)))
+    expect(result.metadata.summary.thresholdPolicy?.variant).toEqual({ id: 'E', minConfidence: 10, minMargin: 0.5 })
+    expect(result.metadata.instrumentedUpdates?.updateSummary.maxAbsAppliedDelta).toBeLessThanOrEqual(1)
+    expect(() => validateQ5HybridFinal1000Metadata(result.metadata)).toThrow('must run 500 new games')
   }, 15000)
 
   it('writes and reloads a valid Q5 pilot with reward logs', async () => {
