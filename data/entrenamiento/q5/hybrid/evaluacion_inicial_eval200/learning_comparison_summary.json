@@ -1,0 +1,121 @@
+{
+  "createdAt": "2026-07-12T16:21:37.299Z",
+  "model": "Q5",
+  "checkpoint": "Q5-hybrid-initial",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\qtable_q5_heuristic_initial.json",
+  "qTableEntries": 19652,
+  "qTableHashBefore": "cc901a6c3ee8f6bb196781109e665eea12ad8675d58b13565146326f863694de",
+  "qTableHashAfter": "cc901a6c3ee8f6bb196781109e665eea12ad8675d58b13565146326f863694de",
+  "qTableChangedDuringEvaluation": false,
+  "hybridPolicy": {
+    "enabled": true,
+    "confidenceThreshold": 3,
+    "fallback": "heuristic",
+    "epsilon": 0,
+    "qLearningUpdateCountsLoaded": 0
+  },
+  "evaluationProtocol": {
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "qTableFrozen": true,
+    "alphaUpdates": false,
+    "representation": "Q3",
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "maxTurns": 250
+  },
+  "experiments": [
+    {
+      "rival": "random",
+      "games": 200,
+      "wins": 194,
+      "losses": 6,
+      "ties": 0,
+      "winRate": 97,
+      "byColor": {
+        "R": {
+          "games": 100,
+          "wins": 96,
+          "losses": 4,
+          "ties": 0,
+          "winRate": 96
+        },
+        "B": {
+          "games": 100,
+          "wins": 98,
+          "losses": 2,
+          "ties": 0,
+          "winRate": 98
+        }
+      },
+      "averageTerritoryQ5": 33.99,
+      "averageTerritoryRival": 7.52,
+      "averageTerritorialDiff": 26.47,
+      "averageTurns": 77.28,
+      "qHits": 2987,
+      "qMisses": 1331,
+      "qHitRate": 69.1755,
+      "hybridDecisions": {
+        "qReliable": 2850,
+        "heuristicFallback": 1468,
+        "randomExploration": 0
+      },
+      "hybridDecisionPercentages": {
+        "qReliable": 66.0028,
+        "heuristicFallback": 33.9972,
+        "randomExploration": 0
+      },
+      "qTableChangedDuringEvaluation": false,
+      "hashBefore": "cc901a6c3ee8f6bb196781109e665eea12ad8675d58b13565146326f863694de",
+      "hashAfter": "cc901a6c3ee8f6bb196781109e665eea12ad8675d58b13565146326f863694de"
+    },
+    {
+      "rival": "heuristic",
+      "games": 200,
+      "wins": 28,
+      "losses": 170,
+      "ties": 2,
+      "winRate": 14,
+      "byColor": {
+        "R": {
+          "games": 100,
+          "wins": 12,
+          "losses": 87,
+          "ties": 1,
+          "winRate": 12
+        },
+        "B": {
+          "games": 100,
+          "wins": 16,
+          "losses": 83,
+          "ties": 1,
+          "winRate": 16
+        }
+      },
+      "averageTerritoryQ5": 12.675,
+      "averageTerritoryRival": 28.125,
+      "averageTerritorialDiff": -15.45,
+      "averageTurns": 82.185,
+      "qHits": 2375,
+      "qMisses": 2100,
+      "qHitRate": 53.0726,
+      "hybridDecisions": {
+        "qReliable": 2094,
+        "heuristicFallback": 2381,
+        "randomExploration": 0
+      },
+      "hybridDecisionPercentages": {
+        "qReliable": 46.7933,
+        "heuristicFallback": 53.2067,
+        "randomExploration": 0
+      },
+      "qTableChangedDuringEvaluation": false,
+      "hashBefore": "cc901a6c3ee8f6bb196781109e665eea12ad8675d58b13565146326f863694de",
+      "hashAfter": "cc901a6c3ee8f6bb196781109e665eea12ad8675d58b13565146326f863694de"
+    }
+  ]
+}
