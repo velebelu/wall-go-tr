@@ -10,10 +10,12 @@ import {
   Q5_REWARD_CONFIG,
   buildBalancedQ5Schedule,
   buildQ5Checkpoint500Schedule,
+  buildQ5FinalFineTuning500Schedule,
   calculateFinalRewardQ5,
   calculateIntermediateRewardQ5FromMetrics,
   loadQ5Metadata,
   runLearningAgentQ5Training,
+  validateQ5FinalFineTuning500Metadata,
   validateQ5PilotMetadata,
   type Q5TrainingMetadata,
   type Q5TrainingScheduleItem,
@@ -333,6 +335,162 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
         heuristic_B: 3,
       })
     }
+  })
+
+  it('builds the exact final fine-tuning 500 balanced schedule', () => {
+    const schedule = buildQ5FinalFineTuning500Schedule()
+
+    expect(countSchedule(schedule)).toEqual({
+      random: 250,
+      heuristic: 250,
+      R: 250,
+      B: 250,
+      random_R: 125,
+      random_B: 125,
+      heuristic_R: 125,
+      heuristic_B: 125,
+    })
+    for (let index = 0; index < schedule.length; index += 4) {
+      expect(countSchedule(schedule.slice(index, index + 4))).toEqual({
+        random: 2,
+        heuristic: 2,
+        R: 2,
+        B: 2,
+        random_R: 1,
+        random_B: 1,
+        heuristic_R: 1,
+        heuristic_B: 1,
+      })
+    }
+  })
+
+  it('validates final fine-tuning metadata shape without running 500 games', () => {
+    const result = {
+      model: 'Q5',
+      seed: 3,
+      totalGames: 500,
+      checkpoint: 'final_finetuning_500',
+      startedFromEmptyQTable: false,
+      initialization: 'heuristic_initial',
+      sourceQTable: { path: 'qtable_q5_heuristic_initial.json', entries: 19652 },
+      initialQTableEntries: 19652,
+      newTrainingGames: 500,
+      stateRepresentation: 'Q3',
+      policyModel: 'Q3/Q4',
+      baselineExperiment: 'Q4',
+      onlyExperimentalChange: 'reward',
+      rewardModel: 'Q5',
+      rewardConfiguration: Q5_REWARD_CONFIG,
+      hyperparameters: {
+        alpha: 0.03,
+        gamma: 0.9,
+        epsilonStart: 0.15,
+        epsilonMin: 0.02,
+        epsilonDecay: 0.9995,
+        maxTurns: 250,
+      },
+      targetDistribution: {
+        opponents: { random: 250, heuristic: 250 },
+        colors: { R: 250, B: 250 },
+        combinations: {
+          random_R: 125,
+          random_B: 125,
+          heuristic_R: 125,
+          heuristic_B: 125,
+        },
+      },
+      heuristicPolicy: {
+        placement: 'getBestPlacement',
+        playing: 'getBestHeuristicAction',
+        policy: 'default',
+      },
+      schedule: buildQ5FinalFineTuning500Schedule(),
+      games: [],
+      rewardLog: [],
+      summary: {
+        gamesByOpponent: { random: 250, heuristic: 250 },
+        gamesByColor: { R: 250, B: 250 },
+        gamesByCombination: {
+          random_R: 125,
+          random_B: 125,
+          heuristic_R: 125,
+          heuristic_B: 125,
+        },
+        results: { games: 500, wins: 0, losses: 0, ties: 0 },
+        resultsByOpponent: {
+          random: { games: 250, wins: 0, losses: 0, ties: 0 },
+          heuristic: { games: 250, wins: 0, losses: 0, ties: 0 },
+        },
+        resultsByColor: {
+          R: { games: 250, wins: 0, losses: 0, ties: 0 },
+          B: { games: 250, wins: 0, losses: 0, ties: 0 },
+        },
+        resultsByCombination: {
+          random_R: { games: 125, wins: 0, losses: 0, ties: 0 },
+          random_B: { games: 125, wins: 0, losses: 0, ties: 0 },
+          heuristic_R: { games: 125, wins: 0, losses: 0, ties: 0 },
+          heuristic_B: { games: 125, wins: 0, losses: 0, ties: 0 },
+        },
+        qTotal: { qHits: 0, qMisses: 0, qHitRate: 0 },
+        qByOpponent: {
+          random: { qHits: 0, qMisses: 0, qHitRate: 0 },
+          heuristic: { qHits: 0, qMisses: 0, qHitRate: 0 },
+        },
+        qByColor: {
+          R: { qHits: 0, qMisses: 0, qHitRate: 0 },
+          B: { qHits: 0, qMisses: 0, qHitRate: 0 },
+        },
+        averageTerritory: { q5: 0, opponent: 0 },
+        averageTerritoryDiff: 0,
+        averageTurns: 0,
+        epsilonInitial: 0.15,
+        epsilonFinal: Number((0.15 * 0.9995 ** 500).toFixed(4)),
+        initialQTableEntries: 19652,
+        finalQTableEntries: 19652,
+        tableGrowth: 0,
+        uniqueQ3StatesVisited: 0,
+        rewards: {
+          averageTotalReward: 0,
+          averageTerritoryReward: 0,
+          averageMobilityReward: 0,
+          averageTrappedReward: 0,
+          averageLowMobilityReward: 0,
+          averageIntermediateReward: 0,
+          averageFinalReward: 0,
+          minTotalReward: 0,
+          maxTotalReward: 0,
+          minIntermediateReward: 0,
+          maxIntermediateReward: 0,
+          clampCounts: {
+            territory: 0,
+            mobility: 0,
+            trap: 0,
+            lowMobility: 0,
+            total: 0,
+            finalTerritory: 0,
+          },
+          trappedPiecesCreated: 0,
+          trappedPiecesFreed: 0,
+        },
+      },
+      qTableDelta: {
+        modifiedExistingValues: 1,
+        addedStateActionPairs: 0,
+        unchangedExistingValues: 19651,
+        inheritedAbsoluteChangeMean: 0.001,
+        inheritedAbsoluteChangeMax: 0.1,
+      },
+      createdAt: '2026-07-12T00:00:00.000Z',
+      durationMs: 0,
+      outputFiles: {
+        qTable: 'qtable.json',
+        metadata: 'metadata.json',
+        trainingSummary: 'training_summary.json',
+        rewardLog: 'reward_log.json',
+      },
+    } satisfies Q5TrainingMetadata
+
+    expect(() => validateQ5FinalFineTuning500Metadata(result)).not.toThrow()
   })
 
   it('writes and reloads a valid Q5 pilot with reward logs', async () => {

@@ -21,6 +21,7 @@ import {
 export const Q5_BASE_DIR = 'data/entrenamiento/q5'
 export const Q5_PILOT_40_DIR = path.join(Q5_BASE_DIR, 'pilot_40')
 export const Q5_CHECKPOINT_500_DIR = path.join(Q5_BASE_DIR, 'checkpoint_500')
+export const Q5_FINAL_FINETUNING_500_DIR = path.join(Q5_BASE_DIR, 'final_finetuning/checkpoint_500')
 export const Q5_HEURISTIC_INITIAL_QTABLE_PATH = path.join(
   Q5_BASE_DIR,
   'heuristic_initial_qtable/qtable_q5_heuristic_initial.json',
@@ -36,7 +37,7 @@ export interface Q5TrainingScheduleItem {
 
 export interface Q5TrainingConfig {
   totalGames: number
-  checkpoint: 'pilot_40' | 500
+  checkpoint: 'pilot_40' | 500 | 'final_finetuning_500'
   seed: number
   outputDir: string
   alpha: number
@@ -234,7 +235,7 @@ export interface Q5TrainingMetadata {
   model: 'Q5'
   seed: number
   totalGames: number
-  checkpoint: 'pilot_40' | 500
+  checkpoint: 'pilot_40' | 500 | 'final_finetuning_500'
   startedFromEmptyQTable: boolean
   initialization: 'empty' | 'heuristic_initial'
   sourceQTable?: {
@@ -275,6 +276,8 @@ export interface Q5TrainingMetadata {
     modifiedExistingValues: number
     addedStateActionPairs: number
     unchangedExistingValues: number
+    inheritedAbsoluteChangeMean: number
+    inheritedAbsoluteChangeMax: number
   }
   createdAt: string
   durationMs: number
@@ -341,6 +344,22 @@ export function buildQ5Checkpoint500Schedule(): Q5TrainingScheduleItem[] {
   return schedule
 }
 
+export function buildQ5FinalFineTuning500Schedule(): Q5TrainingScheduleItem[] {
+  const block = [
+    ['random', 'R'],
+    ['heuristic', 'B'],
+    ['random', 'B'],
+    ['heuristic', 'R'],
+  ] satisfies Array<[Q5OpponentKind, Player]>
+  const schedule: Q5TrainingScheduleItem[] = []
+  for (let cycle = 0; cycle < 125; cycle++) {
+    for (const [opponent, learningColor] of block) {
+      schedule.push({ game: schedule.length + 1, opponent, learningColor })
+    }
+  }
+  return schedule
+}
+
 function loadQTable(qTablePath: string): QTableSnapshot {
   return JSON.parse(readFileSync(path.resolve(qTablePath), 'utf8')) as QTableSnapshot
 }
@@ -369,12 +388,29 @@ function calculateQTableDelta(initial: QTableSnapshot, final: QTableSnapshot) {
   let modifiedExistingValues = 0
   let unchangedExistingValues = 0
   let addedStateActionPairs = 0
+  let inheritedAbsoluteChangeTotal = 0
+  let inheritedAbsoluteChangeMax = 0
+  let inheritedEntries = 0
   for (const [key, value] of Object.entries(final)) {
     if (initial[key] === undefined) addedStateActionPairs++
-    else if (initial[key] === value) unchangedExistingValues++
-    else modifiedExistingValues++
+    else {
+      inheritedEntries++
+      const absoluteChange = Math.abs(value - initial[key])
+      inheritedAbsoluteChangeTotal += absoluteChange
+      inheritedAbsoluteChangeMax = Math.max(inheritedAbsoluteChangeMax, absoluteChange)
+      if (initial[key] === value) unchangedExistingValues++
+      else modifiedExistingValues++
+    }
   }
-  return { modifiedExistingValues, addedStateActionPairs, unchangedExistingValues }
+  return {
+    modifiedExistingValues,
+    addedStateActionPairs,
+    unchangedExistingValues,
+    inheritedAbsoluteChangeMean: inheritedEntries
+      ? roundMetric(inheritedAbsoluteChangeTotal / inheritedEntries)
+      : 0,
+    inheritedAbsoluteChangeMax: roundMetric(inheritedAbsoluteChangeMax),
+  }
 }
 
 export function calculateIntermediateRewardQ5FromMetrics(params: {
@@ -926,7 +962,11 @@ export async function runLearningAgentQ5Training(
   const outputFiles = {
     qTable: path.join(
       config.outputDir,
-      config.checkpoint === 500 ? 'qtable_q5_500.json' : 'qtable_q5_pilot_40.json',
+      config.checkpoint === 500
+        ? 'qtable_q5_500.json'
+        : config.checkpoint === 'final_finetuning_500'
+          ? 'qtable_q5_final_finetuning_500.json'
+          : 'qtable_q5_pilot_40.json',
     ),
     metadata: path.join(config.outputDir, 'metadata.json'),
     trainingSummary: path.join(config.outputDir, 'training_summary.json'),
@@ -1063,6 +1103,53 @@ export function validateQ5Checkpoint500Metadata(metadata: Q5TrainingMetadata): v
   if (!metadata.qTableDelta) throw new Error('Q5-500 must record qTable delta')
 }
 
+export function validateQ5FinalFineTuning500Metadata(metadata: Q5TrainingMetadata): void {
+  if (metadata.model !== 'Q5') throw new Error('metadata.model must be Q5')
+  if (metadata.seed !== 3) throw new Error('Q5 fine-tuning seed must be 3')
+  if (metadata.checkpoint !== 'final_finetuning_500') {
+    throw new Error('Q5 fine-tuning checkpoint mismatch')
+  }
+  if (metadata.totalGames !== 500) throw new Error('Q5 fine-tuning must contain 500 games')
+  if (metadata.newTrainingGames !== 500) throw new Error('Q5 fine-tuning must run 500 games')
+  if (metadata.startedFromEmptyQTable) throw new Error('Q5 fine-tuning must not start empty')
+  if (metadata.initialization !== 'heuristic_initial') {
+    throw new Error('Q5 fine-tuning must initialize from heuristic table')
+  }
+  if (metadata.initialQTableEntries !== 19652) {
+    throw new Error('Q5 fine-tuning initial table mismatch')
+  }
+  if (metadata.summary.gamesByOpponent.random !== 250) {
+    throw new Error('Q5 fine-tuning random mismatch')
+  }
+  if (metadata.summary.gamesByOpponent.heuristic !== 250) {
+    throw new Error('Q5 fine-tuning heuristic mismatch')
+  }
+  for (const key of ['random_R', 'random_B', 'heuristic_R', 'heuristic_B']) {
+    if (metadata.summary.gamesByCombination[key] !== 125) {
+      throw new Error(`Q5 fine-tuning ${key} mismatch`)
+    }
+  }
+  if (metadata.hyperparameters.alpha !== 0.03) throw new Error('Q5 fine-tuning alpha mismatch')
+  if (metadata.hyperparameters.gamma !== 0.9) throw new Error('Q5 fine-tuning gamma mismatch')
+  if (metadata.hyperparameters.epsilonStart !== 0.15) {
+    throw new Error('Q5 fine-tuning epsilonStart mismatch')
+  }
+  if (metadata.hyperparameters.epsilonMin !== 0.02) {
+    throw new Error('Q5 fine-tuning epsilonMin mismatch')
+  }
+  if (metadata.hyperparameters.epsilonDecay !== 0.9995) {
+    throw new Error('Q5 fine-tuning epsilonDecay mismatch')
+  }
+  if (metadata.hyperparameters.maxTurns !== 250) {
+    throw new Error('Q5 fine-tuning maxTurns mismatch')
+  }
+  const expectedEpsilon = Number((0.15 * 0.9995 ** 500).toFixed(4))
+  if (metadata.summary.epsilonFinal !== expectedEpsilon) {
+    throw new Error('Q5 fine-tuning epsilon final mismatch')
+  }
+  if (!metadata.qTableDelta) throw new Error('Q5 fine-tuning must record qTable delta')
+}
+
 async function main(): Promise<void> {
   const command = process.argv[2] ?? 'pilot-40'
   if (command === 'train-500') {
@@ -1078,6 +1165,28 @@ async function main(): Promise<void> {
     console.log(`[trainLearningAgentQ5] Q5-500 games: ${result.metadata.totalGames}`)
     console.log(`[trainLearningAgentQ5] Q5-500 entries: ${Object.keys(result.qTable).length}`)
     console.log(`[trainLearningAgentQ5] Q5-500 output: ${result.metadata.outputFiles.metadata}`)
+    return
+  }
+  if (command === 'final-finetune-500') {
+    const result = await runLearningAgentQ5Training({
+      totalGames: 500,
+      checkpoint: 'final_finetuning_500',
+      seed: 3,
+      outputDir: Q5_FINAL_FINETUNING_500_DIR,
+      initialQTablePath: Q5_HEURISTIC_INITIAL_QTABLE_PATH,
+      schedule: buildQ5FinalFineTuning500Schedule(),
+      alpha: 0.03,
+      epsilonStart: 0.15,
+      epsilonMin: 0.02,
+    })
+    validateQ5FinalFineTuning500Metadata(result.metadata)
+    console.log(`[trainLearningAgentQ5] Q5 fine-tuning 500 games: ${result.metadata.totalGames}`)
+    console.log(
+      `[trainLearningAgentQ5] Q5 fine-tuning entries: ${Object.keys(result.qTable).length}`,
+    )
+    console.log(
+      `[trainLearningAgentQ5] Q5 fine-tuning output: ${result.metadata.outputFiles.metadata}`,
+    )
     return
   }
   if (command !== 'pilot-40') throw new Error(`Unknown command: ${command}`)

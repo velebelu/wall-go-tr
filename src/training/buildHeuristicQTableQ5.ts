@@ -23,6 +23,10 @@ export const Q5_CHECKPOINT_500_QTABLE_PATH =
   'data/entrenamiento/q5/checkpoint_500/qtable_q5_500.json'
 export const Q5_CHECKPOINT_500_EVAL_DIR =
   'data/entrenamiento/q5/evaluaciones/checkpoint_500_eval200'
+export const Q5_FINAL_FINETUNING_500_QTABLE_PATH =
+  'data/entrenamiento/q5/final_finetuning/checkpoint_500/qtable_q5_final_finetuning_500.json'
+export const Q5_FINAL_FINETUNING_500_EVAL_DIR =
+  'data/entrenamiento/q5/evaluaciones/final_finetuning_500_eval200'
 export const Q5_HEURISTIC_INITIAL_EVALUATION_SEED = 502000
 export const Q5_HEURISTIC_INITIAL_EVALUATION_GAMES_PER_COLOR = 100
 export const Q5_HEURISTIC_INITIAL_EVALUATION_MAX_TURNS = 250
@@ -157,7 +161,7 @@ interface EvaluationRivalSummary {
 interface EvaluationSummary {
   createdAt: string
   model: 'Q5'
-  checkpoint: 'heuristic_initial' | 'Q5-500'
+  checkpoint: 'heuristic_initial' | 'Q5-500' | 'Q5-final-finetuning-500'
   qTablePath: string
   qTableEntries: number
   qTableHashBefore: string
@@ -757,7 +761,7 @@ export async function evaluateHeuristicInitialQTableQ5(
   options: {
     qTablePath?: string
     outputDir?: string
-    checkpoint?: 'heuristic_initial' | 'Q5-500'
+    checkpoint?: 'heuristic_initial' | 'Q5-500' | 'Q5-final-finetuning-500'
     seed?: number
     gamesPerColor?: number
     maxTurns?: number
@@ -895,6 +899,19 @@ async function main(): Promise<void> {
       qTablePath: Q5_CHECKPOINT_500_QTABLE_PATH,
       outputDir: Q5_CHECKPOINT_500_EVAL_DIR,
       checkpoint: 'Q5-500',
+    })
+    console.log(`[buildHeuristicQTableQ5] evaluation games: ${result.results.length}`)
+    console.log(
+      `[buildHeuristicQTableQ5] qTable changed: ${result.summary.qTableChangedDuringEvaluation}`,
+    )
+    console.log(`[buildHeuristicQTableQ5] output: ${result.outputDir}`)
+    return
+  }
+  if (command === 'evaluate-final-finetuning-500') {
+    const result = await evaluateHeuristicInitialQTableQ5({
+      qTablePath: Q5_FINAL_FINETUNING_500_QTABLE_PATH,
+      outputDir: Q5_FINAL_FINETUNING_500_EVAL_DIR,
+      checkpoint: 'Q5-final-finetuning-500',
     })
     console.log(`[buildHeuristicQTableQ5] evaluation games: ${result.results.length}`)
     console.log(

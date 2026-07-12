@@ -199,6 +199,24 @@ describe('buildHeuristicQTableQ5 workflow', () => {
     expect(result.summary.qTableChangedDuringEvaluation).toBe(false)
   })
 
+  it('can label the frozen evaluation as Q5 final fine-tuning 500', async () => {
+    const tempDir = makeTempDir()
+    const qTablePath = path.join(tempDir, 'qtable.json')
+    writeFileSync(qTablePath, '{}\n', 'utf8')
+
+    const result = await evaluateHeuristicInitialQTableQ5({
+      qTablePath,
+      outputDir: path.join(tempDir, 'eval-final-ft'),
+      checkpoint: 'Q5-final-finetuning-500',
+      gamesPerColor: 1,
+      maxTurns: 4,
+      seed: 89,
+    })
+
+    expect(result.summary.checkpoint).toBe('Q5-final-finetuning-500')
+    expect(result.summary.qTableChangedDuringEvaluation).toBe(false)
+  })
+
   it('keeps the official evaluation protocol constants', () => {
     expect(Q5_HEURISTIC_INITIAL_EVALUATION_GAMES_PER_COLOR).toBe(100)
     expect(Q5_HEURISTIC_INITIAL_EVALUATION_MAX_TURNS).toBe(250)
