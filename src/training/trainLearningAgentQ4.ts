@@ -22,6 +22,7 @@ export const Q4_BASE_DIR = 'data/entrenamiento/q4'
 export const Q4_PILOT_40_DIR = path.join(Q4_BASE_DIR, 'pilotos/seed_3/pilot_40')
 export const Q4_CHECKPOINT_500_DIR = path.join(Q4_BASE_DIR, 'checkpoint_500')
 export const Q4_CHECKPOINT_1000_DIR = path.join(Q4_BASE_DIR, 'checkpoint_1000')
+export const Q4_CHECKPOINT_1500_DIR = path.join(Q4_BASE_DIR, 'checkpoint_1500')
 export const Q4_REWARD_CONFIG = Q2_REWARD_CONFIG
 
 export type Q4OpponentKind = 'random' | 'heuristic'
@@ -125,6 +126,12 @@ export interface Q4TrainingMetadata {
   newTrainingGames?: number
   totalTrainingGames?: number
   epsilonContinuationInitial?: number
+  checkpointTrace?: Array<{
+    checkpoint: number
+    qTableEntries: number
+    trainingGames: number
+    epsilonFinal: number
+  }>
   stateRepresentation: 'Q3'
   rewardModel: 'Q2'
   rewardConfiguration: typeof Q2_REWARD_CONFIG
@@ -485,6 +492,27 @@ function combineQ4GameRecords(previousGames: Q4GameRecord[], newGames: Q4GameRec
   return [...previousGames, ...newGames]
 }
 
+function buildContinuationTrace(
+  sourceMetadata: Q4TrainingMetadata,
+): NonNullable<Q4TrainingMetadata['checkpointTrace']> {
+  const trace = [...(sourceMetadata.checkpointTrace ?? [])]
+  if (sourceMetadata.sourceCheckpoint && trace.length === 0) {
+    trace.push({
+      checkpoint: sourceMetadata.sourceCheckpoint.checkpoint,
+      qTableEntries: sourceMetadata.sourceCheckpoint.qTableEntries,
+      trainingGames: sourceMetadata.sourceCheckpoint.trainingGames,
+      epsilonFinal: sourceMetadata.sourceCheckpoint.epsilonFinal,
+    })
+  }
+  trace.push({
+    checkpoint: sourceMetadata.checkpoint,
+    qTableEntries: sourceMetadata.summary.finalQTableEntries,
+    trainingGames: sourceMetadata.totalGames,
+    epsilonFinal: sourceMetadata.summary.epsilonFinal,
+  })
+  return trace
+}
+
 function buildTargetDistribution(totalGames: number): Q4TrainingMetadata['targetDistribution'] {
   return {
     opponents: { random: totalGames / 2, heuristic: totalGames / 2 },
@@ -789,6 +817,7 @@ export async function continueLearningAgentQ4Training(
     newTrainingGames,
     totalTrainingGames: options.targetGames,
     epsilonContinuationInitial: sourceMetadata.summary.epsilonFinal,
+    checkpointTrace: buildContinuationTrace(sourceMetadata),
     stateRepresentation: 'Q3',
     rewardModel: 'Q2',
     rewardConfiguration: { ...Q4_REWARD_CONFIG },
@@ -941,8 +970,79 @@ export function validateQ4Checkpoint1000Metadata(metadata: Q4TrainingMetadata): 
   }
 }
 
+export function validateQ4Checkpoint1500Metadata(metadata: Q4TrainingMetadata): void {
+  if (metadata.model !== 'Q4') throw new Error('metadata.model must be Q4')
+  if (metadata.seed !== 3) throw new Error('Q4 checkpoint 1500 seed must be 3')
+  if (metadata.checkpoint !== 1500) throw new Error('Q4 checkpoint must be 1500')
+  if (metadata.totalGames !== 1500) throw new Error('Q4-1500 must contain exactly 1500 games')
+  if (metadata.initialization !== 'checkpoint') throw new Error('Q4-1500 must continue checkpoint')
+  if (metadata.initialQTableEntries !== 10733) throw new Error('Expected 10733 initial entries')
+  if (metadata.sourceCheckpoint?.checkpoint !== 1000)
+    throw new Error('Expected source checkpoint 1000')
+  if (metadata.sourceCheckpoint.qTableEntries !== 10733) {
+    throw new Error('Expected source checkpoint to have 10733 entries')
+  }
+  if (metadata.newTrainingGames !== 500) throw new Error('Expected 500 new games')
+  if (metadata.summary.gamesByOpponent.random !== 750) throw new Error('Expected 750 random games')
+  if (metadata.summary.gamesByOpponent.heuristic !== 750) {
+    throw new Error('Expected 750 heuristic games')
+  }
+  if (metadata.summary.gamesByColor.R !== 750) throw new Error('Expected 750 games as R')
+  if (metadata.summary.gamesByColor.B !== 750) throw new Error('Expected 750 games as B')
+  for (const value of Object.values(metadata.summary.gamesByCombination)) {
+    if (value !== 375) throw new Error('Expected 375 games for every opponent-color combination')
+  }
+  if (metadata.games.length !== 1500) throw new Error('Expected 1500 game records')
+  if (metadata.summary.finalQTableEntries <= metadata.initialQTableEntries) {
+    throw new Error('Expected Q-table to grow after continuation')
+  }
+  if (metadata.epsilonContinuationInitial !== 0.3639) {
+    throw new Error('Expected continuation epsilon 0.3639')
+  }
+  if (metadata.epsilonContinuationInitial !== metadata.sourceCheckpoint.epsilonFinal) {
+    throw new Error('Continuation epsilon must match source final epsilon')
+  }
+  if (!metadata.checkpointTrace?.some((item) => item.checkpoint === 500)) {
+    throw new Error('Expected checkpoint trace to include Q4-500')
+  }
+  if (!metadata.checkpointTrace?.some((item) => item.checkpoint === 1000)) {
+    throw new Error('Expected checkpoint trace to include Q4-1000')
+  }
+  const expectedEpsilon = roundMetric(
+    Math.max(
+      metadata.epsilonContinuationInitial *
+        metadata.hyperparameters.epsilonDecay ** (metadata.newTrainingGames ?? 0),
+      metadata.hyperparameters.epsilonMin,
+    ),
+  )
+  if (metadata.summary.epsilonFinal !== expectedEpsilon) {
+    throw new Error(`Expected epsilonFinal ${expectedEpsilon}`)
+  }
+  const qTotal = metadata.games.reduce((total, game) => total + game.qHits + game.qMisses, 0)
+  if (metadata.summary.qTotal.qHits + metadata.summary.qTotal.qMisses !== qTotal) {
+    throw new Error('Q hit/miss total does not match game records')
+  }
+}
+
 async function runCli(): Promise<void> {
   const command = process.argv[2] ?? 'pilot-40'
+  if (command === 'train-1500') {
+    const result = await continueLearningAgentQ4Training({
+      sourceQTablePath: path.join(Q4_CHECKPOINT_1000_DIR, 'qtable_q4_1000.json'),
+      sourceMetadataPath: path.join(Q4_CHECKPOINT_1000_DIR, 'metadata.json'),
+      targetGames: 1500,
+      checkpoint: 1500,
+      seed: 3,
+      outputDir: Q4_CHECKPOINT_1500_DIR,
+      overwrite: process.argv.includes('--overwrite'),
+    })
+    validateQ4Checkpoint1500Metadata(result.metadata)
+    console.log(`[trainLearningAgentQ4] Q4-1500 games: ${result.metadata.totalGames}`)
+    console.log(`[trainLearningAgentQ4] Q4-1500 new games: ${result.metadata.newTrainingGames}`)
+    console.log(`[trainLearningAgentQ4] Q4-1500 entries: ${Object.keys(result.qTable).length}`)
+    console.log(`[trainLearningAgentQ4] Q4-1500 output: ${result.metadata.outputFiles.metadata}`)
+    return
+  }
   if (command === 'train-1000') {
     const result = await continueLearningAgentQ4Training({
       sourceQTablePath: path.join(Q4_CHECKPOINT_500_DIR, 'qtable_q4_500.json'),
