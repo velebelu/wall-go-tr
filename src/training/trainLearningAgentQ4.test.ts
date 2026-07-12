@@ -25,6 +25,7 @@ import {
   runLearningAgentQ4Training,
   validateQ4Checkpoint1000Metadata,
   validateQ4Checkpoint1500Metadata,
+  validateQ4Checkpoint2000Metadata,
   validateQ4Checkpoint500Metadata,
   validateQ4PilotMetadata,
   type Q4TrainingMetadata,
@@ -233,6 +234,31 @@ describe('trainLearningAgentQ4 balanced schedule', () => {
       heuristic_B: 375,
     })
     expect(countSchedule(schedule.slice(1000))).toEqual({
+      random: 250,
+      heuristic: 250,
+      R: 250,
+      B: 250,
+      random_R: 125,
+      random_B: 125,
+      heuristic_R: 125,
+      heuristic_B: 125,
+    })
+  })
+
+  it('builds the exact 2000-game accumulated checkpoint distribution', () => {
+    const schedule = buildBalancedQ4Schedule(2000, 3)
+
+    expect(countSchedule(schedule)).toEqual({
+      random: 1000,
+      heuristic: 1000,
+      R: 1000,
+      B: 1000,
+      random_R: 500,
+      random_B: 500,
+      heuristic_R: 500,
+      heuristic_B: 500,
+    })
+    expect(countSchedule(schedule.slice(1500))).toEqual({
       random: 250,
       heuristic: 250,
       R: 250,
@@ -626,6 +652,88 @@ describe('trainLearningAgentQ4 pilot metadata', () => {
 
     expect(result.metadata.outputFiles.qTable).toContain('qtable_q4_1500.json')
     expect(() => validateQ4Checkpoint1500Metadata(metadata)).not.toThrow()
+  })
+
+  it('validates checkpoint 2000 continuation metadata shape without running 500 new games', async () => {
+    const result = await runLearningAgentQ4Training({
+      totalGames: 4,
+      checkpoint: 2000,
+      seed: 3,
+      outputDir: path.join(makeTempDir(), 'checkpoint_2000_shape'),
+      progressEvery: 0,
+      maxTurns: 8,
+    })
+    const sourceEpsilon = 0.2834
+    const finalEpsilon = Number((sourceEpsilon * 0.9995 ** 500).toFixed(4))
+    const metadata = {
+      ...result.metadata,
+      totalGames: 2000,
+      checkpoint: 2000,
+      startedFromEmptyQTable: false,
+      initialization: 'checkpoint',
+      initialQTableEntries: 14282,
+      sourceCheckpoint: {
+        checkpoint: 1500,
+        qTablePath: 'data/entrenamiento/q4/checkpoint_1500/qtable_q4_1500.json',
+        metadataPath: 'data/entrenamiento/q4/checkpoint_1500/metadata.json',
+        qTableEntries: 14282,
+        trainingGames: 1500,
+        epsilonFinal: sourceEpsilon,
+      },
+      checkpointTrace: [
+        {
+          checkpoint: 500,
+          qTableEntries: 6339,
+          trainingGames: 500,
+          epsilonFinal: 0.4673,
+        },
+        {
+          checkpoint: 1000,
+          qTableEntries: 10733,
+          trainingGames: 1000,
+          epsilonFinal: 0.3639,
+        },
+        {
+          checkpoint: 1500,
+          qTableEntries: 14282,
+          trainingGames: 1500,
+          epsilonFinal: sourceEpsilon,
+        },
+      ],
+      newTrainingGames: 500,
+      totalTrainingGames: 2000,
+      epsilonContinuationInitial: sourceEpsilon,
+      games: Array.from({ length: 2000 }, (_, index) => ({
+        ...result.metadata.games[index % result.metadata.games.length]!,
+        game: index + 1,
+        opponent: index % 2 === 0 ? 'random' : 'heuristic',
+        learningColor: index % 4 < 2 ? 'R' : 'B',
+      })),
+      summary: {
+        ...result.metadata.summary,
+        gamesByOpponent: { random: 1000, heuristic: 1000 },
+        gamesByColor: { R: 1000, B: 1000 },
+        gamesByCombination: {
+          random_R: 500,
+          random_B: 500,
+          heuristic_R: 500,
+          heuristic_B: 500,
+        },
+        finalQTableEntries: 15000,
+        epsilonInitial: 0.6,
+        epsilonFinal: finalEpsilon,
+      },
+    } as Q4TrainingMetadata
+    const qHits = metadata.games.reduce((sum, game) => sum + game.qHits, 0)
+    const qMisses = metadata.games.reduce((sum, game) => sum + game.qMisses, 0)
+    metadata.summary.qTotal = {
+      qHits,
+      qMisses,
+      qHitRate: Number(((qHits / (qHits + qMisses)) * 100).toFixed(4)),
+    }
+
+    expect(result.metadata.outputFiles.qTable).toContain('qtable_q4_2000.json')
+    expect(() => validateQ4Checkpoint2000Metadata(metadata)).not.toThrow()
   })
 
   it('keeps complete move-wall Q3 action encoding available', () => {

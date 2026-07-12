@@ -23,6 +23,7 @@ export const Q4_PILOT_40_DIR = path.join(Q4_BASE_DIR, 'pilotos/seed_3/pilot_40')
 export const Q4_CHECKPOINT_500_DIR = path.join(Q4_BASE_DIR, 'checkpoint_500')
 export const Q4_CHECKPOINT_1000_DIR = path.join(Q4_BASE_DIR, 'checkpoint_1000')
 export const Q4_CHECKPOINT_1500_DIR = path.join(Q4_BASE_DIR, 'checkpoint_1500')
+export const Q4_CHECKPOINT_2000_DIR = path.join(Q4_BASE_DIR, 'checkpoint_2000')
 export const Q4_REWARD_CONFIG = Q2_REWARD_CONFIG
 
 export type Q4OpponentKind = 'random' | 'heuristic'
@@ -1024,8 +1025,79 @@ export function validateQ4Checkpoint1500Metadata(metadata: Q4TrainingMetadata): 
   }
 }
 
+export function validateQ4Checkpoint2000Metadata(metadata: Q4TrainingMetadata): void {
+  if (metadata.model !== 'Q4') throw new Error('metadata.model must be Q4')
+  if (metadata.seed !== 3) throw new Error('Q4 checkpoint 2000 seed must be 3')
+  if (metadata.checkpoint !== 2000) throw new Error('Q4 checkpoint must be 2000')
+  if (metadata.totalGames !== 2000) throw new Error('Q4-2000 must contain exactly 2000 games')
+  if (metadata.initialization !== 'checkpoint') throw new Error('Q4-2000 must continue checkpoint')
+  if (metadata.initialQTableEntries !== 14282) throw new Error('Expected 14282 initial entries')
+  if (metadata.sourceCheckpoint?.checkpoint !== 1500)
+    throw new Error('Expected source checkpoint 1500')
+  if (metadata.sourceCheckpoint.qTableEntries !== 14282) {
+    throw new Error('Expected source checkpoint to have 14282 entries')
+  }
+  if (metadata.newTrainingGames !== 500) throw new Error('Expected 500 new games')
+  if (metadata.summary.gamesByOpponent.random !== 1000)
+    throw new Error('Expected 1000 random games')
+  if (metadata.summary.gamesByOpponent.heuristic !== 1000) {
+    throw new Error('Expected 1000 heuristic games')
+  }
+  if (metadata.summary.gamesByColor.R !== 1000) throw new Error('Expected 1000 games as R')
+  if (metadata.summary.gamesByColor.B !== 1000) throw new Error('Expected 1000 games as B')
+  for (const value of Object.values(metadata.summary.gamesByCombination)) {
+    if (value !== 500) throw new Error('Expected 500 games for every opponent-color combination')
+  }
+  if (metadata.games.length !== 2000) throw new Error('Expected 2000 game records')
+  if (metadata.summary.finalQTableEntries <= metadata.initialQTableEntries) {
+    throw new Error('Expected Q-table to grow after continuation')
+  }
+  if (metadata.epsilonContinuationInitial !== 0.2834) {
+    throw new Error('Expected continuation epsilon 0.2834')
+  }
+  if (metadata.epsilonContinuationInitial !== metadata.sourceCheckpoint.epsilonFinal) {
+    throw new Error('Continuation epsilon must match source final epsilon')
+  }
+  for (const checkpoint of [500, 1000, 1500]) {
+    if (!metadata.checkpointTrace?.some((item) => item.checkpoint === checkpoint)) {
+      throw new Error(`Expected checkpoint trace to include Q4-${checkpoint}`)
+    }
+  }
+  const expectedEpsilon = roundMetric(
+    Math.max(
+      metadata.epsilonContinuationInitial *
+        metadata.hyperparameters.epsilonDecay ** (metadata.newTrainingGames ?? 0),
+      metadata.hyperparameters.epsilonMin,
+    ),
+  )
+  if (metadata.summary.epsilonFinal !== expectedEpsilon) {
+    throw new Error(`Expected epsilonFinal ${expectedEpsilon}`)
+  }
+  const qTotal = metadata.games.reduce((total, game) => total + game.qHits + game.qMisses, 0)
+  if (metadata.summary.qTotal.qHits + metadata.summary.qTotal.qMisses !== qTotal) {
+    throw new Error('Q hit/miss total does not match game records')
+  }
+}
+
 async function runCli(): Promise<void> {
   const command = process.argv[2] ?? 'pilot-40'
+  if (command === 'train-2000') {
+    const result = await continueLearningAgentQ4Training({
+      sourceQTablePath: path.join(Q4_CHECKPOINT_1500_DIR, 'qtable_q4_1500.json'),
+      sourceMetadataPath: path.join(Q4_CHECKPOINT_1500_DIR, 'metadata.json'),
+      targetGames: 2000,
+      checkpoint: 2000,
+      seed: 3,
+      outputDir: Q4_CHECKPOINT_2000_DIR,
+      overwrite: process.argv.includes('--overwrite'),
+    })
+    validateQ4Checkpoint2000Metadata(result.metadata)
+    console.log(`[trainLearningAgentQ4] Q4-2000 games: ${result.metadata.totalGames}`)
+    console.log(`[trainLearningAgentQ4] Q4-2000 new games: ${result.metadata.newTrainingGames}`)
+    console.log(`[trainLearningAgentQ4] Q4-2000 entries: ${Object.keys(result.qTable).length}`)
+    console.log(`[trainLearningAgentQ4] Q4-2000 output: ${result.metadata.outputFiles.metadata}`)
+    return
+  }
   if (command === 'train-1500') {
     const result = await continueLearningAgentQ4Training({
       sourceQTablePath: path.join(Q4_CHECKPOINT_1000_DIR, 'qtable_q4_1000.json'),
