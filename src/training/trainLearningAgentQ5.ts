@@ -44,6 +44,10 @@ export const Q5_HYBRID_PILOT_100_EVAL_DIR = path.join(
   Q5_BASE_DIR,
   'hybrid/evaluacion_pilot_100_eval200',
 )
+export const Q5_HYBRID_THRESHOLD_SEARCH_DIR = path.join(
+  Q5_BASE_DIR,
+  'hybrid/threshold_search',
+)
 
 export type Q5OpponentKind = Q4OpponentKind
 
@@ -258,6 +262,29 @@ export interface Q5HybridChoice {
   selectedKeyReliable: boolean
   knownLegalActions: number
   reliableLegalActions: number
+}
+
+export interface Q5ThresholdPolicyVariant {
+  id: 'A' | 'B' | 'C' | 'D' | 'E'
+  minConfidence: number
+  minMargin: number
+}
+
+interface Q5ThresholdChoice {
+  action: PlayerAction
+  mechanism: 'heuristicMatch' | 'qOverrideAccepted' | 'qOverrideRejected'
+  heuristicKey: string
+  qKey: string
+  heuristicQ: number
+  bestQ: number
+  qConfidence: number
+  margin: number
+}
+
+interface Q5ThresholdDecisionStats {
+  matches: number
+  qOverridesAccepted: number
+  qOverridesRejected: number
 }
 
 interface Q5InstrumentedUpdateSummary {
@@ -860,6 +887,83 @@ export function chooseHybridQ5Action(params: {
       (legalAction) => params.qTable[getLearningQTableKeyQ3(params.state, legalAction)] !== undefined,
     ).length,
     reliableLegalActions: 0,
+  }
+}
+
+export const Q5_THRESHOLD_POLICY_VARIANTS: Q5ThresholdPolicyVariant[] = [
+  { id: 'A', minConfidence: 3, minMargin: 0 },
+  { id: 'B', minConfidence: 3, minMargin: 0.25 },
+  { id: 'C', minConfidence: 5, minMargin: 0.25 },
+  { id: 'D', minConfidence: 5, minMargin: 0.5 },
+  { id: 'E', minConfidence: 10, minMargin: 0.5 },
+]
+
+function getQ5CombinedConfidence(
+  key: string,
+  confidenceMap: Map<string, Q5StateActionConfidence>,
+  qLearningUpdateCounts: Map<string, number>,
+): number {
+  return Math.max(confidenceMap.get(key)?.observations ?? 0, qLearningUpdateCounts.get(key) ?? 0)
+}
+
+function actionSignature(action: PlayerAction): string {
+  return JSON.stringify(action)
+}
+
+export function chooseThresholdHybridQ5Action(params: {
+  state: GameSnapshot
+  legalActions: PlayerAction[]
+  qTable: QTableSnapshot
+  confidenceMap: Map<string, Q5StateActionConfidence>
+  qLearningUpdateCounts: Map<string, number>
+  variant: Q5ThresholdPolicyVariant
+  rng: () => number
+}): Q5ThresholdChoice {
+  const heuristicAction = chooseHeuristicOpponentActionQ4(params.state, params.rng)
+  const heuristicKey = getLearningQTableKeyQ3(params.state, heuristicAction)
+  let bestQ = -Infinity
+  const bestActions: PlayerAction[] = []
+  for (const action of params.legalActions) {
+    const value = params.qTable[getLearningQTableKeyQ3(params.state, action)] ?? 0
+    if (value > bestQ) {
+      bestQ = value
+      bestActions.length = 0
+      bestActions.push(action)
+    } else if (value === bestQ) {
+      bestActions.push(action)
+    }
+  }
+  const qAction = bestActions[Math.floor(params.rng() * bestActions.length)]!
+  const qKey = getLearningQTableKeyQ3(params.state, qAction)
+  const heuristicQ = params.qTable[heuristicKey] ?? 0
+  const qConfidence = getQ5CombinedConfidence(qKey, params.confidenceMap, params.qLearningUpdateCounts)
+  const margin = bestQ - heuristicQ
+  const heuristicMatchesQ = actionSignature(heuristicAction) === actionSignature(qAction)
+
+  if (heuristicMatchesQ) {
+    return {
+      action: heuristicAction,
+      mechanism: 'heuristicMatch',
+      heuristicKey,
+      qKey,
+      heuristicQ,
+      bestQ,
+      qConfidence,
+      margin,
+    }
+  }
+
+  const accepted =
+    qConfidence >= params.variant.minConfidence && margin >= params.variant.minMargin
+  return {
+    action: accepted ? qAction : heuristicAction,
+    mechanism: accepted ? 'qOverrideAccepted' : 'qOverrideRejected',
+    heuristicKey,
+    qKey,
+    heuristicQ,
+    bestQ,
+    qConfidence,
+    margin,
   }
 }
 
@@ -1607,6 +1711,305 @@ export async function evaluateHybridQ5Policy(options: {
   return { summary, results: allResults }
 }
 
+interface Q5ThresholdEvaluationGameResult {
+  variant: Q5ThresholdPolicyVariant['id']
+  rival: Q5OpponentKind
+  seed: number
+  game: number
+  colorQ5: Player
+  winner: Player | 'tie'
+  q5Won: boolean
+  tie: boolean
+  territoryQ5: number
+  territoryRival: number
+  territorialDiff: number
+  turns: number
+  decisions: Q5ThresholdDecisionStats
+  qTableChangedDuringEvaluation: boolean
+}
+
+function createThresholdDecisionStats(): Q5ThresholdDecisionStats {
+  return { matches: 0, qOverridesAccepted: 0, qOverridesRejected: 0 }
+}
+
+function addThresholdDecision(stats: Q5ThresholdDecisionStats, mechanism: Q5ThresholdChoice['mechanism']): void {
+  if (mechanism === 'heuristicMatch') stats.matches++
+  else if (mechanism === 'qOverrideAccepted') stats.qOverridesAccepted++
+  else stats.qOverridesRejected++
+}
+
+async function runSingleThresholdEvaluationGame(params: {
+  variant: Q5ThresholdPolicyVariant
+  rival: Q5OpponentKind
+  game: number
+  seed: number
+  q5Color: Player
+  qTable: QTableSnapshot
+  qTablePath: string
+  initialFileHash: string
+  initialFingerprint: string
+  confidenceMap: Map<string, Q5StateActionConfidence>
+  qLearningUpdateCounts: Map<string, number>
+}): Promise<Q5ThresholdEvaluationGameResult> {
+  const rng = createSeededRngQ4(params.seed)
+  let state = makeInitialState()
+  let turns = 0
+  const decisions = createThresholdDecisionStats()
+
+  while (state.phase !== 'finished' && !state.result && turns < 250) {
+    const previousState = snapshotFromState(state)
+    let action: PlayerAction
+    if (previousState.turn === params.q5Color) {
+      const choice = chooseThresholdHybridQ5Action({
+        state: previousState,
+        legalActions: ai.getLegalActions(previousState),
+        qTable: params.qTable,
+        confidenceMap: params.confidenceMap,
+        qLearningUpdateCounts: params.qLearningUpdateCounts,
+        variant: params.variant,
+        rng,
+      })
+      action = choice.action
+      addThresholdDecision(decisions, choice.mechanism)
+    } else if (params.rival === 'random') {
+      action = chooseRandomActionWithRngQ4(ai.getLegalActions(previousState), rng)
+    } else {
+      action = chooseHeuristicOpponentActionQ4(previousState, rng)
+    }
+    const applied = applyFullActionQ5(state, action)
+    state = applied.state
+    turns += applied.turns
+  }
+
+  state = finalizeGameIfNeeded(state)
+  const territory = state.result?.score ?? getTerritoryCounts(state.board)
+  const winner = state.result?.tie ? 'tie' : (state.result?.winner ?? 'tie')
+  const rivalColor = getOpponent(params.q5Color)
+  return {
+    variant: params.variant.id,
+    rival: params.rival,
+    seed: params.seed,
+    game: params.game,
+    colorQ5: params.q5Color,
+    winner,
+    q5Won: winner === params.q5Color,
+    tie: winner === 'tie',
+    territoryQ5: territory[params.q5Color],
+    territoryRival: territory[rivalColor],
+    territorialDiff: territory[params.q5Color] - territory[rivalColor],
+    turns,
+    decisions,
+    qTableChangedDuringEvaluation:
+      hashFile(params.qTablePath) !== params.initialFileHash ||
+      qTableFingerprint(params.qTable) !== params.initialFingerprint,
+  }
+}
+
+function summarizeThresholdResults(
+  variant: Q5ThresholdPolicyVariant,
+  results: Q5ThresholdEvaluationGameResult[],
+  hashBefore: string,
+  hashAfter: string,
+) {
+  const summarizeGroup = (groupResults: Q5ThresholdEvaluationGameResult[]) => {
+    const wins = groupResults.filter((result) => result.q5Won).length
+    const ties = groupResults.filter((result) => result.tie).length
+    const losses = groupResults.length - wins - ties
+    const decisions = createThresholdDecisionStats()
+    for (const result of groupResults) {
+      decisions.matches += result.decisions.matches
+      decisions.qOverridesAccepted += result.decisions.qOverridesAccepted
+      decisions.qOverridesRejected += result.decisions.qOverridesRejected
+    }
+    const totalDecisions = decisions.matches + decisions.qOverridesAccepted + decisions.qOverridesRejected
+    const overrideGames = groupResults.filter((result) => result.decisions.qOverridesAccepted > 0)
+    const overrideWins = overrideGames.filter((result) => result.q5Won).length
+    const overrideTies = overrideGames.filter((result) => result.tie).length
+    return {
+      games: groupResults.length,
+      wins,
+      losses,
+      ties,
+      winRate: groupResults.length ? roundMetric((wins / groupResults.length) * 100) : 0,
+      averageTerritoryQ5: groupResults.length
+        ? roundMetric(groupResults.reduce((sum, result) => sum + result.territoryQ5, 0) / groupResults.length)
+        : 0,
+      averageTerritoryRival: groupResults.length
+        ? roundMetric(groupResults.reduce((sum, result) => sum + result.territoryRival, 0) / groupResults.length)
+        : 0,
+      averageTerritorialDiff: groupResults.length
+        ? roundMetric(groupResults.reduce((sum, result) => sum + result.territorialDiff, 0) / groupResults.length)
+        : 0,
+      averageTurns: groupResults.length
+        ? roundMetric(groupResults.reduce((sum, result) => sum + result.turns, 0) / groupResults.length)
+        : 0,
+      decisions,
+      decisionPercentages: {
+        matches: totalDecisions ? roundMetric((decisions.matches / totalDecisions) * 100) : 0,
+        qOverridesAccepted: totalDecisions
+          ? roundMetric((decisions.qOverridesAccepted / totalDecisions) * 100)
+          : 0,
+        qOverridesRejected: totalDecisions
+          ? roundMetric((decisions.qOverridesRejected / totalDecisions) * 100)
+          : 0,
+      },
+      overrideGames: {
+        games: overrideGames.length,
+        wins: overrideWins,
+        losses: overrideGames.length - overrideWins - overrideTies,
+        ties: overrideTies,
+        winRate: overrideGames.length ? roundMetric((overrideWins / overrideGames.length) * 100) : 0,
+      },
+    }
+  }
+
+  return {
+    variant,
+    aggregate: summarizeGroup(results),
+    byRival: {
+      random: summarizeGroup(results.filter((result) => result.rival === 'random')),
+      heuristic: summarizeGroup(results.filter((result) => result.rival === 'heuristic')),
+    },
+    byColor: {
+      R: summarizeGroup(results.filter((result) => result.colorQ5 === 'R')),
+      B: summarizeGroup(results.filter((result) => result.colorQ5 === 'B')),
+    },
+    qTableChangedDuringEvaluation:
+      results.some((result) => result.qTableChangedDuringEvaluation) || hashBefore !== hashAfter,
+    hashBefore,
+    hashAfter,
+  }
+}
+
+function thresholdResultsToCsv(results: Q5ThresholdEvaluationGameResult[]): string {
+  const headers = [
+    'variant',
+    'rival',
+    'seed',
+    'game',
+    'colorQ5',
+    'winner',
+    'territoryQ5',
+    'territoryRival',
+    'territorialDiff',
+    'turns',
+    'matches',
+    'qOverridesAccepted',
+    'qOverridesRejected',
+    'qTableChangedDuringEvaluation',
+  ]
+  const rows = results.map((result) => [
+    result.variant,
+    result.rival,
+    result.seed,
+    result.game,
+    result.colorQ5,
+    result.winner,
+    result.territoryQ5,
+    result.territoryRival,
+    result.territorialDiff,
+    result.turns,
+    result.decisions.matches,
+    result.decisions.qOverridesAccepted,
+    result.decisions.qOverridesRejected,
+    result.qTableChangedDuringEvaluation,
+  ])
+  return [headers.join(','), ...rows.map((row) => row.map(csvEscape).join(','))].join('\n')
+}
+
+export async function evaluateQ5ThresholdSearch(options: {
+  outputDir?: string
+  overwrite?: boolean
+} = {}): Promise<{ summary: unknown; results: Q5ThresholdEvaluationGameResult[] }> {
+  const outputDir = path.resolve(options.outputDir ?? Q5_HYBRID_THRESHOLD_SEARCH_DIR)
+  assertOutputCanBeWritten(outputDir, options.overwrite ?? false)
+  const qTablePath = path.resolve(Q5_HEURISTIC_INITIAL_QTABLE_PATH)
+  const qTable = Object.freeze({ ...loadQTable(qTablePath) }) as QTableSnapshot
+  const hashBefore = hashFile(qTablePath)
+  const fingerprintBefore = qTableFingerprint(qTable)
+  const confidenceMap = loadQ5ConfidenceMap(Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH)
+  const qLearningUpdateCounts = new Map<string, number>()
+  const allResults: Q5ThresholdEvaluationGameResult[] = []
+  const variantSummaries = []
+  let globalGame = 0
+
+  for (const variant of Q5_THRESHOLD_POLICY_VARIANTS) {
+    const variantResults: Q5ThresholdEvaluationGameResult[] = []
+    const variantHashBefore = hashFile(qTablePath)
+    for (const rival of ['random', 'heuristic'] as const) {
+      for (const colorQ5 of ['R', 'B'] as const) {
+        for (let game = 1; game <= 100; game++) {
+          globalGame++
+          const result = await runSingleThresholdEvaluationGame({
+            variant,
+            rival,
+            game,
+            seed: 502000 + globalGame,
+            q5Color: colorQ5,
+            qTable,
+            qTablePath,
+            initialFileHash: hashBefore,
+            initialFingerprint: fingerprintBefore,
+            confidenceMap,
+            qLearningUpdateCounts,
+          })
+          if (result.qTableChangedDuringEvaluation) {
+            throw new Error('Q5 threshold search qTable changed during evaluation')
+          }
+          variantResults.push(result)
+          allResults.push(result)
+        }
+      }
+    }
+    variantSummaries.push(summarizeThresholdResults(variant, variantResults, variantHashBefore, hashFile(qTablePath)))
+  }
+
+  const hashAfter = hashFile(qTablePath)
+  const summary = {
+    createdAt: new Date().toISOString(),
+    model: 'Q5',
+    experiment: 'hybrid_threshold_search',
+    qTablePath,
+    qTableEntries: Object.keys(qTable).length,
+    qTableHashBefore: hashBefore,
+    qTableHashAfter: hashAfter,
+    qTableChangedDuringEvaluation: hashBefore !== hashAfter || qTableFingerprint(qTable) !== fingerprintBefore,
+    confidenceDefinition: {
+      value: 'max(originalDatasetObservations, qLearningUpdatesAfterInitialization)',
+      originalDatasetObservations: Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH,
+      qLearningUpdatesAfterInitialization: 'none loaded for this frozen initial-table search',
+    },
+    protocol: {
+      epsilon: 0,
+      learnsDuringEvaluation: false,
+      qTableFrozen: true,
+      alphaUpdates: false,
+      representation: 'Q3',
+      seedBase: 502000,
+      gamesPerVariant: 400,
+      gamesPerRival: 200,
+      gamesPerColor: 100,
+      maxTurns: 250,
+    },
+    variants: variantSummaries,
+  }
+  if (summary.qTableChangedDuringEvaluation) {
+    throw new Error('Q5 threshold search qTable changed during evaluation')
+  }
+
+  mkdirSync(outputDir, { recursive: true })
+  writeJson(path.join(outputDir, 'threshold_search_summary.json'), summary)
+  writeFileSync(path.join(outputDir, 'threshold_search_results.csv'), `${thresholdResultsToCsv(allResults)}\n`, 'utf8')
+  writeJson(path.join(outputDir, 'metadata.json'), {
+    createdAt: summary.createdAt,
+    qTablePath,
+    outputDir,
+    confidenceDefinition: summary.confidenceDefinition,
+    protocol: summary.protocol,
+  })
+  return { summary, results: allResults }
+}
+
 async function runQ5TrainingGame(params: {
   scheduleItem: Q5TrainingScheduleItem
   qTable: QTableSnapshot
@@ -2193,6 +2596,12 @@ async function main(): Promise<void> {
     })
     console.log(`[trainLearningAgentQ5] Q5 hybrid pilot evaluation games: ${result.results.length}`)
     console.log(`[trainLearningAgentQ5] Q5 hybrid pilot evaluation output: ${Q5_HYBRID_PILOT_100_EVAL_DIR}`)
+    return
+  }
+  if (command === 'hybrid-threshold-search') {
+    const result = await evaluateQ5ThresholdSearch()
+    console.log(`[trainLearningAgentQ5] Q5 threshold search games: ${result.results.length}`)
+    console.log(`[trainLearningAgentQ5] Q5 threshold search output: ${Q5_HYBRID_THRESHOLD_SEARCH_DIR}`)
     return
   }
   if (command === 'train-500') {

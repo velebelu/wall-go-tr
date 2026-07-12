@@ -19,6 +19,7 @@ import {
   calculateFinalRewardQ5,
   calculateIntermediateRewardQ5FromMetrics,
   chooseHybridQ5Action,
+  chooseThresholdHybridQ5Action,
   loadQ5Metadata,
   runLearningAgentQ5Training,
   validateQ5FinalFineTuning500Metadata,
@@ -460,6 +461,58 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     })
 
     expect(choice.mechanism).toBe('randomExploration')
+  })
+
+  it('only lets Q override heuristic when confidence and margin are sufficient', () => {
+    const state = snapshotFromState(makeInitialState())
+    const legalActions = getLegalActions(state)
+    const heuristicProbe = chooseThresholdHybridQ5Action({
+      state,
+      legalActions,
+      qTable: {},
+      confidenceMap: new Map(),
+      qLearningUpdateCounts: new Map(),
+      variant: { id: 'A', minConfidence: 3, minMargin: 0 },
+      rng: () => 0,
+    })
+    const qAction = legalActions.find(
+      (action) => getLearningQTableKeyQ3(state, action) !== heuristicProbe.heuristicKey,
+    )!
+    const qKey = getLearningQTableKeyQ3(state, qAction)
+    const qTable = { [heuristicProbe.heuristicKey]: 0.5, [qKey]: 1 }
+
+    const accepted = chooseThresholdHybridQ5Action({
+      state,
+      legalActions,
+      qTable,
+      confidenceMap: new Map([[qKey, { observations: 3, confidence: '2-5 observations', alpha: 0.02 }]]),
+      qLearningUpdateCounts: new Map(),
+      variant: { id: 'B', minConfidence: 3, minMargin: 0.25 },
+      rng: () => 0,
+    })
+    expect(accepted.mechanism).toBe('qOverrideAccepted')
+
+    const rejectedByMargin = chooseThresholdHybridQ5Action({
+      state,
+      legalActions,
+      qTable,
+      confidenceMap: new Map([[qKey, { observations: 3, confidence: '2-5 observations', alpha: 0.02 }]]),
+      qLearningUpdateCounts: new Map(),
+      variant: { id: 'D', minConfidence: 3, minMargin: 0.75 },
+      rng: () => 0,
+    })
+    expect(rejectedByMargin.mechanism).toBe('qOverrideRejected')
+
+    const rejectedByConfidence = chooseThresholdHybridQ5Action({
+      state,
+      legalActions,
+      qTable,
+      confidenceMap: new Map([[qKey, { observations: 2, confidence: '2-5 observations', alpha: 0.02 }]]),
+      qLearningUpdateCounts: new Map(),
+      variant: { id: 'C', minConfidence: 3, minMargin: 0.25 },
+      rng: () => 0,
+    })
+    expect(rejectedByConfidence.mechanism).toBe('qOverrideRejected')
   })
 
   it('validates final fine-tuning metadata shape without running 500 games', () => {
