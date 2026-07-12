@@ -1,0 +1,105 @@
+{
+  "model": "Q4",
+  "seed": 3,
+  "totalGames": 40,
+  "summary": {
+    "gamesByOpponent": {
+      "random": 20,
+      "heuristic": 20
+    },
+    "gamesByColor": {
+      "R": 20,
+      "B": 20
+    },
+    "gamesByCombination": {
+      "random_R": 10,
+      "random_B": 10,
+      "heuristic_R": 10,
+      "heuristic_B": 10
+    },
+    "results": {
+      "games": 40,
+      "wins": 12,
+      "losses": 28,
+      "ties": 0
+    },
+    "resultsByOpponent": {
+      "random": {
+        "games": 20,
+        "wins": 12,
+        "losses": 8,
+        "ties": 0
+      },
+      "heuristic": {
+        "games": 20,
+        "wins": 0,
+        "losses": 20,
+        "ties": 0
+      }
+    },
+    "resultsByColor": {
+      "R": {
+        "games": 20,
+        "wins": 5,
+        "losses": 15,
+        "ties": 0
+      },
+      "B": {
+        "games": 20,
+        "wins": 7,
+        "losses": 13,
+        "ties": 0
+      }
+    },
+    "resultsByCombination": {
+      "random_R": {
+        "games": 10,
+        "wins": 5,
+        "losses": 5,
+        "ties": 0
+      },
+      "random_B": {
+        "games": 10,
+        "wins": 7,
+        "losses": 3,
+        "ties": 0
+      },
+      "heuristic_R": {
+        "games": 10,
+        "wins": 0,
+        "losses": 10,
+        "ties": 0
+      },
+      "heuristic_B": {
+        "games": 10,
+        "wins": 0,
+        "losses": 10,
+        "ties": 0
+      }
+    },
+    "qByOpponent": {
+      "random": {
+        "qHits": 46,
+        "qMisses": 433
+      },
+      "heuristic": {
+        "qHits": 22,
+        "qMisses": 297
+      }
+    },
+    "qByColor": {
+      "R": {
+        "qHits": 37,
+        "qMisses": 362
+      },
+      "B": {
+        "qHits": 31,
+        "qMisses": 368
+      }
+    },
+    "epsilonInitial": 0.6,
+    "epsilonFinal": 0.5881,
+    "finalQTableEntries": 730,
+    "uniqueQ3StatesVisited": 135
+  }
+}

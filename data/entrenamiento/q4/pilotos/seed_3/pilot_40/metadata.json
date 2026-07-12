@@ -1,0 +1,998 @@
+{
+  "model": "Q4",
+  "seed": 3,
+  "totalGames": 40,
+  "startedFromEmptyQTable": true,
+  "initialQTableEntries": 0,
+  "stateRepresentation": "Q3",
+  "rewardModel": "Q2",
+  "rewardConfiguration": {
+    "win": 100,
+    "loss": -100,
+    "tie": 0,
+    "finalTerritoryDiffMultiplier": 1,
+    "intermediateTerritoryDeltaMultiplier": 0.01,
+    "intermediateMin": -0.05,
+    "intermediateMax": 0.05
+  },
+  "hyperparameters": {
+    "alpha": 0.1,
+    "gamma": 0.9,
+    "epsilonStart": 0.6,
+    "epsilonMin": 0.05,
+    "epsilonDecay": 0.9995,
+    "maxTurns": 250
+  },
+  "targetDistribution": {
+    "opponents": {
+      "random": 20,
+      "heuristic": 20
+    },
+    "colors": {
+      "R": 20,
+      "B": 20
+    },
+    "combinations": {
+      "random_R": 10,
+      "random_B": 10,
+      "heuristic_R": 10,
+      "heuristic_B": 10
+    }
+  },
+  "heuristicPolicy": {
+    "placement": "getBestPlacement",
+    "playing": "getBestHeuristicAction",
+    "policy": "default"
+  },
+  "schedule": [
+    {
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "game": 1
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "game": 2
+    },
+    {
+      "opponent": "random",
+      "learningColor": "B",
+      "game": 3
+    },
+    {
+      "opponent": "random",
+      "learningColor": "R",
+      "game": 4
+    },
+    {
+      "opponent": "random",
+      "learningColor": "R",
+      "game": 5
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "game": 6
+    },
+    {
+      "opponent": "random",
+      "learningColor": "B",
+      "game": 7
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "game": 8
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "game": 9
+    },
+    {
+      "opponent": "random",
+      "learningColor": "R",
+      "game": 10
+    },
+    {
+      "opponent": "random",
+      "learningColor": "B",
+      "game": 11
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "game": 12
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "game": 13
+    },
+    {
+      "opponent": "random",
+      "learningColor": "B",
+      "game": 14
+    },
+    {
+      "opponent": "random",
+      "learningColor": "R",
+      "game": 15
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "game": 16
+    },
+    {
+      "opponent": "random",
+      "learningColor": "R",
+      "game": 17
+    },
+    {
+      "opponent": "random",
+      "learningColor": "B",
+      "game": 18
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "game": 19
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "game": 20
+    },
+    {
+      "opponent": "random",
+      "learningColor": "B",
+      "game": 21
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "game": 22
+    },
+    {
+      "opponent": "random",
+      "learningColor": "R",
+      "game": 23
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "game": 24
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "game": 25
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "game": 26
+    },
+    {
+      "opponent": "random",
+      "learningColor": "R",
+      "game": 27
+    },
+    {
+      "opponent": "random",
+      "learningColor": "B",
+      "game": 28
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "game": 29
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "game": 30
+    },
+    {
+      "opponent": "random",
+      "learningColor": "B",
+      "game": 31
+    },
+    {
+      "opponent": "random",
+      "learningColor": "R",
+      "game": 32
+    },
+    {
+      "opponent": "random",
+      "learningColor": "R",
+      "game": 33
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "game": 34
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "game": 35
+    },
+    {
+      "opponent": "random",
+      "learningColor": "B",
+      "game": 36
+    },
+    {
+      "opponent": "random",
+      "learningColor": "R",
+      "game": 37
+    },
+    {
+      "opponent": "random",
+      "learningColor": "B",
+      "game": 38
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "game": 39
+    },
+    {
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "game": 40
+    }
+  ],
+  "games": [
+    {
+      "game": 1,
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 5,
+      "territoryOpponent": 41,
+      "territoryDiff": -36,
+      "turns": 45,
+      "qHits": 0,
+      "qMisses": 14,
+      "epsilonInitial": 0.6,
+      "epsilonFinal": 0.5997
+    },
+    {
+      "game": 2,
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 4,
+      "territoryOpponent": 30,
+      "territoryDiff": -26,
+      "turns": 89,
+      "qHits": 0,
+      "qMisses": 25,
+      "epsilonInitial": 0.5997,
+      "epsilonFinal": 0.59940015
+    },
+    {
+      "game": 3,
+      "opponent": "random",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 5,
+      "territoryOpponent": 25,
+      "territoryDiff": -20,
+      "turns": 81,
+      "qHits": 0,
+      "qMisses": 23,
+      "epsilonInitial": 0.59940015,
+      "epsilonFinal": 0.599100449925
+    },
+    {
+      "game": 4,
+      "opponent": "random",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 10,
+      "territoryOpponent": 17,
+      "territoryDiff": -7,
+      "turns": 85,
+      "qHits": 0,
+      "qMisses": 24,
+      "epsilonInitial": 0.599100449925,
+      "epsilonFinal": 0.5988008997000376
+    },
+    {
+      "game": 5,
+      "opponent": "random",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 5,
+      "territoryOpponent": 36,
+      "territoryDiff": -31,
+      "turns": 82,
+      "qHits": 0,
+      "qMisses": 23,
+      "epsilonInitial": 0.5988008997000376,
+      "epsilonFinal": 0.5985014992501876
+    },
+    {
+      "game": 6,
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 7,
+      "territoryOpponent": 38,
+      "territoryDiff": -31,
+      "turns": 57,
+      "qHits": 0,
+      "qMisses": 17,
+      "epsilonInitial": 0.5985014992501876,
+      "epsilonFinal": 0.5982022485005625
+    },
+    {
+      "game": 7,
+      "opponent": "random",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "B",
+      "resultForQ4": "win",
+      "territoryQ4": 33,
+      "territoryOpponent": 7,
+      "territoryDiff": 26,
+      "turns": 90,
+      "qHits": 0,
+      "qMisses": 24,
+      "epsilonInitial": 0.5982022485005625,
+      "epsilonFinal": 0.5979031473763122
+    },
+    {
+      "game": 8,
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 10,
+      "territoryOpponent": 37,
+      "territoryDiff": -27,
+      "turns": 63,
+      "qHits": 0,
+      "qMisses": 17,
+      "epsilonInitial": 0.5979031473763122,
+      "epsilonFinal": 0.5976041958026241
+    },
+    {
+      "game": 9,
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 4,
+      "territoryOpponent": 44,
+      "territoryDiff": -40,
+      "turns": 64,
+      "qHits": 1,
+      "qMisses": 17,
+      "epsilonInitial": 0.5976041958026241,
+      "epsilonFinal": 0.5973053937047229
+    },
+    {
+      "game": 10,
+      "opponent": "random",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 16,
+      "territoryOpponent": 26,
+      "territoryDiff": -10,
+      "turns": 83,
+      "qHits": 0,
+      "qMisses": 24,
+      "epsilonInitial": 0.5973053937047229,
+      "epsilonFinal": 0.5970067410078705
+    },
+    {
+      "game": 11,
+      "opponent": "random",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "B",
+      "resultForQ4": "win",
+      "territoryQ4": 25,
+      "territoryOpponent": 9,
+      "territoryDiff": 16,
+      "turns": 85,
+      "qHits": 1,
+      "qMisses": 22,
+      "epsilonInitial": 0.5970067410078705,
+      "epsilonFinal": 0.5967082376373667
+    },
+    {
+      "game": 12,
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 5,
+      "territoryOpponent": 44,
+      "territoryDiff": -39,
+      "turns": 39,
+      "qHits": 0,
+      "qMisses": 11,
+      "epsilonInitial": 0.5967082376373667,
+      "epsilonFinal": 0.5964098835185481
+    },
+    {
+      "game": 13,
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 4,
+      "territoryOpponent": 45,
+      "territoryDiff": -41,
+      "turns": 48,
+      "qHits": 0,
+      "qMisses": 14,
+      "epsilonInitial": 0.5964098835185481,
+      "epsilonFinal": 0.5961116785767888
+    },
+    {
+      "game": 14,
+      "opponent": "random",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 16,
+      "territoryOpponent": 18,
+      "territoryDiff": -2,
+      "turns": 91,
+      "qHits": 2,
+      "qMisses": 23,
+      "epsilonInitial": 0.5961116785767888,
+      "epsilonFinal": 0.5958136227375005
+    },
+    {
+      "game": 15,
+      "opponent": "random",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "R",
+      "resultForQ4": "win",
+      "territoryQ4": 39,
+      "territoryOpponent": 5,
+      "territoryDiff": 34,
+      "turns": 68,
+      "qHits": 1,
+      "qMisses": 18,
+      "epsilonInitial": 0.5958136227375005,
+      "epsilonFinal": 0.5955157159261317
+    },
+    {
+      "game": 16,
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 7,
+      "territoryOpponent": 38,
+      "territoryDiff": -31,
+      "turns": 55,
+      "qHits": 0,
+      "qMisses": 15,
+      "epsilonInitial": 0.5955157159261317,
+      "epsilonFinal": 0.5952179580681687
+    },
+    {
+      "game": 17,
+      "opponent": "random",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "R",
+      "resultForQ4": "win",
+      "territoryQ4": 23,
+      "territoryOpponent": 6,
+      "territoryDiff": 17,
+      "turns": 90,
+      "qHits": 1,
+      "qMisses": 24,
+      "epsilonInitial": 0.5952179580681687,
+      "epsilonFinal": 0.5949203490891346
+    },
+    {
+      "game": 18,
+      "opponent": "random",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "B",
+      "resultForQ4": "win",
+      "territoryQ4": 40,
+      "territoryOpponent": 5,
+      "territoryDiff": 35,
+      "turns": 63,
+      "qHits": 2,
+      "qMisses": 15,
+      "epsilonInitial": 0.5949203490891346,
+      "epsilonFinal": 0.59462288891459
+    },
+    {
+      "game": 19,
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 4,
+      "territoryOpponent": 45,
+      "territoryDiff": -41,
+      "turns": 32,
+      "qHits": 0,
+      "qMisses": 10,
+      "epsilonInitial": 0.59462288891459,
+      "epsilonFinal": 0.5943255774701328
+    },
+    {
+      "game": 20,
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 14,
+      "territoryOpponent": 25,
+      "territoryDiff": -11,
+      "turns": 70,
+      "qHits": 1,
+      "qMisses": 19,
+      "epsilonInitial": 0.5943255774701328,
+      "epsilonFinal": 0.5940284146813978
+    },
+    {
+      "game": 21,
+      "opponent": "random",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "B",
+      "resultForQ4": "win",
+      "territoryQ4": 28,
+      "territoryOpponent": 6,
+      "territoryDiff": 22,
+      "turns": 100,
+      "qHits": 0,
+      "qMisses": 27,
+      "epsilonInitial": 0.5940284146813978,
+      "epsilonFinal": 0.5937314004740571
+    },
+    {
+      "game": 22,
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 7,
+      "territoryOpponent": 39,
+      "territoryDiff": -32,
+      "turns": 68,
+      "qHits": 1,
+      "qMisses": 19,
+      "epsilonInitial": 0.5937314004740571,
+      "epsilonFinal": 0.5934345347738201
+    },
+    {
+      "game": 23,
+      "opponent": "random",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "R",
+      "resultForQ4": "win",
+      "territoryQ4": 22,
+      "territoryOpponent": 18,
+      "territoryDiff": 4,
+      "turns": 93,
+      "qHits": 5,
+      "qMisses": 20,
+      "epsilonInitial": 0.5934345347738201,
+      "epsilonFinal": 0.5931378175064332
+    },
+    {
+      "game": 24,
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 6,
+      "territoryOpponent": 43,
+      "territoryDiff": -37,
+      "turns": 43,
+      "qHits": 0,
+      "qMisses": 12,
+      "epsilonInitial": 0.5931378175064332,
+      "epsilonFinal": 0.5928412485976801
+    },
+    {
+      "game": 25,
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 7,
+      "territoryOpponent": 42,
+      "territoryDiff": -35,
+      "turns": 38,
+      "qHits": 0,
+      "qMisses": 12,
+      "epsilonInitial": 0.5928412485976801,
+      "epsilonFinal": 0.5925448279733813
+    },
+    {
+      "game": 26,
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 6,
+      "territoryOpponent": 36,
+      "territoryDiff": -30,
+      "turns": 55,
+      "qHits": 3,
+      "qMisses": 12,
+      "epsilonInitial": 0.5925448279733813,
+      "epsilonFinal": 0.5922485555593946
+    },
+    {
+      "game": 27,
+      "opponent": "random",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 11,
+      "territoryOpponent": 31,
+      "territoryDiff": -20,
+      "turns": 87,
+      "qHits": 6,
+      "qMisses": 18,
+      "epsilonInitial": 0.5922485555593946,
+      "epsilonFinal": 0.5919524312816149
+    },
+    {
+      "game": 28,
+      "opponent": "random",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "B",
+      "resultForQ4": "win",
+      "territoryQ4": 19,
+      "territoryOpponent": 12,
+      "territoryDiff": 7,
+      "turns": 103,
+      "qHits": 3,
+      "qMisses": 25,
+      "epsilonInitial": 0.5919524312816149,
+      "epsilonFinal": 0.5916564550659741
+    },
+    {
+      "game": 29,
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 4,
+      "territoryOpponent": 40,
+      "territoryDiff": -36,
+      "turns": 64,
+      "qHits": 4,
+      "qMisses": 15,
+      "epsilonInitial": 0.5916564550659741,
+      "epsilonFinal": 0.5913606268384412
+    },
+    {
+      "game": 30,
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 6,
+      "territoryOpponent": 38,
+      "territoryDiff": -32,
+      "turns": 65,
+      "qHits": 2,
+      "qMisses": 16,
+      "epsilonInitial": 0.5913606268384412,
+      "epsilonFinal": 0.591064946525022
+    },
+    {
+      "game": 31,
+      "opponent": "random",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "B",
+      "resultForQ4": "win",
+      "territoryQ4": 14,
+      "territoryOpponent": 7,
+      "territoryDiff": 7,
+      "turns": 103,
+      "qHits": 7,
+      "qMisses": 21,
+      "epsilonInitial": 0.591064946525022,
+      "epsilonFinal": 0.5907694140517594
+    },
+    {
+      "game": 32,
+      "opponent": "random",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "R",
+      "resultForQ4": "win",
+      "territoryQ4": 24,
+      "territoryOpponent": 17,
+      "territoryDiff": 7,
+      "turns": 92,
+      "qHits": 5,
+      "qMisses": 20,
+      "epsilonInitial": 0.5907694140517594,
+      "epsilonFinal": 0.5904740293447336
+    },
+    {
+      "game": 33,
+      "opponent": "random",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "R",
+      "resultForQ4": "win",
+      "territoryQ4": 6,
+      "territoryOpponent": 4,
+      "territoryDiff": 2,
+      "turns": 83,
+      "qHits": 4,
+      "qMisses": 20,
+      "epsilonInitial": 0.5904740293447336,
+      "epsilonFinal": 0.5901787923300612
+    },
+    {
+      "game": 34,
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 4,
+      "territoryOpponent": 43,
+      "territoryDiff": -39,
+      "turns": 48,
+      "qHits": 1,
+      "qMisses": 13,
+      "epsilonInitial": 0.5901787923300612,
+      "epsilonFinal": 0.5898837029338962
+    },
+    {
+      "game": 35,
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 4,
+      "territoryOpponent": 39,
+      "territoryDiff": -35,
+      "turns": 69,
+      "qHits": 2,
+      "qMisses": 17,
+      "epsilonInitial": 0.5898837029338962,
+      "epsilonFinal": 0.5895887610824293
+    },
+    {
+      "game": 36,
+      "opponent": "random",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 13,
+      "territoryOpponent": 22,
+      "territoryDiff": -9,
+      "turns": 79,
+      "qHits": 1,
+      "qMisses": 21,
+      "epsilonInitial": 0.5895887610824293,
+      "epsilonFinal": 0.5892939667018882
+    },
+    {
+      "game": 37,
+      "opponent": "random",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 10,
+      "territoryOpponent": 38,
+      "territoryDiff": -28,
+      "turns": 73,
+      "qHits": 4,
+      "qMisses": 17,
+      "epsilonInitial": 0.5892939667018882,
+      "epsilonFinal": 0.5889993197185373
+    },
+    {
+      "game": 38,
+      "opponent": "random",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "B",
+      "resultForQ4": "win",
+      "territoryQ4": 19,
+      "territoryOpponent": 6,
+      "territoryDiff": 13,
+      "turns": 100,
+      "qHits": 4,
+      "qMisses": 24,
+      "epsilonInitial": 0.5889993197185373,
+      "epsilonFinal": 0.588704820058678
+    },
+    {
+      "game": 39,
+      "opponent": "heuristic",
+      "learningColor": "R",
+      "opponentColor": "B",
+      "winner": "B",
+      "resultForQ4": "loss",
+      "territoryQ4": 5,
+      "territoryOpponent": 44,
+      "territoryDiff": -39,
+      "turns": 42,
+      "qHits": 4,
+      "qMisses": 9,
+      "epsilonInitial": 0.588704820058678,
+      "epsilonFinal": 0.5884104676486487
+    },
+    {
+      "game": 40,
+      "opponent": "heuristic",
+      "learningColor": "B",
+      "opponentColor": "R",
+      "winner": "R",
+      "resultForQ4": "loss",
+      "territoryQ4": 7,
+      "territoryOpponent": 41,
+      "territoryDiff": -34,
+      "turns": 58,
+      "qHits": 3,
+      "qMisses": 13,
+      "epsilonInitial": 0.5884104676486487,
+      "epsilonFinal": 0.5881162624148244
+    }
+  ],
+  "summary": {
+    "gamesByOpponent": {
+      "random": 20,
+      "heuristic": 20
+    },
+    "gamesByColor": {
+      "R": 20,
+      "B": 20
+    },
+    "gamesByCombination": {
+      "random_R": 10,
+      "random_B": 10,
+      "heuristic_R": 10,
+      "heuristic_B": 10
+    },
+    "results": {
+      "games": 40,
+      "wins": 12,
+      "losses": 28,
+      "ties": 0
+    },
+    "resultsByOpponent": {
+      "random": {
+        "games": 20,
+        "wins": 12,
+        "losses": 8,
+        "ties": 0
+      },
+      "heuristic": {
+        "games": 20,
+        "wins": 0,
+        "losses": 20,
+        "ties": 0
+      }
+    },
+    "resultsByColor": {
+      "R": {
+        "games": 20,
+        "wins": 5,
+        "losses": 15,
+        "ties": 0
+      },
+      "B": {
+        "games": 20,
+        "wins": 7,
+        "losses": 13,
+        "ties": 0
+      }
+    },
+    "resultsByCombination": {
+      "random_R": {
+        "games": 10,
+        "wins": 5,
+        "losses": 5,
+        "ties": 0
+      },
+      "random_B": {
+        "games": 10,
+        "wins": 7,
+        "losses": 3,
+        "ties": 0
+      },
+      "heuristic_R": {
+        "games": 10,
+        "wins": 0,
+        "losses": 10,
+        "ties": 0
+      },
+      "heuristic_B": {
+        "games": 10,
+        "wins": 0,
+        "losses": 10,
+        "ties": 0
+      }
+    },
+    "qByOpponent": {
+      "random": {
+        "qHits": 46,
+        "qMisses": 433
+      },
+      "heuristic": {
+        "qHits": 22,
+        "qMisses": 297
+      }
+    },
+    "qByColor": {
+      "R": {
+        "qHits": 37,
+        "qMisses": 362
+      },
+      "B": {
+        "qHits": 31,
+        "qMisses": 368
+      }
+    },
+    "epsilonInitial": 0.6,
+    "epsilonFinal": 0.5881,
+    "finalQTableEntries": 730,
+    "uniqueQ3StatesVisited": 135
+  },
+  "createdAt": "2026-07-12T07:46:36.107Z",
+  "durationMs": 22203,
+  "outputFiles": {
+    "qTable": "data\\entrenamiento\\q4\\pilotos\\seed_3\\pilot_40\\qtable_q4_40.json",
+    "metadata": "data\\entrenamiento\\q4\\pilotos\\seed_3\\pilot_40\\metadata.json",
+    "trainingSummary": "data\\entrenamiento\\q4\\pilotos\\seed_3\\pilot_40\\training_summary.json"
+  }
+}

@@ -1,0 +1,671 @@
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
+import type { QTableSnapshot } from '@/agents/learningPolicy'
+import {
+  getLearningActionKeyQ3,
+  getLearningQTableKeyQ3,
+  getLearningStateKeyQ3,
+} from '@/agents/learningPolicyQ3'
+import * as ai from '@/utils/ai'
+import { makeInitialState, snapshotFromState } from '@/store/gameState'
+import { applyActionToState, getTerritoryCounts } from './compareLearningAgents'
+import {
+  DEFAULT_Q2_TRAINING_CONFIG,
+  Q2_REWARD_CONFIG,
+  calculateFinalRewardQ2,
+  calculateIntermediateRewardQ2,
+} from './trainLearningAgentQ2'
+
+export const Q4_BASE_DIR = 'data/entrenamiento/q4'
+export const Q4_PILOT_40_DIR = path.join(Q4_BASE_DIR, 'pilotos/seed_3/pilot_40')
+export const Q4_REWARD_CONFIG = Q2_REWARD_CONFIG
+
+export type Q4OpponentKind = 'random' | 'heuristic'
+export type ActionKindQ4 = 'place' | 'move' | 'wall' | 'move-wall'
+
+export interface Q4TrainingScheduleItem {
+  game: number
+  opponent: Q4OpponentKind
+  learningColor: Player
+}
+
+export interface Q4TrainingConfig {
+  totalGames: number
+  seed: number
+  outputDir: string
+  alpha: number
+  gamma: number
+  epsilonStart: number
+  epsilonMin: number
+  epsilonDecay: number
+  maxTurns: number
+  progressEvery: number
+  overwrite: boolean
+}
+
+interface PendingTransition {
+  state: GameSnapshot
+  action: PlayerAction
+}
+
+interface Q4GameRecord {
+  game: number
+  opponent: Q4OpponentKind
+  learningColor: Player
+  opponentColor: Player
+  winner: Player | 'tie'
+  resultForQ4: 'win' | 'loss' | 'tie'
+  territoryQ4: number
+  territoryOpponent: number
+  territoryDiff: number
+  turns: number
+  qHits: number
+  qMisses: number
+  epsilonInitial: number
+  epsilonFinal: number
+}
+
+interface ResultStats {
+  games: number
+  wins: number
+  losses: number
+  ties: number
+}
+
+interface HitMissStats {
+  qHits: number
+  qMisses: number
+}
+
+interface Q4TrainingSummary {
+  gamesByOpponent: Record<Q4OpponentKind, number>
+  gamesByColor: Record<Player, number>
+  gamesByCombination: Record<string, number>
+  results: ResultStats
+  resultsByOpponent: Record<Q4OpponentKind, ResultStats>
+  resultsByColor: Record<Player, ResultStats>
+  resultsByCombination: Record<string, ResultStats>
+  qByOpponent: Record<Q4OpponentKind, HitMissStats>
+  qByColor: Record<Player, HitMissStats>
+  epsilonInitial: number
+  epsilonFinal: number
+  finalQTableEntries: number
+  uniqueQ3StatesVisited: number
+}
+
+export interface Q4TrainingMetadata {
+  model: 'Q4'
+  seed: number
+  totalGames: number
+  startedFromEmptyQTable: true
+  initialQTableEntries: 0
+  stateRepresentation: 'Q3'
+  rewardModel: 'Q2'
+  rewardConfiguration: typeof Q2_REWARD_CONFIG
+  hyperparameters: {
+    alpha: number
+    gamma: number
+    epsilonStart: number
+    epsilonMin: number
+    epsilonDecay: number
+    maxTurns: number
+  }
+  targetDistribution: {
+    opponents: Record<Q4OpponentKind, number>
+    colors: Record<Player, number>
+    combinations: Record<string, number>
+  }
+  heuristicPolicy: {
+    placement: 'getBestPlacement'
+    playing: 'getBestHeuristicAction'
+    policy: 'default'
+  }
+  schedule: Q4TrainingScheduleItem[]
+  games: Q4GameRecord[]
+  summary: Q4TrainingSummary
+  createdAt: string
+  durationMs: number
+  outputFiles: {
+    qTable: string
+    metadata: string
+    trainingSummary: string
+  }
+}
+
+export const DEFAULT_Q4_TRAINING_CONFIG: Q4TrainingConfig = {
+  totalGames: 40,
+  seed: 3,
+  outputDir: Q4_PILOT_40_DIR,
+  alpha: DEFAULT_Q2_TRAINING_CONFIG.alpha,
+  gamma: DEFAULT_Q2_TRAINING_CONFIG.gamma,
+  epsilonStart: DEFAULT_Q2_TRAINING_CONFIG.epsilonStart,
+  epsilonMin: DEFAULT_Q2_TRAINING_CONFIG.epsilonMin,
+  epsilonDecay: DEFAULT_Q2_TRAINING_CONFIG.epsilonDecay,
+  maxTurns: DEFAULT_Q2_TRAINING_CONFIG.maxTurns,
+  progressEvery: DEFAULT_Q2_TRAINING_CONFIG.progressEvery,
+  overwrite: false,
+}
+
+function getOpponent(player: Player): Player {
+  return player === 'R' ? 'B' : 'R'
+}
+
+function roundMetric(value: number): number {
+  return Number(value.toFixed(4))
+}
+
+export function createSeededRngQ4(seed: number): () => number {
+  let state = seed >>> 0
+  return () => {
+    state = (state * 1664525 + 1013904223) >>> 0
+    return state / 0x100000000
+  }
+}
+
+function shuffleWithRng<T>(items: T[], rng: () => number): T[] {
+  const shuffled = [...items]
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const swapIndex = Math.floor(rng() * (index + 1))
+    const current = shuffled[index]!
+    shuffled[index] = shuffled[swapIndex]!
+    shuffled[swapIndex] = current
+  }
+  return shuffled
+}
+
+export function buildBalancedQ4Schedule(
+  totalGames: number,
+  seed: number,
+): Q4TrainingScheduleItem[] {
+  if (totalGames % 4 !== 0) throw new Error('Q4 totalGames must be divisible by 4')
+  const rng = createSeededRngQ4(seed)
+  const block = [
+    { opponent: 'random', learningColor: 'R' },
+    { opponent: 'random', learningColor: 'B' },
+    { opponent: 'heuristic', learningColor: 'R' },
+    { opponent: 'heuristic', learningColor: 'B' },
+  ] satisfies Array<Omit<Q4TrainingScheduleItem, 'game'>>
+
+  const schedule: Q4TrainingScheduleItem[] = []
+  for (let offset = 0; offset < totalGames; offset += block.length) {
+    for (const item of shuffleWithRng(block, rng)) {
+      schedule.push({ ...item, game: schedule.length + 1 })
+    }
+  }
+  return schedule
+}
+
+function combinationKey(opponent: Q4OpponentKind, color: Player): string {
+  return `${opponent}_${color}`
+}
+
+function getActionKindQ4(action: PlayerAction): ActionKindQ4 {
+  if (action.type === 'move' && action.followUp?.type === 'wall') return 'move-wall'
+  return action.type
+}
+
+export function chooseRandomActionWithRngQ4(
+  actions: PlayerAction[],
+  rng: () => number,
+): PlayerAction {
+  if (actions.length === 0) throw new Error('No legal actions available')
+  return actions[Math.floor(rng() * actions.length)]!
+}
+
+function withSeededMathRandomQ4<T>(rng: () => number, fn: () => T): T {
+  const previous = Math.random
+  Math.random = rng
+  try {
+    return fn()
+  } finally {
+    Math.random = previous
+  }
+}
+
+export function chooseHeuristicOpponentActionQ4(
+  state: GameSnapshot,
+  rng: () => number,
+): PlayerAction {
+  return withSeededMathRandomQ4(rng, () => {
+    if (state.phase === 'placing') return ai.getBestPlacement(state)
+    return (
+      ai.getBestHeuristicAction(state) ??
+      chooseRandomActionWithRngQ4(ai.getLegalActions(state), rng)
+    )
+  })
+}
+
+export function chooseLearningActionQ4(
+  state: GameSnapshot,
+  legalActions: PlayerAction[],
+  epsilon: number,
+  qTable: QTableSnapshot,
+  rng: () => number,
+): { action: PlayerAction; selectedKeyExists: boolean } {
+  if (legalActions.length === 0) throw new Error('No legal actions available')
+
+  if (rng() < epsilon) {
+    const action = chooseRandomActionWithRngQ4(legalActions, rng)
+    return {
+      action,
+      selectedKeyExists: qTable[getLearningQTableKeyQ3(state, action)] !== undefined,
+    }
+  }
+
+  let bestValue = -Infinity
+  const bestActions: PlayerAction[] = []
+  for (const action of legalActions) {
+    const value = qTable[getLearningQTableKeyQ3(state, action)] ?? 0
+    if (value > bestValue) {
+      bestValue = value
+      bestActions.length = 0
+      bestActions.push(action)
+    } else if (value === bestValue) {
+      bestActions.push(action)
+    }
+  }
+
+  const action = chooseRandomActionWithRngQ4(bestActions, rng)
+  return { action, selectedKeyExists: qTable[getLearningQTableKeyQ3(state, action)] !== undefined }
+}
+
+export function getMaxQValueQ4(
+  state: GameSnapshot | undefined,
+  qTable: QTableSnapshot,
+  terminal: boolean,
+): number {
+  if (terminal || !state || state.phase === 'finished') return 0
+  const legalActions = ai.getLegalActions(state)
+  if (legalActions.length === 0) return 0
+  return Math.max(
+    ...legalActions.map((action) => qTable[getLearningQTableKeyQ3(state, action)] ?? 0),
+  )
+}
+
+export function updateQValueQ4(params: {
+  qTable: QTableSnapshot
+  state: GameSnapshot
+  action: PlayerAction
+  reward: number
+  nextState: GameSnapshot | undefined
+  terminal: boolean
+  alpha: number
+  gamma: number
+}): void {
+  const key = getLearningQTableKeyQ3(params.state, params.action)
+  const currentQ = params.qTable[key] ?? 0
+  const nextMax = getMaxQValueQ4(params.nextState, params.qTable, params.terminal)
+  params.qTable[key] = currentQ + params.alpha * (params.reward + params.gamma * nextMax - currentQ)
+}
+
+export function applyFullActionQ4(
+  state: GameSnapshot,
+  action: PlayerAction,
+): { state: GameSnapshot; turns: number } {
+  let nextState = applyActionToState(state, action)
+  let turns = 1
+  if (action.followUp && nextState.phase !== 'finished') {
+    nextState = applyActionToState(nextState, action.followUp)
+    turns += 1
+  }
+  return { state: nextState, turns }
+}
+
+function finalizeGameIfNeeded(state: GameSnapshot): GameSnapshot {
+  if (state.phase === 'finished' || state.result) return state
+  const territory = getTerritoryCounts(state.board)
+  return {
+    ...state,
+    phase: 'finished',
+    result:
+      territory.R === territory.B
+        ? { finished: true, tie: true, score: territory }
+        : { finished: true, winner: territory.R > territory.B ? 'R' : 'B', score: territory },
+  }
+}
+
+function assertOutputCanBeWritten(outputDir: string, overwrite: boolean): void {
+  if (!existsSync(outputDir)) return
+  if (overwrite) return
+  if (readdirSync(outputDir).length > 0) {
+    throw new Error(`Output directory already exists and is not empty: ${outputDir}`)
+  }
+}
+
+function writeJson(filePath: string, data: unknown): void {
+  writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, 'utf8')
+}
+
+function createResultStats(): ResultStats {
+  return { games: 0, wins: 0, losses: 0, ties: 0 }
+}
+
+function createHitMissStats(): HitMissStats {
+  return { qHits: 0, qMisses: 0 }
+}
+
+function addResult(stats: ResultStats, result: Q4GameRecord['resultForQ4']): void {
+  stats.games++
+  if (result === 'win') stats.wins++
+  else if (result === 'loss') stats.losses++
+  else stats.ties++
+}
+
+function addHitMiss(stats: HitMissStats, qHits: number, qMisses: number): void {
+  stats.qHits += qHits
+  stats.qMisses += qMisses
+}
+
+function summarizeGames(params: {
+  games: Q4GameRecord[]
+  epsilonInitial: number
+  epsilonFinal: number
+  qTable: QTableSnapshot
+}): Q4TrainingSummary {
+  const summary: Q4TrainingSummary = {
+    gamesByOpponent: { random: 0, heuristic: 0 },
+    gamesByColor: { R: 0, B: 0 },
+    gamesByCombination: {
+      random_R: 0,
+      random_B: 0,
+      heuristic_R: 0,
+      heuristic_B: 0,
+    },
+    results: createResultStats(),
+    resultsByOpponent: { random: createResultStats(), heuristic: createResultStats() },
+    resultsByColor: { R: createResultStats(), B: createResultStats() },
+    resultsByCombination: {
+      random_R: createResultStats(),
+      random_B: createResultStats(),
+      heuristic_R: createResultStats(),
+      heuristic_B: createResultStats(),
+    },
+    qByOpponent: { random: createHitMissStats(), heuristic: createHitMissStats() },
+    qByColor: { R: createHitMissStats(), B: createHitMissStats() },
+    epsilonInitial: params.epsilonInitial,
+    epsilonFinal: params.epsilonFinal,
+    finalQTableEntries: Object.keys(params.qTable).length,
+    uniqueQ3StatesVisited: new Set(Object.keys(params.qTable).map((key) => key.split('|||')[0]))
+      .size,
+  }
+
+  for (const game of params.games) {
+    const key = combinationKey(game.opponent, game.learningColor)
+    summary.gamesByOpponent[game.opponent]++
+    summary.gamesByColor[game.learningColor]++
+    summary.gamesByCombination[key]++
+    addResult(summary.results, game.resultForQ4)
+    addResult(summary.resultsByOpponent[game.opponent], game.resultForQ4)
+    addResult(summary.resultsByColor[game.learningColor], game.resultForQ4)
+    addResult(summary.resultsByCombination[key], game.resultForQ4)
+    addHitMiss(summary.qByOpponent[game.opponent], game.qHits, game.qMisses)
+    addHitMiss(summary.qByColor[game.learningColor], game.qHits, game.qMisses)
+  }
+
+  return summary
+}
+
+function buildTargetDistribution(totalGames: number): Q4TrainingMetadata['targetDistribution'] {
+  return {
+    opponents: { random: totalGames / 2, heuristic: totalGames / 2 },
+    colors: { R: totalGames / 2, B: totalGames / 2 },
+    combinations: {
+      random_R: totalGames / 4,
+      random_B: totalGames / 4,
+      heuristic_R: totalGames / 4,
+      heuristic_B: totalGames / 4,
+    },
+  }
+}
+
+async function runQ4TrainingGame(params: {
+  scheduleItem: Q4TrainingScheduleItem
+  qTable: QTableSnapshot
+  epsilon: number
+  alpha: number
+  gamma: number
+  maxTurns: number
+  rng: () => number
+}): Promise<Omit<Q4GameRecord, 'epsilonInitial' | 'epsilonFinal'>> {
+  let state = makeInitialState()
+  const learningSide = params.scheduleItem.learningColor
+  const opponentSide = getOpponent(learningSide)
+  let pending: PendingTransition | undefined
+  let pendingReward = 0
+  let turns = 0
+  let qHits = 0
+  let qMisses = 0
+
+  while (state.phase !== 'finished' && !state.result && turns < params.maxTurns) {
+    const prevState = snapshotFromState(state)
+    const isLearningTurn = prevState.turn === learningSide
+
+    if (isLearningTurn && pending) {
+      updateQValueQ4({
+        qTable: params.qTable,
+        state: pending.state,
+        action: pending.action,
+        reward: pendingReward,
+        nextState: prevState,
+        terminal: false,
+        alpha: params.alpha,
+        gamma: params.gamma,
+      })
+      pending = undefined
+      pendingReward = 0
+    }
+
+    let action: PlayerAction
+    if (isLearningTurn) {
+      const choice = chooseLearningActionQ4(
+        prevState,
+        ai.getLegalActions(prevState),
+        params.epsilon,
+        params.qTable,
+        params.rng,
+      )
+      action = choice.action
+      if (choice.selectedKeyExists) qHits++
+      else qMisses++
+      getLearningStateKeyQ3(prevState)
+      getLearningActionKeyQ3(prevState, action)
+      getActionKindQ4(action)
+    } else if (params.scheduleItem.opponent === 'random') {
+      action = chooseRandomActionWithRngQ4(ai.getLegalActions(prevState), params.rng)
+    } else {
+      action = chooseHeuristicOpponentActionQ4(prevState, params.rng)
+    }
+
+    const applied = applyFullActionQ4(state, action)
+    state = applied.state
+    turns += applied.turns
+    pendingReward += calculateIntermediateRewardQ2(prevState, state, learningSide)
+
+    if (isLearningTurn) {
+      pending = { state: prevState, action }
+    }
+  }
+
+  state = finalizeGameIfNeeded(state)
+  const territory = state.result?.score ?? getTerritoryCounts(state.board)
+  const winner = state.result?.tie ? 'tie' : (state.result?.winner ?? 'tie')
+
+  if (pending) {
+    updateQValueQ4({
+      qTable: params.qTable,
+      state: pending.state,
+      action: pending.action,
+      reward: pendingReward + calculateFinalRewardQ2(winner, territory, learningSide),
+      nextState: undefined,
+      terminal: true,
+      alpha: params.alpha,
+      gamma: params.gamma,
+    })
+  }
+
+  return {
+    game: params.scheduleItem.game,
+    opponent: params.scheduleItem.opponent,
+    learningColor: learningSide,
+    opponentColor: opponentSide,
+    winner,
+    resultForQ4: winner === 'tie' ? 'tie' : winner === learningSide ? 'win' : 'loss',
+    territoryQ4: territory[learningSide],
+    territoryOpponent: territory[opponentSide],
+    territoryDiff: territory[learningSide] - territory[opponentSide],
+    turns,
+    qHits,
+    qMisses,
+  }
+}
+
+export async function runLearningAgentQ4Training(
+  options: Partial<Q4TrainingConfig> = {},
+): Promise<{ qTable: QTableSnapshot; metadata: Q4TrainingMetadata }> {
+  const config: Q4TrainingConfig = { ...DEFAULT_Q4_TRAINING_CONFIG, ...options }
+  assertOutputCanBeWritten(config.outputDir, config.overwrite)
+  const startedAt = Date.now()
+  const rng = createSeededRngQ4(config.seed)
+  const qTable: QTableSnapshot = {}
+  const initialQTableEntries = Object.keys(qTable).length
+  if (initialQTableEntries !== 0) throw new Error('Q4 must start from an empty Q-table')
+
+  const schedule = buildBalancedQ4Schedule(config.totalGames, config.seed)
+  const games: Q4GameRecord[] = []
+  let epsilon = config.epsilonStart
+
+  for (const scheduleItem of schedule) {
+    const epsilonInitial = epsilon
+    const gameStats = await runQ4TrainingGame({
+      scheduleItem,
+      qTable,
+      epsilon,
+      alpha: config.alpha,
+      gamma: config.gamma,
+      maxTurns: config.maxTurns,
+      rng,
+    })
+    epsilon = Math.max(epsilon * config.epsilonDecay, config.epsilonMin)
+    games.push({ ...gameStats, epsilonInitial, epsilonFinal: epsilon })
+
+    if (config.progressEvery > 0 && scheduleItem.game % config.progressEvery === 0) {
+      console.log(
+        `[trainLearningAgentQ4] ${scheduleItem.game}/${config.totalGames} games, qTable=${Object.keys(qTable).length}, epsilon=${epsilon.toFixed(4)}`,
+      )
+    }
+  }
+
+  const outputFiles = {
+    qTable: path.join(config.outputDir, `qtable_q4_${config.totalGames}.json`),
+    metadata: path.join(config.outputDir, 'metadata.json'),
+    trainingSummary: path.join(config.outputDir, 'training_summary.json'),
+  }
+  const summary = summarizeGames({
+    games,
+    epsilonInitial: config.epsilonStart,
+    epsilonFinal: roundMetric(epsilon),
+    qTable,
+  })
+  const metadata: Q4TrainingMetadata = {
+    model: 'Q4',
+    seed: config.seed,
+    totalGames: config.totalGames,
+    startedFromEmptyQTable: true,
+    initialQTableEntries: 0,
+    stateRepresentation: 'Q3',
+    rewardModel: 'Q2',
+    rewardConfiguration: { ...Q4_REWARD_CONFIG },
+    hyperparameters: {
+      alpha: config.alpha,
+      gamma: config.gamma,
+      epsilonStart: config.epsilonStart,
+      epsilonMin: config.epsilonMin,
+      epsilonDecay: config.epsilonDecay,
+      maxTurns: config.maxTurns,
+    },
+    targetDistribution: buildTargetDistribution(config.totalGames),
+    heuristicPolicy: {
+      placement: 'getBestPlacement',
+      playing: 'getBestHeuristicAction',
+      policy: 'default',
+    },
+    schedule,
+    games,
+    summary,
+    createdAt: new Date().toISOString(),
+    durationMs: Date.now() - startedAt,
+    outputFiles,
+  }
+
+  mkdirSync(config.outputDir, { recursive: true })
+  writeJson(outputFiles.qTable, qTable)
+  writeJson(outputFiles.metadata, metadata)
+  writeJson(outputFiles.trainingSummary, {
+    model: 'Q4',
+    seed: config.seed,
+    totalGames: config.totalGames,
+    summary,
+  })
+
+  return { qTable, metadata }
+}
+
+export function loadQ4Metadata(metadataPath: string): Q4TrainingMetadata {
+  return JSON.parse(readFileSync(path.resolve(metadataPath), 'utf8')) as Q4TrainingMetadata
+}
+
+export function loadQ4QTable(qTablePath: string): QTableSnapshot {
+  return JSON.parse(readFileSync(path.resolve(qTablePath), 'utf8')) as QTableSnapshot
+}
+
+export function validateQ4PilotMetadata(metadata: Q4TrainingMetadata): void {
+  if (metadata.model !== 'Q4') throw new Error('metadata.model must be Q4')
+  if (metadata.totalGames !== 40) throw new Error('Q4 pilot must contain exactly 40 games')
+  if (!metadata.startedFromEmptyQTable || metadata.initialQTableEntries !== 0) {
+    throw new Error('Q4 pilot must start from an empty Q-table')
+  }
+  if (metadata.summary.gamesByOpponent.random !== 20) throw new Error('Expected 20 random games')
+  if (metadata.summary.gamesByOpponent.heuristic !== 20) {
+    throw new Error('Expected 20 heuristic games')
+  }
+  if (metadata.summary.gamesByColor.R !== 20) throw new Error('Expected 20 games as R')
+  if (metadata.summary.gamesByColor.B !== 20) throw new Error('Expected 20 games as B')
+  for (const value of Object.values(metadata.summary.gamesByCombination)) {
+    if (value !== 10) throw new Error('Expected 10 games for every opponent-color combination')
+  }
+  if (metadata.summary.finalQTableEntries <= 0) throw new Error('Expected a non-empty Q4 table')
+  if (metadata.games.length !== 40) throw new Error('Expected 40 game records')
+  if (
+    metadata.summary.qByOpponent.heuristic.qHits + metadata.summary.qByOpponent.heuristic.qMisses <=
+    0
+  ) {
+    throw new Error('Expected Q decisions against heuristic')
+  }
+}
+
+async function runCli(): Promise<void> {
+  const command = process.argv[2] ?? 'pilot-40'
+  if (command !== 'pilot-40') throw new Error(`Unknown command: ${command}`)
+  const result = await runLearningAgentQ4Training({
+    totalGames: 40,
+    seed: 3,
+    outputDir: Q4_PILOT_40_DIR,
+    progressEvery: 0,
+    overwrite: process.argv.includes('--overwrite'),
+  })
+  validateQ4PilotMetadata(result.metadata)
+  console.log(`[trainLearningAgentQ4] Q4 pilot games: ${result.metadata.totalGames}`)
+  console.log(`[trainLearningAgentQ4] Q4 pilot entries: ${Object.keys(result.qTable).length}`)
+  console.log(`[trainLearningAgentQ4] Q4 pilot output: ${result.metadata.outputFiles.metadata}`)
+}
+
+function isDirectExecution(): boolean {
+  if (typeof process === 'undefined' || !process.argv[1]) return false
+  return path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))
+}
+
+if (isDirectExecution()) {
+  await runCli()
+}
