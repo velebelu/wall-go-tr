@@ -20,8 +20,10 @@ import {
   chooseRandomActionWithRngQ4,
   chooseHeuristicOpponentActionQ4,
   createSeededRngQ4,
+  continueLearningAgentQ4Training,
   loadQ4Metadata,
   runLearningAgentQ4Training,
+  validateQ4Checkpoint1000Metadata,
   validateQ4Checkpoint500Metadata,
   validateQ4PilotMetadata,
   type Q4TrainingMetadata,
@@ -124,7 +126,7 @@ describe('trainLearningAgentQ4 configuration', () => {
     expect('qTable' in DEFAULT_Q4_TRAINING_CONFIG).toBe(false)
   })
 
-  it('does not reference heuristic traces or previous Q-tables', () => {
+  it('does not reference heuristic traces or Q1/Q2/Q3 checkpoint loaders', () => {
     const source = readFileSync(path.resolve('src/training/trainLearningAgentQ4.ts'), 'utf8')
 
     expect(source).not.toContain('qtable_from_heuristics')
@@ -189,6 +191,31 @@ describe('trainLearningAgentQ4 balanced schedule', () => {
         heuristic_B: 1,
       })
     }
+  })
+
+  it('builds the exact 1000-game accumulated checkpoint distribution', () => {
+    const schedule = buildBalancedQ4Schedule(1000, 3)
+
+    expect(countSchedule(schedule)).toEqual({
+      random: 500,
+      heuristic: 500,
+      R: 500,
+      B: 500,
+      random_R: 250,
+      random_B: 250,
+      heuristic_R: 250,
+      heuristic_B: 250,
+    })
+    expect(countSchedule(schedule.slice(500))).toEqual({
+      random: 250,
+      heuristic: 250,
+      R: 250,
+      B: 250,
+      random_R: 125,
+      random_B: 125,
+      heuristic_R: 125,
+      heuristic_B: 125,
+    })
   })
 
   it('is reproducible with the same seed and usually different with another seed', () => {
@@ -403,6 +430,100 @@ describe('trainLearningAgentQ4 pilot metadata', () => {
 
     expect(result.metadata.outputFiles.qTable).toContain('qtable_q4_500.json')
     expect(() => validateQ4Checkpoint500Metadata(metadata)).not.toThrow()
+  })
+
+  it('continues from a Q4 checkpoint and records continuation metadata', async () => {
+    const baseDir = makeTempDir()
+    const source = await runLearningAgentQ4Training({
+      totalGames: 4,
+      checkpoint: 4,
+      seed: 3,
+      outputDir: path.join(baseDir, 'checkpoint_4'),
+      progressEvery: 0,
+      maxTurns: 8,
+    })
+    const continued = await continueLearningAgentQ4Training({
+      sourceQTablePath: source.metadata.outputFiles.qTable,
+      sourceMetadataPath: source.metadata.outputFiles.metadata,
+      targetGames: 8,
+      checkpoint: 8,
+      seed: 3,
+      outputDir: path.join(baseDir, 'checkpoint_8'),
+      progressEvery: 0,
+    })
+
+    expect(continued.metadata.initialization).toBe('checkpoint')
+    expect(continued.metadata.startedFromEmptyQTable).toBe(false)
+    expect(continued.metadata.initialQTableEntries).toBe(Object.keys(source.qTable).length)
+    expect(continued.metadata.sourceCheckpoint?.checkpoint).toBe(4)
+    expect(continued.metadata.newTrainingGames).toBe(4)
+    expect(continued.metadata.totalGames).toBe(8)
+    expect(continued.metadata.games).toHaveLength(8)
+    expect(continued.metadata.games.slice(4).map((game) => game.game)).toEqual([5, 6, 7, 8])
+    expect(continued.metadata.epsilonContinuationInitial).toBe(source.metadata.summary.epsilonFinal)
+    expect(continued.metadata.outputFiles.qTable).toContain('qtable_q4_8.json')
+  })
+
+  it('validates checkpoint 1000 continuation metadata shape without running 500 new games', async () => {
+    const result = await runLearningAgentQ4Training({
+      totalGames: 4,
+      checkpoint: 1000,
+      seed: 3,
+      outputDir: path.join(makeTempDir(), 'checkpoint_1000_shape'),
+      progressEvery: 0,
+      maxTurns: 8,
+    })
+    const sourceEpsilon = 0.4673
+    const finalEpsilon = Number((sourceEpsilon * 0.9995 ** 500).toFixed(4))
+    const metadata = {
+      ...result.metadata,
+      totalGames: 1000,
+      checkpoint: 1000,
+      startedFromEmptyQTable: false,
+      initialization: 'checkpoint',
+      initialQTableEntries: 6339,
+      sourceCheckpoint: {
+        checkpoint: 500,
+        qTablePath: 'data/entrenamiento/q4/checkpoint_500/qtable_q4_500.json',
+        metadataPath: 'data/entrenamiento/q4/checkpoint_500/metadata.json',
+        qTableEntries: 6339,
+        trainingGames: 500,
+        epsilonFinal: sourceEpsilon,
+      },
+      newTrainingGames: 500,
+      totalTrainingGames: 1000,
+      epsilonContinuationInitial: sourceEpsilon,
+      games: Array.from({ length: 1000 }, (_, index) => ({
+        ...result.metadata.games[index % result.metadata.games.length]!,
+        game: index + 1,
+        opponent: index % 2 === 0 ? 'random' : 'heuristic',
+        learningColor: index % 4 < 2 ? 'R' : 'B',
+      })),
+      summary: {
+        ...result.metadata.summary,
+        gamesByOpponent: { random: 500, heuristic: 500 },
+        gamesByColor: { R: 500, B: 500 },
+        gamesByCombination: {
+          random_R: 250,
+          random_B: 250,
+          heuristic_R: 250,
+          heuristic_B: 250,
+        },
+        finalQTableEntries: 7000,
+        epsilonInitial: 0.6,
+        epsilonFinal: finalEpsilon,
+      },
+    } as Q4TrainingMetadata
+    const qHits = metadata.games.reduce((sum, game) => sum + game.qHits, 0)
+    const qMisses = metadata.games.reduce((sum, game) => sum + game.qMisses, 0)
+    metadata.summary.qTotal = {
+      qHits,
+      qMisses,
+      qHitRate: Number(((qHits / (qHits + qMisses)) * 100).toFixed(4)),
+    }
+
+    expect(result.metadata.outputFiles.qTable).toContain('qtable_q4_1000.json')
+    expect(() => validateQ4Checkpoint1000Metadata(metadata)).not.toThrow()
   })
 
   it('keeps complete move-wall Q3 action encoding available', () => {
