@@ -48,6 +48,10 @@ export const Q5_HYBRID_THRESHOLD_SEARCH_DIR = path.join(
   Q5_BASE_DIR,
   'hybrid/threshold_search',
 )
+export const Q5_HYBRID_THRESHOLD_VALIDATION_EXTENDED_DIR = path.join(
+  Q5_BASE_DIR,
+  'hybrid/threshold_validation_extended',
+)
 
 export type Q5OpponentKind = Q4OpponentKind
 
@@ -1712,7 +1716,7 @@ export async function evaluateHybridQ5Policy(options: {
 }
 
 interface Q5ThresholdEvaluationGameResult {
-  variant: Q5ThresholdPolicyVariant['id']
+  variant: Q5ThresholdPolicyVariant['id'] | 'heuristic'
   rival: Q5OpponentKind
   seed: number
   game: number
@@ -2000,6 +2004,301 @@ export async function evaluateQ5ThresholdSearch(options: {
   mkdirSync(outputDir, { recursive: true })
   writeJson(path.join(outputDir, 'threshold_search_summary.json'), summary)
   writeFileSync(path.join(outputDir, 'threshold_search_results.csv'), `${thresholdResultsToCsv(allResults)}\n`, 'utf8')
+  writeJson(path.join(outputDir, 'metadata.json'), {
+    createdAt: summary.createdAt,
+    qTablePath,
+    outputDir,
+    confidenceDefinition: summary.confidenceDefinition,
+    protocol: summary.protocol,
+  })
+  return { summary, results: allResults }
+}
+
+function summarizeExtendedThresholdGroup(groupResults: Q5ThresholdEvaluationGameResult[]) {
+  const wins = groupResults.filter((result) => result.q5Won).length
+  const ties = groupResults.filter((result) => result.tie).length
+  const losses = groupResults.length - wins - ties
+  const decisions = createThresholdDecisionStats()
+  for (const result of groupResults) {
+    decisions.matches += result.decisions.matches
+    decisions.qOverridesAccepted += result.decisions.qOverridesAccepted
+    decisions.qOverridesRejected += result.decisions.qOverridesRejected
+  }
+  const totalDecisions = decisions.matches + decisions.qOverridesAccepted + decisions.qOverridesRejected
+  const qExecutedDecisions = decisions.matches + decisions.qOverridesAccepted
+  const overrideGames = groupResults.filter((result) => result.decisions.qOverridesAccepted > 0)
+  const overrideWins = overrideGames.filter((result) => result.q5Won).length
+  const overrideTies = overrideGames.filter((result) => result.tie).length
+  return {
+    games: groupResults.length,
+    wins,
+    losses,
+    ties,
+    winRate: groupResults.length ? roundMetric((wins / groupResults.length) * 100) : 0,
+    averageTerritoryQ5: groupResults.length
+      ? roundMetric(groupResults.reduce((sum, result) => sum + result.territoryQ5, 0) / groupResults.length)
+      : 0,
+    averageTerritoryRival: groupResults.length
+      ? roundMetric(groupResults.reduce((sum, result) => sum + result.territoryRival, 0) / groupResults.length)
+      : 0,
+    averageTerritorialDiff: groupResults.length
+      ? roundMetric(groupResults.reduce((sum, result) => sum + result.territorialDiff, 0) / groupResults.length)
+      : 0,
+    averageTurns: groupResults.length
+      ? roundMetric(groupResults.reduce((sum, result) => sum + result.turns, 0) / groupResults.length)
+      : 0,
+    decisions,
+    qExecutedDecisions,
+    decisionPercentages: {
+      matches: totalDecisions ? roundMetric((decisions.matches / totalDecisions) * 100) : 0,
+      qOverridesAccepted: totalDecisions
+        ? roundMetric((decisions.qOverridesAccepted / totalDecisions) * 100)
+        : 0,
+      qOverridesRejected: totalDecisions
+        ? roundMetric((decisions.qOverridesRejected / totalDecisions) * 100)
+        : 0,
+      qExecuted: totalDecisions ? roundMetric((qExecutedDecisions / totalDecisions) * 100) : 0,
+    },
+    overrideGames: {
+      games: overrideGames.length,
+      wins: overrideWins,
+      losses: overrideGames.length - overrideWins - overrideTies,
+      ties: overrideTies,
+      winRate: overrideGames.length ? roundMetric((overrideWins / overrideGames.length) * 100) : 0,
+    },
+  }
+}
+
+function summarizeBlockVariability(values: number[]) {
+  if (values.length === 0) return { mean: 0, min: 0, max: 0, standardDeviation: 0 }
+  const mean = values.reduce((sum, value) => sum + value, 0) / values.length
+  const variance =
+    values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length
+  return {
+    mean: roundMetric(mean),
+    min: roundMetric(Math.min(...values)),
+    max: roundMetric(Math.max(...values)),
+    standardDeviation: roundMetric(Math.sqrt(variance)),
+  }
+}
+
+function summarizeExtendedThresholdVariant(
+  variant: Q5ThresholdPolicyVariant | { id: 'heuristic'; minConfidence: null; minMargin: null },
+  results: Q5ThresholdEvaluationGameResult[],
+) {
+  const blockSummaries = [1, 2, 3, 4, 5].map((block) => {
+    const blockResults = results.filter(
+      (result) => Math.floor((result.seed - 702001) / 400) + 1 === block,
+    )
+    return {
+      block,
+      seedStart: 702000 + (block - 1) * 400 + 1,
+      seedEnd: 702000 + block * 400,
+      aggregate: summarizeExtendedThresholdGroup(blockResults),
+      byRival: {
+        random: summarizeExtendedThresholdGroup(blockResults.filter((result) => result.rival === 'random')),
+        heuristic: summarizeExtendedThresholdGroup(
+          blockResults.filter((result) => result.rival === 'heuristic'),
+        ),
+      },
+      byColor: {
+        R: summarizeExtendedThresholdGroup(blockResults.filter((result) => result.colorQ5 === 'R')),
+        B: summarizeExtendedThresholdGroup(blockResults.filter((result) => result.colorQ5 === 'B')),
+      },
+    }
+  })
+  return {
+    variant,
+    aggregate: summarizeExtendedThresholdGroup(results),
+    byRival: {
+      random: summarizeExtendedThresholdGroup(results.filter((result) => result.rival === 'random')),
+      heuristic: summarizeExtendedThresholdGroup(results.filter((result) => result.rival === 'heuristic')),
+    },
+    byColor: {
+      R: summarizeExtendedThresholdGroup(results.filter((result) => result.colorQ5 === 'R')),
+      B: summarizeExtendedThresholdGroup(results.filter((result) => result.colorQ5 === 'B')),
+    },
+    blocks: blockSummaries,
+    variability: {
+      randomWinRate: summarizeBlockVariability(
+        blockSummaries.map((block) => block.byRival.random.winRate),
+      ),
+      heuristicWinRate: summarizeBlockVariability(
+        blockSummaries.map((block) => block.byRival.heuristic.winRate),
+      ),
+      heuristicTerritorialDiff: summarizeBlockVariability(
+        blockSummaries.map((block) => block.byRival.heuristic.averageTerritorialDiff),
+      ),
+    },
+  }
+}
+
+async function runSingleHeuristicControlEvaluationGame(params: {
+  seed: number
+  rival: Q5OpponentKind
+  game: number
+  q5Color: Player
+}): Promise<Q5ThresholdEvaluationGameResult> {
+  const rng = createSeededRngQ4(params.seed)
+  let state = makeInitialState()
+  let turns = 0
+  while (state.phase !== 'finished' && !state.result && turns < 250) {
+    const previousState = snapshotFromState(state)
+    const action =
+      previousState.turn === params.q5Color
+        ? chooseHeuristicOpponentActionQ4(previousState, rng)
+        : params.rival === 'random'
+          ? chooseRandomActionWithRngQ4(ai.getLegalActions(previousState), rng)
+          : chooseHeuristicOpponentActionQ4(previousState, rng)
+    const applied = applyFullActionQ5(state, action)
+    state = applied.state
+    turns += applied.turns
+  }
+
+  state = finalizeGameIfNeeded(state)
+  const territory = state.result?.score ?? getTerritoryCounts(state.board)
+  const winner = state.result?.tie ? 'tie' : (state.result?.winner ?? 'tie')
+  const rivalColor = getOpponent(params.q5Color)
+  return {
+    variant: 'heuristic',
+    rival: params.rival,
+    seed: params.seed,
+    game: params.game,
+    colorQ5: params.q5Color,
+    winner,
+    q5Won: winner === params.q5Color,
+    tie: winner === 'tie',
+    territoryQ5: territory[params.q5Color],
+    territoryRival: territory[rivalColor],
+    territorialDiff: territory[params.q5Color] - territory[rivalColor],
+    turns,
+    decisions: createThresholdDecisionStats(),
+    qTableChangedDuringEvaluation: false,
+  }
+}
+
+export async function evaluateQ5ThresholdValidationExtended(options: {
+  outputDir?: string
+  overwrite?: boolean
+} = {}): Promise<{ summary: unknown; results: Q5ThresholdEvaluationGameResult[] }> {
+  const outputDir = path.resolve(options.outputDir ?? Q5_HYBRID_THRESHOLD_VALIDATION_EXTENDED_DIR)
+  assertOutputCanBeWritten(outputDir, options.overwrite ?? false)
+  const qTablePath = path.resolve(Q5_HEURISTIC_INITIAL_QTABLE_PATH)
+  const qTable = Object.freeze({ ...loadQTable(qTablePath) }) as QTableSnapshot
+  const hashBefore = hashFile(qTablePath)
+  const fingerprintBefore = qTableFingerprint(qTable)
+  const confidenceMap = loadQ5ConfidenceMap(Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH)
+  const qLearningUpdateCounts = new Map<string, number>()
+  const selectedVariants = Q5_THRESHOLD_POLICY_VARIANTS.filter((variant) =>
+    ['A', 'D', 'E'].includes(variant.id),
+  )
+  const allResults: Q5ThresholdEvaluationGameResult[] = []
+  const variantSummaries = []
+
+  for (const variant of selectedVariants) {
+    const variantResults: Q5ThresholdEvaluationGameResult[] = []
+    for (let block = 1; block <= 5; block++) {
+      let gameInBlock = 0
+      for (const rival of ['random', 'heuristic'] as const) {
+        for (const colorQ5 of ['R', 'B'] as const) {
+          for (let game = 1; game <= 100; game++) {
+            gameInBlock++
+            const seed = 702000 + (block - 1) * 400 + gameInBlock
+            const result = await runSingleThresholdEvaluationGame({
+              variant,
+              rival,
+              game,
+              seed,
+              q5Color: colorQ5,
+              qTable,
+              qTablePath,
+              initialFileHash: hashBefore,
+              initialFingerprint: fingerprintBefore,
+              confidenceMap,
+              qLearningUpdateCounts,
+            })
+            if (result.qTableChangedDuringEvaluation) {
+              throw new Error('Q5 extended threshold validation qTable changed during evaluation')
+            }
+            variantResults.push(result)
+            allResults.push(result)
+          }
+        }
+      }
+    }
+    variantSummaries.push(summarizeExtendedThresholdVariant(variant, variantResults))
+  }
+
+  const heuristicResults: Q5ThresholdEvaluationGameResult[] = []
+  for (let block = 1; block <= 5; block++) {
+    let gameInBlock = 0
+    for (const rival of ['random', 'heuristic'] as const) {
+      for (const colorQ5 of ['R', 'B'] as const) {
+        for (let game = 1; game <= 100; game++) {
+          gameInBlock++
+          const result = await runSingleHeuristicControlEvaluationGame({
+            rival,
+            game,
+            seed: 702000 + (block - 1) * 400 + gameInBlock,
+            q5Color: colorQ5,
+          })
+          heuristicResults.push(result)
+          allResults.push(result)
+        }
+      }
+    }
+  }
+  variantSummaries.push(
+    summarizeExtendedThresholdVariant(
+      { id: 'heuristic', minConfidence: null, minMargin: null },
+      heuristicResults,
+    ),
+  )
+
+  const hashAfter = hashFile(qTablePath)
+  const summary = {
+    createdAt: new Date().toISOString(),
+    model: 'Q5',
+    experiment: 'hybrid_threshold_validation_extended',
+    qTablePath,
+    qTableEntries: Object.keys(qTable).length,
+    qTableHashBefore: hashBefore,
+    qTableHashAfter: hashAfter,
+    qTableChangedDuringEvaluation: hashBefore !== hashAfter || qTableFingerprint(qTable) !== fingerprintBefore,
+    confidenceDefinition: {
+      value: 'max(originalDatasetObservations, qLearningUpdatesAfterInitialization)',
+      originalDatasetObservations: Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH,
+      qLearningUpdatesAfterInitialization: 'none loaded for this frozen initial-table validation',
+    },
+    protocol: {
+      epsilon: 0,
+      learnsDuringEvaluation: false,
+      qTableFrozen: true,
+      alphaUpdates: false,
+      representation: 'Q3',
+      seedBase: 702000,
+      blocks: 5,
+      gamesPerBlock: 400,
+      gamesPerVariant: 2000,
+      gamesPerRival: 1000,
+      gamesPerColorPerRival: 500,
+      maxTurns: 250,
+      variants: selectedVariants,
+      controls: ['heuristic'],
+    },
+    variants: variantSummaries,
+  }
+  if (summary.qTableChangedDuringEvaluation) {
+    throw new Error('Q5 extended threshold validation qTable changed during evaluation')
+  }
+
+  mkdirSync(outputDir, { recursive: true })
+  writeJson(path.join(outputDir, 'threshold_validation_extended_summary.json'), summary)
+  writeFileSync(
+    path.join(outputDir, 'threshold_validation_extended_results.csv'),
+    `${thresholdResultsToCsv(allResults)}\n`,
+    'utf8',
+  )
   writeJson(path.join(outputDir, 'metadata.json'), {
     createdAt: summary.createdAt,
     qTablePath,
@@ -2602,6 +2901,14 @@ async function main(): Promise<void> {
     const result = await evaluateQ5ThresholdSearch()
     console.log(`[trainLearningAgentQ5] Q5 threshold search games: ${result.results.length}`)
     console.log(`[trainLearningAgentQ5] Q5 threshold search output: ${Q5_HYBRID_THRESHOLD_SEARCH_DIR}`)
+    return
+  }
+  if (command === 'hybrid-threshold-validation-extended') {
+    const result = await evaluateQ5ThresholdValidationExtended()
+    console.log(`[trainLearningAgentQ5] Q5 extended threshold validation games: ${result.results.length}`)
+    console.log(
+      `[trainLearningAgentQ5] Q5 extended threshold validation output: ${Q5_HYBRID_THRESHOLD_VALIDATION_EXTENDED_DIR}`,
+    )
     return
   }
   if (command === 'train-500') {

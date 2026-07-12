@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-07-12T18:19:39.805Z",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\qtable_q5_heuristic_initial.json",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\threshold_validation_extended",
+  "confidenceDefinition": {
+    "value": "max(originalDatasetObservations, qLearningUpdatesAfterInitialization)",
+    "originalDatasetObservations": "data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json",
+    "qLearningUpdatesAfterInitialization": "none loaded for this frozen initial-table validation"
+  },
+  "protocol": {
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "qTableFrozen": true,
+    "alphaUpdates": false,
+    "representation": "Q3",
+    "seedBase": 702000,
+    "blocks": 5,
+    "gamesPerBlock": 400,
+    "gamesPerVariant": 2000,
+    "gamesPerRival": 1000,
+    "gamesPerColorPerRival": 500,
+    "maxTurns": 250,
+    "variants": [
+      {
+        "id": "A",
+        "minConfidence": 3,
+        "minMargin": 0
+      },
+      {
+        "id": "D",
+        "minConfidence": 5,
+        "minMargin": 0.5
+      },
+      {
+        "id": "E",
+        "minConfidence": 10,
+        "minMargin": 0.5
+      }
+    ],
+    "controls": [
+      "heuristic"
+    ]
+  }
+}
