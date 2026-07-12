@@ -1,0 +1,191 @@
+{
+  "createdAt": "2026-07-12T18:39:18.617Z",
+  "model": "Q5",
+  "checkpoint": "Q5-hybrid-final-500",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\qtable_q5_hybrid_final_500.json",
+  "qTableEntries": 23924,
+  "qTableHashBefore": "09aafcd9cee51222432cd750622bc7395823faccda9228b9921508f476b1f907",
+  "qTableHashAfter": "09aafcd9cee51222432cd750622bc7395823faccda9228b9921508f476b1f907",
+  "qTableChangedDuringEvaluation": false,
+  "confidenceDefinition": {
+    "value": "max(originalDatasetObservations, qLearningUpdatesAfterInitialization)",
+    "originalDatasetObservations": "data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json",
+    "qLearningUpdatesAfterInitialization": "data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\q_update_log.jsonl",
+    "qLearningUpdateCountsLoaded": 6809
+  },
+  "evaluationProtocol": {
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "qTableFrozen": true,
+    "alphaUpdates": false,
+    "representation": "Q3",
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "maxTurns": 250,
+    "variant": {
+      "id": "E",
+      "minConfidence": 10,
+      "minMargin": 0.5
+    }
+  },
+  "experiments": [
+    {
+      "rival": "random",
+      "games": 200,
+      "wins": 200,
+      "losses": 0,
+      "ties": 0,
+      "winRate": 100,
+      "averageTerritoryQ5": 39.805,
+      "averageTerritoryRival": 6.065,
+      "averageTerritorialDiff": 33.74,
+      "averageTurns": 55.11,
+      "decisions": {
+        "matches": 104,
+        "qOverridesAccepted": 3,
+        "qOverridesRejected": 2993,
+        "randomExploration": 0
+      },
+      "decisionPercentages": {
+        "matches": 3.3548,
+        "qOverridesAccepted": 0.0968,
+        "qOverridesRejected": 96.5484,
+        "randomExploration": 0
+      },
+      "overrideGames": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "ties": 0,
+        "winRate": 100
+      }
+    },
+    {
+      "rival": "heuristic",
+      "games": 200,
+      "wins": 109,
+      "losses": 90,
+      "ties": 1,
+      "winRate": 54.5,
+      "averageTerritoryQ5": 20.855,
+      "averageTerritoryRival": 20.835,
+      "averageTerritorialDiff": 0.02,
+      "averageTurns": 83.48,
+      "decisions": {
+        "matches": 142,
+        "qOverridesAccepted": 0,
+        "qOverridesRejected": 4307,
+        "randomExploration": 0
+      },
+      "decisionPercentages": {
+        "matches": 3.1917,
+        "qOverridesAccepted": 0,
+        "qOverridesRejected": 96.8083,
+        "randomExploration": 0
+      },
+      "overrideGames": {
+        "games": 0,
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "winRate": 0
+      }
+    }
+  ],
+  "aggregate": {
+    "games": 400,
+    "wins": 309,
+    "losses": 90,
+    "ties": 1,
+    "winRate": 77.25,
+    "averageTerritoryQ5": 30.33,
+    "averageTerritoryRival": 13.45,
+    "averageTerritorialDiff": 16.88,
+    "averageTurns": 69.295,
+    "decisions": {
+      "matches": 246,
+      "qOverridesAccepted": 3,
+      "qOverridesRejected": 7300,
+      "randomExploration": 0
+    },
+    "decisionPercentages": {
+      "matches": 3.2587,
+      "qOverridesAccepted": 0.0397,
+      "qOverridesRejected": 96.7015,
+      "randomExploration": 0
+    },
+    "overrideGames": {
+      "games": 3,
+      "wins": 3,
+      "losses": 0,
+      "ties": 0,
+      "winRate": 100
+    }
+  },
+  "byColor": {
+    "R": {
+      "games": 200,
+      "wins": 154,
+      "losses": 45,
+      "ties": 1,
+      "winRate": 77,
+      "averageTerritoryQ5": 29.92,
+      "averageTerritoryRival": 13.8,
+      "averageTerritorialDiff": 16.12,
+      "averageTurns": 70.15,
+      "decisions": {
+        "matches": 124,
+        "qOverridesAccepted": 3,
+        "qOverridesRejected": 3744,
+        "randomExploration": 0
+      },
+      "decisionPercentages": {
+        "matches": 3.2033,
+        "qOverridesAccepted": 0.0775,
+        "qOverridesRejected": 96.7192,
+        "randomExploration": 0
+      },
+      "overrideGames": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "ties": 0,
+        "winRate": 100
+      }
+    },
+    "B": {
+      "games": 200,
+      "wins": 155,
+      "losses": 45,
+      "ties": 0,
+      "winRate": 77.5,
+      "averageTerritoryQ5": 30.74,
+      "averageTerritoryRival": 13.1,
+      "averageTerritorialDiff": 17.64,
+      "averageTurns": 68.44,
+      "decisions": {
+        "matches": 122,
+        "qOverridesAccepted": 0,
+        "qOverridesRejected": 3556,
+        "randomExploration": 0
+      },
+      "decisionPercentages": {
+        "matches": 3.317,
+        "qOverridesAccepted": 0,
+        "qOverridesRejected": 96.683,
+        "randomExploration": 0
+      },
+      "overrideGames": {
+        "games": 0,
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "winRate": 0
+      }
+    }
+  }
+}
