@@ -22,3 +22,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+data/entrenamiento/q5/heuristic_experience/**/experiences.jsonl

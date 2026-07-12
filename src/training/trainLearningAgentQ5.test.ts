@@ -9,6 +9,7 @@ import {
   DEFAULT_Q5_TRAINING_CONFIG,
   Q5_REWARD_CONFIG,
   buildBalancedQ5Schedule,
+  buildQ5Checkpoint500Schedule,
   calculateFinalRewardQ5,
   calculateIntermediateRewardQ5FromMetrics,
   loadQ5Metadata,
@@ -117,6 +118,35 @@ describe('trainLearningAgentQ5 configuration', () => {
     expect('qTable' in DEFAULT_Q5_TRAINING_CONFIG).toBe(false)
   })
 
+  it('can initialize official training from a heuristic Q-table', async () => {
+    const state = makeInitialState()
+    const action = { type: 'place' as const, pos: { x: 3, y: 3 } }
+    const qTablePath = path.join(makeTempDir(), 'initial.json')
+    const initialTable = { [getLearningQTableKeyQ3(state, action)]: 0.5 }
+    await import('node:fs').then(({ writeFileSync }) =>
+      writeFileSync(qTablePath, `${JSON.stringify(initialTable, null, 2)}\n`, 'utf8'),
+    )
+
+    const result = await runLearningAgentQ5Training({
+      totalGames: 4,
+      checkpoint: 500,
+      seed: 3,
+      outputDir: path.join(makeTempDir(), 'checkpoint_seeded'),
+      initialQTablePath: qTablePath,
+      schedule: buildBalancedQ5Schedule(4, 3),
+      progressEvery: 0,
+      maxTurns: 8,
+    })
+
+    expect(result.metadata.startedFromEmptyQTable).toBe(false)
+    expect(result.metadata.initialization).toBe('heuristic_initial')
+    expect(result.metadata.initialQTableEntries).toBe(1)
+    expect(result.metadata.sourceQTable?.entries).toBe(1)
+    expect(result.metadata.newTrainingGames).toBe(4)
+    expect(result.metadata.qTableDelta).toBeDefined()
+    expect(Object.keys(result.qTable).length).toBeGreaterThanOrEqual(1)
+  })
+
   it('does not reference existing Q-table checkpoints or official evaluation commands', () => {
     const source = readFileSync(path.resolve('src/training/trainLearningAgentQ5.ts'), 'utf8')
 
@@ -124,7 +154,6 @@ describe('trainLearningAgentQ5 configuration', () => {
     expect(source).not.toContain('qtable_q3')
     expect(source).not.toContain('qtable_q2')
     expect(source).not.toContain('qtable_q1')
-    expect(source).not.toContain('checkpoint_500')
     expect(source).not.toContain('checkpoint_1000')
     expect(source).not.toContain('checkpoint_1500')
     expect(source).not.toContain('checkpoint_2000')
@@ -275,6 +304,33 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
         random_B: 1,
         heuristic_R: 1,
         heuristic_B: 1,
+      })
+    }
+  })
+
+  it('builds the exact Q5-500 official mixed schedule', () => {
+    const schedule = buildQ5Checkpoint500Schedule()
+
+    expect(countSchedule(schedule)).toEqual({
+      random: 350,
+      heuristic: 150,
+      R: 250,
+      B: 250,
+      random_R: 175,
+      random_B: 175,
+      heuristic_R: 75,
+      heuristic_B: 75,
+    })
+    for (let index = 0; index < schedule.length; index += 20) {
+      expect(countSchedule(schedule.slice(index, index + 20))).toEqual({
+        random: 14,
+        heuristic: 6,
+        R: 10,
+        B: 10,
+        random_R: 7,
+        random_B: 7,
+        heuristic_R: 3,
+        heuristic_B: 3,
       })
     }
   })

@@ -7,6 +7,7 @@ import {
   buildBalancedQ5HeuristicExperienceSchedule,
   generateHeuristicExperienceQ5,
   loadQ5HeuristicExperienceMetadata,
+  validateQ5HeuristicExperienceDatasetMetadata,
   validateQ5HeuristicExperiencePilotMetadata,
   type Q5HeuristicExperienceMetadata,
   type Q5HeuristicExperienceScheduleItem,
@@ -89,6 +90,22 @@ describe('generateHeuristicExperienceQ5 schedule', () => {
       })
     }
   })
+
+  it('builds the exact 2000-game dataset distribution', () => {
+    const schedule = buildBalancedQ5HeuristicExperienceSchedule(2000, 3)
+
+    expect(countSchedule(schedule)).toEqual({
+      random: 1000,
+      heuristic: 1000,
+      R: 1000,
+      B: 1000,
+      random_R: 500,
+      random_B: 500,
+      heuristic_R: 500,
+      heuristic_B: 500,
+    })
+    expect(schedule[1999]).toMatchObject({ gameId: 2000, seed: 5000 })
+  })
 })
 
 describe('generateHeuristicExperienceQ5 workflow', () => {
@@ -147,8 +164,35 @@ describe('generateHeuristicExperienceQ5 workflow', () => {
     expect(metadata.stateRepresentation).toBe('Q3')
     expect(metadata.heuristicPolicy.policy).toBe('default')
     expect(existsSync(path.join(outputDir, 'experience_summary.json'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'game_results.csv'))).toBe(true)
     expect(existsSync(path.join(outputDir, 'qtable_q5_initial.json'))).toBe(false)
     expect(jsonl).toHaveLength(result.experiences.length)
+  })
+
+  it('summarizes state-action coverage and validation checks', async () => {
+    const result = await generateHeuristicExperienceQ5({
+      totalGames: 8,
+      seedBase: 3,
+      outputDir: path.join(makeTempDir(), 'pilot_8_coverage'),
+      maxTurns: 16,
+    })
+    const coverage = result.metadata.summary.coverage
+    const validations = result.metadata.summary.validations
+
+    expect(coverage.totalExperiences).toBe(result.experiences.length)
+    expect(coverage.uniqueStates).toBeGreaterThan(0)
+    expect(coverage.uniqueStateActionPairs).toBeGreaterThan(0)
+    expect(coverage.averageObservedActionsPerState).toBeGreaterThan(0)
+    expect(coverage.stateActionFrequency.min).toBeGreaterThanOrEqual(1)
+    expect(coverage.stateActionFrequency.max).toBeGreaterThanOrEqual(
+      coverage.stateActionFrequency.min,
+    )
+    expect(coverage.repeatedExperiencePercentage).toBeGreaterThanOrEqual(0)
+    expect(coverage.conditions.random_R.games).toBe(2)
+    expect(coverage.conditions.heuristic_B.games).toBe(2)
+    expect(validations.allActionsLegal).toBe(true)
+    expect(validations.allStatesUseQ3).toBe(true)
+    expect(validations.sameHeuristicConfigurationBothSides).toBe(true)
   })
 
   it('validates pilot metadata shape without running the full pilot', () => {
@@ -208,6 +252,92 @@ describe('generateHeuristicExperienceQ5 workflow', () => {
         averagePreviousOwnTrappedPieces: 0,
         averageNextOwnTrappedPieces: 0,
         averageTurns: 0,
+        coverage: {
+          totalExperiences: 1,
+          uniqueStates: 1,
+          uniqueStateActionPairs: 1,
+          averageObservedActionsPerState: 1,
+          stateActionFrequency: { min: 1, mean: 1, median: 1, max: 1 },
+          repeatedExperiencePercentage: 0,
+          distribution: {
+            opponents: { random: 1, heuristic: 0 },
+            colors: { R: 1, B: 0 },
+            results: { win: 0, loss: 0, tie: 0 },
+          },
+          heuristicVsHeuristicByColor: {
+            R: { games: 0, wins: 0, losses: 0, ties: 0 },
+            B: { games: 0, wins: 0, losses: 0, ties: 0 },
+          },
+          conditions: {
+            random_R: {
+              games: 10,
+              experiences: 1,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+              averageExperiences: 0,
+              averageTerritoryDiff: 0,
+              averageTurns: 0,
+              averageDeltaTerritory: 0,
+              averageDeltaMobility: 0,
+              averageDeltaTrappedPieces: 0,
+            },
+            random_B: {
+              games: 10,
+              experiences: 0,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+              averageExperiences: 0,
+              averageTerritoryDiff: 0,
+              averageTurns: 0,
+              averageDeltaTerritory: 0,
+              averageDeltaMobility: 0,
+              averageDeltaTrappedPieces: 0,
+            },
+            heuristic_R: {
+              games: 10,
+              experiences: 0,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+              averageExperiences: 0,
+              averageTerritoryDiff: 0,
+              averageTurns: 0,
+              averageDeltaTerritory: 0,
+              averageDeltaMobility: 0,
+              averageDeltaTrappedPieces: 0,
+            },
+            heuristic_B: {
+              games: 10,
+              experiences: 0,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+              averageExperiences: 0,
+              averageTerritoryDiff: 0,
+              averageTurns: 0,
+              averageDeltaTerritory: 0,
+              averageDeltaMobility: 0,
+              averageDeltaTrappedPieces: 0,
+            },
+          },
+          averageDeltas: { territory: 0, mobility: 0, trappedPieces: 0 },
+        },
+        validations: {
+          allActionsLegal: true,
+          allStatesUseQ3: true,
+          plannedConditionCountsPreserved: true,
+          sameHeuristicConfigurationBothSides: true,
+          averageExperiencesByOpponent: { random: 1, heuristic: 0 },
+          colorBias: { winRateR: 0, winRateB: 0, differencePercentagePoints: 0 },
+          heuristicMirrorOrderBias: {
+            games: 20,
+            winRateAsR: 0,
+            winRateAsB: 0,
+            differencePercentagePoints: 0,
+          },
+        },
       },
       createdAt: '2026-07-12T00:00:00.000Z',
       durationMs: 0,
@@ -215,10 +345,168 @@ describe('generateHeuristicExperienceQ5 workflow', () => {
         metadata: 'metadata.json',
         experienceSummary: 'experience_summary.json',
         experiencesJsonl: 'experiences.jsonl',
+        gameResultsCsv: 'game_results.csv',
       },
     } satisfies Q5HeuristicExperienceMetadata
 
     expect(() => validateQ5HeuristicExperiencePilotMetadata(metadata)).not.toThrow()
+  })
+
+  it('validates dataset metadata shape without running 2000 games', () => {
+    const pilotSchedule = buildBalancedQ5HeuristicExperienceSchedule(40, 3)
+    const metadata = {
+      model: 'Q5',
+      artifact: 'heuristic_experience',
+      seedBase: 3,
+      totalGames: 2000,
+      maxTurns: Q5_HEURISTIC_EXPERIENCE_MAX_TURNS,
+      stateRepresentation: 'Q3',
+      qTableCreated: false,
+      qLearningTrainingExecuted: false,
+      heuristicPolicy: {
+        placement: 'getBestPlacement',
+        playing: 'getBestHeuristicAction',
+        policy: 'default',
+      },
+      targetDistribution: {
+        opponents: { random: 1000, heuristic: 1000 },
+        colors: { R: 1000, B: 1000 },
+        combinations: {
+          random_R: 500,
+          random_B: 500,
+          heuristic_R: 500,
+          heuristic_B: 500,
+        },
+      },
+      schedule: pilotSchedule,
+      games: [],
+      summary: {
+        totalGames: 2000,
+        totalExperiences: 1,
+        gamesByOpponent: { random: 1000, heuristic: 1000 },
+        gamesByColor: { R: 1000, B: 1000 },
+        gamesByCombination: {
+          random_R: 500,
+          random_B: 500,
+          heuristic_R: 500,
+          heuristic_B: 500,
+        },
+        experiencesByOpponent: { random: 1, heuristic: 0 },
+        experiencesByColor: { R: 1, B: 0 },
+        results: { games: 2000, wins: 0, losses: 0, ties: 0 },
+        resultsByOpponent: {
+          random: { games: 1000, wins: 0, losses: 0, ties: 0 },
+          heuristic: { games: 1000, wins: 0, losses: 0, ties: 0 },
+        },
+        resultsByColor: {
+          R: { games: 1000, wins: 0, losses: 0, ties: 0 },
+          B: { games: 1000, wins: 0, losses: 0, ties: 0 },
+        },
+        averageTerritory: { heuristic: 0, opponent: 0 },
+        averageTerritoryDiff: 0,
+        averagePreviousOwnMobility: 0,
+        averageNextOwnMobility: 0,
+        averagePreviousOwnTrappedPieces: 0,
+        averageNextOwnTrappedPieces: 0,
+        averageTurns: 0,
+        coverage: {
+          totalExperiences: 1,
+          uniqueStates: 1,
+          uniqueStateActionPairs: 1,
+          averageObservedActionsPerState: 1,
+          stateActionFrequency: { min: 1, mean: 1, median: 1, max: 1 },
+          repeatedExperiencePercentage: 0,
+          distribution: {
+            opponents: { random: 1, heuristic: 0 },
+            colors: { R: 1, B: 0 },
+            results: { win: 0, loss: 0, tie: 0 },
+          },
+          heuristicVsHeuristicByColor: {
+            R: { games: 0, wins: 0, losses: 0, ties: 0 },
+            B: { games: 0, wins: 0, losses: 0, ties: 0 },
+          },
+          conditions: {
+            random_R: {
+              games: 500,
+              experiences: 1,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+              averageExperiences: 0,
+              averageTerritoryDiff: 0,
+              averageTurns: 0,
+              averageDeltaTerritory: 0,
+              averageDeltaMobility: 0,
+              averageDeltaTrappedPieces: 0,
+            },
+            random_B: {
+              games: 500,
+              experiences: 0,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+              averageExperiences: 0,
+              averageTerritoryDiff: 0,
+              averageTurns: 0,
+              averageDeltaTerritory: 0,
+              averageDeltaMobility: 0,
+              averageDeltaTrappedPieces: 0,
+            },
+            heuristic_R: {
+              games: 500,
+              experiences: 0,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+              averageExperiences: 0,
+              averageTerritoryDiff: 0,
+              averageTurns: 0,
+              averageDeltaTerritory: 0,
+              averageDeltaMobility: 0,
+              averageDeltaTrappedPieces: 0,
+            },
+            heuristic_B: {
+              games: 500,
+              experiences: 0,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+              averageExperiences: 0,
+              averageTerritoryDiff: 0,
+              averageTurns: 0,
+              averageDeltaTerritory: 0,
+              averageDeltaMobility: 0,
+              averageDeltaTrappedPieces: 0,
+            },
+          },
+          averageDeltas: { territory: 0, mobility: 0, trappedPieces: 0 },
+        },
+        validations: {
+          allActionsLegal: true,
+          allStatesUseQ3: true,
+          plannedConditionCountsPreserved: true,
+          sameHeuristicConfigurationBothSides: true,
+          averageExperiencesByOpponent: { random: 1, heuristic: 0 },
+          colorBias: { winRateR: 0, winRateB: 0, differencePercentagePoints: 0 },
+          heuristicMirrorOrderBias: {
+            games: 1000,
+            winRateAsR: 0,
+            winRateAsB: 0,
+            differencePercentagePoints: 0,
+          },
+        },
+      },
+      createdAt: '2026-07-12T00:00:00.000Z',
+      durationMs: 0,
+      outputFiles: {
+        metadata: 'metadata.json',
+        experienceSummary: 'experience_summary.json',
+        experiencesJsonl: 'experiences.jsonl',
+        gameResultsCsv: 'game_results.csv',
+      },
+    } satisfies Q5HeuristicExperienceMetadata
+
+    expect(() => validateQ5HeuristicExperienceDatasetMetadata(metadata)).not.toThrow()
   })
 
   it('does not modify Q1, Q2, Q3, Q4 or the Q5 reward pilot while generating', async () => {

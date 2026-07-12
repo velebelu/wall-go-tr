@@ -20,6 +20,11 @@ import {
 
 export const Q5_BASE_DIR = 'data/entrenamiento/q5'
 export const Q5_PILOT_40_DIR = path.join(Q5_BASE_DIR, 'pilot_40')
+export const Q5_CHECKPOINT_500_DIR = path.join(Q5_BASE_DIR, 'checkpoint_500')
+export const Q5_HEURISTIC_INITIAL_QTABLE_PATH = path.join(
+  Q5_BASE_DIR,
+  'heuristic_initial_qtable/qtable_q5_heuristic_initial.json',
+)
 
 export type Q5OpponentKind = Q4OpponentKind
 
@@ -31,7 +36,7 @@ export interface Q5TrainingScheduleItem {
 
 export interface Q5TrainingConfig {
   totalGames: number
-  checkpoint: 'pilot_40'
+  checkpoint: 'pilot_40' | 500
   seed: number
   outputDir: string
   alpha: number
@@ -42,6 +47,8 @@ export interface Q5TrainingConfig {
   maxTurns: number
   progressEvery: number
   overwrite: boolean
+  initialQTablePath?: string
+  schedule?: Q5TrainingScheduleItem[]
 }
 
 export const Q5_REWARD_CONFIG = {
@@ -227,10 +234,15 @@ export interface Q5TrainingMetadata {
   model: 'Q5'
   seed: number
   totalGames: number
-  checkpoint: 'pilot_40'
+  checkpoint: 'pilot_40' | 500
   startedFromEmptyQTable: boolean
-  initialization: 'empty'
+  initialization: 'empty' | 'heuristic_initial'
+  sourceQTable?: {
+    path: string
+    entries: number
+  }
   initialQTableEntries: number
+  newTrainingGames?: number
   stateRepresentation: 'Q3'
   policyModel: 'Q3/Q4'
   baselineExperiment: 'Q4'
@@ -259,6 +271,11 @@ export interface Q5TrainingMetadata {
   games: Q5GameRecord[]
   rewardLog: Q5RewardLog[]
   summary: Q5TrainingSummary
+  qTableDelta?: {
+    modifiedExistingValues: number
+    addedStateActionPairs: number
+    unchangedExistingValues: number
+  }
   createdAt: string
   durationMs: number
   outputFiles: {
@@ -290,6 +307,74 @@ export function buildBalancedQ5Schedule(
   seed: number,
 ): Q5TrainingScheduleItem[] {
   return buildBalancedQ4Schedule(totalGames, seed).map((item) => ({ ...item }))
+}
+
+export function buildQ5Checkpoint500Schedule(): Q5TrainingScheduleItem[] {
+  const block = [
+    ['random', 'R'],
+    ['heuristic', 'R'],
+    ['random', 'B'],
+    ['random', 'R'],
+    ['random', 'B'],
+    ['heuristic', 'B'],
+    ['random', 'R'],
+    ['random', 'B'],
+    ['random', 'R'],
+    ['heuristic', 'R'],
+    ['random', 'B'],
+    ['random', 'R'],
+    ['heuristic', 'B'],
+    ['random', 'B'],
+    ['random', 'R'],
+    ['random', 'B'],
+    ['heuristic', 'R'],
+    ['random', 'R'],
+    ['heuristic', 'B'],
+    ['random', 'B'],
+  ] satisfies Array<[Q5OpponentKind, Player]>
+  const schedule: Q5TrainingScheduleItem[] = []
+  for (let cycle = 0; cycle < 25; cycle++) {
+    for (const [opponent, learningColor] of block) {
+      schedule.push({ game: schedule.length + 1, opponent, learningColor })
+    }
+  }
+  return schedule
+}
+
+function loadQTable(qTablePath: string): QTableSnapshot {
+  return JSON.parse(readFileSync(path.resolve(qTablePath), 'utf8')) as QTableSnapshot
+}
+
+function cloneQTable(qTable: QTableSnapshot): QTableSnapshot {
+  return { ...qTable }
+}
+
+function buildTargetDistributionFromSchedule(
+  schedule: Q5TrainingScheduleItem[],
+): Q5TrainingMetadata['targetDistribution'] {
+  const distribution: Q5TrainingMetadata['targetDistribution'] = {
+    opponents: { random: 0, heuristic: 0 },
+    colors: { R: 0, B: 0 },
+    combinations: { random_R: 0, random_B: 0, heuristic_R: 0, heuristic_B: 0 },
+  }
+  for (const item of schedule) {
+    distribution.opponents[item.opponent]++
+    distribution.colors[item.learningColor]++
+    distribution.combinations[combinationKey(item.opponent, item.learningColor)]++
+  }
+  return distribution
+}
+
+function calculateQTableDelta(initial: QTableSnapshot, final: QTableSnapshot) {
+  let modifiedExistingValues = 0
+  let unchangedExistingValues = 0
+  let addedStateActionPairs = 0
+  for (const [key, value] of Object.entries(final)) {
+    if (initial[key] === undefined) addedStateActionPairs++
+    else if (initial[key] === value) unchangedExistingValues++
+    else modifiedExistingValues++
+  }
+  return { modifiedExistingValues, addedStateActionPairs, unchangedExistingValues }
 }
 
 export function calculateIntermediateRewardQ5FromMetrics(params: {
@@ -798,11 +883,15 @@ export async function runLearningAgentQ5Training(
   assertOutputCanBeWritten(config.outputDir, config.overwrite)
   const startedAt = Date.now()
   const rng = createSeededRngQ4(config.seed)
-  const qTable: QTableSnapshot = {}
+  const initialQTable = config.initialQTablePath ? loadQTable(config.initialQTablePath) : {}
+  const qTable: QTableSnapshot = cloneQTable(initialQTable)
   const initialQTableEntries = Object.keys(qTable).length
-  if (initialQTableEntries !== 0) throw new Error('Q5 pilot must start from an empty Q-table')
+  if (!config.initialQTablePath && initialQTableEntries !== 0) {
+    throw new Error('Q5 pilot must start from an empty Q-table')
+  }
 
-  const schedule = buildBalancedQ5Schedule(config.totalGames, config.seed)
+  const schedule = config.schedule ?? buildBalancedQ5Schedule(config.totalGames, config.seed)
+  if (schedule.length !== config.totalGames) throw new Error('Q5 schedule length mismatch')
   const games: Q5GameRecord[] = []
   let epsilon = config.epsilonStart
 
@@ -835,7 +924,10 @@ export async function runLearningAgentQ5Training(
   }
 
   const outputFiles = {
-    qTable: path.join(config.outputDir, 'qtable_q5_pilot_40.json'),
+    qTable: path.join(
+      config.outputDir,
+      config.checkpoint === 500 ? 'qtable_q5_500.json' : 'qtable_q5_pilot_40.json',
+    ),
     metadata: path.join(config.outputDir, 'metadata.json'),
     trainingSummary: path.join(config.outputDir, 'training_summary.json'),
     rewardLog: path.join(config.outputDir, 'reward_log.json'),
@@ -852,9 +944,16 @@ export async function runLearningAgentQ5Training(
     seed: config.seed,
     totalGames: config.totalGames,
     checkpoint: config.checkpoint,
-    startedFromEmptyQTable: true,
-    initialization: 'empty',
+    startedFromEmptyQTable: !config.initialQTablePath,
+    initialization: config.initialQTablePath ? 'heuristic_initial' : 'empty',
+    sourceQTable: config.initialQTablePath
+      ? {
+          path: config.initialQTablePath,
+          entries: initialQTableEntries,
+        }
+      : undefined,
     initialQTableEntries,
+    newTrainingGames: config.totalGames,
     stateRepresentation: 'Q3',
     policyModel: 'Q3/Q4',
     baselineExperiment: 'Q4',
@@ -869,7 +968,7 @@ export async function runLearningAgentQ5Training(
       epsilonDecay: config.epsilonDecay,
       maxTurns: config.maxTurns,
     },
-    targetDistribution: buildTargetDistribution(config.totalGames),
+    targetDistribution: buildTargetDistributionFromSchedule(schedule),
     heuristicPolicy: {
       placement: 'getBestPlacement',
       playing: 'getBestHeuristicAction',
@@ -879,6 +978,7 @@ export async function runLearningAgentQ5Training(
     games,
     rewardLog: games.map((game) => game.reward),
     summary,
+    qTableDelta: calculateQTableDelta(initialQTable, qTable),
     createdAt: new Date().toISOString(),
     durationMs: Date.now() - startedAt,
     outputFiles,
@@ -924,8 +1024,62 @@ export function validateQ5PilotMetadata(metadata: Q5TrainingMetadata): void {
   }
 }
 
+export function validateQ5Checkpoint500Metadata(metadata: Q5TrainingMetadata): void {
+  if (metadata.model !== 'Q5') throw new Error('metadata.model must be Q5')
+  if (metadata.seed !== 3) throw new Error('Q5-500 seed must be 3')
+  if (metadata.checkpoint !== 500) throw new Error('Q5 checkpoint must be 500')
+  if (metadata.totalGames !== 500) throw new Error('Q5-500 must contain exactly 500 games')
+  if (metadata.newTrainingGames !== 500) throw new Error('Q5-500 must run exactly 500 new games')
+  if (metadata.startedFromEmptyQTable) throw new Error('Q5-500 must not start empty')
+  if (metadata.initialization !== 'heuristic_initial') {
+    throw new Error('Q5-500 must initialize from heuristic table')
+  }
+  if (metadata.initialQTableEntries !== 19652) throw new Error('Q5-500 initial table mismatch')
+  if (metadata.sourceQTable?.entries !== 19652) throw new Error('Q5-500 source table mismatch')
+  if (metadata.stateRepresentation !== 'Q3') throw new Error('Q5-500 must keep Q3 representation')
+  if (metadata.rewardModel !== 'Q5') throw new Error('Q5-500 must use Q5 reward')
+  if (metadata.hyperparameters.alpha !== 0.1) throw new Error('Q5-500 alpha mismatch')
+  if (metadata.hyperparameters.gamma !== 0.9) throw new Error('Q5-500 gamma mismatch')
+  if (metadata.hyperparameters.epsilonStart !== 0.6) throw new Error('Q5-500 epsilon mismatch')
+  if (metadata.hyperparameters.epsilonMin !== 0.05) throw new Error('Q5-500 epsilonMin mismatch')
+  if (metadata.hyperparameters.epsilonDecay !== 0.9995)
+    throw new Error('Q5-500 epsilonDecay mismatch')
+  if (metadata.hyperparameters.maxTurns !== 250) throw new Error('Q5-500 maxTurns mismatch')
+  if (metadata.summary.gamesByOpponent.random !== 350) throw new Error('Q5-500 random mismatch')
+  if (metadata.summary.gamesByOpponent.heuristic !== 150)
+    throw new Error('Q5-500 heuristic mismatch')
+  if (metadata.summary.gamesByCombination.random_R !== 175)
+    throw new Error('Q5-500 random_R mismatch')
+  if (metadata.summary.gamesByCombination.random_B !== 175)
+    throw new Error('Q5-500 random_B mismatch')
+  if (metadata.summary.gamesByCombination.heuristic_R !== 75)
+    throw new Error('Q5-500 heuristic_R mismatch')
+  if (metadata.summary.gamesByCombination.heuristic_B !== 75)
+    throw new Error('Q5-500 heuristic_B mismatch')
+  const expectedEpsilon = Number((0.6 * 0.9995 ** 500).toFixed(4))
+  if (metadata.summary.epsilonFinal !== expectedEpsilon) {
+    throw new Error('Q5-500 epsilon final mismatch')
+  }
+  if (!metadata.qTableDelta) throw new Error('Q5-500 must record qTable delta')
+}
+
 async function main(): Promise<void> {
   const command = process.argv[2] ?? 'pilot-40'
+  if (command === 'train-500') {
+    const result = await runLearningAgentQ5Training({
+      totalGames: 500,
+      checkpoint: 500,
+      seed: 3,
+      outputDir: Q5_CHECKPOINT_500_DIR,
+      initialQTablePath: Q5_HEURISTIC_INITIAL_QTABLE_PATH,
+      schedule: buildQ5Checkpoint500Schedule(),
+    })
+    validateQ5Checkpoint500Metadata(result.metadata)
+    console.log(`[trainLearningAgentQ5] Q5-500 games: ${result.metadata.totalGames}`)
+    console.log(`[trainLearningAgentQ5] Q5-500 entries: ${Object.keys(result.qTable).length}`)
+    console.log(`[trainLearningAgentQ5] Q5-500 output: ${result.metadata.outputFiles.metadata}`)
+    return
+  }
   if (command !== 'pilot-40') throw new Error(`Unknown command: ${command}`)
   const result = await runLearningAgentQ5Training({
     totalGames: 40,
