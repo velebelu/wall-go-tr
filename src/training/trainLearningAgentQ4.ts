@@ -20,6 +20,7 @@ import {
 
 export const Q4_BASE_DIR = 'data/entrenamiento/q4'
 export const Q4_PILOT_40_DIR = path.join(Q4_BASE_DIR, 'pilotos/seed_3/pilot_40')
+export const Q4_CHECKPOINT_500_DIR = path.join(Q4_BASE_DIR, 'checkpoint_500')
 export const Q4_REWARD_CONFIG = Q2_REWARD_CONFIG
 
 export type Q4OpponentKind = 'random' | 'heuristic'
@@ -33,6 +34,7 @@ export interface Q4TrainingScheduleItem {
 
 export interface Q4TrainingConfig {
   totalGames: number
+  checkpoint: number
   seed: number
   outputDir: string
   alpha: number
@@ -77,6 +79,7 @@ interface ResultStats {
 interface HitMissStats {
   qHits: number
   qMisses: number
+  qHitRate: number
 }
 
 interface Q4TrainingSummary {
@@ -87,8 +90,15 @@ interface Q4TrainingSummary {
   resultsByOpponent: Record<Q4OpponentKind, ResultStats>
   resultsByColor: Record<Player, ResultStats>
   resultsByCombination: Record<string, ResultStats>
+  qTotal: HitMissStats
   qByOpponent: Record<Q4OpponentKind, HitMissStats>
   qByColor: Record<Player, HitMissStats>
+  averageTerritory: {
+    q4: number
+    opponent: number
+  }
+  averageTerritoryDiff: number
+  averageTurns: number
   epsilonInitial: number
   epsilonFinal: number
   finalQTableEntries: number
@@ -99,6 +109,7 @@ export interface Q4TrainingMetadata {
   model: 'Q4'
   seed: number
   totalGames: number
+  checkpoint: number
   startedFromEmptyQTable: true
   initialQTableEntries: 0
   stateRepresentation: 'Q3'
@@ -136,6 +147,7 @@ export interface Q4TrainingMetadata {
 
 export const DEFAULT_Q4_TRAINING_CONFIG: Q4TrainingConfig = {
   totalGames: 40,
+  checkpoint: 40,
   seed: 3,
   outputDir: Q4_PILOT_40_DIR,
   alpha: DEFAULT_Q2_TRAINING_CONFIG.alpha,
@@ -343,7 +355,7 @@ function createResultStats(): ResultStats {
 }
 
 function createHitMissStats(): HitMissStats {
-  return { qHits: 0, qMisses: 0 }
+  return { qHits: 0, qMisses: 0, qHitRate: 0 }
 }
 
 function addResult(stats: ResultStats, result: Q4GameRecord['resultForQ4']): void {
@@ -356,6 +368,11 @@ function addResult(stats: ResultStats, result: Q4GameRecord['resultForQ4']): voi
 function addHitMiss(stats: HitMissStats, qHits: number, qMisses: number): void {
   stats.qHits += qHits
   stats.qMisses += qMisses
+}
+
+function finalizeHitRate(stats: HitMissStats): void {
+  const total = stats.qHits + stats.qMisses
+  stats.qHitRate = total ? roundMetric((stats.qHits / total) * 100) : 0
 }
 
 function summarizeGames(params: {
@@ -382,14 +399,26 @@ function summarizeGames(params: {
       heuristic_R: createResultStats(),
       heuristic_B: createResultStats(),
     },
+    qTotal: createHitMissStats(),
     qByOpponent: { random: createHitMissStats(), heuristic: createHitMissStats() },
     qByColor: { R: createHitMissStats(), B: createHitMissStats() },
+    averageTerritory: {
+      q4: 0,
+      opponent: 0,
+    },
+    averageTerritoryDiff: 0,
+    averageTurns: 0,
     epsilonInitial: params.epsilonInitial,
     epsilonFinal: params.epsilonFinal,
     finalQTableEntries: Object.keys(params.qTable).length,
     uniqueQ3StatesVisited: new Set(Object.keys(params.qTable).map((key) => key.split('|||')[0]))
       .size,
   }
+
+  let territoryQ4Total = 0
+  let territoryOpponentTotal = 0
+  let territoryDiffTotal = 0
+  let turnsTotal = 0
 
   for (const game of params.games) {
     const key = combinationKey(game.opponent, game.learningColor)
@@ -400,9 +429,30 @@ function summarizeGames(params: {
     addResult(summary.resultsByOpponent[game.opponent], game.resultForQ4)
     addResult(summary.resultsByColor[game.learningColor], game.resultForQ4)
     addResult(summary.resultsByCombination[key], game.resultForQ4)
+    addHitMiss(summary.qTotal, game.qHits, game.qMisses)
     addHitMiss(summary.qByOpponent[game.opponent], game.qHits, game.qMisses)
     addHitMiss(summary.qByColor[game.learningColor], game.qHits, game.qMisses)
+    territoryQ4Total += game.territoryQ4
+    territoryOpponentTotal += game.territoryOpponent
+    territoryDiffTotal += game.territoryDiff
+    turnsTotal += game.turns
   }
+
+  finalizeHitRate(summary.qTotal)
+  finalizeHitRate(summary.qByOpponent.random)
+  finalizeHitRate(summary.qByOpponent.heuristic)
+  finalizeHitRate(summary.qByColor.R)
+  finalizeHitRate(summary.qByColor.B)
+  summary.averageTerritory.q4 = params.games.length
+    ? roundMetric(territoryQ4Total / params.games.length)
+    : 0
+  summary.averageTerritory.opponent = params.games.length
+    ? roundMetric(territoryOpponentTotal / params.games.length)
+    : 0
+  summary.averageTerritoryDiff = params.games.length
+    ? roundMetric(territoryDiffTotal / params.games.length)
+    : 0
+  summary.averageTurns = params.games.length ? roundMetric(turnsTotal / params.games.length) : 0
 
   return summary
 }
@@ -558,7 +608,7 @@ export async function runLearningAgentQ4Training(
   }
 
   const outputFiles = {
-    qTable: path.join(config.outputDir, `qtable_q4_${config.totalGames}.json`),
+    qTable: path.join(config.outputDir, `qtable_q4_${config.checkpoint}.json`),
     metadata: path.join(config.outputDir, 'metadata.json'),
     trainingSummary: path.join(config.outputDir, 'training_summary.json'),
   }
@@ -572,6 +622,7 @@ export async function runLearningAgentQ4Training(
     model: 'Q4',
     seed: config.seed,
     totalGames: config.totalGames,
+    checkpoint: config.checkpoint,
     startedFromEmptyQTable: true,
     initialQTableEntries: 0,
     stateRepresentation: 'Q3',
@@ -645,11 +696,62 @@ export function validateQ4PilotMetadata(metadata: Q4TrainingMetadata): void {
   }
 }
 
+export function validateQ4Checkpoint500Metadata(metadata: Q4TrainingMetadata): void {
+  if (metadata.model !== 'Q4') throw new Error('metadata.model must be Q4')
+  if (metadata.seed !== 3) throw new Error('Q4 checkpoint 500 seed must be 3')
+  if (metadata.checkpoint !== 500) throw new Error('Q4 checkpoint must be 500')
+  if (metadata.totalGames !== 500) throw new Error('Q4-500 must contain exactly 500 games')
+  if (!metadata.startedFromEmptyQTable || metadata.initialQTableEntries !== 0) {
+    throw new Error('Q4-500 must start from an empty Q-table')
+  }
+  if (metadata.summary.gamesByOpponent.random !== 250) throw new Error('Expected 250 random games')
+  if (metadata.summary.gamesByOpponent.heuristic !== 250) {
+    throw new Error('Expected 250 heuristic games')
+  }
+  if (metadata.summary.gamesByColor.R !== 250) throw new Error('Expected 250 games as R')
+  if (metadata.summary.gamesByColor.B !== 250) throw new Error('Expected 250 games as B')
+  for (const value of Object.values(metadata.summary.gamesByCombination)) {
+    if (value !== 125) throw new Error('Expected 125 games for every opponent-color combination')
+  }
+  if (metadata.summary.finalQTableEntries <= 0) throw new Error('Expected a non-empty Q4 table')
+  if (metadata.games.length !== 500) throw new Error('Expected 500 game records')
+  if (metadata.summary.epsilonInitial !== 0.6) throw new Error('Expected epsilonInitial 0.6')
+  const expectedEpsilon = roundMetric(
+    Math.max(
+      metadata.hyperparameters.epsilonStart *
+        metadata.hyperparameters.epsilonDecay ** metadata.totalGames,
+      metadata.hyperparameters.epsilonMin,
+    ),
+  )
+  if (metadata.summary.epsilonFinal !== expectedEpsilon) {
+    throw new Error(`Expected epsilonFinal ${expectedEpsilon}`)
+  }
+  const qTotal = metadata.games.reduce((total, game) => total + game.qHits + game.qMisses, 0)
+  if (metadata.summary.qTotal.qHits + metadata.summary.qTotal.qMisses !== qTotal) {
+    throw new Error('Q hit/miss total does not match game records')
+  }
+}
+
 async function runCli(): Promise<void> {
   const command = process.argv[2] ?? 'pilot-40'
+  if (command === 'train-500') {
+    const result = await runLearningAgentQ4Training({
+      totalGames: 500,
+      checkpoint: 500,
+      seed: 3,
+      outputDir: Q4_CHECKPOINT_500_DIR,
+      overwrite: process.argv.includes('--overwrite'),
+    })
+    validateQ4Checkpoint500Metadata(result.metadata)
+    console.log(`[trainLearningAgentQ4] Q4-500 games: ${result.metadata.totalGames}`)
+    console.log(`[trainLearningAgentQ4] Q4-500 entries: ${Object.keys(result.qTable).length}`)
+    console.log(`[trainLearningAgentQ4] Q4-500 output: ${result.metadata.outputFiles.metadata}`)
+    return
+  }
   if (command !== 'pilot-40') throw new Error(`Unknown command: ${command}`)
   const result = await runLearningAgentQ4Training({
     totalGames: 40,
+    checkpoint: 40,
     seed: 3,
     outputDir: Q4_PILOT_40_DIR,
     progressEvery: 0,

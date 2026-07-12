@@ -22,6 +22,7 @@ import {
   createSeededRngQ4,
   loadQ4Metadata,
   runLearningAgentQ4Training,
+  validateQ4Checkpoint500Metadata,
   validateQ4PilotMetadata,
   type Q4TrainingMetadata,
   type Q4TrainingScheduleItem,
@@ -167,6 +168,29 @@ describe('trainLearningAgentQ4 balanced schedule', () => {
     }
   })
 
+  it('builds the exact 500-game checkpoint distribution', () => {
+    const schedule = buildBalancedQ4Schedule(500, 3)
+
+    expect(countSchedule(schedule)).toEqual({
+      random: 250,
+      heuristic: 250,
+      R: 250,
+      B: 250,
+      random_R: 125,
+      random_B: 125,
+      heuristic_R: 125,
+      heuristic_B: 125,
+    })
+    for (let index = 0; index < schedule.length; index += 4) {
+      expect(countSchedule(schedule.slice(index, index + 4))).toMatchObject({
+        random_R: 1,
+        random_B: 1,
+        heuristic_R: 1,
+        heuristic_B: 1,
+      })
+    }
+  })
+
   it('is reproducible with the same seed and usually different with another seed', () => {
     const first = buildBalancedQ4Schedule(40, 3)
     const second = buildBalancedQ4Schedule(40, 3)
@@ -246,27 +270,29 @@ describe('trainLearningAgentQ4 pilot metadata', () => {
     expect(result.metadata.heuristicPolicy.policy).toBe('default')
   })
 
-  it(
-    'writes and reloads a valid 40-game pilot metadata file',
-    async () => {
-      const outputDir = path.join(makeTempDir(), 'pilot_40')
-      const result = await runLearningAgentQ4Training({
-        totalGames: 40,
-        seed: 3,
-        outputDir,
-        progressEvery: 0,
-        maxTurns: 8,
-      })
-      const metadata = loadQ4Metadata(path.join(outputDir, 'metadata.json'))
+  it('writes and reloads a valid 40-game pilot metadata file', async () => {
+    const outputDir = path.join(makeTempDir(), 'pilot_40')
+    const result = await runLearningAgentQ4Training({
+      totalGames: 40,
+      seed: 3,
+      outputDir,
+      progressEvery: 0,
+      maxTurns: 8,
+    })
+    const metadata = loadQ4Metadata(path.join(outputDir, 'metadata.json'))
 
-      expect(metadata.totalGames).toBe(40)
-      expect(metadata.summary.finalQTableEntries).toBe(Object.keys(result.qTable).length)
-      expect(metadata.summary.finalQTableEntries).toBeGreaterThan(0)
-      expectMetadataConsistency(metadata)
-      validateQ4PilotMetadata(metadata)
-    },
-    15000,
-  )
+    expect(metadata.totalGames).toBe(40)
+    expect(metadata.checkpoint).toBe(40)
+    expect(metadata.summary.finalQTableEntries).toBe(Object.keys(result.qTable).length)
+    expect(metadata.summary.finalQTableEntries).toBeGreaterThan(0)
+    expect(metadata.summary.qTotal.qHits + metadata.summary.qTotal.qMisses).toBe(
+      metadata.games.reduce((sum, game) => sum + game.qHits + game.qMisses, 0),
+    )
+    expect(metadata.summary.qTotal.qHitRate).toBeGreaterThanOrEqual(0)
+    expect(metadata.summary.averageTurns).toBeGreaterThan(0)
+    expectMetadataConsistency(metadata)
+    validateQ4PilotMetadata(metadata)
+  }, 15000)
 
   it('is reproducible in schedule and configuration with the same seed', async () => {
     const first = await runLearningAgentQ4Training({
@@ -332,6 +358,51 @@ describe('trainLearningAgentQ4 pilot metadata', () => {
         result.metadata.summary.qByOpponent.heuristic.qHits +
         result.metadata.summary.qByOpponent.heuristic.qMisses,
     ).toBeGreaterThan(0)
+  })
+
+  it('validates checkpoint 500 metadata shape and epsilon formula without running 500 games', async () => {
+    const result = await runLearningAgentQ4Training({
+      totalGames: 4,
+      checkpoint: 500,
+      seed: 3,
+      outputDir: path.join(makeTempDir(), 'checkpoint_500_shape'),
+      progressEvery: 0,
+      maxTurns: 8,
+    })
+    const metadata = {
+      ...result.metadata,
+      totalGames: 500,
+      games: Array.from({ length: 500 }, (_, index) => ({
+        ...result.metadata.games[index % result.metadata.games.length]!,
+        game: index + 1,
+        opponent: index % 2 === 0 ? 'random' : 'heuristic',
+        learningColor: index % 4 < 2 ? 'R' : 'B',
+      })),
+      summary: {
+        ...result.metadata.summary,
+        gamesByOpponent: { random: 250, heuristic: 250 },
+        gamesByColor: { R: 250, B: 250 },
+        gamesByCombination: {
+          random_R: 125,
+          random_B: 125,
+          heuristic_R: 125,
+          heuristic_B: 125,
+        },
+        finalQTableEntries: Object.keys(result.qTable).length,
+        epsilonInitial: 0.6,
+        epsilonFinal: 0.4673,
+      },
+    } as Q4TrainingMetadata
+    const qHits = metadata.games.reduce((sum, game) => sum + game.qHits, 0)
+    const qMisses = metadata.games.reduce((sum, game) => sum + game.qMisses, 0)
+    metadata.summary.qTotal = {
+      qHits,
+      qMisses,
+      qHitRate: Number(((qHits / (qHits + qMisses)) * 100).toFixed(4)),
+    }
+
+    expect(result.metadata.outputFiles.qTable).toContain('qtable_q4_500.json')
+    expect(() => validateQ4Checkpoint500Metadata(metadata)).not.toThrow()
   })
 
   it('keeps complete move-wall Q3 action encoding available', () => {
