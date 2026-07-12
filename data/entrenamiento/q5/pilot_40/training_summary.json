@@ -1,0 +1,140 @@
+{
+  "gamesByOpponent": {
+    "random": 20,
+    "heuristic": 20
+  },
+  "gamesByColor": {
+    "R": 20,
+    "B": 20
+  },
+  "gamesByCombination": {
+    "random_R": 10,
+    "random_B": 10,
+    "heuristic_R": 10,
+    "heuristic_B": 10
+  },
+  "results": {
+    "games": 40,
+    "wins": 8,
+    "losses": 31,
+    "ties": 1
+  },
+  "resultsByOpponent": {
+    "random": {
+      "games": 20,
+      "wins": 8,
+      "losses": 11,
+      "ties": 1
+    },
+    "heuristic": {
+      "games": 20,
+      "wins": 0,
+      "losses": 20,
+      "ties": 0
+    }
+  },
+  "resultsByColor": {
+    "R": {
+      "games": 20,
+      "wins": 5,
+      "losses": 14,
+      "ties": 1
+    },
+    "B": {
+      "games": 20,
+      "wins": 3,
+      "losses": 17,
+      "ties": 0
+    }
+  },
+  "resultsByCombination": {
+    "random_R": {
+      "games": 10,
+      "wins": 5,
+      "losses": 4,
+      "ties": 1
+    },
+    "random_B": {
+      "games": 10,
+      "wins": 3,
+      "losses": 7,
+      "ties": 0
+    },
+    "heuristic_R": {
+      "games": 10,
+      "wins": 0,
+      "losses": 10,
+      "ties": 0
+    },
+    "heuristic_B": {
+      "games": 10,
+      "wins": 0,
+      "losses": 10,
+      "ties": 0
+    }
+  },
+  "qTotal": {
+    "qHits": 70,
+    "qMisses": 726,
+    "qHitRate": 8.794
+  },
+  "qByOpponent": {
+    "random": {
+      "qHits": 38,
+      "qMisses": 451,
+      "qHitRate": 7.771
+    },
+    "heuristic": {
+      "qHits": 32,
+      "qMisses": 275,
+      "qHitRate": 10.4235
+    }
+  },
+  "qByColor": {
+    "R": {
+      "qHits": 29,
+      "qMisses": 391,
+      "qHitRate": 6.9048
+    },
+    "B": {
+      "qHits": 41,
+      "qMisses": 335,
+      "qHitRate": 10.9043
+    }
+  },
+  "averageTerritory": {
+    "q5": 9.4,
+    "opponent": 29.65
+  },
+  "averageTerritoryDiff": -20.25,
+  "averageTurns": 70.15,
+  "epsilonInitial": 0.6,
+  "epsilonFinal": 0.5881,
+  "initialQTableEntries": 0,
+  "finalQTableEntries": 726,
+  "tableGrowth": 726,
+  "uniqueQ3StatesVisited": 149,
+  "rewards": {
+    "averageTotalReward": -67.8742,
+    "averageTerritoryReward": 0.0015,
+    "averageMobilityReward": -0.0559,
+    "averageTrappedReward": -0.1025,
+    "averageLowMobilityReward": -0.0083,
+    "averageIntermediateReward": -0.1617,
+    "averageFinalReward": -67.7125,
+    "minTotalReward": -120.227,
+    "maxTotalReward": 116.941,
+    "minIntermediateReward": -0.1,
+    "maxIntermediateReward": 0.074,
+    "clampCounts": {
+      "territory": 87,
+      "mobility": 52,
+      "trap": 1,
+      "lowMobility": 0,
+      "total": 17,
+      "finalTerritory": 3
+    },
+    "trappedPiecesCreated": 121,
+    "trappedPiecesFreed": 18
+  }
+}
