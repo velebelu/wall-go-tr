@@ -583,7 +583,7 @@ export function buildQ5HybridFinal1000ContinuationSchedule(): Q5TrainingSchedule
   }))
 }
 
-function loadQTable(qTablePath: string): QTableSnapshot {
+export function loadQTable(qTablePath: string): QTableSnapshot {
   return JSON.parse(readFileSync(path.resolve(qTablePath), 'utf8')) as QTableSnapshot
 }
 
@@ -603,7 +603,7 @@ export const Q5_ALPHA_BY_CONFIDENCE: Record<Q5ConfidenceBucket, number> = {
   new: 0.03,
 }
 
-function loadQ5ConfidenceMap(buildSummaryPath?: string): Map<string, Q5StateActionConfidence> {
+export function loadQ5ConfidenceMap(buildSummaryPath?: string): Map<string, Q5StateActionConfidence> {
   if (!buildSummaryPath) return new Map()
   const summary = JSON.parse(readFileSync(path.resolve(buildSummaryPath), 'utf8')) as {
     entries?: Array<{ stateActionKey: string; observations: number }>
@@ -756,7 +756,7 @@ export function calculateFinalRewardQ5(
   }
 }
 
-function finalizeGameIfNeeded(state: GameSnapshot): GameSnapshot {
+export function finalizeGameIfNeeded(state: GameSnapshot): GameSnapshot {
   if (state.phase === 'finished' || state.result) return state
   const territory = getTerritoryCounts(state.board)
   return {
@@ -769,7 +769,7 @@ function finalizeGameIfNeeded(state: GameSnapshot): GameSnapshot {
   }
 }
 
-function applyFullActionQ5(
+export function applyFullActionQ5(
   state: GameSnapshot,
   action: PlayerAction,
 ): { state: GameSnapshot; turns: number } {
@@ -1171,11 +1171,11 @@ function writeJson(filePath: string, data: unknown): void {
   writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, 'utf8')
 }
 
-function hashFile(filePath: string): string {
+export function hashFile(filePath: string): string {
   return createHash('sha256').update(readFileSync(path.resolve(filePath))).digest('hex')
 }
 
-function qTableFingerprint(qTable: QTableSnapshot): string {
+export function qTableFingerprint(qTable: QTableSnapshot): string {
   return createHash('sha256')
     .update(
       JSON.stringify(
@@ -1185,7 +1185,7 @@ function qTableFingerprint(qTable: QTableSnapshot): string {
     .digest('hex')
 }
 
-function loadQUpdateCountsFromJsonl(logPath: string | string[] | undefined): Map<string, number> {
+export function loadQUpdateCountsFromJsonl(logPath: string | string[] | undefined): Map<string, number> {
   const counts = new Map<string, number>()
   const logPaths = Array.isArray(logPath) ? logPath : logPath ? [logPath] : []
   for (const currentPath of logPaths) {

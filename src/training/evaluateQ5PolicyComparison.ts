@@ -1,0 +1,483 @@
+import { mkdirSync, writeFileSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import type { Player, PlayerAction } from '@/lib/types'
+import * as ai from '@/utils/ai'
+import { getLearningQTableKeyQ3 } from '@/agents/learningPolicyQ3'
+import { makeInitialState, snapshotFromState } from '@/store/gameState'
+import { getTerritoryCounts } from './compareLearningAgents'
+import {
+  chooseHeuristicOpponentActionQ4,
+  chooseRandomActionWithRngQ4,
+  createSeededRngQ4,
+} from './trainLearningAgentQ4'
+import {
+  Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH,
+  Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR,
+  applyFullActionQ5,
+  chooseThresholdHybridQ5Action,
+  finalizeGameIfNeeded,
+  hashFile,
+  loadQ5ConfidenceMap,
+  loadQTable,
+  loadQUpdateCountsFromJsonl,
+  qTableFingerprint,
+  type Q5OpponentKind,
+  type Q5ThresholdPolicyVariant,
+} from './trainLearningAgentQ5'
+
+export const Q5_POLICY_COMPARISON_CHECKPOINT_1000_DIR = path.join(
+  'data/entrenamiento/q5/hybrid/policy_comparison_checkpoint_1000',
+)
+
+export const Q5_POLICY_COMPARISON_QTABLE_PATH = path.join(
+  Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR,
+  'qtable_q5_hybrid_final_1000.json',
+)
+
+export const Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS = [
+  path.join('data/entrenamiento/q5/hybrid/final_checkpoint_500/q_update_log.jsonl'),
+  path.join(Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR, 'q_update_log.jsonl'),
+]
+
+export interface Q5PolicyComparisonPolicy extends Q5ThresholdPolicyVariant {
+  label: string
+}
+
+export const Q5_POLICY_COMPARISON_POLICIES: Q5PolicyComparisonPolicy[] = [
+  { id: 'E', label: 'minConfidence10_margin0.50', minConfidence: 10, minMargin: 0.5 },
+  { id: 'D', label: 'minConfidence5_margin0.50', minConfidence: 5, minMargin: 0.5 },
+  { id: 'C', label: 'minConfidence5_margin0.25', minConfidence: 5, minMargin: 0.25 },
+]
+
+export interface Q5PolicyComparisonPairing {
+  rival: Q5OpponentKind
+  colorQ5: Player
+  game: number
+  seed: number
+}
+
+interface DecisionStats {
+  qProposals: number
+  qProposalHits: number
+  qProposalMisses: number
+  qFinalDecisions: number
+  heuristicFinalDecisions: number
+  heuristicMatches: number
+  qOverridesAccepted: number
+  qOverridesRejected: number
+}
+
+export interface Q5PolicyComparisonGameResult extends Q5PolicyComparisonPairing {
+  policy: string
+  minConfidence: number
+  qMargin: number
+  winner: Player | 'tie'
+  q5Won: boolean
+  tie: boolean
+  territoryQ5: number
+  territoryRival: number
+  territorialDiff: number
+  turns: number
+  qHits: number
+  qMisses: number
+  decisions: DecisionStats
+  qTableChangedDuringEvaluation: boolean
+}
+
+export interface Q5PolicyComparisonOptions {
+  qTablePath?: string
+  outputDir?: string
+  gamesPerRival?: number
+  seedBase?: number
+  overwrite?: boolean
+  policies?: Q5PolicyComparisonPolicy[]
+  qUpdateLogPath?: string | string[]
+}
+
+function getOpponent(player: Player): Player {
+  return player === 'R' ? 'B' : 'R'
+}
+
+function roundMetric(value: number): number {
+  return Number(value.toFixed(4))
+}
+
+function createDecisionStats(): DecisionStats {
+  return {
+    qProposals: 0,
+    qProposalHits: 0,
+    qProposalMisses: 0,
+    qFinalDecisions: 0,
+    heuristicFinalDecisions: 0,
+    heuristicMatches: 0,
+    qOverridesAccepted: 0,
+    qOverridesRejected: 0,
+  }
+}
+
+function addDecisionStats(target: DecisionStats, source: DecisionStats): void {
+  target.qProposals += source.qProposals
+  target.qProposalHits += source.qProposalHits
+  target.qProposalMisses += source.qProposalMisses
+  target.qFinalDecisions += source.qFinalDecisions
+  target.heuristicFinalDecisions += source.heuristicFinalDecisions
+  target.heuristicMatches += source.heuristicMatches
+  target.qOverridesAccepted += source.qOverridesAccepted
+  target.qOverridesRejected += source.qOverridesRejected
+}
+
+function assertOutputCanBeWritten(outputDir: string, overwrite: boolean): void {
+  try {
+    mkdirSync(outputDir, { recursive: false })
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code
+    if (code === 'EEXIST' && overwrite) return
+    if (code === 'EEXIST') throw new Error(`Output directory already exists: ${outputDir}`)
+    throw error
+  }
+}
+
+export function buildQ5PolicyComparisonPairings(
+  gamesPerRival = 1000,
+  seedBase = 802000,
+): Q5PolicyComparisonPairing[] {
+  if (gamesPerRival <= 0 || gamesPerRival % 2 !== 0) {
+    throw new Error('gamesPerRival must be a positive even number')
+  }
+  const pairings: Q5PolicyComparisonPairing[] = []
+  let index = 0
+  for (const rival of ['random', 'heuristic'] as const) {
+    for (const colorQ5 of ['R', 'B'] as const) {
+      for (let game = 1; game <= gamesPerRival / 2; game++) {
+        index++
+        pairings.push({ rival, colorQ5, game, seed: seedBase + index })
+      }
+    }
+  }
+  return pairings
+}
+
+async function runSinglePolicyComparisonGame(params: {
+  policy: Q5PolicyComparisonPolicy
+  pairing: Q5PolicyComparisonPairing
+  qTable: ReturnType<typeof loadQTable>
+  confidenceMap: ReturnType<typeof loadQ5ConfidenceMap>
+  qLearningUpdateCounts: ReturnType<typeof loadQUpdateCountsFromJsonl>
+}): Promise<Q5PolicyComparisonGameResult> {
+  const rng = createSeededRngQ4(params.pairing.seed)
+  let state = makeInitialState()
+  let turns = 0
+  let qHits = 0
+  let qMisses = 0
+  const decisions = createDecisionStats()
+
+  while (state.phase !== 'finished' && !state.result && turns < 250) {
+    const previousState = snapshotFromState(state)
+    let action: PlayerAction
+    if (previousState.turn === params.pairing.colorQ5) {
+      const legalActions = ai.getLegalActions(previousState)
+      const choice = chooseThresholdHybridQ5Action({
+        state: previousState,
+        legalActions,
+        qTable: params.qTable,
+        confidenceMap: params.confidenceMap,
+        qLearningUpdateCounts: params.qLearningUpdateCounts,
+        variant: params.policy,
+        rng,
+      })
+      action = choice.action
+      decisions.qProposals++
+      if (params.qTable[choice.qKey] !== undefined) decisions.qProposalHits++
+      else decisions.qProposalMisses++
+
+      if (choice.mechanism === 'heuristicMatch') {
+        decisions.heuristicMatches++
+        decisions.qFinalDecisions++
+      } else if (choice.mechanism === 'qOverrideAccepted') {
+        decisions.qOverridesAccepted++
+        decisions.qFinalDecisions++
+      } else {
+        decisions.qOverridesRejected++
+        decisions.heuristicFinalDecisions++
+      }
+
+      if (params.qTable[getLearningQTableKeyQ3(previousState, action)] !== undefined) qHits++
+      else qMisses++
+    } else if (params.pairing.rival === 'random') {
+      action = chooseRandomActionWithRngQ4(ai.getLegalActions(previousState), rng)
+    } else {
+      action = chooseHeuristicOpponentActionQ4(previousState, rng)
+    }
+    const applied = applyFullActionQ5(state, action)
+    state = applied.state
+    turns += applied.turns
+  }
+
+  state = finalizeGameIfNeeded(state)
+  const territory = state.result?.score ?? getTerritoryCounts(state.board)
+  const winner = state.result?.tie ? 'tie' : (state.result?.winner ?? 'tie')
+  const rivalColor = getOpponent(params.pairing.colorQ5)
+  return {
+    ...params.pairing,
+    policy: params.policy.label,
+    minConfidence: params.policy.minConfidence,
+    qMargin: params.policy.minMargin,
+    winner,
+    q5Won: winner === params.pairing.colorQ5,
+    tie: winner === 'tie',
+    territoryQ5: territory[params.pairing.colorQ5],
+    territoryRival: territory[rivalColor],
+    territorialDiff: territory[params.pairing.colorQ5] - territory[rivalColor],
+    turns,
+    qHits,
+    qMisses,
+    decisions,
+    qTableChangedDuringEvaluation: false,
+  }
+}
+
+function summarizeGroup(results: Q5PolicyComparisonGameResult[]) {
+  const wins = results.filter((result) => result.q5Won).length
+  const ties = results.filter((result) => result.tie).length
+  const losses = results.length - wins - ties
+  const qHits = results.reduce((sum, result) => sum + result.qHits, 0)
+  const qMisses = results.reduce((sum, result) => sum + result.qMisses, 0)
+  const decisions = createDecisionStats()
+  for (const result of results) addDecisionStats(decisions, result.decisions)
+  const overrideGames = results.filter((result) => result.decisions.qOverridesAccepted > 0)
+  const overrideWins = overrideGames.filter((result) => result.q5Won).length
+  const overrideTies = overrideGames.filter((result) => result.tie).length
+  const totalFinalDecisions = decisions.qFinalDecisions + decisions.heuristicFinalDecisions
+
+  return {
+    games: results.length,
+    wins,
+    losses,
+    ties,
+    winRate: results.length ? roundMetric((wins / results.length) * 100) : 0,
+    averageTerritoryQ5: results.length
+      ? roundMetric(results.reduce((sum, result) => sum + result.territoryQ5, 0) / results.length)
+      : 0,
+    averageTerritoryRival: results.length
+      ? roundMetric(results.reduce((sum, result) => sum + result.territoryRival, 0) / results.length)
+      : 0,
+    averageTerritorialDiff: results.length
+      ? roundMetric(results.reduce((sum, result) => sum + result.territorialDiff, 0) / results.length)
+      : 0,
+    averageTurns: results.length
+      ? roundMetric(results.reduce((sum, result) => sum + result.turns, 0) / results.length)
+      : 0,
+    qHits,
+    qMisses,
+    qHitRate: qHits + qMisses ? roundMetric((qHits / (qHits + qMisses)) * 100) : 0,
+    decisions,
+    decisionPercentages: {
+      qFinalDecisions: totalFinalDecisions
+        ? roundMetric((decisions.qFinalDecisions / totalFinalDecisions) * 100)
+        : 0,
+      heuristicFinalDecisions: totalFinalDecisions
+        ? roundMetric((decisions.heuristicFinalDecisions / totalFinalDecisions) * 100)
+        : 0,
+      qOverridesAccepted: decisions.qProposals
+        ? roundMetric((decisions.qOverridesAccepted / decisions.qProposals) * 100)
+        : 0,
+      qOverridesRejected: decisions.qProposals
+        ? roundMetric((decisions.qOverridesRejected / decisions.qProposals) * 100)
+        : 0,
+      heuristicMatches: decisions.qProposals
+        ? roundMetric((decisions.heuristicMatches / decisions.qProposals) * 100)
+        : 0,
+    },
+    overrideGames: {
+      games: overrideGames.length,
+      wins: overrideWins,
+      losses: overrideGames.length - overrideWins - overrideTies,
+      ties: overrideTies,
+      winRate: overrideGames.length ? roundMetric((overrideWins / overrideGames.length) * 100) : 0,
+    },
+    qTableChangedDuringEvaluation: results.some((result) => result.qTableChangedDuringEvaluation),
+  }
+}
+
+function summarizePolicy(policy: Q5PolicyComparisonPolicy, results: Q5PolicyComparisonGameResult[]) {
+  return {
+    policy,
+    aggregate: summarizeGroup(results),
+    byRival: {
+      random: summarizeGroup(results.filter((result) => result.rival === 'random')),
+      heuristic: summarizeGroup(results.filter((result) => result.rival === 'heuristic')),
+    },
+    byColor: {
+      R: summarizeGroup(results.filter((result) => result.colorQ5 === 'R')),
+      B: summarizeGroup(results.filter((result) => result.colorQ5 === 'B')),
+    },
+  }
+}
+
+function csvEscape(value: string | number | boolean): string {
+  const text = String(value)
+  if (text.includes(',') || text.includes('"') || text.includes('\n')) {
+    return `"${text.replace(/"/g, '""')}"`
+  }
+  return text
+}
+
+function resultsToCsv(results: Q5PolicyComparisonGameResult[]): string {
+  const headers = [
+    'policy',
+    'minConfidence',
+    'qMargin',
+    'rival',
+    'seed',
+    'game',
+    'colorQ5',
+    'winner',
+    'territoryQ5',
+    'territoryRival',
+    'territorialDiff',
+    'turns',
+    'qHits',
+    'qMisses',
+    'qProposals',
+    'qProposalHits',
+    'qProposalMisses',
+    'qFinalDecisions',
+    'heuristicFinalDecisions',
+    'heuristicMatches',
+    'qOverridesAccepted',
+    'qOverridesRejected',
+    'qTableChangedDuringEvaluation',
+  ]
+  const rows = results.map((result) => [
+    result.policy,
+    result.minConfidence,
+    result.qMargin,
+    result.rival,
+    result.seed,
+    result.game,
+    result.colorQ5,
+    result.winner,
+    result.territoryQ5,
+    result.territoryRival,
+    result.territorialDiff,
+    result.turns,
+    result.qHits,
+    result.qMisses,
+    result.decisions.qProposals,
+    result.decisions.qProposalHits,
+    result.decisions.qProposalMisses,
+    result.decisions.qFinalDecisions,
+    result.decisions.heuristicFinalDecisions,
+    result.decisions.heuristicMatches,
+    result.decisions.qOverridesAccepted,
+    result.decisions.qOverridesRejected,
+    result.qTableChangedDuringEvaluation,
+  ])
+  return [headers.join(','), ...rows.map((row) => row.map(csvEscape).join(','))].join('\n')
+}
+
+function writeJson(filePath: string, data: unknown): void {
+  writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, 'utf8')
+}
+
+export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOptions = {}) {
+  const qTablePath = path.resolve(options.qTablePath ?? Q5_POLICY_COMPARISON_QTABLE_PATH)
+  const outputDir = path.resolve(options.outputDir ?? Q5_POLICY_COMPARISON_CHECKPOINT_1000_DIR)
+  assertOutputCanBeWritten(outputDir, options.overwrite ?? false)
+  const policies = options.policies ?? Q5_POLICY_COMPARISON_POLICIES
+  const gamesPerRival = options.gamesPerRival ?? 1000
+  const seedBase = options.seedBase ?? 802000
+  const pairings = buildQ5PolicyComparisonPairings(gamesPerRival, seedBase)
+  const qTable = Object.freeze({ ...loadQTable(qTablePath) })
+  const hashBefore = hashFile(qTablePath)
+  const fingerprintBefore = qTableFingerprint(qTable)
+  const confidenceMap = loadQ5ConfidenceMap(Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH)
+  const qLearningUpdateCounts = loadQUpdateCountsFromJsonl(
+    options.qUpdateLogPath ?? Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
+  )
+  const allResults: Q5PolicyComparisonGameResult[] = []
+
+  for (const policy of policies) {
+    for (const pairing of pairings) {
+      const result = await runSinglePolicyComparisonGame({
+        policy,
+        pairing,
+        qTable,
+        confidenceMap,
+        qLearningUpdateCounts,
+      })
+      allResults.push(result)
+    }
+  }
+
+  const hashAfter = hashFile(qTablePath)
+  const summary = {
+    createdAt: new Date().toISOString(),
+    model: 'Q5',
+    experiment: 'policy_comparison_checkpoint_1000',
+    qTablePath,
+    qTableEntries: Object.keys(qTable).length,
+    qTableHashBefore: hashBefore,
+    qTableHashAfter: hashAfter,
+    qTableChangedDuringEvaluation: hashBefore !== hashAfter || qTableFingerprint(qTable) !== fingerprintBefore,
+    protocol: {
+      epsilon: 0,
+      learnsDuringEvaluation: false,
+      qTableFrozen: true,
+      alphaUpdates: false,
+      updatesVisitCounts: false,
+      representation: 'Q3',
+      rewardChanged: false,
+      rulesChanged: false,
+      heuristicChanged: false,
+      seedBase,
+      gamesPerPolicy: pairings.length,
+      gamesPerRival,
+      gamesPerColor: gamesPerRival / 2,
+      maxTurns: 250,
+      sameSeedsAcrossPolicies: true,
+      policies,
+    },
+    confidenceDefinition: {
+      value: 'max(originalDatasetObservations, qLearningUpdatesAfterInitialization)',
+      originalDatasetObservations: Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH,
+      qLearningUpdatesAfterInitialization:
+        options.qUpdateLogPath ?? Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
+      qLearningUpdateCountsLoaded: qLearningUpdateCounts.size,
+    },
+    policies: policies.map((policy) =>
+      summarizePolicy(
+        policy,
+        allResults.filter((result) => result.policy === policy.label),
+      ),
+    ),
+  }
+  if (summary.qTableChangedDuringEvaluation) {
+    throw new Error('Q5 policy comparison qTable changed during evaluation')
+  }
+
+  writeJson(path.join(outputDir, 'policy_comparison_summary.json'), summary)
+  writeFileSync(path.join(outputDir, 'policy_comparison_results.csv'), `${resultsToCsv(allResults)}\n`, 'utf8')
+  writeJson(path.join(outputDir, 'policy_comparison_detailed.json'), {
+    createdAt: summary.createdAt,
+    protocol: summary.protocol,
+    pairings,
+    results: allResults,
+  })
+
+  return { summary, results: allResults }
+}
+
+async function main(): Promise<void> {
+  const result = await evaluateQ5PolicyComparison()
+  console.log(`[evaluateQ5PolicyComparison] games: ${result.results.length}`)
+  console.log(`[evaluateQ5PolicyComparison] output: ${Q5_POLICY_COMPARISON_CHECKPOINT_1000_DIR}`)
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error)
+    process.exitCode = 1
+  })
+}
