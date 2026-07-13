@@ -3,6 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import type { QTableSnapshot } from '@/agents/learningPolicy'
+import { applyFullAction } from '@/engine/gameSimulator'
 import {
   getLearningActionKeyQ3,
   getLearningQTableKeyQ3,
@@ -10,7 +11,7 @@ import {
 } from '@/agents/learningPolicyQ3'
 import * as ai from '@/utils/ai'
 import { makeInitialState, snapshotFromState } from '@/store/gameState'
-import { applyActionToState, getTerritoryCounts } from './compareLearningAgents'
+import { getTerritoryCounts } from './compareLearningAgents'
 import {
   DEFAULT_Q2_TRAINING_CONFIG,
   Q2_REWARD_CONFIG,
@@ -348,13 +349,8 @@ export function applyFullActionQ4(
   state: GameSnapshot,
   action: PlayerAction,
 ): { state: GameSnapshot; turns: number } {
-  let nextState = applyActionToState(state, action)
-  let turns = 1
-  if (action.followUp && nextState.phase !== 'finished') {
-    nextState = applyActionToState(nextState, action.followUp)
-    turns += 1
-  }
-  return { state: nextState, turns }
+  const applied = applyFullAction(state, action)
+  return { state: applied.state, turns: applied.atomicActions }
 }
 
 function finalizeGameIfNeeded(state: GameSnapshot): GameSnapshot {

@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
+import { applyActionToState } from '@/engine/gameSimulator'
 import {
   chooseLearningAction,
   getLearningQTableKey,
@@ -10,7 +11,6 @@ import {
 import { getLegalActions, getRandomAction } from '@/utils/ai'
 import { makeInitialState, snapshotFromState } from '@/store/gameState'
 import {
-  applyActionToState,
   getTerritoryCounts,
   groupResultsByBlocksOf10,
   runSingleGame,

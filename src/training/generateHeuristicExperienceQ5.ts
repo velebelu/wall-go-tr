@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
+import { applyActionToState } from '@/engine/gameSimulator'
 import {
   calculatePlayerMobilityQ3,
   getLearningActionKeyQ3,
@@ -9,7 +10,7 @@ import {
 } from '@/agents/learningPolicyQ3'
 import { makeInitialState, snapshotFromState } from '@/store/gameState'
 import * as ai from '@/utils/ai'
-import { applyActionToState, getTerritoryCounts } from './compareLearningAgents'
+import { getTerritoryCounts } from './compareLearningAgents'
 import {
   chooseHeuristicOpponentActionQ4,
   chooseRandomActionWithRngQ4,

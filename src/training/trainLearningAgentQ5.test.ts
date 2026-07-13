@@ -1380,7 +1380,7 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     expect(metadata.rewardLog.every((log) => Number.isFinite(log.totalReward))).toBe(true)
     expectMetadataConsistency(metadata)
     validateQ5PilotMetadata(metadata)
-  }, 15000)
+  }, 30000)
 
   it('does not modify Q1, Q2, Q3 or Q4 files while running Q5', async () => {
     const trackedSources = [

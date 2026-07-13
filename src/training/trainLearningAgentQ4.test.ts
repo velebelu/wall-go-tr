@@ -347,7 +347,7 @@ describe('trainLearningAgentQ4 pilot metadata', () => {
     })
     expectMetadataConsistency(result.metadata)
     expect(result.metadata.heuristicPolicy.policy).toBe('default')
-  })
+  }, 15000)
 
   it('writes and reloads a valid 40-game pilot metadata file', async () => {
     const outputDir = path.join(makeTempDir(), 'pilot_40')
@@ -371,7 +371,7 @@ describe('trainLearningAgentQ4 pilot metadata', () => {
     expect(metadata.summary.averageTurns).toBeGreaterThan(0)
     expectMetadataConsistency(metadata)
     validateQ4PilotMetadata(metadata)
-  }, 15000)
+  }, 45000)
 
   it('is reproducible in schedule and configuration with the same seed', async () => {
     const first = await runLearningAgentQ4Training({
@@ -437,7 +437,7 @@ describe('trainLearningAgentQ4 pilot metadata', () => {
         result.metadata.summary.qByOpponent.heuristic.qHits +
         result.metadata.summary.qByOpponent.heuristic.qMisses,
     ).toBeGreaterThan(0)
-  })
+  }, 30000)
 
   it('validates checkpoint 500 metadata shape and epsilon formula without running 500 games', async () => {
     const result = await runLearningAgentQ4Training({

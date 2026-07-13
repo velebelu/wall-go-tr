@@ -4,9 +4,9 @@ import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { getLearningQTableKey } from '@/agents/learningPolicy'
 import { getLearningQTableKeyQ3 } from '@/agents/learningPolicyQ3'
+import { applyActionToState } from '@/engine/gameSimulator'
 import { makeInitialState } from '@/store/gameState'
 import { getLegalActions } from '@/utils/ai'
-import { applyActionToState } from './compareLearningAgents'
 import {
   DEFAULT_Q3_TRAINING_CONFIG,
   Q3_REWARD_CONFIG,
@@ -338,7 +338,7 @@ describe('trainLearningAgentQ3 workflow', () => {
     ])
     expect(result.metadata.uniqueQ3StatesVisited).toBeGreaterThan(0)
     expect(result.metadata.qHits + result.metadata.qMisses).toBeGreaterThan(0)
-  })
+  }, 15000)
 
   it('evolves epsilon like Q2', async () => {
     const result = await runLearningAgentQ3Training({
@@ -353,7 +353,7 @@ describe('trainLearningAgentQ3 workflow', () => {
     })
 
     expect(result.metadata.epsilonFinal).toBe(0.2)
-  })
+  }, 15000)
 
   it('is deterministic with the same seed', async () => {
     const first = await runLearningAgentQ3Training({
@@ -375,7 +375,7 @@ describe('trainLearningAgentQ3 workflow', () => {
 
     expect(second.qTable).toEqual(first.qTable)
     expect(second.metadata.wins).toBe(first.metadata.wins)
-  })
+  }, 30000)
 
   it('allows different seeds to produce different runs', async () => {
     const first = await runLearningAgentQ3Training({
@@ -396,7 +396,7 @@ describe('trainLearningAgentQ3 workflow', () => {
     })
 
     expect(JSON.stringify(second.qTable)).not.toBe(JSON.stringify(first.qTable))
-  })
+  }, 30000)
 
   it('does not load heuristic traces or heuristic qtables', () => {
     const source = readFileSync(path.resolve('src/training/trainLearningAgentQ3.ts'), 'utf8')

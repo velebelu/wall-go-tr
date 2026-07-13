@@ -1,0 +1,23 @@
+warning: in the working copy of 'src/training/buildHeuristicQTableQ5.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/training/compareLearningAgents.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/training/evaluateLearningAgentQ3.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/training/evaluateLearningAgentQ4.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/training/generateHeuristicExperienceQ5.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/training/trainLearningAgent.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/training/trainLearningAgentQ2.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/training/trainLearningAgentQ3.test.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/training/trainLearningAgentQ3.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/training/trainLearningAgentQ4.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/training/trainLearningAgentQ5.ts', LF will be replaced by CRLF the next time Git touches it
+ src/training/buildHeuristicQTableQ5.ts        |  3 [32m+[m[31m-[m
+ src/training/compareLearningAgents.ts         | 96 [32m+[m[31m--------------------------[m
+ src/training/evaluateLearningAgentQ3.ts       |  3 [32m+[m[31m-[m
+ src/training/evaluateLearningAgentQ4.ts       |  3 [32m+[m[31m-[m
+ src/training/generateHeuristicExperienceQ5.ts |  3 [32m+[m[31m-[m
+ src/training/trainLearningAgent.ts            |  2 [32m+[m[31m-[m
+ src/training/trainLearningAgentQ2.ts          |  2 [32m+[m[31m-[m
+ src/training/trainLearningAgentQ3.test.ts     |  2 [32m+[m[31m-[m
+ src/training/trainLearningAgentQ3.ts          | 12 [32m++[m[31m--[m
+ src/training/trainLearningAgentQ4.ts          | 12 [32m++[m[31m--[m
+ src/training/trainLearningAgentQ5.ts          | 12 [32m++[m[31m--[m
+ 11 files changed, 25 insertions(+), 125 deletions(-)

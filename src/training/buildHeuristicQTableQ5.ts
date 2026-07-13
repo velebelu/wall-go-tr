@@ -5,9 +5,10 @@ import { fileURLToPath } from 'node:url'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import type { QTableSnapshot } from '@/agents/learningPolicy'
 import { getLearningQTableKeyQ3 } from '@/agents/learningPolicyQ3'
+import { applyActionToState } from '@/engine/gameSimulator'
 import { getBestHeuristicAction, getBestPlacement, getLegalActions } from '@/utils/ai'
 import { makeInitialState, snapshotFromState } from '@/store/gameState'
-import { applyActionToState, getTerritoryCounts } from './compareLearningAgents'
+import { getTerritoryCounts } from './compareLearningAgents'
 import type { Q5HeuristicExperienceRecord } from './generateHeuristicExperienceQ5'
 
 export const Q5_HEURISTIC_EXPERIENCE_JSONL_PATH =

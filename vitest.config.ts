@@ -11,6 +11,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    pool: 'threads',
     setupFiles: [],
     coverage: {
       reporter: ['text', 'html'],

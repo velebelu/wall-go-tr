@@ -5,9 +5,10 @@ import { fileURLToPath } from 'node:url'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import type { QTableSnapshot } from '@/agents/learningPolicy'
 import { getLearningQTableKeyQ3 } from '@/agents/learningPolicyQ3'
+import { applyActionToState } from '@/engine/gameSimulator'
 import { getBestHeuristicAction, getBestPlacement, getLegalActions } from '@/utils/ai'
 import { makeInitialState, snapshotFromState } from '@/store/gameState'
-import { applyActionToState, getTerritoryCounts } from './compareLearningAgents'
+import { getTerritoryCounts } from './compareLearningAgents'
 
 export const DEFAULT_Q4_2000_QTABLE_PATH =
   'data/entrenamiento/q4/checkpoint_2000/qtable_q4_2000.json'

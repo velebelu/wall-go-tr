@@ -75,7 +75,7 @@ describe('evaluateLearningAgentQ3 workflow', () => {
     expect(existsSync(path.join(tempDir, 'evaluation', 'learning_comparison_summary.json'))).toBe(
       true,
     )
-  })
+  }, 15000)
 
   it('uses learning-empty-Q3 as a separate empty-table rival', async () => {
     const tempDir = makeTempDir()

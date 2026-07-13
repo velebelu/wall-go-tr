@@ -4,10 +4,11 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import type { QTableSnapshot } from '@/agents/learningPolicy'
+import { applyFullAction } from '@/engine/gameSimulator'
 import { calculatePlayerMobilityQ3, getLearningQTableKeyQ3 } from '@/agents/learningPolicyQ3'
 import { makeInitialState, snapshotFromState } from '@/store/gameState'
 import * as ai from '@/utils/ai'
-import { applyActionToState, getTerritoryCounts } from './compareLearningAgents'
+import { getTerritoryCounts } from './compareLearningAgents'
 import {
   DEFAULT_Q4_TRAINING_CONFIG,
   buildBalancedQ4Schedule,
@@ -889,13 +890,8 @@ export function applyFullActionQ5(
   state: GameSnapshot,
   action: PlayerAction,
 ): { state: GameSnapshot; turns: number } {
-  let nextState = applyActionToState(state, action)
-  let turns = 1
-  if (action.followUp && nextState.phase !== 'finished') {
-    nextState = applyActionToState(nextState, action.followUp)
-    turns += 1
-  }
-  return { state: nextState, turns }
+  const applied = applyFullAction(state, action)
+  return { state: applied.state, turns: applied.atomicActions }
 }
 
 function createRewardLog(game: number): Q5RewardLog {
