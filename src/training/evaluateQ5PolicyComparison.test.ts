@@ -4,6 +4,7 @@ import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
   Q5_1000_VS_1500_POLICIES,
+  Q5_CONSERVATIVE_ALPHA_COMPARISON_POLICIES,
   Q5_POLICY_COMPARISON_POLICIES,
   buildQ5PolicyComparisonPairings,
   evaluateQ5PolicyComparison,
@@ -170,5 +171,60 @@ describe('evaluateQ5PolicyComparison', () => {
     expect(existsSync(path.join(outputDir, 'q5_1000_vs_1500_summary.json'))).toBe(true)
     expect(existsSync(path.join(outputDir, 'q5_1000_vs_1500_results.csv'))).toBe(true)
     expect(existsSync(path.join(outputDir, 'q5_1000_vs_1500_detailed.json'))).toBe(true)
+  }, 60000)
+
+  it('compares three frozen tables with the conservative alpha policy and requested output names', async () => {
+    const tempDir = makeTempDir()
+    const qTablePath1000 = path.join(tempDir, 'qtable_1000.json')
+    const qTablePath1500 = path.join(tempDir, 'qtable_1500.json')
+    const qTablePathConservative = path.join(tempDir, 'qtable_1500_conservative.json')
+    const outputDir = path.join(tempDir, 'conservative_alpha')
+    writeFileSync(qTablePath1000, '{}\n', 'utf8')
+    writeFileSync(qTablePath1500, '{}\n', 'utf8')
+    writeFileSync(qTablePathConservative, '{}\n', 'utf8')
+
+    const result = await evaluateQ5PolicyComparison({
+      outputDir,
+      outputFilePrefix: 'conservative_alpha_comparison',
+      gamesPerRival: 2,
+      seedBase: 902000,
+      policies: Q5_CONSERVATIVE_ALPHA_COMPARISON_POLICIES,
+      tableConfigs: [
+        { label: 'q5_1000', qTablePath: qTablePath1000, qUpdateLogPath: [] },
+        { label: 'q5_1500', qTablePath: qTablePath1500, qUpdateLogPath: [] },
+        { label: 'q5_1500_conservative_alpha', qTablePath: qTablePathConservative, qUpdateLogPath: [] },
+      ],
+    })
+    const summary = result.summary as {
+      qTableChangedDuringEvaluation: boolean
+      qTables: Array<{ label: string; qTableChangedDuringEvaluation: boolean }>
+      combinations: Array<{ table: string; policy: { label: string }; aggregate: { games: number } }>
+    }
+
+    expect(summary.qTableChangedDuringEvaluation).toBe(false)
+    expect(summary.qTables.map((table) => table.label)).toEqual([
+      'q5_1000',
+      'q5_1500',
+      'q5_1500_conservative_alpha',
+    ])
+    expect(summary.qTables.every((table) => table.qTableChangedDuringEvaluation === false)).toBe(true)
+    expect(result.results).toHaveLength(12)
+    expect(summary.combinations).toHaveLength(3)
+    for (const combination of summary.combinations) {
+      expect(combination.policy.label).toBe('minConfidence5_margin0.25')
+      expect(combination.aggregate.games).toBe(4)
+    }
+    const seedsByTable = new Map<string, string>()
+    for (const table of ['q5_1000', 'q5_1500', 'q5_1500_conservative_alpha']) {
+      const seeds = result.results
+        .filter((row) => row.table === table)
+        .map((row) => row.seed)
+        .join(',')
+      seedsByTable.set(table, seeds)
+    }
+    expect(new Set(seedsByTable.values()).size).toBe(1)
+    expect(existsSync(path.join(outputDir, 'conservative_alpha_comparison_summary.json'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'conservative_alpha_comparison_results.csv'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'conservative_alpha_comparison_detailed.json'))).toBe(true)
   }, 60000)
 })

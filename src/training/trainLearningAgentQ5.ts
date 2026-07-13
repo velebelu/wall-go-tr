@@ -76,6 +76,10 @@ export const Q5_HYBRID_FINAL_CHECKPOINT_1500_DIR = path.join(
   Q5_BASE_DIR,
   'hybrid/final_checkpoint_1500',
 )
+export const Q5_HYBRID_FINAL_CHECKPOINT_1500_CONSERVATIVE_ALPHA_DIR = path.join(
+  Q5_BASE_DIR,
+  'hybrid/final_checkpoint_1500_conservative_alpha',
+)
 
 export type Q5OpponentKind = Q4OpponentKind
 
@@ -83,6 +87,14 @@ export interface Q5TrainingScheduleItem {
   game: number
   opponent: Q5OpponentKind
   learningColor: Player
+  localGameIndex?: number
+  cumulativeGameNumber?: number
+}
+
+export interface Q5LocalEpsilonRange {
+  from: number
+  to: number
+  epsilon: number
 }
 
 export interface Q5TrainingConfig {
@@ -96,6 +108,7 @@ export interface Q5TrainingConfig {
     | 'hybrid_final_500'
     | 'hybrid_final_1000'
     | 'hybrid_final_1500'
+    | 'hybrid_final_1500_conservative_alpha'
   seed: number
   outputDir: string
   alpha: number
@@ -118,6 +131,7 @@ export interface Q5TrainingConfig {
   hybridPolicy?: boolean
   confidenceThreshold?: number
   thresholdPolicy?: Q5ThresholdPolicyVariant
+  inheritedAlphaMultiplier?: number
 }
 
 export const Q5_REWARD_CONFIG = {
@@ -276,15 +290,21 @@ interface Q5UpdateLogEntry {
   target: number
   rawDelta: number
   appliedDelta: number
+  delta: number
   newQ: number
   alpha: number
+  baseAlpha: number
   inheritedFrequency: number
   confidence: Q5ConfidenceBucket
+  entryOrigin: 'inherited' | 'new'
+  inheritedFromInitialCheckpoint: boolean
   opponent: Q5OpponentKind
   color: Player
   turn: number
   terminal: boolean
   rewardComponent: 'intermediate' | 'final'
+  finalResultForQ5?: 'win' | 'loss' | 'tie'
+  finalTerritoryDiff?: number
 }
 
 export interface Q5HybridDecisionStats {
@@ -368,6 +388,28 @@ interface Q5InstrumentedUpdateSummary {
       clampedUpdates: number
     }
   >
+}
+
+interface Q5InheritedVsNewUpdateSummaryBucket {
+  updates: number
+  positiveUpdates: number
+  negativeUpdates: number
+  zeroUpdates: number
+  alphaDistribution: Record<string, number>
+  meanAbsDelta: number
+  maxAbsDelta: number
+  meanReward: number
+  finalRewardUpdates: number
+  intermediateRewardUpdates: number
+  wins: number
+  losses: number
+  ties: number
+}
+
+interface Q5InheritedVsNewUpdateSummary {
+  inheritedAlphaMultiplier: number
+  inherited: Q5InheritedVsNewUpdateSummaryBucket
+  new: Q5InheritedVsNewUpdateSummaryBucket
 }
 
 interface RewardSummary {
@@ -455,6 +497,7 @@ export interface Q5TrainingMetadata {
     | 'hybrid_final_500'
     | 'hybrid_final_1000'
     | 'hybrid_final_1500'
+    | 'hybrid_final_1500_conservative_alpha'
   startedFromEmptyQTable: boolean
   initialization: 'empty' | 'heuristic_initial' | 'hybrid_final_500' | 'hybrid_final_1000'
   sourceQTable?: {
@@ -502,7 +545,9 @@ export interface Q5TrainingMetadata {
     enabled: boolean
     deltaClamp: { min: number; max: number }
     learningRateByConfidence: Record<Q5ConfidenceBucket, number>
+    inheritedAlphaMultiplier?: number
     updateSummary: Q5InstrumentedUpdateSummary
+    inheritedVsNewUpdateSummary?: Q5InheritedVsNewUpdateSummary
   }
   hybridPolicy?: {
     enabled: boolean
@@ -530,6 +575,7 @@ export interface Q5TrainingMetadata {
     rewardLog: string
     qUpdateLog?: string
     qVsHeuristicDecisionLog?: string
+    inheritedVsNewUpdateSummary?: string
   }
 }
 
@@ -616,6 +662,8 @@ export function buildQ5HybridFinal1000ContinuationSchedule(): Q5TrainingSchedule
   return buildQ5FinalFineTuning500Schedule().map((item) => ({
     ...item,
     game: item.game + 500,
+    localGameIndex: item.game,
+    cumulativeGameNumber: item.game + 500,
   }))
 }
 
@@ -623,14 +671,32 @@ export function buildQ5HybridFinal1500ContinuationSchedule(): Q5TrainingSchedule
   return buildQ5FinalFineTuning500Schedule().map((item) => ({
     ...item,
     game: item.game + 1000,
+    localGameIndex: item.game,
+    cumulativeGameNumber: item.game + 1000,
   }))
 }
 
+export function getQ5EpsilonByLocalGameIndex(
+  scheduleItem: Q5TrainingScheduleItem,
+  ranges: Q5LocalEpsilonRange[],
+  label = 'Q5 local epsilon schedule',
+): number {
+  const localGameIndex = scheduleItem.localGameIndex ?? scheduleItem.game
+  const range = ranges.find((candidate) => localGameIndex >= candidate.from && localGameIndex <= candidate.to)
+  if (!range) throw new Error(`${label} out of range: local=${localGameIndex}`)
+  return range.epsilon
+}
+
 export function getQ5HybridFinal1500Epsilon(scheduleItem: Q5TrainingScheduleItem): number {
-  if (scheduleItem.game >= 1001 && scheduleItem.game <= 1100) return 0.1
-  if (scheduleItem.game >= 1101 && scheduleItem.game <= 1300) return 0.07
-  if (scheduleItem.game >= 1301 && scheduleItem.game <= 1500) return 0.03
-  throw new Error(`Q5 hybrid final 1500 epsilon schedule out of range: ${scheduleItem.game}`)
+  return getQ5EpsilonByLocalGameIndex(
+    scheduleItem,
+    [
+      { from: 1, to: 100, epsilon: 0.1 },
+      { from: 101, to: 300, epsilon: 0.07 },
+      { from: 301, to: 500, epsilon: 0.03 },
+    ],
+    'Q5 hybrid final 1500 epsilon schedule',
+  )
 }
 
 export function loadQTable(qTablePath: string): QTableSnapshot {
@@ -1104,6 +1170,8 @@ function updateQValueQ5Instrumented(params: {
   color: Player
   turn: number
   rewardComponent: 'intermediate' | 'final'
+  initialQTableKeys?: ReadonlySet<string>
+  inheritedAlphaMultiplier?: number
 }): Q5UpdateLogEntry {
   const key = getLearningQTableKeyQ3(params.state, params.action)
   const [stateKey, actionKey] = key.split('|||')
@@ -1111,7 +1179,12 @@ function updateQValueQ5Instrumented(params: {
   const maxNextQ = getMaxQValueQ5(params.nextState, params.qTable, params.terminal)
   const target = params.reward + params.gamma * maxNextQ
   const confidence = getInstrumentedConfidence(key, params.confidenceMap)
-  const rawDelta = confidence.alpha * (target - currentQ)
+  const inheritedFromInitialCheckpoint = params.initialQTableKeys?.has(key) ?? false
+  const alpha =
+    inheritedFromInitialCheckpoint && params.inheritedAlphaMultiplier !== undefined
+      ? confidence.alpha * params.inheritedAlphaMultiplier
+      : confidence.alpha
+  const rawDelta = alpha * (target - currentQ)
   const appliedDelta = clamp(rawDelta, -1, 1)
   const newQ = currentQ + appliedDelta
   params.qTable[key] = newQ
@@ -1128,10 +1201,14 @@ function updateQValueQ5Instrumented(params: {
     target: roundMetric(target),
     rawDelta: roundMetric(rawDelta),
     appliedDelta: roundMetric(appliedDelta),
+    delta: roundMetric(appliedDelta),
     newQ: roundMetric(newQ),
-    alpha: confidence.alpha,
+    alpha,
+    baseAlpha: confidence.alpha,
     inheritedFrequency: confidence.observations,
     confidence: confidence.confidence,
+    entryOrigin: inheritedFromInitialCheckpoint ? 'inherited' : 'new',
+    inheritedFromInitialCheckpoint,
     opponent: params.opponent,
     color: params.color,
     turn: params.turn,
@@ -1210,6 +1287,79 @@ function summarizeInstrumentedUpdates(logs: Q5UpdateLogEntry[]): Q5InstrumentedU
     maxAbsAppliedDelta: roundMetric(maxAbsAppliedDelta),
     invalidValueCount,
     changesByConfidence,
+  }
+}
+
+function createInheritedVsNewBucket(): Q5InheritedVsNewUpdateSummaryBucket & {
+  absDeltaTotal: number
+  rewardTotal: number
+} {
+  return {
+    updates: 0,
+    positiveUpdates: 0,
+    negativeUpdates: 0,
+    zeroUpdates: 0,
+    alphaDistribution: {},
+    meanAbsDelta: 0,
+    maxAbsDelta: 0,
+    meanReward: 0,
+    finalRewardUpdates: 0,
+    intermediateRewardUpdates: 0,
+    wins: 0,
+    losses: 0,
+    ties: 0,
+    absDeltaTotal: 0,
+    rewardTotal: 0,
+  }
+}
+
+function summarizeInheritedVsNewUpdates(
+  logs: Q5UpdateLogEntry[],
+  inheritedAlphaMultiplier: number,
+): Q5InheritedVsNewUpdateSummary {
+  const inherited = createInheritedVsNewBucket()
+  const fresh = createInheritedVsNewBucket()
+
+  for (const log of logs) {
+    const bucket = log.entryOrigin === 'inherited' ? inherited : fresh
+    bucket.updates++
+    if (log.delta > 0) bucket.positiveUpdates++
+    else if (log.delta < 0) bucket.negativeUpdates++
+    else bucket.zeroUpdates++
+    bucket.alphaDistribution[String(log.alpha)] = (bucket.alphaDistribution[String(log.alpha)] ?? 0) + 1
+    const absDelta = Math.abs(log.delta)
+    bucket.absDeltaTotal += absDelta
+    bucket.maxAbsDelta = Math.max(bucket.maxAbsDelta, absDelta)
+    bucket.rewardTotal += log.reward
+    if (log.rewardComponent === 'final') bucket.finalRewardUpdates++
+    else bucket.intermediateRewardUpdates++
+    if (log.finalResultForQ5 === 'win') bucket.wins++
+    else if (log.finalResultForQ5 === 'loss') bucket.losses++
+    else if (log.finalResultForQ5 === 'tie') bucket.ties++
+  }
+
+  const finalize = (
+    bucket: Q5InheritedVsNewUpdateSummaryBucket & { absDeltaTotal: number; rewardTotal: number },
+  ): Q5InheritedVsNewUpdateSummaryBucket => ({
+    updates: bucket.updates,
+    positiveUpdates: bucket.positiveUpdates,
+    negativeUpdates: bucket.negativeUpdates,
+    zeroUpdates: bucket.zeroUpdates,
+    alphaDistribution: bucket.alphaDistribution,
+    meanAbsDelta: bucket.updates ? roundMetric(bucket.absDeltaTotal / bucket.updates) : 0,
+    maxAbsDelta: roundMetric(bucket.maxAbsDelta),
+    meanReward: bucket.updates ? roundMetric(bucket.rewardTotal / bucket.updates) : 0,
+    finalRewardUpdates: bucket.finalRewardUpdates,
+    intermediateRewardUpdates: bucket.intermediateRewardUpdates,
+    wins: bucket.wins,
+    losses: bucket.losses,
+    ties: bucket.ties,
+  })
+
+  return {
+    inheritedAlphaMultiplier,
+    inherited: finalize(inherited),
+    new: finalize(fresh),
   }
 }
 
@@ -1323,19 +1473,15 @@ function summarizeHybridPolicy(
   }
 }
 
-function primaryThresholdMechanism(
+export function primaryThresholdMechanism(
   stats: Q5ThresholdDecisionStats | undefined,
 ): 'heuristicMatch' | 'qOverrideAccepted' | 'qOverrideRejected' | 'randomExploration' {
   if (!stats) return 'heuristicMatch'
-  const entries: Array<
-    ['heuristicMatch' | 'qOverrideAccepted' | 'qOverrideRejected' | 'randomExploration', number]
-  > = [
-    ['heuristicMatch', stats.matches],
-    ['qOverrideAccepted', stats.qOverridesAccepted],
-    ['qOverrideRejected', stats.qOverridesRejected],
-    ['randomExploration', stats.randomExploration],
-  ]
-  return entries.sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'heuristicMatch'
+  if (stats.randomExploration > 0) return 'randomExploration'
+  if (stats.qOverridesAccepted > 0) return 'qOverrideAccepted'
+  if (stats.matches > 0) return 'heuristicMatch'
+  if (stats.qOverridesRejected > 0) return 'qOverrideRejected'
+  return 'heuristicMatch'
 }
 
 function summarizeThresholdPolicy(
@@ -2921,6 +3067,8 @@ async function runQ5TrainingGame(params: {
   qLearningUpdateCounts: Map<string, number>
   updateLogs: Q5UpdateLogEntry[]
   qVsHeuristicDecisionLogs?: Q5VsHeuristicDecisionLogEntry[]
+  initialQTableKeys?: ReadonlySet<string>
+  inheritedAlphaMultiplier?: number
 }): Promise<
   Omit<
     Q5GameRecord,
@@ -2939,6 +3087,7 @@ async function runQ5TrainingGame(params: {
   const hybridDecisions = createHybridDecisionStats()
   const thresholdDecisions = createThresholdDecisionStats()
   const gameQVsHeuristicDecisionLogs: Array<Q5VsHeuristicDecisionLogEntry & { startTurn: number }> = []
+  const gameUpdateLogStartIndex = params.updateLogs.length
 
   while (state.phase !== 'finished' && !state.result && turns < params.maxTurns) {
     const prevState = snapshotFromState(state)
@@ -2962,6 +3111,8 @@ async function runQ5TrainingGame(params: {
             color: learningSide,
             turn: turns,
             rewardComponent: 'intermediate',
+            initialQTableKeys: params.initialQTableKeys,
+            inheritedAlphaMultiplier: params.inheritedAlphaMultiplier,
           }),
         )
       } else {
@@ -3104,6 +3255,8 @@ async function runQ5TrainingGame(params: {
           color: learningSide,
           turn: turns,
           rewardComponent: 'final',
+          initialQTableKeys: params.initialQTableKeys,
+          inheritedAlphaMultiplier: params.inheritedAlphaMultiplier,
         }),
       )
     } else {
@@ -3118,6 +3271,11 @@ async function runQ5TrainingGame(params: {
         gamma: params.gamma,
       })
     }
+  }
+
+  for (const updateLog of params.updateLogs.slice(gameUpdateLogStartIndex)) {
+    updateLog.finalResultForQ5 = finalReward.result
+    updateLog.finalTerritoryDiff = finalTerritoryDiff
   }
 
   return {
@@ -3154,6 +3312,7 @@ export async function runLearningAgentQ5Training(
   const updateLogs: Q5UpdateLogEntry[] = []
   const qVsHeuristicDecisionLogs: Q5VsHeuristicDecisionLogEntry[] = []
   const initialQTableEntries = Object.keys(qTable).length
+  const initialQTableKeys = new Set(Object.keys(initialQTable))
   if (!config.initialQTablePath && initialQTableEntries !== 0) {
     throw new Error('Q5 pilot must start from an empty Q-table')
   }
@@ -3163,7 +3322,20 @@ export async function runLearningAgentQ5Training(
   const games: Q5GameRecord[] = []
   let epsilon = config.epsilonStart
 
-  for (const scheduleItem of schedule) {
+  for (let index = 0; index < schedule.length; index++) {
+    const originalScheduleItem = schedule[index]
+    if (!originalScheduleItem) throw new Error(`Q5 schedule missing local game ${index + 1}`)
+    const localGameIndex = originalScheduleItem.localGameIndex ?? index + 1
+    const cumulativeGameNumber = originalScheduleItem.cumulativeGameNumber ?? originalScheduleItem.game
+    const scheduleItem: Q5TrainingScheduleItem = {
+      ...originalScheduleItem,
+      game: cumulativeGameNumber,
+      localGameIndex,
+      cumulativeGameNumber,
+    }
+    if (localGameIndex !== index + 1) {
+      throw new Error(`Q5 local game index mismatch: expected ${index + 1}, got ${localGameIndex}`)
+    }
     if (config.epsilonSchedule) epsilon = config.epsilonSchedule(scheduleItem)
     const epsilonInitial = epsilon
     const qTableEntriesBefore = Object.keys(qTable).length
@@ -3183,6 +3355,8 @@ export async function runLearningAgentQ5Training(
       qLearningUpdateCounts,
       updateLogs,
       qVsHeuristicDecisionLogs,
+      initialQTableKeys,
+      inheritedAlphaMultiplier: config.inheritedAlphaMultiplier,
     })
     epsilon = config.epsilonSchedule
       ? config.epsilonSchedule(scheduleItem)
@@ -3195,11 +3369,15 @@ export async function runLearningAgentQ5Training(
       qTableEntriesAfter: Object.keys(qTable).length,
     })
 
-    if (config.progressEvery > 0 && scheduleItem.game % config.progressEvery === 0) {
+    if (config.progressEvery > 0 && localGameIndex % config.progressEvery === 0) {
       console.log(
-        `[trainLearningAgentQ5] ${scheduleItem.game}/${config.totalGames} games, qTable=${Object.keys(qTable).length}, epsilon=${epsilon.toFixed(4)}`,
+        `[trainLearningAgentQ5] ${localGameIndex}/${config.totalGames} games, cumulative=${cumulativeGameNumber}, qTable=${Object.keys(qTable).length}, epsilon=${epsilon.toFixed(4)}`,
       )
     }
+  }
+
+  if (games.length !== config.totalGames) {
+    throw new Error(`Q5 training incomplete: expected ${config.totalGames} games, got ${games.length}`)
   }
 
   const outputFiles = {
@@ -3219,6 +3397,8 @@ export async function runLearningAgentQ5Training(
                   ? 'qtable_q5_hybrid_final_1000.json'
                   : config.checkpoint === 'hybrid_final_1500'
                     ? 'qtable_q5_hybrid_final_1500.json'
+                    : config.checkpoint === 'hybrid_final_1500_conservative_alpha'
+                      ? 'qtable_q5_hybrid_final_1500_conservative_alpha.json'
                   : 'qtable_q5_pilot_40.json',
     ),
     metadata: path.join(config.outputDir, 'metadata.json'),
@@ -3226,8 +3406,16 @@ export async function runLearningAgentQ5Training(
     rewardLog: path.join(config.outputDir, 'reward_log.json'),
     qUpdateLog: config.instrumentedUpdates ? path.join(config.outputDir, 'q_update_log.jsonl') : undefined,
     qVsHeuristicDecisionLog: config.qVsHeuristicDecisionLogPath,
+    inheritedVsNewUpdateSummary:
+      config.inheritedAlphaMultiplier !== undefined
+        ? path.join(config.outputDir, 'inherited_vs_new_update_summary.json')
+        : undefined,
   }
   const instrumentedUpdateSummary = summarizeInstrumentedUpdates(updateLogs)
+  const inheritedVsNewUpdateSummary =
+    config.inheritedAlphaMultiplier !== undefined
+      ? summarizeInheritedVsNewUpdates(updateLogs, config.inheritedAlphaMultiplier)
+      : undefined
   const summary = summarizeGames({
     games,
     epsilonInitial: config.epsilonStart,
@@ -3308,7 +3496,9 @@ export async function runLearningAgentQ5Training(
           enabled: true,
           deltaClamp: { min: -1, max: 1 },
           learningRateByConfidence: Q5_ALPHA_BY_CONFIDENCE,
+          inheritedAlphaMultiplier: config.inheritedAlphaMultiplier,
           updateSummary: instrumentedUpdateSummary,
+          inheritedVsNewUpdateSummary,
         }
       : undefined,
     createdAt: new Date().toISOString(),
@@ -3321,6 +3511,9 @@ export async function runLearningAgentQ5Training(
   writeJson(outputFiles.metadata, metadata)
   writeJson(outputFiles.trainingSummary, summary)
   writeJson(outputFiles.rewardLog, metadata.rewardLog)
+  if (outputFiles.inheritedVsNewUpdateSummary && inheritedVsNewUpdateSummary) {
+    writeJson(outputFiles.inheritedVsNewUpdateSummary, inheritedVsNewUpdateSummary)
+  }
   if (outputFiles.qUpdateLog) {
     writeFileSync(
       outputFiles.qUpdateLog,
@@ -3768,6 +3961,33 @@ export function validateQ5HybridFinal1500Metadata(metadata: Q5TrainingMetadata):
   }
 }
 
+export function validateQ5HybridFinal1500ConservativeAlphaMetadata(metadata: Q5TrainingMetadata): void {
+  validateQ5HybridFinal1500Metadata({
+    ...metadata,
+    checkpoint: 'hybrid_final_1500',
+  })
+  if (metadata.checkpoint !== 'hybrid_final_1500_conservative_alpha') {
+    throw new Error('Q5 conservative alpha checkpoint mismatch')
+  }
+  if (metadata.instrumentedUpdates?.inheritedAlphaMultiplier !== 0.3) {
+    throw new Error('Q5 conservative alpha multiplier mismatch')
+  }
+  if (!metadata.instrumentedUpdates.inheritedVsNewUpdateSummary) {
+    throw new Error('Q5 conservative alpha must summarize inherited and new updates')
+  }
+  if (!metadata.outputFiles.inheritedVsNewUpdateSummary) {
+    throw new Error('Q5 conservative alpha must write inherited_vs_new_update_summary.json')
+  }
+  const inheritedAlphas = Object.keys(
+    metadata.instrumentedUpdates.inheritedVsNewUpdateSummary.inherited.alphaDistribution,
+  ).map(Number)
+  for (const alpha of inheritedAlphas) {
+    if (![0.009, 0.006, 0.003, 0.0015].includes(alpha)) {
+      throw new Error(`Q5 conservative alpha unexpected inherited alpha: ${alpha}`)
+    }
+  }
+}
+
 async function main(): Promise<void> {
   const command = process.argv[2] ?? 'pilot-40'
   if (command === 'hybrid-evaluate-initial') {
@@ -3915,6 +4135,43 @@ async function main(): Promise<void> {
     console.log(`[trainLearningAgentQ5] Q5 hybrid final 1500 new games: ${result.metadata.newTrainingGames}`)
     console.log(`[trainLearningAgentQ5] Q5 hybrid final 1500 entries: ${Object.keys(result.qTable).length}`)
     console.log(`[trainLearningAgentQ5] Q5 hybrid final 1500 output: ${result.metadata.outputFiles.metadata}`)
+    return
+  }
+  if (command === 'hybrid-final-1500-conservative-alpha') {
+    const sourceQTablePath = path.join(
+      Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR,
+      'qtable_q5_hybrid_final_1000.json',
+    )
+    const result = await runLearningAgentQ5Training({
+      totalGames: 500,
+      accumulatedTotalGames: 1500,
+      checkpoint: 'hybrid_final_1500_conservative_alpha',
+      seed: 3,
+      outputDir: Q5_HYBRID_FINAL_CHECKPOINT_1500_CONSERVATIVE_ALPHA_DIR,
+      initialQTablePath: sourceQTablePath,
+      initializationLabel: 'hybrid_final_1000',
+      initialQTableBuildSummaryPath: Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH,
+      previousQUpdateLogPath: [
+        path.join(Q5_HYBRID_FINAL_CHECKPOINT_500_DIR, 'q_update_log.jsonl'),
+        path.join(Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR, 'q_update_log.jsonl'),
+      ],
+      schedule: buildQ5HybridFinal1500ContinuationSchedule(),
+      alpha: 0.03,
+      inheritedAlphaMultiplier: 0.3,
+      epsilonStart: 0.1,
+      epsilonMin: 0.02,
+      epsilonSchedule: getQ5HybridFinal1500Epsilon,
+      instrumentedUpdates: true,
+      thresholdPolicy: { id: 'C', minConfidence: 5, minMargin: 0.25 },
+      qVsHeuristicDecisionLogPath: path.join(
+        Q5_HYBRID_FINAL_CHECKPOINT_1500_CONSERVATIVE_ALPHA_DIR,
+        'q_vs_heuristic_decision_log.jsonl',
+      ),
+    })
+    validateQ5HybridFinal1500ConservativeAlphaMetadata(result.metadata)
+    console.log(
+      `[trainLearningAgentQ5] Q5 hybrid final 1500 conservative alpha output: ${result.metadata.outputFiles.metadata}`,
+    )
     return
   }
   if (command === 'hybrid-validate-final-500-extended') {

@@ -1,0 +1,40 @@
+{
+  "inheritedAlphaMultiplier": 0.3,
+  "inherited": {
+    "updates": 6008,
+    "positiveUpdates": 4264,
+    "negativeUpdates": 1536,
+    "zeroUpdates": 208,
+    "alphaDistribution": {
+      "0.0015": 1883,
+      "0.009": 1514,
+      "0.003": 1301,
+      "0.006": 1310
+    },
+    "meanAbsDelta": 0.0171,
+    "maxAbsDelta": 1,
+    "meanReward": 1.3194,
+    "finalRewardUpdates": 93,
+    "intermediateRewardUpdates": 5915,
+    "wins": 4151,
+    "losses": 1813,
+    "ties": 44
+  },
+  "new": {
+    "updates": 3689,
+    "positiveUpdates": 2915,
+    "negativeUpdates": 652,
+    "zeroUpdates": 122,
+    "alphaDistribution": {
+      "0.03": 3689
+    },
+    "meanAbsDelta": 0.1286,
+    "maxAbsDelta": 1,
+    "meanReward": 4.4599,
+    "finalRewardUpdates": 407,
+    "intermediateRewardUpdates": 3282,
+    "wins": 2253,
+    "losses": 1383,
+    "ties": 53
+  }
+}

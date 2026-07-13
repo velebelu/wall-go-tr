@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -22,11 +22,14 @@ import {
   calculateIntermediateRewardQ5FromMetrics,
   chooseHybridQ5Action,
   chooseThresholdHybridQ5Action,
+  getQ5EpsilonByLocalGameIndex,
   getQ5HybridFinal1500Epsilon,
   loadQ5Metadata,
+  primaryThresholdMechanism,
   runLearningAgentQ5Training,
   validateQ5FinalFineTuning500Metadata,
   validateQ5HybridFinal1000Metadata,
+  validateQ5HybridFinal1500ConservativeAlphaMetadata,
   validateQ5HybridFinal1500Metadata,
   validateQ5HybridPilot100Metadata,
   validateQ5InstrumentedPilot100Metadata,
@@ -99,6 +102,33 @@ describe('trainLearningAgentQ5 configuration', () => {
     expect(DEFAULT_Q5_TRAINING_CONFIG.epsilonMin).toBe(DEFAULT_Q4_TRAINING_CONFIG.epsilonMin)
     expect(DEFAULT_Q5_TRAINING_CONFIG.epsilonDecay).toBe(DEFAULT_Q4_TRAINING_CONFIG.epsilonDecay)
     expect(DEFAULT_Q5_TRAINING_CONFIG.maxTurns).toBe(DEFAULT_Q4_TRAINING_CONFIG.maxTurns)
+  })
+
+  it('classifies threshold games by real Q intervention before rejected proposals', () => {
+    expect(
+      primaryThresholdMechanism({
+        matches: 4,
+        qOverridesAccepted: 1,
+        qOverridesRejected: 500,
+        randomExploration: 0,
+      }),
+    ).toBe('qOverrideAccepted')
+    expect(
+      primaryThresholdMechanism({
+        matches: 3,
+        qOverridesAccepted: 0,
+        qOverridesRejected: 500,
+        randomExploration: 0,
+      }),
+    ).toBe('heuristicMatch')
+    expect(
+      primaryThresholdMechanism({
+        matches: 0,
+        qOverridesAccepted: 0,
+        qOverridesRejected: 500,
+        randomExploration: 1,
+      }),
+    ).toBe('randomExploration')
   })
 
   it('keeps the Q3 representation for Q-table keys', async () => {
@@ -1157,6 +1187,174 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     expect(metadata.outputFiles.qVsHeuristicDecisionLog).toBe(qVsLogPath)
     expect(readFileSync(qVsLogPath, 'utf8')).toBeTypeOf('string')
     expect(() => validateQ5HybridFinal1500Metadata(result.metadata)).toThrow('must run 500 new games')
+  }, 15000)
+
+  it('runs conservative-alpha 1500 continuation from Q5-1000 with inherited and new alpha tracking', async () => {
+    const realQ1000Path =
+      'data/entrenamiento/q5/hybrid/final_checkpoint_1000/qtable_q5_hybrid_final_1000.json'
+    const q1000Before = readFileSync(realQ1000Path, 'utf8')
+    const tempDir = makeTempDir()
+    const state = snapshotFromState(makeInitialState())
+    const legalActions = getLegalActions(state)
+    const inheritedEntries = Object.fromEntries(
+      legalActions.map((action, index) => [getLearningQTableKeyQ3(state, action), 0.5 + index * 0.001]),
+    )
+    const initialQTablePath = path.join(tempDir, 'qtable_q5_hybrid_final_1000.json')
+    const buildSummaryPath = path.join(tempDir, 'build_summary.json')
+    const previousLogPath = path.join(tempDir, 'q_update_log.jsonl')
+    const outputDir = path.join(tempDir, 'final_checkpoint_1500_conservative_alpha')
+    const qVsLogPath = path.join(outputDir, 'q_vs_heuristic_decision_log.jsonl')
+    const schedule = buildQ5HybridFinal1500ContinuationSchedule().slice(0, 6)
+    writeFileSync(initialQTablePath, `${JSON.stringify(inheritedEntries, null, 2)}\n`, 'utf8')
+    writeFileSync(
+      buildSummaryPath,
+      `${JSON.stringify(
+        {
+          entries: Object.keys(inheritedEntries).map((stateActionKey) => ({
+            stateActionKey,
+            observations: 3,
+          })),
+        },
+        null,
+        2,
+      )}\n`,
+      'utf8',
+    )
+    writeFileSync(previousLogPath, `${JSON.stringify({ stateActionKey: Object.keys(inheritedEntries)[0] })}\n`, 'utf8')
+
+    const result = await runLearningAgentQ5Training({
+      totalGames: schedule.length,
+      accumulatedTotalGames: 1500,
+      checkpoint: 'hybrid_final_1500_conservative_alpha',
+      seed: 3,
+      outputDir,
+      initialQTablePath,
+      initializationLabel: 'hybrid_final_1000',
+      initialQTableBuildSummaryPath: buildSummaryPath,
+      previousQUpdateLogPath: previousLogPath,
+      schedule,
+      progressEvery: 0,
+      maxTurns: 10,
+      alpha: 0.03,
+      inheritedAlphaMultiplier: 0.3,
+      epsilonStart: 0.1,
+      epsilonMin: 0.02,
+      epsilonSchedule: getQ5HybridFinal1500Epsilon,
+      instrumentedUpdates: true,
+      thresholdPolicy: { id: 'C', minConfidence: 5, minMargin: 0.25 },
+      qVsHeuristicDecisionLogPath: qVsLogPath,
+    })
+    const metadata = loadQ5Metadata(path.join(outputDir, 'metadata.json'))
+    const updateLogs = readFileSync(path.join(outputDir, 'q_update_log.jsonl'), 'utf8')
+      .trim()
+      .split('\n')
+      .filter(Boolean)
+      .map((line) => JSON.parse(line) as { entryOrigin: 'inherited' | 'new'; alpha: number; baseAlpha: number })
+    const inheritedUpdates = updateLogs.filter((log) => log.entryOrigin === 'inherited')
+    const newUpdates = updateLogs.filter((log) => log.entryOrigin === 'new')
+    const inheritedSummary = JSON.parse(
+      readFileSync(path.join(outputDir, 'inherited_vs_new_update_summary.json'), 'utf8'),
+    ) as { inheritedAlphaMultiplier: number; inherited: { updates: number }; new: { updates: number } }
+
+    expect(result.metadata.initialization).toBe('hybrid_final_1000')
+    expect(result.metadata.checkpoint).toBe('hybrid_final_1500_conservative_alpha')
+    expect(result.metadata.summary.thresholdPolicy?.variant).toEqual({ id: 'C', minConfidence: 5, minMargin: 0.25 })
+    expect(result.metadata.schedule).toEqual(schedule)
+    expect(result.metadata.games.every((game) => game.epsilonInitial === 0.1 && game.epsilonFinal === 0.1)).toBe(true)
+    expect(result.metadata.hyperparameters.gamma).toBe(0.9)
+    expect(result.metadata.hyperparameters.epsilonMin).toBe(0.02)
+    expect(result.metadata.rewardConfiguration).toEqual(Q5_REWARD_CONFIG)
+    expect(inheritedUpdates.length).toBeGreaterThan(0)
+    expect(newUpdates.length).toBeGreaterThan(0)
+    expect(inheritedUpdates.every((log) => log.baseAlpha === 0.02 && log.alpha === 0.006)).toBe(true)
+    expect(newUpdates.every((log) => log.alpha === log.baseAlpha)).toBe(true)
+    expect(newUpdates.some((log) => log.alpha === 0.03)).toBe(true)
+    expect(inheritedSummary.inheritedAlphaMultiplier).toBe(0.3)
+    expect(inheritedSummary.inherited.updates).toBe(inheritedUpdates.length)
+    expect(inheritedSummary.new.updates).toBe(newUpdates.length)
+    expect(metadata.outputFiles.inheritedVsNewUpdateSummary).toBe(
+      path.join(outputDir, 'inherited_vs_new_update_summary.json'),
+    )
+    expect(readFileSync(qVsLogPath, 'utf8')).toBeTypeOf('string')
+    expect(readFileSync(realQ1000Path, 'utf8')).toBe(q1000Before)
+    expect(() => validateQ5HybridFinal1500ConservativeAlphaMetadata(result.metadata)).toThrow(
+      'must run 500 new games',
+    )
+  }, 15000)
+
+  it('uses local game indexes for reduced conservative-alpha continuations across all epsilon bands', async () => {
+    const tempDir = makeTempDir()
+    const state = snapshotFromState(makeInitialState())
+    const legalActions = getLegalActions(state)
+    const inheritedEntries = Object.fromEntries(
+      legalActions.map((action, index) => [getLearningQTableKeyQ3(state, action), 0.4 + index * 0.001]),
+    )
+    const initialQTablePath = path.join(tempDir, 'qtable_q5_hybrid_final_10.json')
+    const buildSummaryPath = path.join(tempDir, 'build_summary.json')
+    const outputDir = path.join(tempDir, 'final_checkpoint_15_conservative_alpha')
+    const schedule = buildQ5FinalFineTuning500Schedule().slice(0, 5).map((item, index) => ({
+      ...item,
+      game: 11 + index,
+      localGameIndex: index + 1,
+      cumulativeGameNumber: 11 + index,
+    }))
+    writeFileSync(initialQTablePath, `${JSON.stringify(inheritedEntries, null, 2)}\n`, 'utf8')
+    writeFileSync(
+      buildSummaryPath,
+      `${JSON.stringify(
+        {
+          entries: Object.keys(inheritedEntries).map((stateActionKey) => ({
+            stateActionKey,
+            observations: 3,
+          })),
+        },
+        null,
+        2,
+      )}\n`,
+      'utf8',
+    )
+
+    const result = await runLearningAgentQ5Training({
+      totalGames: 5,
+      accumulatedTotalGames: 15,
+      checkpoint: 'hybrid_final_1500_conservative_alpha',
+      seed: 3,
+      outputDir,
+      initialQTablePath,
+      initializationLabel: 'hybrid_final_1000',
+      initialQTableBuildSummaryPath: buildSummaryPath,
+      schedule,
+      progressEvery: 0,
+      maxTurns: 8,
+      alpha: 0.03,
+      inheritedAlphaMultiplier: 0.3,
+      epsilonStart: 0.1,
+      epsilonMin: 0.02,
+      epsilonSchedule: (item) =>
+        getQ5EpsilonByLocalGameIndex(item, [
+          { from: 1, to: 1, epsilon: 0.1 },
+          { from: 2, to: 3, epsilon: 0.07 },
+          { from: 4, to: 5, epsilon: 0.03 },
+        ]),
+      instrumentedUpdates: true,
+      thresholdPolicy: { id: 'C', minConfidence: 5, minMargin: 0.25 },
+      qVsHeuristicDecisionLogPath: path.join(outputDir, 'q_vs_heuristic_decision_log.jsonl'),
+    })
+
+    expect(result.metadata.newTrainingGames).toBe(5)
+    expect(result.metadata.totalGames).toBe(15)
+    expect(result.metadata.games).toHaveLength(5)
+    expect(result.metadata.games.map((game) => game.game)).toEqual([11, 12, 13, 14, 15])
+    expect(result.metadata.games.map((game) => game.epsilonInitial)).toEqual([0.1, 0.07, 0.07, 0.03, 0.03])
+    expect(result.metadata.schedule.map((item) => item.localGameIndex)).toEqual([1, 2, 3, 4, 5])
+    expect(result.metadata.schedule.map((item) => item.cumulativeGameNumber)).toEqual([11, 12, 13, 14, 15])
+    expect(existsSync(path.join(outputDir, 'metadata.json'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'qtable_q5_hybrid_final_1500_conservative_alpha.json'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'training_summary.json'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'reward_log.json'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'q_update_log.jsonl'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'inherited_vs_new_update_summary.json'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'q_vs_heuristic_decision_log.jsonl'))).toBe(true)
   }, 15000)
 
   it('writes and reloads a valid Q5 pilot with reward logs', async () => {

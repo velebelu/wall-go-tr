@@ -15,6 +15,7 @@ import {
   Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH,
   Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR,
   Q5_HYBRID_FINAL_CHECKPOINT_1500_DIR,
+  Q5_HYBRID_FINAL_CHECKPOINT_1500_CONSERVATIVE_ALPHA_DIR,
   applyFullActionQ5,
   chooseThresholdHybridQ5Action,
   finalizeGameIfNeeded,
@@ -35,6 +36,10 @@ export const Q5_1000_VS_1500_EVAL_DIR = path.join(
   'data/entrenamiento/q5/hybrid/evaluacion_checkpoint_1000_vs_1500',
 )
 
+export const Q5_1500_CONSERVATIVE_ALPHA_EVAL_DIR = path.join(
+  'data/entrenamiento/q5/hybrid/evaluacion_1500_conservative_alpha',
+)
+
 export const Q5_POLICY_COMPARISON_QTABLE_PATH = path.join(
   Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR,
   'qtable_q5_hybrid_final_1000.json',
@@ -45,6 +50,11 @@ export const Q5_POLICY_COMPARISON_1500_QTABLE_PATH = path.join(
   'qtable_q5_hybrid_final_1500.json',
 )
 
+export const Q5_POLICY_COMPARISON_1500_CONSERVATIVE_ALPHA_QTABLE_PATH = path.join(
+  Q5_HYBRID_FINAL_CHECKPOINT_1500_CONSERVATIVE_ALPHA_DIR,
+  'qtable_q5_hybrid_final_1500_conservative_alpha.json',
+)
+
 export const Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS = [
   path.join('data/entrenamiento/q5/hybrid/final_checkpoint_500/q_update_log.jsonl'),
   path.join(Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR, 'q_update_log.jsonl'),
@@ -53,6 +63,11 @@ export const Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS = [
 export const Q5_POLICY_COMPARISON_1500_Q_UPDATE_LOG_PATHS = [
   ...Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
   path.join(Q5_HYBRID_FINAL_CHECKPOINT_1500_DIR, 'q_update_log.jsonl'),
+]
+
+export const Q5_POLICY_COMPARISON_1500_CONSERVATIVE_ALPHA_Q_UPDATE_LOG_PATHS = [
+  ...Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
+  path.join(Q5_HYBRID_FINAL_CHECKPOINT_1500_CONSERVATIVE_ALPHA_DIR, 'q_update_log.jsonl'),
 ]
 
 export interface Q5PolicyComparisonPolicy extends Q5ThresholdPolicyVariant {
@@ -67,6 +82,10 @@ export const Q5_POLICY_COMPARISON_POLICIES: Q5PolicyComparisonPolicy[] = [
 
 export const Q5_1000_VS_1500_POLICIES: Q5PolicyComparisonPolicy[] = [
   { id: 'E', label: 'minConfidence10_margin0.50', minConfidence: 10, minMargin: 0.5 },
+  { id: 'C', label: 'minConfidence5_margin0.25', minConfidence: 5, minMargin: 0.25 },
+]
+
+export const Q5_CONSERVATIVE_ALPHA_COMPARISON_POLICIES: Q5PolicyComparisonPolicy[] = [
   { id: 'C', label: 'minConfidence5_margin0.25', minConfidence: 5, minMargin: 0.25 },
 ]
 
@@ -123,6 +142,7 @@ export interface Q5PolicyComparisonOptions {
   overwrite?: boolean
   policies?: Q5PolicyComparisonPolicy[]
   qUpdateLogPath?: string | string[]
+  progressEvery?: number
 }
 
 function getOpponent(player: Player): Player {
@@ -421,6 +441,7 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
   const policies = options.policies ?? Q5_POLICY_COMPARISON_POLICIES
   const gamesPerRival = options.gamesPerRival ?? 1000
   const seedBase = options.seedBase ?? 802000
+  const progressEvery = options.progressEvery ?? 500
   const pairings = buildQ5PolicyComparisonPairings(gamesPerRival, seedBase)
   const confidenceMap = loadQ5ConfidenceMap(Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH)
   const tableConfigs =
@@ -451,6 +472,7 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
     const fingerprintBefore = qTableFingerprint(qTable)
     const qLearningUpdateCounts = loadQUpdateCountsFromJsonl(tableConfig.qUpdateLogPath)
     for (const policy of policies) {
+      let completedForPolicy = 0
       for (const pairing of pairings) {
         const result = await runSinglePolicyComparisonGame({
           table: tableConfig.label,
@@ -461,6 +483,12 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
           qLearningUpdateCounts,
         })
         allResults.push(result)
+        completedForPolicy++
+        if (progressEvery > 0 && completedForPolicy % progressEvery === 0) {
+          console.log(
+            `[evaluateQ5PolicyComparison] ${tableConfig.label} ${policy.label}: ${completedForPolicy}/${pairings.length}`,
+          )
+        }
       }
     }
     const hashAfter = hashFile(qTablePath)
@@ -589,12 +617,51 @@ export async function evaluateQ5Checkpoint1000Vs1500(options: {
   })
 }
 
+export async function evaluateQ5ConservativeAlphaComparison(options: {
+  outputDir?: string
+  gamesPerRival?: number
+  seedBase?: number
+  overwrite?: boolean
+} = {}) {
+  return evaluateQ5PolicyComparison({
+    outputDir: options.outputDir ?? Q5_1500_CONSERVATIVE_ALPHA_EVAL_DIR,
+    outputFilePrefix: 'conservative_alpha_comparison',
+    gamesPerRival: options.gamesPerRival ?? 1000,
+    seedBase: options.seedBase ?? 902000,
+    overwrite: options.overwrite,
+    policies: Q5_CONSERVATIVE_ALPHA_COMPARISON_POLICIES,
+    tableConfigs: [
+      {
+        label: 'q5_1000',
+        qTablePath: Q5_POLICY_COMPARISON_QTABLE_PATH,
+        qUpdateLogPath: Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
+      },
+      {
+        label: 'q5_1500',
+        qTablePath: Q5_POLICY_COMPARISON_1500_QTABLE_PATH,
+        qUpdateLogPath: Q5_POLICY_COMPARISON_1500_Q_UPDATE_LOG_PATHS,
+      },
+      {
+        label: 'q5_1500_conservative_alpha',
+        qTablePath: Q5_POLICY_COMPARISON_1500_CONSERVATIVE_ALPHA_QTABLE_PATH,
+        qUpdateLogPath: Q5_POLICY_COMPARISON_1500_CONSERVATIVE_ALPHA_Q_UPDATE_LOG_PATHS,
+      },
+    ],
+  })
+}
+
 async function main(): Promise<void> {
   const command = process.argv[2] ?? 'policy-comparison-1000'
   if (command === 'checkpoint-1000-vs-1500') {
     const result = await evaluateQ5Checkpoint1000Vs1500()
     console.log(`[evaluateQ5PolicyComparison] Q5 1000 vs 1500 games: ${result.results.length}`)
     console.log(`[evaluateQ5PolicyComparison] output: ${Q5_1000_VS_1500_EVAL_DIR}`)
+    return
+  }
+  if (command === 'conservative-alpha-comparison') {
+    const result = await evaluateQ5ConservativeAlphaComparison()
+    console.log(`[evaluateQ5PolicyComparison] Q5 conservative alpha comparison games: ${result.results.length}`)
+    console.log(`[evaluateQ5PolicyComparison] output: ${Q5_1500_CONSERVATIVE_ALPHA_EVAL_DIR}`)
     return
   }
   if (command !== 'policy-comparison-1000') throw new Error(`Unknown command: ${command}`)
