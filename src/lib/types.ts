@@ -14,6 +14,7 @@ export interface Cell {
 export type GameMode =
   | 'pvp'
   | 'ai'
+  | 'q5-learning'
   | 'ai-vs-ai'
   | 'random-vs-heuristic'
   | 'learning-vs-random'

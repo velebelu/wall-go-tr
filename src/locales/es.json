@@ -12,9 +12,15 @@
       "experimentalTitle": "Modos experimentales",
       "random_vs_heuristic": "IA aleatoria vs IA heurística",
       "learning_vs_random": "IA aprendiz vs IA aleatoria",
-      "learning_vs_heuristic": "IA aprendiz vs IA heurística"
+      "learning_vs_heuristic": "IA aprendiz vs IA heurística",
+      "q5_learning": "IA aprendiz Q5"
     },
     "rule": "Reglas del Juego",
+    "q5": {
+      "select_side": "Elige el color de la IA aprendiz Q5:",
+      "red": "Rojo",
+      "blue": "Azul"
+    },
     "ai": {
       "select": "Selecciona nivel y turno de IA:",
       "level": "Nivel de IA:",

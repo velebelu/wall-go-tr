@@ -8,9 +8,15 @@
     "mode": {
       "pvp": "🤝 2인 플레이",
       "ai": "🤖 AI 대전",
-      "ai-vs-ai": "🤖 AI 대 AI"
+      "ai-vs-ai": "🤖 AI 대 AI",
+      "q5_learning": "Q5 학습 AI"
     },
     "rule": "게임 규칙",
+    "q5": {
+      "select_side": "Q5 학습 AI 색상 선택:",
+      "red": "빨강",
+      "blue": "파랑"
+    },
     "ai": {
       "select": "AI 난이도 및 선/후 선택:",
       "level": "AI 수준:",

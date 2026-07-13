@@ -14,7 +14,15 @@ import { checkGameEnd } from '@/utils/game'
 import { saveGameResult } from '@/utils/saveGame'
 import { useRef, useEffect, useCallback, useState } from 'react'
 import { TurnManager } from '@/agents/TurnManager'
-import { HumanAgent, RandomAgent, HeuristicAgent, MinimaxAgent, LearningAgent } from '@/agents'
+import {
+  HumanAgent,
+  RandomAgent,
+  HeuristicAgent,
+  MinimaxAgent,
+  LearningAgent,
+  Q5LearningAgent,
+  createHumanVsQ5Agents,
+} from '@/agents'
 import { snapshotFromState } from '@/store/gameState'
 import { runHeuristicTraining } from '@/training/TrainingRunner'
 import ConfirmDialog from './ui/ConfirmDialog'
@@ -61,6 +69,7 @@ export default function Game({
   const live = checkGameEnd(board, [...PLAYER_LIST])
   const { t } = useTranslation()
   const [showConfirm, setShowConfirm] = useState(false)
+  const [aiError, setAiError] = useState<string | null>(null)
   const [timeLeft, setTimeLeft] = useState(90_000)
   const turnTimeLimit = 90_000
   const [turnStart, setTurnStart] = useState<number | null>(null)
@@ -169,20 +178,25 @@ export default function Game({
     // Para modo pvp y ai: lógica original con HumanAgent
     const human = new HumanAgent()
     humanAgentRef.current = human
-    const aiMap = {
-      practice: new RandomAgent(),
-      heuristic: new HeuristicAgent(),
-      easy: new MinimaxAgent(2),
-      middle: new MinimaxAgent(4),
-      hard: new MinimaxAgent(6),
+    let agents
+    if (gameMode === 'q5-learning') {
+      agents = createHumanVsQ5Agents(aiSide, new Q5LearningAgent(), human)
+    } else {
+      const aiMap = {
+        practice: new RandomAgent(),
+        heuristic: new HeuristicAgent(),
+        easy: new MinimaxAgent(2),
+        middle: new MinimaxAgent(4),
+        hard: new MinimaxAgent(6),
+      }
+      const ai = aiMap[aiLevel]
+      agents =
+        gameMode === 'ai'
+          ? aiSide === 'R'
+            ? { R: ai, B: human }
+            : { R: human, B: ai }
+          : { R: human, B: human }
     }
-    const ai = aiMap[aiLevel]
-    const agents =
-      gameMode === 'ai'
-        ? aiSide === 'R'
-          ? { R: ai, B: human }
-          : { R: human, B: ai }
-        : { R: human, B: human }
     turnManagerRef.current = new TurnManager({
       agents,
       getGameState: () => snapshotFromState(latestStateRef.current!),
@@ -219,7 +233,7 @@ export default function Game({
       gameMode === 'learning-vs-random' ||
       gameMode === 'learning-vs-heuristic'
 
-    if (gameMode === 'ai') {
+    if (gameMode === 'ai' || gameMode === 'q5-learning') {
       useGame.getState().setHumanSide(aiSide === 'R' ? 'B' : 'R')
     } else if (isAiVsAiMode) {
       useGame.getState().setHumanSide(null)
@@ -260,10 +274,15 @@ export default function Game({
   useEffect(() => {
     if (!turnManagerRef.current) return
     if ((phase === 'placing' || phase === 'playing') && !turnManagerStartedRef.current) {
-      turnManagerRef.current.startLoop()
+      setAiError(null)
+      void turnManagerRef.current.startLoop().catch((error: unknown) => {
+        const message = error instanceof Error ? error.message : t('game.ai_error', 'Error de IA')
+        console.error('[Game] Error de IA:', error)
+        setAiError(message)
+      })
       turnManagerStartedRef.current = true
     }
-  }, [phase])
+  }, [phase, t])
 
   const handlePlayerAction = useCallback((action: PlayerAction) => {
     humanAgentRef.current?.submitAction(action)
@@ -353,6 +372,7 @@ export default function Game({
 
     let tipo_partida = 'pvp'
     if (gameMode === 'ai') tipo_partida = aiTipoMap[aiLevel] ?? 'humano_vs_ia'
+    if (gameMode === 'q5-learning') tipo_partida = 'humano_vs_ia_aprendiz_q5_1000'
     if (gameMode === 'ai-vs-ai') tipo_partida = 'ia_vs_ia_automatico'
     if (gameMode === 'random-vs-heuristic') tipo_partida = 'ia_aleatoria_vs_ia_heuristica'
     if (gameMode === 'learning-vs-random') tipo_partida = 'ia_aprendiz_vs_ia_aleatoria'
@@ -370,6 +390,9 @@ export default function Game({
       }
       if (gameMode === 'learning-vs-heuristic') {
         return side === 'R' ? 'ia_aprendiz' : 'ia_heuristica'
+      }
+      if (gameMode === 'q5-learning') {
+        return side === aiSide ? 'ia_aprendiz_q5_1000' : 'humano'
       }
       if (gameMode !== 'ai') return 'humano'
       // If humanSide is null (shouldn't happen), assume players[0] is human
@@ -414,7 +437,7 @@ export default function Game({
 
     saveGameResult(payload)
     savedRef.current = true
-  }, [phase, result, board, players, gameMode, aiLevel, humanSide])
+  }, [phase, result, board, players, gameMode, aiLevel, aiSide, humanSide])
 
   return (
     <div
@@ -445,6 +468,11 @@ export default function Game({
         dark={dark}
         setDark={setDark}
       />
+      {aiError && (
+        <div role="alert" className="w-full max-w-xl rounded-xl border border-red-300 bg-red-50 p-3 text-center text-red-800 dark:border-red-700 dark:bg-red-950 dark:text-red-200">
+          {aiError}
+        </div>
+      )}
       <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-800 dark:text-zinc-100 drop-shadow animate-fade-in flex items-center gap-2">
         {phase === 'finished' && result ? (
           result.tie ? (

@@ -8,9 +8,15 @@
       "experimentalTitle": "Experimental modes",
       "random_vs_heuristic": "Random AI vs Heuristic AI",
       "learning_vs_random": "Learning AI vs Random AI",
-      "learning_vs_heuristic": "Learning AI vs Heuristic AI"
+      "learning_vs_heuristic": "Learning AI vs Heuristic AI",
+      "q5_learning": "Q5 Learning AI"
     },
     "rule": "Game Rules",
+    "q5": {
+      "select_side": "Choose the Q5 Learning AI color:",
+      "red": "Red",
+      "blue": "Blue"
+    },
     "ai": {
       "select": "Select AI level and side:",
       "level": "AI Level:",

@@ -8,9 +8,15 @@
     "mode": {
       "pvp": "🤝 雙人對戰",
       "ai": "🤖 vs AI",
-      "ai-vs-ai": "🤖 AI vs AI"
+      "ai-vs-ai": "🤖 AI vs AI",
+      "q5_learning": "Q5 學習 AI"
     },
     "rule": "遊戲規則",
+    "q5": {
+      "select_side": "選擇 Q5 學習 AI 的顏色：",
+      "red": "紅色",
+      "blue": "藍色"
+    },
     "ai": {
       "select": "選擇難易度與先後手：",
       "level": "AI 強度：",
