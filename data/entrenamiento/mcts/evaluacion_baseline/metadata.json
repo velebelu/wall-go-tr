@@ -1,0 +1,70 @@
+{
+  "createdAt": "2026-07-13T20:47:03.436Z",
+  "evaluationVersion": "mcts-baseline-v1",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\mcts\\evaluacion_baseline",
+  "git": {
+    "branch": "ia-hibrida-mcts",
+    "commit": "b5f3bfb7dff8246c982fae0a40c40080a54b4a81"
+  },
+  "protocol": {
+    "gamesPerCombination": 4,
+    "gamesPerColor": 2,
+    "totalGames": 16,
+    "seedBase": 613000,
+    "seeds": [
+      613001,
+      613002,
+      613003,
+      613004,
+      613005,
+      613006,
+      613007,
+      613008,
+      613001,
+      613002,
+      613003,
+      613004,
+      613005,
+      613006,
+      613007,
+      613008
+    ],
+    "maxTurns": 250,
+    "configurations": [
+      {
+        "name": "MCTS-50",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60
+      },
+      {
+        "name": "MCTS-200",
+        "simulations": 200,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60
+      }
+    ],
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "learningEnabled": false,
+    "q5UsedOnlyAsFrozenOpponent": false,
+    "turnLimitResolution": "finalizeGameIfNeeded using getTerritoryCounts"
+  },
+  "positionEvaluation": {
+    "version": "evaluatePosition-v1",
+    "normalization": "tanh(score / 100)",
+    "weights": {
+      "territory": 10,
+      "mobility": 2,
+      "trappedPieces": 8,
+      "expansion": 1
+    }
+  },
+  "files": {
+    "summary": "mcts_baseline_summary.json",
+    "results": "mcts_baseline_results.csv",
+    "metadata": "metadata.json"
+  }
+}

@@ -1,0 +1,318 @@
+{
+  "createdAt": "2026-07-13T20:47:03.436Z",
+  "evaluationVersion": "mcts-baseline-v1",
+  "git": {
+    "branch": "ia-hibrida-mcts",
+    "commit": "b5f3bfb7dff8246c982fae0a40c40080a54b4a81"
+  },
+  "protocol": {
+    "gamesPerCombination": 4,
+    "gamesPerColor": 2,
+    "totalGames": 16,
+    "seedBase": 613000,
+    "seeds": [
+      613001,
+      613002,
+      613003,
+      613004,
+      613005,
+      613006,
+      613007,
+      613008,
+      613001,
+      613002,
+      613003,
+      613004,
+      613005,
+      613006,
+      613007,
+      613008
+    ],
+    "maxTurns": 250,
+    "configurations": [
+      {
+        "name": "MCTS-50",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60
+      },
+      {
+        "name": "MCTS-200",
+        "simulations": 200,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60
+      }
+    ],
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "learningEnabled": false,
+    "q5UsedOnlyAsFrozenOpponent": false,
+    "turnLimitResolution": "finalizeGameIfNeeded using getTerritoryCounts"
+  },
+  "positionEvaluation": {
+    "version": "evaluatePosition-v1",
+    "normalization": "tanh(score / 100)",
+    "weights": {
+      "territory": 10,
+      "mobility": 2,
+      "trappedPieces": 8,
+      "expansion": 1
+    }
+  },
+  "aggregate": {
+    "games": 16,
+    "wins": 8,
+    "losses": 8,
+    "ties": 0,
+    "winRate": 50,
+    "averageTerritoryMCTS": 16.0625,
+    "averageTerritoryRival": 22.25,
+    "averageTerritoryDiff": -6.1875,
+    "averageTurns": 83,
+    "totalTimeMs": 171467.9017,
+    "averageGameTimeMs": 10716.7439,
+    "averageDecisionMs": 466.652,
+    "averageRootLegalActions": 58.0545,
+    "simulations": 0
+  },
+  "combinations": [
+    {
+      "config": {
+        "name": "MCTS-50",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60
+      },
+      "rival": "random",
+      "aggregate": {
+        "games": 4,
+        "wins": 4,
+        "losses": 0,
+        "ties": 0,
+        "winRate": 100,
+        "averageTerritoryMCTS": 26.75,
+        "averageTerritoryRival": 7,
+        "averageTerritoryDiff": 19.75,
+        "averageTurns": 95.5,
+        "totalTimeMs": 16979.8555,
+        "averageGameTimeMs": 4244.9639,
+        "averageDecisionMs": 161.3671,
+        "averageRootLegalActions": 65.5048,
+        "simulations": 50
+      },
+      "byColor": {
+        "R": {
+          "games": 2,
+          "wins": 2,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryMCTS": 25,
+          "averageTerritoryRival": 4.5,
+          "averageTerritoryDiff": 20.5,
+          "averageTurns": 105,
+          "totalTimeMs": 8934.0554,
+          "averageGameTimeMs": 4467.0277,
+          "averageDecisionMs": 156.3874,
+          "averageRootLegalActions": 61.1754,
+          "simulations": 50
+        },
+        "B": {
+          "games": 2,
+          "wins": 2,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryMCTS": 28.5,
+          "averageTerritoryRival": 9.5,
+          "averageTerritoryDiff": 19,
+          "averageTurns": 86,
+          "totalTimeMs": 8045.8001,
+          "averageGameTimeMs": 4022.9001,
+          "averageDecisionMs": 167.2806,
+          "averageRootLegalActions": 70.6458,
+          "simulations": 50
+        }
+      }
+    },
+    {
+      "config": {
+        "name": "MCTS-50",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60
+      },
+      "rival": "heuristic",
+      "aggregate": {
+        "games": 4,
+        "wins": 0,
+        "losses": 4,
+        "ties": 0,
+        "winRate": 0,
+        "averageTerritoryMCTS": 9.5,
+        "averageTerritoryRival": 35.75,
+        "averageTerritoryDiff": -26.25,
+        "averageTurns": 71.25,
+        "totalTimeMs": 14602.0132,
+        "averageGameTimeMs": 3650.5033,
+        "averageDecisionMs": 184.1121,
+        "averageRootLegalActions": 49.0127,
+        "simulations": 50
+      },
+      "byColor": {
+        "R": {
+          "games": 2,
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "winRate": 0,
+          "averageTerritoryMCTS": 7.5,
+          "averageTerritoryRival": 37.5,
+          "averageTerritoryDiff": -30,
+          "averageTurns": 67,
+          "totalTimeMs": 7156.8087,
+          "averageGameTimeMs": 3578.4043,
+          "averageDecisionMs": 192.6696,
+          "averageRootLegalActions": 47.4054,
+          "simulations": 50
+        },
+        "B": {
+          "games": 2,
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "winRate": 0,
+          "averageTerritoryMCTS": 11.5,
+          "averageTerritoryRival": 34,
+          "averageTerritoryDiff": -22.5,
+          "averageTurns": 75.5,
+          "totalTimeMs": 7445.2045,
+          "averageGameTimeMs": 3722.6022,
+          "averageDecisionMs": 176.5734,
+          "averageRootLegalActions": 50.4286,
+          "simulations": 50
+        }
+      }
+    },
+    {
+      "config": {
+        "name": "MCTS-200",
+        "simulations": 200,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60
+      },
+      "rival": "random",
+      "aggregate": {
+        "games": 4,
+        "wins": 4,
+        "losses": 0,
+        "ties": 0,
+        "winRate": 100,
+        "averageTerritoryMCTS": 22,
+        "averageTerritoryRival": 12.75,
+        "averageTerritoryDiff": 9.25,
+        "averageTurns": 91.75,
+        "totalTimeMs": 72055.6346,
+        "averageGameTimeMs": 18013.9087,
+        "averageDecisionMs": 713.0484,
+        "averageRootLegalActions": 66.901,
+        "simulations": 200
+      },
+      "byColor": {
+        "R": {
+          "games": 2,
+          "wins": 2,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryMCTS": 22,
+          "averageTerritoryRival": 12.5,
+          "averageTerritoryDiff": 9.5,
+          "averageTurns": 93.5,
+          "totalTimeMs": 38104.8084,
+          "averageGameTimeMs": 19052.4042,
+          "averageDecisionMs": 746.7841,
+          "averageRootLegalActions": 64.451,
+          "simulations": 200
+        },
+        "B": {
+          "games": 2,
+          "wins": 2,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryMCTS": 22,
+          "averageTerritoryRival": 13,
+          "averageTerritoryDiff": 9,
+          "averageTurns": 90,
+          "totalTimeMs": 33950.8262,
+          "averageGameTimeMs": 16975.4131,
+          "averageDecisionMs": 678.638,
+          "averageRootLegalActions": 69.4,
+          "simulations": 200
+        }
+      }
+    },
+    {
+      "config": {
+        "name": "MCTS-200",
+        "simulations": 200,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60
+      },
+      "rival": "heuristic",
+      "aggregate": {
+        "games": 4,
+        "wins": 0,
+        "losses": 4,
+        "ties": 0,
+        "winRate": 0,
+        "averageTerritoryMCTS": 6,
+        "averageTerritoryRival": 33.5,
+        "averageTerritoryDiff": -27.5,
+        "averageTurns": 73.5,
+        "totalTimeMs": 67830.3984,
+        "averageGameTimeMs": 16957.5996,
+        "averageDecisionMs": 826.2804,
+        "averageRootLegalActions": 46.3293,
+        "simulations": 200
+      },
+      "byColor": {
+        "R": {
+          "games": 2,
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "winRate": 0,
+          "averageTerritoryMCTS": 7,
+          "averageTerritoryRival": 33,
+          "averageTerritoryDiff": -26,
+          "averageTurns": 74,
+          "totalTimeMs": 31344.8667,
+          "averageGameTimeMs": 15672.4333,
+          "averageDecisionMs": 745.4513,
+          "averageRootLegalActions": 47.881,
+          "simulations": 200
+        },
+        "B": {
+          "games": 2,
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "winRate": 0,
+          "averageTerritoryMCTS": 5,
+          "averageTerritoryRival": 34,
+          "averageTerritoryDiff": -29,
+          "averageTurns": 73,
+          "totalTimeMs": 36485.5317,
+          "averageGameTimeMs": 18242.7658,
+          "averageDecisionMs": 911.151,
+          "averageRootLegalActions": 44.7,
+          "simulations": 200
+        }
+      }
+    }
+  ]
+}
