@@ -1,0 +1,317 @@
+{
+  "createdAt": "2026-07-13T21:47:34.794Z",
+  "evaluationVersion": "mcts-mixed80-confirmation-v1",
+  "git": {
+    "branch": "ia-hibrida-mcts",
+    "commit": "b1d1593fc5ec635441b93a6fed7699ba42884c25"
+  },
+  "protocol": {
+    "configuration": {
+      "name": "MCTS-50-mixed-80",
+      "simulations": 50,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8
+    },
+    "heuristicGames": 100,
+    "heuristicGamesPerColor": 50,
+    "randomGames": 50,
+    "randomGamesPerColor": 25,
+    "totalGames": 150,
+    "seedBase": 615000,
+    "maxTurns": 250,
+    "learningEnabled": false,
+    "q5Included": false,
+    "turnLimitResolution": "finalizeGameIfNeeded using getTerritoryCounts"
+  },
+  "total": {
+    "aggregate": {
+      "games": 150,
+      "wins": 64,
+      "losses": 85,
+      "ties": 1,
+      "winRate": 42.6667,
+      "averageTerritoryMCTS": 13.8667,
+      "averageTerritoryRival": 25.1533,
+      "averageTerritoryDiff": -11.2867,
+      "averageTurns": 77.0933,
+      "totalTimeMs": 1056339.3726,
+      "averageGameTimeMs": 7042.2625,
+      "averageDecisionMs": 327.4321,
+      "averageRootLegalActions": 53.901,
+      "simulations": 50,
+      "winRate95CI": {
+        "confidence": 0.95,
+        "lower": 35.0321,
+        "upper": 50.6675
+      }
+    },
+    "byColor": {
+      "R": {
+        "games": 75,
+        "wins": 33,
+        "losses": 42,
+        "ties": 0,
+        "winRate": 44,
+        "averageTerritoryMCTS": 13.6267,
+        "averageTerritoryRival": 25.0267,
+        "averageTerritoryDiff": -11.4,
+        "averageTurns": 77.44,
+        "totalTimeMs": 538122.7161,
+        "averageGameTimeMs": 7174.9695,
+        "averageDecisionMs": 328.6137,
+        "averageRootLegalActions": 53.5939,
+        "simulations": 50,
+        "winRate95CI": {
+          "confidence": 0.95,
+          "lower": 33.3315,
+          "upper": 55.2532
+        }
+      },
+      "B": {
+        "games": 75,
+        "wins": 31,
+        "losses": 43,
+        "ties": 1,
+        "winRate": 41.3333,
+        "averageTerritoryMCTS": 14.1067,
+        "averageTerritoryRival": 25.28,
+        "averageTerritoryDiff": -11.1733,
+        "averageTurns": 76.7467,
+        "totalTimeMs": 518216.6565,
+        "averageGameTimeMs": 6909.5554,
+        "averageDecisionMs": 326.2139,
+        "averageRootLegalActions": 54.2175,
+        "simulations": 50,
+        "winRate95CI": {
+          "confidence": 0.95,
+          "lower": 30.8777,
+          "upper": 52.6335
+        }
+      }
+    }
+  },
+  "byRival": {
+    "heuristic": {
+      "aggregate": {
+        "games": 100,
+        "wins": 17,
+        "losses": 83,
+        "ties": 0,
+        "winRate": 17,
+        "averageTerritoryMCTS": 9.41,
+        "averageTerritoryRival": 32.67,
+        "averageTerritoryDiff": -23.26,
+        "averageTurns": 70.33,
+        "totalTimeMs": 663622.9431,
+        "averageGameTimeMs": 6636.2294,
+        "averageDecisionMs": 340.2014,
+        "averageRootLegalActions": 47.1721,
+        "simulations": 50,
+        "winRate95CI": {
+          "confidence": 0.95,
+          "lower": 10.8936,
+          "upper": 25.548
+        }
+      },
+      "byColor": {
+        "R": {
+          "games": 50,
+          "wins": 9,
+          "losses": 41,
+          "ties": 0,
+          "winRate": 18,
+          "averageTerritoryMCTS": 8.76,
+          "averageTerritoryRival": 32.58,
+          "averageTerritoryDiff": -23.82,
+          "averageTurns": 72.38,
+          "totalTimeMs": 340500.1113,
+          "averageGameTimeMs": 6810.0022,
+          "averageDecisionMs": 335.8416,
+          "averageRootLegalActions": 46.6591,
+          "simulations": 50,
+          "winRate95CI": {
+            "confidence": 0.95,
+            "lower": 9.7702,
+            "upper": 30.7961
+          }
+        },
+        "B": {
+          "games": 50,
+          "wins": 8,
+          "losses": 42,
+          "ties": 0,
+          "winRate": 16,
+          "averageTerritoryMCTS": 10.06,
+          "averageTerritoryRival": 32.76,
+          "averageTerritoryDiff": -22.7,
+          "averageTurns": 68.28,
+          "totalTimeMs": 323122.8318,
+          "averageGameTimeMs": 6462.4566,
+          "averageDecisionMs": 344.9201,
+          "averageRootLegalActions": 47.7273,
+          "simulations": 50,
+          "winRate95CI": {
+            "confidence": 0.95,
+            "lower": 8.3374,
+            "upper": 28.5142
+          }
+        }
+      }
+    },
+    "random": {
+      "aggregate": {
+        "games": 50,
+        "wins": 47,
+        "losses": 2,
+        "ties": 1,
+        "winRate": 94,
+        "averageTerritoryMCTS": 22.78,
+        "averageTerritoryRival": 10.12,
+        "averageTerritoryDiff": 12.66,
+        "averageTurns": 90.62,
+        "totalTimeMs": 392716.4295,
+        "averageGameTimeMs": 7854.3286,
+        "averageDecisionMs": 307.9173,
+        "averageRootLegalActions": 64.1845,
+        "simulations": 50,
+        "winRate95CI": {
+          "confidence": 0.95,
+          "lower": 83.7829,
+          "upper": 97.9385
+        }
+      },
+      "byColor": {
+        "R": {
+          "games": 25,
+          "wins": 24,
+          "losses": 1,
+          "ties": 0,
+          "winRate": 96,
+          "averageTerritoryMCTS": 23.36,
+          "averageTerritoryRival": 9.92,
+          "averageTerritoryDiff": 13.44,
+          "averageTurns": 87.56,
+          "totalTimeMs": 197622.6048,
+          "averageGameTimeMs": 7904.9042,
+          "averageDecisionMs": 316.8728,
+          "averageRootLegalActions": 64.8588,
+          "simulations": 50,
+          "winRate95CI": {
+            "confidence": 0.95,
+            "lower": 80.4559,
+            "upper": 99.2904
+          }
+        },
+        "B": {
+          "games": 25,
+          "wins": 23,
+          "losses": 1,
+          "ties": 1,
+          "winRate": 92,
+          "averageTerritoryMCTS": 22.2,
+          "averageTerritoryRival": 10.32,
+          "averageTerritoryDiff": 11.88,
+          "averageTurns": 93.68,
+          "totalTimeMs": 195093.8247,
+          "averageGameTimeMs": 7803.753,
+          "averageDecisionMs": 299.347,
+          "averageRootLegalActions": 63.5392,
+          "simulations": 50,
+          "winRate95CI": {
+            "confidence": 0.95,
+            "lower": 75.0339,
+            "upper": 97.778
+          }
+        }
+      }
+    }
+  },
+  "comparisonWithPreviousPilot": {
+    "previousPilot": {
+      "source": "data/entrenamiento/mcts/evaluacion_rollout_policy/mcts_rollout_summary.json",
+      "games": 6,
+      "wins": 3,
+      "losses": 3,
+      "ties": 0,
+      "winRate": 50,
+      "averageTerritoryDiff": -7.6667,
+      "byColor": {
+        "R": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryDiff": 5
+        },
+        "B": {
+          "games": 3,
+          "wins": 0,
+          "losses": 3,
+          "ties": 0,
+          "winRate": 0,
+          "averageTerritoryDiff": -20.3333
+        }
+      }
+    },
+    "current": {
+      "games": 100,
+      "wins": 17,
+      "losses": 83,
+      "ties": 0,
+      "winRate": 17,
+      "averageTerritoryDiff": -23.26,
+      "byColor": {
+        "R": {
+          "games": 50,
+          "wins": 9,
+          "losses": 41,
+          "ties": 0,
+          "winRate": 18,
+          "averageTerritoryMCTS": 8.76,
+          "averageTerritoryRival": 32.58,
+          "averageTerritoryDiff": -23.82,
+          "averageTurns": 72.38,
+          "totalTimeMs": 340500.1113,
+          "averageGameTimeMs": 6810.0022,
+          "averageDecisionMs": 335.8416,
+          "averageRootLegalActions": 46.6591,
+          "simulations": 50,
+          "winRate95CI": {
+            "confidence": 0.95,
+            "lower": 9.7702,
+            "upper": 30.7961
+          }
+        },
+        "B": {
+          "games": 50,
+          "wins": 8,
+          "losses": 42,
+          "ties": 0,
+          "winRate": 16,
+          "averageTerritoryMCTS": 10.06,
+          "averageTerritoryRival": 32.76,
+          "averageTerritoryDiff": -22.7,
+          "averageTurns": 68.28,
+          "totalTimeMs": 323122.8318,
+          "averageGameTimeMs": 6462.4566,
+          "averageDecisionMs": 344.9201,
+          "averageRootLegalActions": 47.7273,
+          "simulations": 50,
+          "winRate95CI": {
+            "confidence": 0.95,
+            "lower": 8.3374,
+            "upper": 28.5142
+          }
+        }
+      }
+    },
+    "winRateDeltaPercentagePoints": -33,
+    "winRateTrend": "worsened",
+    "redBlueWinRateGapPercentagePoints": 2,
+    "colorIntervalsOverlap": true,
+    "colorConclusion": "The larger sample does not provide clear evidence of a persistent color advantage."
+  }
+}
