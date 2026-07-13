@@ -14,6 +14,7 @@ import {
 import {
   Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH,
   Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR,
+  Q5_HYBRID_FINAL_CHECKPOINT_1500_DIR,
   applyFullActionQ5,
   chooseThresholdHybridQ5Action,
   finalizeGameIfNeeded,
@@ -30,14 +31,28 @@ export const Q5_POLICY_COMPARISON_CHECKPOINT_1000_DIR = path.join(
   'data/entrenamiento/q5/hybrid/policy_comparison_checkpoint_1000',
 )
 
+export const Q5_1000_VS_1500_EVAL_DIR = path.join(
+  'data/entrenamiento/q5/hybrid/evaluacion_checkpoint_1000_vs_1500',
+)
+
 export const Q5_POLICY_COMPARISON_QTABLE_PATH = path.join(
   Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR,
   'qtable_q5_hybrid_final_1000.json',
 )
 
+export const Q5_POLICY_COMPARISON_1500_QTABLE_PATH = path.join(
+  Q5_HYBRID_FINAL_CHECKPOINT_1500_DIR,
+  'qtable_q5_hybrid_final_1500.json',
+)
+
 export const Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS = [
   path.join('data/entrenamiento/q5/hybrid/final_checkpoint_500/q_update_log.jsonl'),
   path.join(Q5_HYBRID_FINAL_CHECKPOINT_1000_DIR, 'q_update_log.jsonl'),
+]
+
+export const Q5_POLICY_COMPARISON_1500_Q_UPDATE_LOG_PATHS = [
+  ...Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
+  path.join(Q5_HYBRID_FINAL_CHECKPOINT_1500_DIR, 'q_update_log.jsonl'),
 ]
 
 export interface Q5PolicyComparisonPolicy extends Q5ThresholdPolicyVariant {
@@ -49,6 +64,17 @@ export const Q5_POLICY_COMPARISON_POLICIES: Q5PolicyComparisonPolicy[] = [
   { id: 'D', label: 'minConfidence5_margin0.50', minConfidence: 5, minMargin: 0.5 },
   { id: 'C', label: 'minConfidence5_margin0.25', minConfidence: 5, minMargin: 0.25 },
 ]
+
+export const Q5_1000_VS_1500_POLICIES: Q5PolicyComparisonPolicy[] = [
+  { id: 'E', label: 'minConfidence10_margin0.50', minConfidence: 10, minMargin: 0.5 },
+  { id: 'C', label: 'minConfidence5_margin0.25', minConfidence: 5, minMargin: 0.25 },
+]
+
+export interface Q5PolicyComparisonTableConfig {
+  label: string
+  qTablePath: string
+  qUpdateLogPath?: string | string[]
+}
 
 export interface Q5PolicyComparisonPairing {
   rival: Q5OpponentKind
@@ -69,6 +95,7 @@ interface DecisionStats {
 }
 
 export interface Q5PolicyComparisonGameResult extends Q5PolicyComparisonPairing {
+  table: string
   policy: string
   minConfidence: number
   qMargin: number
@@ -87,7 +114,10 @@ export interface Q5PolicyComparisonGameResult extends Q5PolicyComparisonPairing 
 
 export interface Q5PolicyComparisonOptions {
   qTablePath?: string
+  tableLabel?: string
+  tableConfigs?: Q5PolicyComparisonTableConfig[]
   outputDir?: string
+  outputFilePrefix?: string
   gamesPerRival?: number
   seedBase?: number
   overwrite?: boolean
@@ -159,6 +189,7 @@ export function buildQ5PolicyComparisonPairings(
 }
 
 async function runSinglePolicyComparisonGame(params: {
+  table: string
   policy: Q5PolicyComparisonPolicy
   pairing: Q5PolicyComparisonPairing
   qTable: ReturnType<typeof loadQTable>
@@ -220,6 +251,7 @@ async function runSinglePolicyComparisonGame(params: {
   const rivalColor = getOpponent(params.pairing.colorQ5)
   return {
     ...params.pairing,
+    table: params.table,
     policy: params.policy.label,
     minConfidence: params.policy.minConfidence,
     qMargin: params.policy.minMargin,
@@ -325,6 +357,7 @@ function csvEscape(value: string | number | boolean): string {
 
 function resultsToCsv(results: Q5PolicyComparisonGameResult[]): string {
   const headers = [
+    'table',
     'policy',
     'minConfidence',
     'qMargin',
@@ -350,6 +383,7 @@ function resultsToCsv(results: Q5PolicyComparisonGameResult[]): string {
     'qTableChangedDuringEvaluation',
   ]
   const rows = results.map((result) => [
+    result.table,
     result.policy,
     result.minConfidence,
     result.qMargin,
@@ -382,45 +416,76 @@ function writeJson(filePath: string, data: unknown): void {
 }
 
 export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOptions = {}) {
-  const qTablePath = path.resolve(options.qTablePath ?? Q5_POLICY_COMPARISON_QTABLE_PATH)
   const outputDir = path.resolve(options.outputDir ?? Q5_POLICY_COMPARISON_CHECKPOINT_1000_DIR)
   assertOutputCanBeWritten(outputDir, options.overwrite ?? false)
   const policies = options.policies ?? Q5_POLICY_COMPARISON_POLICIES
   const gamesPerRival = options.gamesPerRival ?? 1000
   const seedBase = options.seedBase ?? 802000
   const pairings = buildQ5PolicyComparisonPairings(gamesPerRival, seedBase)
-  const qTable = Object.freeze({ ...loadQTable(qTablePath) })
-  const hashBefore = hashFile(qTablePath)
-  const fingerprintBefore = qTableFingerprint(qTable)
   const confidenceMap = loadQ5ConfidenceMap(Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH)
-  const qLearningUpdateCounts = loadQUpdateCountsFromJsonl(
-    options.qUpdateLogPath ?? Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
-  )
+  const tableConfigs =
+    options.tableConfigs ??
+    [
+      {
+        label: options.tableLabel ?? 'q5_1000',
+        qTablePath: options.qTablePath ?? Q5_POLICY_COMPARISON_QTABLE_PATH,
+        qUpdateLogPath: options.qUpdateLogPath ?? Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
+      },
+    ]
   const allResults: Q5PolicyComparisonGameResult[] = []
+  const tableSummaries: Array<{
+    label: string
+    qTablePath: string
+    qTableEntries: number
+    qTableHashBefore: string
+    qTableHashAfter: string
+    qTableChangedDuringEvaluation: boolean
+    qLearningUpdatesAfterInitialization: string | string[] | undefined
+    qLearningUpdateCountsLoaded: number
+  }> = []
 
-  for (const policy of policies) {
-    for (const pairing of pairings) {
-      const result = await runSinglePolicyComparisonGame({
-        policy,
-        pairing,
-        qTable,
-        confidenceMap,
-        qLearningUpdateCounts,
-      })
-      allResults.push(result)
+  for (const tableConfig of tableConfigs) {
+    const qTablePath = path.resolve(tableConfig.qTablePath)
+    const qTable = Object.freeze({ ...loadQTable(qTablePath) })
+    const hashBefore = hashFile(qTablePath)
+    const fingerprintBefore = qTableFingerprint(qTable)
+    const qLearningUpdateCounts = loadQUpdateCountsFromJsonl(tableConfig.qUpdateLogPath)
+    for (const policy of policies) {
+      for (const pairing of pairings) {
+        const result = await runSinglePolicyComparisonGame({
+          table: tableConfig.label,
+          policy,
+          pairing,
+          qTable,
+          confidenceMap,
+          qLearningUpdateCounts,
+        })
+        allResults.push(result)
+      }
+    }
+    const hashAfter = hashFile(qTablePath)
+    tableSummaries.push({
+      label: tableConfig.label,
+      qTablePath,
+      qTableEntries: Object.keys(qTable).length,
+      qTableHashBefore: hashBefore,
+      qTableHashAfter: hashAfter,
+      qTableChangedDuringEvaluation:
+        hashBefore !== hashAfter || qTableFingerprint(qTable) !== fingerprintBefore,
+      qLearningUpdatesAfterInitialization: tableConfig.qUpdateLogPath,
+      qLearningUpdateCountsLoaded: qLearningUpdateCounts.size,
+    })
+    if (tableSummaries[tableSummaries.length - 1]!.qTableChangedDuringEvaluation) {
+      throw new Error(`Q5 policy comparison qTable changed during evaluation: ${tableConfig.label}`)
     }
   }
 
-  const hashAfter = hashFile(qTablePath)
   const summary = {
     createdAt: new Date().toISOString(),
     model: 'Q5',
-    experiment: 'policy_comparison_checkpoint_1000',
-    qTablePath,
-    qTableEntries: Object.keys(qTable).length,
-    qTableHashBefore: hashBefore,
-    qTableHashAfter: hashAfter,
-    qTableChangedDuringEvaluation: hashBefore !== hashAfter || qTableFingerprint(qTable) !== fingerprintBefore,
+    experiment: options.outputFilePrefix ?? 'policy_comparison_checkpoint_1000',
+    qTables: tableSummaries,
+    qTableChangedDuringEvaluation: tableSummaries.some((table) => table.qTableChangedDuringEvaluation),
     protocol: {
       epsilon: 0,
       learnsDuringEvaluation: false,
@@ -438,38 +503,101 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
       maxTurns: 250,
       sameSeedsAcrossPolicies: true,
       policies,
+      tables: tableConfigs.map((table) => ({ label: table.label, qTablePath: table.qTablePath })),
     },
     confidenceDefinition: {
       value: 'max(originalDatasetObservations, qLearningUpdatesAfterInitialization)',
       originalDatasetObservations: Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH,
-      qLearningUpdatesAfterInitialization:
-        options.qUpdateLogPath ?? Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
-      qLearningUpdateCountsLoaded: qLearningUpdateCounts.size,
+      byTable: tableSummaries.map((table) => ({
+        label: table.label,
+        qLearningUpdatesAfterInitialization: table.qLearningUpdatesAfterInitialization,
+        qLearningUpdateCountsLoaded: table.qLearningUpdateCountsLoaded,
+      })),
     },
-    policies: policies.map((policy) =>
-      summarizePolicy(
-        policy,
-        allResults.filter((result) => result.policy === policy.label),
+    tables: tableSummaries.map((table) => ({
+      table,
+      policies: policies.map((policy) =>
+        summarizePolicy(
+          policy,
+          allResults.filter((result) => result.table === table.label && result.policy === policy.label),
+        ),
       ),
+    })),
+    policies: policies.map((policy) => ({
+      policy,
+      byTable: tableSummaries.map((table) => ({
+        table: table.label,
+        ...summarizePolicy(
+          policy,
+          allResults.filter((result) => result.table === table.label && result.policy === policy.label),
+        ),
+      })),
+    })),
+    combinations: tableSummaries.flatMap((table) =>
+      policies.map((policy) => ({
+        table: table.label,
+        ...summarizePolicy(
+          policy,
+          allResults.filter((result) => result.table === table.label && result.policy === policy.label),
+        ),
+      })),
     ),
   }
   if (summary.qTableChangedDuringEvaluation) {
     throw new Error('Q5 policy comparison qTable changed during evaluation')
   }
 
-  writeJson(path.join(outputDir, 'policy_comparison_summary.json'), summary)
-  writeFileSync(path.join(outputDir, 'policy_comparison_results.csv'), `${resultsToCsv(allResults)}\n`, 'utf8')
-  writeJson(path.join(outputDir, 'policy_comparison_detailed.json'), {
+  const prefix = options.outputFilePrefix ?? 'policy_comparison'
+  writeJson(path.join(outputDir, `${prefix}_summary.json`), summary)
+  writeFileSync(path.join(outputDir, `${prefix}_results.csv`), `${resultsToCsv(allResults)}\n`, 'utf8')
+  writeJson(path.join(outputDir, `${prefix}_detailed.json`), {
     createdAt: summary.createdAt,
     protocol: summary.protocol,
     pairings,
+    qTables: tableSummaries,
     results: allResults,
   })
 
   return { summary, results: allResults }
 }
 
+export async function evaluateQ5Checkpoint1000Vs1500(options: {
+  outputDir?: string
+  gamesPerRival?: number
+  seedBase?: number
+  overwrite?: boolean
+} = {}) {
+  return evaluateQ5PolicyComparison({
+    outputDir: options.outputDir ?? Q5_1000_VS_1500_EVAL_DIR,
+    outputFilePrefix: 'q5_1000_vs_1500',
+    gamesPerRival: options.gamesPerRival ?? 1000,
+    seedBase: options.seedBase ?? 902000,
+    overwrite: options.overwrite,
+    policies: Q5_1000_VS_1500_POLICIES,
+    tableConfigs: [
+      {
+        label: 'q5_1000',
+        qTablePath: Q5_POLICY_COMPARISON_QTABLE_PATH,
+        qUpdateLogPath: Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
+      },
+      {
+        label: 'q5_1500',
+        qTablePath: Q5_POLICY_COMPARISON_1500_QTABLE_PATH,
+        qUpdateLogPath: Q5_POLICY_COMPARISON_1500_Q_UPDATE_LOG_PATHS,
+      },
+    ],
+  })
+}
+
 async function main(): Promise<void> {
+  const command = process.argv[2] ?? 'policy-comparison-1000'
+  if (command === 'checkpoint-1000-vs-1500') {
+    const result = await evaluateQ5Checkpoint1000Vs1500()
+    console.log(`[evaluateQ5PolicyComparison] Q5 1000 vs 1500 games: ${result.results.length}`)
+    console.log(`[evaluateQ5PolicyComparison] output: ${Q5_1000_VS_1500_EVAL_DIR}`)
+    return
+  }
+  if (command !== 'policy-comparison-1000') throw new Error(`Unknown command: ${command}`)
   const result = await evaluateQ5PolicyComparison()
   console.log(`[evaluateQ5PolicyComparison] games: ${result.results.length}`)
   console.log(`[evaluateQ5PolicyComparison] output: ${Q5_POLICY_COMPARISON_CHECKPOINT_1000_DIR}`)

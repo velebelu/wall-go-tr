@@ -15,16 +15,19 @@ import {
   buildQ5Checkpoint500Schedule,
   buildQ5FinalFineTuning500Schedule,
   buildQ5HybridFinal1000ContinuationSchedule,
+  buildQ5HybridFinal1500ContinuationSchedule,
   buildQ5HybridPilot100Schedule,
   buildQ5InstrumentedPilot100Schedule,
   calculateFinalRewardQ5,
   calculateIntermediateRewardQ5FromMetrics,
   chooseHybridQ5Action,
   chooseThresholdHybridQ5Action,
+  getQ5HybridFinal1500Epsilon,
   loadQ5Metadata,
   runLearningAgentQ5Training,
   validateQ5FinalFineTuning500Metadata,
   validateQ5HybridFinal1000Metadata,
+  validateQ5HybridFinal1500Metadata,
   validateQ5HybridPilot100Metadata,
   validateQ5InstrumentedPilot100Metadata,
   validateQ5PilotMetadata,
@@ -167,7 +170,6 @@ describe('trainLearningAgentQ5 configuration', () => {
     expect(source).not.toContain('qtable_q3')
     expect(source).not.toContain('qtable_q2')
     expect(source).not.toContain('qtable_q1')
-    expect(source).not.toContain('checkpoint_1500')
     expect(source).not.toContain('checkpoint_2000')
     expect(source).not.toContain('hybrid-final-2000')
     expect(source).not.toContain('evaluateLearningAgent')
@@ -402,6 +404,26 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
         heuristic_B: 1,
       })
     }
+  })
+
+  it('builds the exact hybrid final 1500 continuation schedule and epsilon stages', () => {
+    const schedule = buildQ5HybridFinal1500ContinuationSchedule()
+
+    expect(schedule[0].game).toBe(1001)
+    expect(schedule[schedule.length - 1]?.game).toBe(1500)
+    expect(countSchedule(schedule)).toEqual({
+      random: 250,
+      heuristic: 250,
+      R: 250,
+      B: 250,
+      random_R: 125,
+      random_B: 125,
+      heuristic_R: 125,
+      heuristic_B: 125,
+    })
+    expect(schedule.filter((item) => getQ5HybridFinal1500Epsilon(item) === 0.1)).toHaveLength(100)
+    expect(schedule.filter((item) => getQ5HybridFinal1500Epsilon(item) === 0.07)).toHaveLength(200)
+    expect(schedule.filter((item) => getQ5HybridFinal1500Epsilon(item) === 0.03)).toHaveLength(200)
   })
 
   it('builds the exact instrumented pilot 100 balanced schedule', () => {
@@ -1092,6 +1114,49 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     expect(result.metadata.summary.thresholdPolicy?.variant).toEqual({ id: 'E', minConfidence: 10, minMargin: 0.5 })
     expect(result.metadata.instrumentedUpdates?.updateSummary.maxAbsAppliedDelta).toBeLessThanOrEqual(1)
     expect(() => validateQ5HybridFinal1000Metadata(result.metadata)).toThrow('must run 500 new games')
+  }, 15000)
+
+  it('continues hybrid final 1500 training from Q5-1000 settings and writes comparison decisions log', async () => {
+    const tempDir = makeTempDir()
+    const state = snapshotFromState(makeInitialState())
+    const action = getLegalActions(state)[0]
+    const stateActionKey = getLearningQTableKeyQ3(state, action)
+    const initialQTablePath = path.join(tempDir, 'qtable_q5_hybrid_final_1000.json')
+    const previousLogPath = path.join(tempDir, 'q_update_log.jsonl')
+    const qVsLogPath = path.join(tempDir, 'final_checkpoint_1500', 'q_vs_heuristic_decision_log.jsonl')
+    writeFileSync(initialQTablePath, `${JSON.stringify({ [stateActionKey]: 0.5 }, null, 2)}\n`, 'utf8')
+    writeFileSync(previousLogPath, `${JSON.stringify({ stateActionKey })}\n`, 'utf8')
+
+    const result = await runLearningAgentQ5Training({
+      totalGames: 4,
+      accumulatedTotalGames: 1500,
+      checkpoint: 'hybrid_final_1500',
+      seed: 3,
+      outputDir: path.join(tempDir, 'final_checkpoint_1500'),
+      initialQTablePath,
+      initializationLabel: 'hybrid_final_1000',
+      previousQUpdateLogPath: previousLogPath,
+      schedule: buildQ5HybridFinal1500ContinuationSchedule().slice(0, 4),
+      progressEvery: 0,
+      maxTurns: 8,
+      alpha: 0.03,
+      epsilonStart: 0.1,
+      epsilonMin: 0.02,
+      epsilonSchedule: getQ5HybridFinal1500Epsilon,
+      instrumentedUpdates: true,
+      thresholdPolicy: { id: 'C', minConfidence: 5, minMargin: 0.25 },
+      qVsHeuristicDecisionLogPath: qVsLogPath,
+    })
+    const metadata = loadQ5Metadata(path.join(tempDir, 'final_checkpoint_1500', 'metadata.json'))
+
+    expect(result.metadata.totalGames).toBe(1500)
+    expect(result.metadata.newTrainingGames).toBe(4)
+    expect(result.metadata.initialization).toBe('hybrid_final_1000')
+    expect(result.metadata.summary.thresholdPolicy?.variant).toEqual({ id: 'C', minConfidence: 5, minMargin: 0.25 })
+    expect(result.metadata.games.every((game) => game.epsilonInitial === 0.1 && game.epsilonFinal === 0.1)).toBe(true)
+    expect(metadata.outputFiles.qVsHeuristicDecisionLog).toBe(qVsLogPath)
+    expect(readFileSync(qVsLogPath, 'utf8')).toBeTypeOf('string')
+    expect(() => validateQ5HybridFinal1500Metadata(result.metadata)).toThrow('must run 500 new games')
   }, 15000)
 
   it('writes and reloads a valid Q5 pilot with reward logs', async () => {

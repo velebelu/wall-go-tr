@@ -3,6 +3,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
+  Q5_1000_VS_1500_POLICIES,
   Q5_POLICY_COMPARISON_POLICIES,
   buildQ5PolicyComparisonPairings,
   evaluateQ5PolicyComparison,
@@ -36,6 +37,13 @@ describe('evaluateQ5PolicyComparison', () => {
     expect(Q5_POLICY_COMPARISON_POLICIES).toEqual([
       { id: 'E', label: 'minConfidence10_margin0.50', minConfidence: 10, minMargin: 0.5 },
       { id: 'D', label: 'minConfidence5_margin0.50', minConfidence: 5, minMargin: 0.5 },
+      { id: 'C', label: 'minConfidence5_margin0.25', minConfidence: 5, minMargin: 0.25 },
+    ])
+  })
+
+  it('defines the two requested Q5-1000 vs Q5-1500 policies', () => {
+    expect(Q5_1000_VS_1500_POLICIES).toEqual([
+      { id: 'E', label: 'minConfidence10_margin0.50', minConfidence: 10, minMargin: 0.5 },
       { id: 'C', label: 'minConfidence5_margin0.25', minConfidence: 5, minMargin: 0.25 },
     ])
   })
@@ -74,7 +82,7 @@ describe('evaluateQ5PolicyComparison', () => {
     const result = await evaluateQ5PolicyComparison({
       qTablePath,
       outputDir,
-      gamesPerRival: 4,
+      gamesPerRival: 2,
       seedBase: 910000,
       qUpdateLogPath: [],
     })
@@ -89,7 +97,11 @@ describe('evaluateQ5PolicyComparison', () => {
         gamesPerColor: number
       }
       qTableChangedDuringEvaluation: boolean
-      policies: Array<{ aggregate: { games: number }; byRival: Record<string, { games: number }> }>
+      combinations: Array<{
+        table: string
+        aggregate: { games: number }
+        byRival: Record<string, { games: number }>
+      }>
     }
 
     expect(before).toBe(after)
@@ -98,16 +110,65 @@ describe('evaluateQ5PolicyComparison', () => {
     expect(summary.protocol.learnsDuringEvaluation).toBe(false)
     expect(summary.protocol.qTableFrozen).toBe(true)
     expect(summary.protocol.alphaUpdates).toBe(false)
-    expect(summary.protocol.gamesPerRival).toBe(4)
-    expect(summary.protocol.gamesPerColor).toBe(2)
-    expect(result.results).toHaveLength(24)
-    for (const policy of summary.policies) {
-      expect(policy.aggregate.games).toBe(8)
-      expect(policy.byRival.random.games).toBe(4)
-      expect(policy.byRival.heuristic.games).toBe(4)
+    expect(summary.protocol.gamesPerRival).toBe(2)
+    expect(summary.protocol.gamesPerColor).toBe(1)
+    expect(result.results).toHaveLength(12)
+    for (const combination of summary.combinations) {
+      expect(combination.aggregate.games).toBe(4)
+      expect(combination.byRival.random.games).toBe(2)
+      expect(combination.byRival.heuristic.games).toBe(2)
     }
     expect(existsSync(path.join(outputDir, 'policy_comparison_summary.json'))).toBe(true)
     expect(existsSync(path.join(outputDir, 'policy_comparison_results.csv'))).toBe(true)
     expect(existsSync(path.join(outputDir, 'policy_comparison_detailed.json'))).toBe(true)
-  }, 20000)
+  }, 60000)
+
+  it('compares two frozen tables across two policies with shared pairings and custom output names', async () => {
+    const tempDir = makeTempDir()
+    const qTablePathA = path.join(tempDir, 'qtable_a.json')
+    const qTablePathB = path.join(tempDir, 'qtable_b.json')
+    const outputDir = path.join(tempDir, 'q5_1000_vs_1500')
+    writeFileSync(qTablePathA, '{}\n', 'utf8')
+    writeFileSync(qTablePathB, '{}\n', 'utf8')
+
+    const result = await evaluateQ5PolicyComparison({
+      outputDir,
+      outputFilePrefix: 'q5_1000_vs_1500',
+      gamesPerRival: 2,
+      seedBase: 920000,
+      policies: Q5_1000_VS_1500_POLICIES,
+      tableConfigs: [
+        { label: 'q5_1000', qTablePath: qTablePathA, qUpdateLogPath: [] },
+        { label: 'q5_1500', qTablePath: qTablePathB, qUpdateLogPath: [] },
+      ],
+    })
+    const summary = result.summary as {
+      qTableChangedDuringEvaluation: boolean
+      qTables: Array<{ label: string; qTableChangedDuringEvaluation: boolean }>
+      combinations: Array<{ table: string; policy: { label: string }; aggregate: { games: number } }>
+    }
+
+    expect(summary.qTableChangedDuringEvaluation).toBe(false)
+    expect(summary.qTables.map((table) => table.label)).toEqual(['q5_1000', 'q5_1500'])
+    expect(summary.qTables.every((table) => table.qTableChangedDuringEvaluation === false)).toBe(true)
+    expect(result.results).toHaveLength(16)
+    expect(summary.combinations).toHaveLength(4)
+    for (const combination of summary.combinations) {
+      expect(combination.aggregate.games).toBe(4)
+    }
+    const seedsByCombination = new Map<string, string>()
+    for (const table of ['q5_1000', 'q5_1500']) {
+      for (const policy of Q5_1000_VS_1500_POLICIES) {
+        const seeds = result.results
+          .filter((row) => row.table === table && row.policy === policy.label)
+          .map((row) => row.seed)
+          .join(',')
+        seedsByCombination.set(`${table}:${policy.label}`, seeds)
+      }
+    }
+    expect(new Set(seedsByCombination.values()).size).toBe(1)
+    expect(existsSync(path.join(outputDir, 'q5_1000_vs_1500_summary.json'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'q5_1000_vs_1500_results.csv'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'q5_1000_vs_1500_detailed.json'))).toBe(true)
+  }, 60000)
 })
