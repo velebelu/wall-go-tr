@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { applyFullAction } from '@/engine/gameSimulator'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import { createEmptyBoard, makeInitialState, snapshotFromState } from '@/store/gameState'
@@ -10,6 +10,7 @@ const QUICK_CONFIG: MCTSConfig = {
   simulations: 12,
   explorationConstant: Math.SQRT2,
   maxDepth: 2,
+  rolloutPolicy: 'random',
 }
 
 function seededRng(initialSeed: number): () => number {
@@ -85,7 +86,7 @@ function searchTacticalState() {
   return searchBestAction(
     makeTacticalState(),
     'R',
-    { simulations: 120, explorationConstant: Math.SQRT2, maxDepth: 1 },
+    { simulations: 120, explorationConstant: Math.SQRT2, maxDepth: 1, rolloutPolicy: 'random' },
     seededRng(17),
   )
 }
@@ -163,7 +164,7 @@ describe('searchBestAction', () => {
     const result = searchBestAction(
       state,
       'R',
-      { simulations: 120, explorationConstant: Math.SQRT2, maxDepth: 1 },
+      { simulations: 120, explorationConstant: Math.SQRT2, maxDepth: 1, rolloutPolicy: 'random' },
       seededRng(18),
     )
 
@@ -180,7 +181,7 @@ describe('searchBestAction', () => {
     const result = searchBestAction(
       state,
       'R',
-      { simulations: 4, explorationConstant: Math.SQRT2, maxDepth: 2 },
+      { simulations: 4, explorationConstant: Math.SQRT2, maxDepth: 2, rolloutPolicy: 'random' },
       seededRng(7),
     )
 
@@ -192,7 +193,7 @@ describe('searchBestAction', () => {
     const result = searchBestAction(
       makeInitialState(),
       'R',
-      { simulations: 1, explorationConstant: Math.SQRT2, maxDepth: 1 },
+      { simulations: 1, explorationConstant: Math.SQRT2, maxDepth: 1, rolloutPolicy: 'random' },
       () => 0,
     )
 
@@ -203,7 +204,7 @@ describe('searchBestAction', () => {
     const result = searchBestAction(
       makePlayingState(),
       'R',
-      { simulations: 1, explorationConstant: Math.SQRT2, maxDepth: 1 },
+      { simulations: 1, explorationConstant: Math.SQRT2, maxDepth: 1, rolloutPolicy: 'random' },
       () => 0,
     )
 
@@ -215,7 +216,7 @@ describe('searchBestAction', () => {
     const result = searchBestAction(
       makePlayingState(),
       'R',
-      { simulations: 1, explorationConstant: Math.SQRT2, maxDepth: 1 },
+      { simulations: 1, explorationConstant: Math.SQRT2, maxDepth: 1, rolloutPolicy: 'random' },
       () => 1,
     )
 
@@ -247,5 +248,111 @@ describe('searchBestAction', () => {
 
     expect(legalActions).toHaveLength(1)
     expect(result.action).toEqual(legalActions[0])
+  })
+})
+
+describe('MCTS rollout policies', () => {
+  const rolloutConfig = (
+    rolloutPolicy: MCTSConfig['rolloutPolicy'],
+    heuristicProbability?: number,
+    maxDepth = 4,
+  ): MCTSConfig => ({
+    simulations: 10,
+    explorationConstant: Math.SQRT2,
+    maxDepth,
+    rolloutPolicy,
+    heuristicProbability,
+  })
+
+  it('keeps random rollouts deterministic with the same seed', () => {
+    const first = searchBestAction(makeInitialState(), 'R', rolloutConfig('random'), seededRng(20))
+    const second = searchBestAction(makeInitialState(), 'R', rolloutConfig('random'), seededRng(20))
+
+    expect(first).toEqual(second)
+  })
+
+  it('returns a legal action with heuristic rollouts', () => {
+    const state = makeInitialState()
+    const result = searchBestAction(state, 'R', rolloutConfig('heuristic'), seededRng(21))
+
+    expect(getLegalActions(state)).toContainEqual(result.action)
+  })
+
+  it('makes mixed probability one equivalent to heuristic with the same RNG', () => {
+    const heuristic = searchBestAction(
+      makeInitialState(),
+      'R',
+      rolloutConfig('heuristic'),
+      seededRng(22),
+    )
+    const mixed = searchBestAction(
+      makeInitialState(),
+      'R',
+      rolloutConfig('mixed', 1),
+      seededRng(22),
+    )
+
+    expect(mixed).toEqual(heuristic)
+  })
+
+  it('makes mixed probability zero equivalent to random with the same RNG', () => {
+    const random = searchBestAction(
+      makeInitialState(),
+      'R',
+      rolloutConfig('random'),
+      seededRng(23),
+    )
+    const mixed = searchBestAction(
+      makeInitialState(),
+      'R',
+      rolloutConfig('mixed', 0),
+      seededRng(23),
+    )
+
+    expect(mixed).toEqual(random)
+  })
+
+  it('does not call uncontrolled Math.random when an RNG is supplied', () => {
+    const uncontrolledRandom = vi.spyOn(Math, 'random')
+
+    searchBestAction(makeInitialState(), 'R', rolloutConfig('heuristic'), seededRng(24))
+
+    expect(uncontrolledRandom).not.toHaveBeenCalled()
+    uncontrolledRandom.mockRestore()
+  })
+
+  it('respects maxDepth for all three rollout policies', () => {
+    const results = (['random', 'mixed', 'heuristic'] as const).map((policy) =>
+      searchBestAction(makeInitialState(), 'R', rolloutConfig(policy, 0.8, 1), seededRng(25)),
+    )
+
+    expect(results[1]).toEqual(results[0])
+    expect(results[2]).toEqual(results[0])
+  })
+
+  it('keeps reported values between minus one and one for every rollout policy', () => {
+    for (const policy of ['random', 'mixed', 'heuristic'] as const) {
+      const result = searchBestAction(
+        makeInitialState(),
+        'R',
+        rolloutConfig(policy),
+        seededRng(26),
+      )
+      expect(result.value).toBeGreaterThanOrEqual(-1)
+      expect(result.value).toBeLessThanOrEqual(1)
+      expect(result.children.every((child) => child.value >= -1 && child.value <= 1)).toBe(true)
+    }
+  })
+
+  it('does not modify the root state under any rollout policy', () => {
+    for (const policy of ['random', 'mixed', 'heuristic'] as const) {
+      const state = makeInitialState()
+      state.legal = new Set(['1,2'])
+      const before = snapshotFromState(state)
+
+      searchBestAction(state, 'R', rolloutConfig(policy), seededRng(27))
+
+      expect(state).toEqual(before)
+    }
   })
 })

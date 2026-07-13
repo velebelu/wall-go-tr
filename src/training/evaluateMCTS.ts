@@ -54,9 +54,27 @@ export interface NamedMCTSConfig extends MCTSConfig {
 }
 
 export const MCTS_BASELINE_CONFIGS: NamedMCTSConfig[] = [
-  { name: 'MCTS-50', simulations: 50, explorationConstant: Math.SQRT2, maxDepth: 60 },
-  { name: 'MCTS-200', simulations: 200, explorationConstant: Math.SQRT2, maxDepth: 60 },
-  { name: 'MCTS-500', simulations: 500, explorationConstant: Math.SQRT2, maxDepth: 60 },
+  {
+    name: 'MCTS-50',
+    simulations: 50,
+    explorationConstant: Math.SQRT2,
+    maxDepth: 60,
+    rolloutPolicy: 'random',
+  },
+  {
+    name: 'MCTS-200',
+    simulations: 200,
+    explorationConstant: Math.SQRT2,
+    maxDepth: 60,
+    rolloutPolicy: 'random',
+  },
+  {
+    name: 'MCTS-500',
+    simulations: 500,
+    explorationConstant: Math.SQRT2,
+    maxDepth: 60,
+    rolloutPolicy: 'random',
+  },
 ]
 
 export type MCTSOpponent = 'random' | 'heuristic' | 'q5-final'
@@ -120,6 +138,8 @@ export interface EvaluateMCTSOptions {
   progressEvery?: number
   now?: () => number
   createdAt?: string
+  outputFilePrefix?: string
+  evaluationVersion?: string
 }
 
 interface FrozenQ5EvaluationResources {
@@ -390,6 +410,8 @@ function resultsToCsv(results: MCTSGameResult[]): string {
     'simulations',
     'explorationConstant',
     'maxDepth',
+    'rolloutPolicy',
+    'heuristicProbability',
     'rival',
     'seed',
     'game',
@@ -411,6 +433,8 @@ function resultsToCsv(results: MCTSGameResult[]): string {
     result.config.simulations,
     result.config.explorationConstant,
     result.config.maxDepth,
+    result.config.rolloutPolicy,
+    result.config.heuristicProbability ?? '',
     result.rival,
     result.seed,
     result.game,
@@ -443,6 +467,8 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
   const outputDir = path.resolve(options.outputDir ?? MCTS_BASELINE_OUTPUT_DIR)
   const progressEvery = options.progressEvery ?? 10
   const now = options.now ?? (() => performance.now())
+  const outputFilePrefix = options.outputFilePrefix ?? 'mcts_baseline'
+  const evaluationVersion = options.evaluationVersion ?? MCTS_EVALUATION_VERSION
   assertOutputCanBeWritten(outputDir, options.overwrite ?? false)
   const schedule = buildMCTSEvaluationSchedule(configs, [...rivals], gamesPerCombination, seedBase)
   const q5Resources = rivals.includes('q5-final') ? loadFrozenQ5EvaluationResources() : undefined
@@ -497,7 +523,7 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
   const groups = buildSummaryGroups(configs, [...rivals], results)
   const summary = {
     createdAt,
-    evaluationVersion: MCTS_EVALUATION_VERSION,
+    evaluationVersion,
     git: {
       branch: getGitValue(['branch', '--show-current']),
       commit: getGitValue(['rev-parse', 'HEAD']),
@@ -531,22 +557,22 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
   }
   const metadata = {
     createdAt,
-    evaluationVersion: MCTS_EVALUATION_VERSION,
+    evaluationVersion,
     outputDir,
     git: summary.git,
     protocol: summary.protocol,
     positionEvaluation: summary.positionEvaluation,
     q5: q5Verification,
     files: {
-      summary: 'mcts_baseline_summary.json',
-      results: 'mcts_baseline_results.csv',
+      summary: `${outputFilePrefix}_summary.json`,
+      results: `${outputFilePrefix}_results.csv`,
       metadata: 'metadata.json',
     },
   }
 
-  writeJson(path.join(outputDir, 'mcts_baseline_summary.json'), summary)
+  writeJson(path.join(outputDir, `${outputFilePrefix}_summary.json`), summary)
   writeFileSync(
-    path.join(outputDir, 'mcts_baseline_results.csv'),
+    path.join(outputDir, `${outputFilePrefix}_results.csv`),
     `${resultsToCsv(results)}\n`,
     'utf8',
   )

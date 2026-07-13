@@ -17,6 +17,7 @@ const TEST_CONFIG: NamedMCTSConfig = {
   simulations: 1,
   explorationConstant: Math.SQRT2,
   maxDepth: 1,
+  rolloutPolicy: 'random',
 }
 
 function makeTempDir(label: string): string {

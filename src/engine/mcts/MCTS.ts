@@ -1,7 +1,7 @@
 import { evaluatePosition } from '@/engine/evaluatePosition'
 import { applyFullAction } from '@/engine/gameSimulator'
 import type { GameSnapshot, Player } from '@/lib/types'
-import { getLegalActions } from '@/utils/ai'
+import { getBestHeuristicAction, getBestPlacement, getLegalActions } from '@/utils/ai'
 import { MCTSNode } from './MCTSNode'
 import {
   DEFAULT_MCTS_CONFIG,
@@ -12,6 +12,7 @@ import {
 
 // Keeps ordinary strategic evaluations useful without allowing them to exceed terminal rewards.
 export const POSITION_EVALUATION_SCALE = 100
+export const DEFAULT_HEURISTIC_PROBABILITY = 0.8
 
 export function searchBestAction(
   state: GameSnapshot,
@@ -48,7 +49,7 @@ export function searchBestAction(
     }
 
     // Simulation uses uniformly sampled legal full actions up to the depth limit.
-    const value = simulate(node.state, perspective, depth, config.maxDepth, random)
+    const value = simulate(node.state, perspective, depth, config, random)
 
     // Backpropagation stores every value from the unchanged root perspective.
     for (let current: MCTSNode | undefined = node; current; current = current.parent) {
@@ -72,22 +73,55 @@ function simulate(
   initialState: GameSnapshot,
   perspective: Player,
   initialDepth: number,
-  maxDepth: number,
+  config: MCTSConfig,
   rng: () => number,
 ): number {
   let state = initialState
   let depth = initialDepth
 
-  while (!isTerminalState(state) && depth < maxDepth) {
+  while (!isTerminalState(state) && depth < config.maxDepth) {
     const actions = getLegalActions(state)
     if (actions.length === 0) break
-    state = applyFullAction(state, actions[randomIndex(actions.length, rng)]).state
+    state = applyFullAction(state, chooseRolloutAction(state, actions, config, rng)).state
     depth++
   }
 
   const terminal = terminalValue(state, perspective)
   if (terminal !== undefined) return terminal
   return Math.tanh(evaluatePosition(state, perspective) / POSITION_EVALUATION_SCALE)
+}
+
+function chooseRolloutAction(
+  state: GameSnapshot,
+  legalActions: ReturnType<typeof getLegalActions>,
+  config: MCTSConfig,
+  rng: () => number,
+) {
+  if (config.rolloutPolicy === 'random') {
+    return legalActions[randomIndex(legalActions.length, rng)]
+  }
+
+  const probability = config.heuristicProbability ?? DEFAULT_HEURISTIC_PROBABILITY
+  const useHeuristic =
+    config.rolloutPolicy === 'heuristic' ||
+    probability === 1 ||
+    (probability > 0 && rng() < probability)
+  if (!useHeuristic) return legalActions[randomIndex(legalActions.length, rng)]
+
+  const heuristicAction = withSeededMathRandom(rng, () =>
+    state.phase === 'placing' ? getBestPlacement(state) : getBestHeuristicAction(state),
+  )
+  return heuristicAction ?? legalActions[randomIndex(legalActions.length, rng)]
+}
+
+function withSeededMathRandom<T>(rng: () => number, fn: () => T): T {
+  const previous = Math.random
+  Math.random = rng
+  try {
+    return fn()
+  } finally {
+    Math.random = previous
+  }
 }
 
 function terminalValue(state: GameSnapshot, perspective: Player): number | undefined {
@@ -136,6 +170,13 @@ function validateConfig(config: MCTSConfig): void {
   }
   if (!Number.isInteger(config.maxDepth) || config.maxDepth <= 0) {
     throw new Error('maxDepth must be a positive integer')
+  }
+  if (!['random', 'mixed', 'heuristic'].includes(config.rolloutPolicy)) {
+    throw new Error('rolloutPolicy must be random, mixed, or heuristic')
+  }
+  const probability = config.heuristicProbability ?? DEFAULT_HEURISTIC_PROBABILITY
+  if (!Number.isFinite(probability) || probability < 0 || probability > 1) {
+    throw new Error('heuristicProbability must be between 0 and 1')
   }
 }
 

@@ -4,6 +4,8 @@ export interface MCTSConfig {
   simulations: number
   explorationConstant: number
   maxDepth: number
+  rolloutPolicy: 'random' | 'mixed' | 'heuristic'
+  heuristicProbability?: number
 }
 
 export interface MCTSChildResult {
@@ -24,4 +26,5 @@ export const DEFAULT_MCTS_CONFIG: Readonly<MCTSConfig> = {
   simulations: 200,
   explorationConstant: Math.SQRT2,
   maxDepth: 60,
+  rolloutPolicy: 'random',
 }
