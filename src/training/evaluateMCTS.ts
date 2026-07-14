@@ -112,6 +112,8 @@ export interface MCTSGameResult extends MCTSScheduleItem {
   qPriorSelectedActionReliableRate: number
   averageSelectedQPrior: number
   mctsActionsLegal: boolean
+  /** Optional evaluator trace; it does not participate in search or persisted baseline CSVs. */
+  mctsActionSignatures?: string[]
 }
 
 export interface MCTSAggregateMetrics {
@@ -306,6 +308,7 @@ async function runSingleMCTSGame(params: {
   let qPriorSelectedActionReliable = 0
   let selectedQPrior = 0
   let mctsActionsLegal = true
+  const mctsActionSignatures: string[] = []
   const gameStartedAt = params.now()
 
   while (state.phase !== 'finished' && !state.result && turns < params.maxTurns) {
@@ -330,6 +333,7 @@ async function runSingleMCTSGame(params: {
           : undefined,
       )
       action = searchResult.action
+      mctsActionSignatures.push(actionSignature(action))
       mctsDecisionTimeMs += params.now() - decisionStartedAt
       mctsDecisions++
       rootLegalActions += searchResult.rootLegalActions
@@ -405,6 +409,7 @@ async function runSingleMCTSGame(params: {
       : 0,
     averageSelectedQPrior: mctsDecisions ? roundMetric(selectedQPrior / mctsDecisions) : 0,
     mctsActionsLegal,
+    mctsActionSignatures,
   }
 }
 
