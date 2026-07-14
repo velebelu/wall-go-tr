@@ -158,6 +158,7 @@ export interface EvaluateMCTSOptions {
   configs?: readonly NamedMCTSConfig[]
   rivals?: readonly MCTSOpponent[]
   gamesPerCombination?: number
+  gamesPerRival?: Partial<Record<MCTSOpponent, number>>
   seedBase?: number
   maxTurns?: number
   outputDir?: string
@@ -167,6 +168,7 @@ export interface EvaluateMCTSOptions {
   createdAt?: string
   outputFilePrefix?: string
   evaluationVersion?: string
+  mctsOpponentConfig?: MCTSConfig | ((pairing: MCTSScheduleItem) => MCTSConfig)
 }
 
 interface FrozenQ5EvaluationResources {
@@ -201,27 +203,30 @@ export function buildMCTSEvaluationSchedule(
   rivals: readonly MCTSOpponent[] = ['random', 'heuristic', 'q5-final'],
   gamesPerCombination = 100,
   seedBase = MCTS_BASELINE_SEED,
+  gamesPerRival?: Partial<Record<MCTSOpponent, number>>,
 ): MCTSScheduleItem[] {
-  if (gamesPerCombination <= 0 || gamesPerCombination % 2 !== 0) {
-    throw new Error('gamesPerCombination must be a positive even number')
-  }
-
   const schedule: MCTSScheduleItem[] = []
+  let rivalOffset = 0
   for (const config of configs) {
-    for (let rivalIndex = 0; rivalIndex < rivals.length; rivalIndex++) {
-      const rival = rivals[rivalIndex]!
+    rivalOffset = 0
+    for (const rival of rivals) {
+      const gamesForRival = gamesPerRival?.[rival] ?? gamesPerCombination
+      if (gamesForRival <= 0 || gamesForRival % 2 !== 0) {
+        throw new Error('Games per rival must be positive even numbers')
+      }
       for (const colorMCTS of ['R', 'B'] as const) {
-        for (let game = 1; game <= gamesPerCombination / 2; game++) {
-          const colorOffset = colorMCTS === 'R' ? 0 : gamesPerCombination / 2
+        for (let game = 1; game <= gamesForRival / 2; game++) {
+          const colorOffset = colorMCTS === 'R' ? 0 : gamesForRival / 2
           schedule.push({
             config,
             rival,
             colorMCTS,
             game,
-            seed: seedBase + rivalIndex * gamesPerCombination + colorOffset + game,
+            seed: seedBase + rivalOffset + colorOffset + game,
           })
         }
       }
+      rivalOffset += gamesForRival
     }
   }
   return schedule
@@ -289,6 +294,7 @@ async function runSingleMCTSGame(params: {
   maxTurns: number
   now: () => number
   q5Resources?: FrozenQ5EvaluationResources
+  mctsOpponentConfig?: MCTSConfig
 }): Promise<MCTSGameResult> {
   const mctsRng = createSeededRngQ4(params.pairing.seed ^ 0x9e3779b9)
   const rivalRng = createSeededRngQ4(params.pairing.seed ^ 0x85ebca6b)
@@ -375,7 +381,7 @@ async function runSingleMCTSGame(params: {
         throw new Error('Frozen Q5 returned an illegal action during baseline evaluation')
       }
     } else {
-      action = searchBestAction(previousState, previousState.turn, {
+      action = searchBestAction(previousState, previousState.turn, params.mctsOpponentConfig ?? {
         simulations: 50,
         explorationConstant: Math.SQRT2,
         maxDepth: 60,
@@ -672,16 +678,25 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
   const outputFilePrefix = options.outputFilePrefix ?? 'mcts_baseline'
   const evaluationVersion = options.evaluationVersion ?? MCTS_EVALUATION_VERSION
   assertOutputCanBeWritten(outputDir, options.overwrite ?? false)
-  const schedule = buildMCTSEvaluationSchedule(configs, [...rivals], gamesPerCombination, seedBase)
+  const scheduledGames = buildMCTSEvaluationSchedule(
+    configs,
+    [...rivals],
+    gamesPerCombination,
+    seedBase,
+    options.gamesPerRival,
+  )
   const usesQ5Prior = configs.some((config) => config.expansionPolicy === 'heuristic-q5')
   const q5Resources =
     rivals.includes('q5-final') || usesQ5Prior ? loadFrozenQ5EvaluationResources() : undefined
   const results: MCTSGameResult[] = []
 
-  for (const pairing of schedule) {
-    results.push(await runSingleMCTSGame({ pairing, maxTurns, now, q5Resources }))
+  for (const pairing of scheduledGames) {
+    const mctsOpponentConfig = typeof options.mctsOpponentConfig === 'function'
+      ? options.mctsOpponentConfig(pairing)
+      : options.mctsOpponentConfig
+    results.push(await runSingleMCTSGame({ pairing, maxTurns, now, q5Resources, mctsOpponentConfig }))
     if (progressEvery > 0 && results.length % progressEvery === 0) {
-      console.log(`[evaluateMCTS] ${results.length}/${schedule.length} games`)
+      console.log(`[evaluateMCTS] ${results.length}/${scheduledGames.length} games`)
     }
   }
 
@@ -736,10 +751,19 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
     },
     protocol: {
       gamesPerCombination,
-      gamesPerColor: gamesPerCombination / 2,
-      totalGames: schedule.length,
+      gamesPerRival: Object.fromEntries(rivals.map((rival) => [
+        rival,
+        options.gamesPerRival?.[rival] ?? gamesPerCombination,
+      ])),
+      gamesPerColor: options.gamesPerRival
+        ? Object.fromEntries(rivals.map((rival) => [
+            rival,
+            (options.gamesPerRival?.[rival] ?? gamesPerCombination) / 2,
+          ]))
+        : gamesPerCombination / 2,
+      totalGames: scheduledGames.length,
       seedBase,
-      seeds: schedule.map((item) => item.seed),
+      seeds: scheduledGames.map((item) => item.seed),
       maxTurns,
       configurations: configs,
       rivals,
