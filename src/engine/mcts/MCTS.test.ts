@@ -1,10 +1,13 @@
 import { describe, expect, it, vi } from 'vitest'
+import { createHash } from 'node:crypto'
+import { readFileSync } from 'node:fs'
+import { Q5_CHECKPOINT_SHA256, Q5_CHECKPOINT_SOURCE } from '@/agents/Q5LearningAgent'
 import { getLearningQTableKeyQ3 } from '@/agents/learningPolicyQ3'
 import { applyFullAction } from '@/engine/gameSimulator'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import { createEmptyBoard, makeInitialState, snapshotFromState } from '@/store/gameState'
 import { getBestHeuristicAction, getLegalActions, scoreHeuristicAction } from '@/utils/ai'
-import { searchBestAction } from './MCTS'
+import { chooseBestTacticalEvaluation, searchBestAction } from './MCTS'
 import {
   MCTSNode,
   normalizeMinMax,
@@ -24,6 +27,78 @@ const QUICK_CONFIG: MCTSConfig = {
   maxDepth: 2,
   rolloutPolicy: 'random',
 }
+
+describe('MCTS tactical verification', () => {
+  const tacticalConfig: MCTSConfig = {
+    simulations: 12,
+    explorationConstant: Math.SQRT2,
+    maxDepth: 3,
+    rolloutPolicy: 'mixed',
+    heuristicProbability: 0.8,
+    expansionPolicy: 'heuristic',
+    progressiveWidening: true,
+    wideningConstant: 2,
+    wideningExponent: 0.5,
+    tacticalVerification: true,
+    tacticalCandidateCount: 3,
+  }
+
+  it('desactivada conserva exactamente el comportamiento anterior', () => {
+    const state = makePlayingState()
+    const implicit = searchBestAction(state, 'R', QUICK_CONFIG, seededRng(91))
+    const explicit = searchBestAction(
+      state, 'R', { ...QUICK_CONFIG, tacticalVerification: false }, seededRng(91),
+    )
+    expect(explicit).toEqual(implicit)
+  })
+
+  it('devuelve una accion legal, no muta la raiz y limita candidatos a hijos', () => {
+    const state = makePlayingState()
+    const before = structuredClone(state)
+    const result = searchBestAction(state, 'R', tacticalConfig, seededRng(12))
+    expect(getLegalActions(state)).toContainEqual(result.action)
+    expect(state).toEqual(before)
+    expect(result.tacticalCandidatesChecked).toBeLessThanOrEqual(result.rootExpandedChildren)
+    expect(result.tacticalCandidatesChecked).toBeLessThanOrEqual(3)
+  })
+
+  it('es determinista con la misma semilla salvo la metrica temporal', () => {
+    const state = makePlayingState()
+    const a = searchBestAction(state, 'R', tacticalConfig, seededRng(44))
+    const b = searchBestAction(state, 'R', tacticalConfig, seededRng(44))
+    const { verificationTimeMs: _a, ...stableA } = a
+    const { verificationTimeMs: _b, ...stableB } = b
+    expect(stableA).toEqual(stableB)
+  })
+
+  it('evita una derrota terminal inmediata y prioriza una victoria terminal', () => {
+    const lose = { action: { type: 'place', pos: { x: 0, y: 0 } } as PlayerAction,
+      score: -1_000_000, permitsImmediateTerminalLoss: true }
+    const safe = { action: { type: 'place', pos: { x: 1, y: 0 } } as PlayerAction,
+      score: 10, permitsImmediateTerminalLoss: false }
+    const win = { action: { type: 'place', pos: { x: 2, y: 0 } } as PlayerAction,
+      score: 1_000_000, permitsImmediateTerminalLoss: false }
+    expect(chooseBestTacticalEvaluation([lose, safe], seededRng(1))).toBe(safe)
+    expect(chooseBestTacticalEvaluation([safe, win], seededRng(1))).toBe(win)
+  })
+
+  it('entre opciones no terminales evita la que tiene peor puntuacion por movilidad', () => {
+    const mobilityLoss = { action: { type: 'place', pos: { x: 0, y: 1 } } as PlayerAction,
+      score: -20, permitsImmediateTerminalLoss: false }
+    const mobilityKept = { action: { type: 'place', pos: { x: 1, y: 1 } } as PlayerAction,
+      score: 4, permitsImmediateTerminalLoss: false }
+    expect(chooseBestTacticalEvaluation([mobilityLoss, mobilityKept], seededRng(2)))
+      .toBe(mobilityKept)
+  })
+
+  it('no carga ni modifica Q5 durante la verificacion tactica', () => {
+    const before = createHash('sha256').update(readFileSync(Q5_CHECKPOINT_SOURCE)).digest('hex')
+    searchBestAction(makePlayingState(), 'R', tacticalConfig, seededRng(72))
+    const after = createHash('sha256').update(readFileSync(Q5_CHECKPOINT_SOURCE)).digest('hex')
+    expect(before).toBe(Q5_CHECKPOINT_SHA256)
+    expect(after).toBe(before)
+  })
+})
 
 function seededRng(initialSeed: number): () => number {
   let seed = initialSeed >>> 0

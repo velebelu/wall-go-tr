@@ -11,6 +11,8 @@ export interface MCTSConfig {
   progressiveWidening?: boolean
   wideningConstant?: number
   wideningExponent?: number
+  tacticalVerification?: boolean
+  tacticalCandidateCount?: number
 }
 
 export interface MCTSChildResult {
@@ -34,6 +36,13 @@ export interface MCTSResult {
   qPriorSelectedActionKnown?: boolean
   qPriorSelectedActionReliable?: boolean
   averageSelectedQPrior?: number
+  tacticalCandidatesChecked?: number
+  tacticalSelectionChanged?: boolean
+  originalMCTSActionScore?: number
+  verifiedActionScore?: number
+  worstOpponentReplyScore?: number
+  verificationTimeMs?: number
+  immediateTerminalLossAvoided?: boolean
 }
 
 export interface MCTSQPriorSource {
@@ -53,4 +62,6 @@ export const DEFAULT_MCTS_CONFIG: Readonly<MCTSConfig> = {
   expansionPolicy: 'unordered',
   qPriorWeight: 0,
   progressiveWidening: false,
+  tacticalVerification: false,
+  tacticalCandidateCount: 3,
 }

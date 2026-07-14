@@ -76,20 +76,35 @@ export function searchBestAction(
 
   const best = chooseFinalChild(root.children, random)
   const children = root.children.map(toChildResult)
+  const verification = config.tacticalVerification
+    ? verifyTacticalCandidates(
+        state,
+        perspective,
+        children,
+        best.action!,
+        config.tacticalCandidateCount ?? 3,
+        random,
+      )
+    : undefined
+  const selectedAction = verification?.action ?? best.action!
+  const selectedChild = root.children.find(
+    (child) => JSON.stringify(child.action) === JSON.stringify(selectedAction),
+  ) ?? best
   const result: MCTSResult = {
-    action: best.action!,
-    visits: best.visits,
-    value: best.meanValue,
+    action: selectedAction,
+    visits: selectedChild.visits,
+    value: selectedChild.meanValue,
     rootVisits: root.visits,
     children,
     rootLegalActions,
     rootExpandedChildren: root.children.length,
     maxDepthReached,
     averageSelectedDepth: totalSelectedDepth / config.simulations,
+    ...(verification && verification.metrics),
   }
   if (config.expansionPolicy === 'heuristic-q5') {
     const scores = root.expansionScores
-    const selectedScore = root.getExpansionScore(best.action!)
+    const selectedScore = root.getExpansionScore(selectedAction)
     result.qPriorKnownActions = scores.filter(({ qKnown }) => qKnown).length
     result.qPriorReliableActions = scores.filter(({ qReliable }) => qReliable).length
     result.qPriorSelectedActionKnown = selectedScore?.qKnown ?? false
@@ -98,6 +113,88 @@ export function searchBestAction(
     result.averageSelectedQPrior = selectedScore?.normalizedQ5Value ?? 0
   }
   return result
+}
+
+export interface TacticalCandidateEvaluation {
+  action: MCTSChildResult['action']
+  score: number
+  permitsImmediateTerminalLoss: boolean
+}
+
+export function verifyTacticalCandidates(
+  rootState: GameSnapshot,
+  perspective: Player,
+  children: readonly MCTSChildResult[],
+  originalAction: MCTSChildResult['action'],
+  requestedCount = 3,
+  rng: () => number = Math.random,
+): { action: MCTSChildResult['action']; metrics: Pick<MCTSResult,
+  'tacticalCandidatesChecked' | 'tacticalSelectionChanged' | 'originalMCTSActionScore' |
+  'verifiedActionScore' | 'worstOpponentReplyScore' | 'verificationTimeMs' |
+  'immediateTerminalLossAvoided'> } {
+  if (!Number.isInteger(requestedCount) || requestedCount <= 0) {
+    throw new Error('tacticalCandidateCount must be a positive integer')
+  }
+  const started = performance.now()
+  const candidates = [...children]
+    .sort((a, b) => b.visits - a.visits || b.value - a.value)
+    .slice(0, Math.min(requestedCount, children.length))
+  if (!candidates.length) throw new Error('Tactical verification requires expanded children')
+  const evaluated = candidates.map(({ action }) => evaluateTacticalCandidate(rootState, perspective, action))
+  const selected = chooseBestTacticalEvaluation(evaluated, rng)
+  const original = evaluated.find(({ action }) => sameAction(action, originalAction))
+  return {
+    action: selected.action,
+    metrics: {
+      tacticalCandidatesChecked: evaluated.length,
+      tacticalSelectionChanged: !sameAction(selected.action, originalAction),
+      originalMCTSActionScore: original?.score ?? Number.NaN,
+      verifiedActionScore: selected.score,
+      worstOpponentReplyScore: selected.score,
+      verificationTimeMs: performance.now() - started,
+      immediateTerminalLossAvoided:
+        (original?.permitsImmediateTerminalLoss ?? false) && !selected.permitsImmediateTerminalLoss,
+    },
+  }
+}
+
+export function chooseBestTacticalEvaluation(
+  evaluated: readonly TacticalCandidateEvaluation[],
+  rng: () => number,
+): TacticalCandidateEvaluation {
+  if (!evaluated.length) throw new Error('Cannot select from empty tactical evaluations')
+  const bestScore = Math.max(...evaluated.map(({ score }) => score))
+  const tied = evaluated.filter(({ score }) => score === bestScore)
+  return tied[randomIndex(tied.length, rng)]!
+}
+
+function evaluateTacticalCandidate(
+  rootState: GameSnapshot,
+  perspective: Player,
+  action: MCTSChildResult['action'],
+): TacticalCandidateEvaluation {
+  const afterAction = applyFullAction(rootState, action).state
+  const direct = terminalValue(afterAction, perspective)
+  if (direct !== undefined) {
+    return { action, score: evaluatePosition(afterAction, perspective), permitsImmediateTerminalLoss: direct < 0 }
+  }
+  const replies = getLegalActions(afterAction)
+  if (!replies.length) {
+    return { action, score: evaluatePosition(afterAction, perspective), permitsImmediateTerminalLoss: false }
+  }
+  let score = Infinity
+  let permitsImmediateTerminalLoss = false
+  for (const reply of replies) {
+    const replied = applyFullAction(afterAction, reply).state
+    const replyScore = evaluatePosition(replied, perspective)
+    if (terminalValue(replied, perspective) === -1) permitsImmediateTerminalLoss = true
+    score = Math.min(score, replyScore)
+  }
+  return { action, score, permitsImmediateTerminalLoss }
+}
+
+function sameAction(a: MCTSChildResult['action'], b: MCTSChildResult['action']): boolean {
+  return JSON.stringify(a) === JSON.stringify(b)
 }
 
 function simulate(
@@ -224,6 +321,10 @@ function validateConfig(config: MCTSConfig): void {
   const wideningExponent = config.wideningExponent ?? DEFAULT_WIDENING_EXPONENT
   if (!Number.isFinite(wideningExponent) || wideningExponent <= 0 || wideningExponent > 1) {
     throw new Error('wideningExponent must be between zero and one')
+  }
+  const tacticalCandidateCount = config.tacticalCandidateCount ?? 3
+  if (!Number.isInteger(tacticalCandidateCount) || tacticalCandidateCount <= 0) {
+    throw new Error('tacticalCandidateCount must be a positive integer')
   }
 }
 

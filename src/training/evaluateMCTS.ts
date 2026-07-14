@@ -79,7 +79,7 @@ export const MCTS_BASELINE_CONFIGS: NamedMCTSConfig[] = [
   },
 ]
 
-export type MCTSOpponent = 'random' | 'heuristic' | 'q5-final'
+export type MCTSOpponent = 'random' | 'heuristic' | 'q5-final' | 'baseline-mcts'
 
 export interface MCTSScheduleItem {
   config: NamedMCTSConfig
@@ -114,6 +114,11 @@ export interface MCTSGameResult extends MCTSScheduleItem {
   mctsActionsLegal: boolean
   /** Optional evaluator trace; it does not participate in search or persisted baseline CSVs. */
   mctsActionSignatures?: string[]
+  tacticalCandidatesChecked?: number
+  tacticalSelectionChanges?: number
+  tacticalSelectionChangeRate?: number
+  averageVerificationTimeMs?: number
+  immediateTerminalLossesAvoided?: number
 }
 
 export interface MCTSAggregateMetrics {
@@ -308,6 +313,10 @@ async function runSingleMCTSGame(params: {
   let qPriorSelectedActionReliable = 0
   let selectedQPrior = 0
   let mctsActionsLegal = true
+  let tacticalCandidatesChecked = 0
+  let tacticalSelectionChanges = 0
+  let verificationTimeMs = 0
+  let immediateTerminalLossesAvoided = 0
   const mctsActionSignatures: string[] = []
   const gameStartedAt = params.now()
 
@@ -348,6 +357,10 @@ async function runSingleMCTSGame(params: {
       qPriorSelectedActionKnown += Number(searchResult.qPriorSelectedActionKnown ?? false)
       qPriorSelectedActionReliable += Number(searchResult.qPriorSelectedActionReliable ?? false)
       selectedQPrior += searchResult.averageSelectedQPrior ?? 0
+      tacticalCandidatesChecked += searchResult.tacticalCandidatesChecked ?? 0
+      tacticalSelectionChanges += Number(searchResult.tacticalSelectionChanged ?? false)
+      verificationTimeMs += searchResult.verificationTimeMs ?? 0
+      immediateTerminalLossesAvoided += Number(searchResult.immediateTerminalLossAvoided ?? false)
       const legal = isLegalAction(action, legalActions)
       mctsActionsLegal &&= legal
       if (!legal) throw new Error('MCTS returned an illegal action during baseline evaluation')
@@ -355,12 +368,26 @@ async function runSingleMCTSGame(params: {
       action = chooseRandomActionWithRngQ4(legalActions, rivalRng)
     } else if (params.pairing.rival === 'heuristic') {
       action = chooseHeuristicOpponentActionQ4(previousState, rivalRng)
-    } else {
+    } else if (params.pairing.rival === 'q5-final') {
       if (!q5Agent) throw new Error('Frozen Q5 resources were not loaded')
       action = await q5Agent.getAction(previousState)
       if (!isLegalAction(action, legalActions)) {
         throw new Error('Frozen Q5 returned an illegal action during baseline evaluation')
       }
+    } else {
+      action = searchBestAction(previousState, previousState.turn, {
+        simulations: 50,
+        explorationConstant: Math.SQRT2,
+        maxDepth: 60,
+        rolloutPolicy: 'mixed',
+        heuristicProbability: 0.8,
+        expansionPolicy: 'heuristic',
+        progressiveWidening: true,
+        wideningConstant: 2,
+        wideningExponent: 0.5,
+        qPriorWeight: 0,
+        tacticalVerification: false,
+      }, rivalRng).action
     }
 
     const applied = applyFullAction(state, action)
@@ -410,6 +437,11 @@ async function runSingleMCTSGame(params: {
     averageSelectedQPrior: mctsDecisions ? roundMetric(selectedQPrior / mctsDecisions) : 0,
     mctsActionsLegal,
     mctsActionSignatures,
+    tacticalCandidatesChecked,
+    tacticalSelectionChanges,
+    tacticalSelectionChangeRate: mctsDecisions ? roundMetric(tacticalSelectionChanges / mctsDecisions) : 0,
+    averageVerificationTimeMs: mctsDecisions ? roundMetric(verificationTimeMs / mctsDecisions) : 0,
+    immediateTerminalLossesAvoided,
   }
 }
 
@@ -573,6 +605,11 @@ function resultsToCsv(results: MCTSGameResult[]): string {
     'qPriorSelectedActionReliableRate',
     'averageSelectedQPrior',
     'mctsActionsLegal',
+    'tacticalCandidatesChecked',
+    'tacticalSelectionChanges',
+    'tacticalSelectionChangeRate',
+    'averageVerificationTimeMs',
+    'immediateTerminalLossesAvoided',
   ]
   const rows = results.map((result) => [
     result.config.name,
@@ -610,6 +647,11 @@ function resultsToCsv(results: MCTSGameResult[]): string {
     result.qPriorSelectedActionReliableRate,
     result.averageSelectedQPrior,
     result.mctsActionsLegal,
+    result.tacticalCandidatesChecked ?? 0,
+    result.tacticalSelectionChanges ?? 0,
+    result.tacticalSelectionChangeRate ?? 0,
+    result.averageVerificationTimeMs ?? 0,
+    result.immediateTerminalLossesAvoided ?? 0,
   ])
   return [headers.join(','), ...rows.map((row) => row.map(csvEscape).join(','))].join('\n')
 }
