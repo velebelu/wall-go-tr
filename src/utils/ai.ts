@@ -153,7 +153,7 @@ export function getBestHeuristicAction(
   return getRandomAction(bestActions)
 }
 
-function scoreHeuristicAction(
+export function scoreHeuristicAction(
   state: GameSnapshot,
   action: PlayerAction,
   policy: 'default' | 'offensive' | 'defensive',

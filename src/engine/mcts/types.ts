@@ -6,6 +6,10 @@ export interface MCTSConfig {
   maxDepth: number
   rolloutPolicy: 'random' | 'mixed' | 'heuristic'
   heuristicProbability?: number
+  expansionPolicy?: 'unordered' | 'heuristic'
+  progressiveWidening?: boolean
+  wideningConstant?: number
+  wideningExponent?: number
 }
 
 export interface MCTSChildResult {
@@ -20,11 +24,20 @@ export interface MCTSResult {
   value: number
   rootVisits: number
   children: MCTSChildResult[]
+  rootLegalActions: number
+  rootExpandedChildren: number
+  maxDepthReached: number
+  averageSelectedDepth: number
 }
+
+export const DEFAULT_WIDENING_CONSTANT = 2
+export const DEFAULT_WIDENING_EXPONENT = 0.5
 
 export const DEFAULT_MCTS_CONFIG: Readonly<MCTSConfig> = {
   simulations: 200,
   explorationConstant: Math.SQRT2,
   maxDepth: 60,
   rolloutPolicy: 'random',
+  expansionPolicy: 'unordered',
+  progressiveWidening: false,
 }

@@ -2,9 +2,14 @@ import { describe, expect, it, vi } from 'vitest'
 import { applyFullAction } from '@/engine/gameSimulator'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import { createEmptyBoard, makeInitialState, snapshotFromState } from '@/store/gameState'
-import { getLegalActions } from '@/utils/ai'
+import { getBestHeuristicAction, getLegalActions, scoreHeuristicAction } from '@/utils/ai'
 import { searchBestAction } from './MCTS'
-import type { MCTSConfig } from './types'
+import { MCTSNode, orderActionsForExpansion } from './MCTSNode'
+import {
+  DEFAULT_WIDENING_CONSTANT,
+  DEFAULT_WIDENING_EXPONENT,
+  type MCTSConfig,
+} from './types'
 
 const QUICK_CONFIG: MCTSConfig = {
   simulations: 12,
@@ -354,5 +359,168 @@ describe('MCTS rollout policies', () => {
 
       expect(state).toEqual(before)
     }
+  })
+})
+
+describe('MCTS expansion policies', () => {
+  const mixedConfig = (overrides: Partial<MCTSConfig> = {}): MCTSConfig => ({
+    simulations: 50,
+    explorationConstant: Math.SQRT2,
+    maxDepth: 4,
+    rolloutPolicy: 'mixed',
+    heuristicProbability: 0.8,
+    ...overrides,
+  })
+
+  it('preserves the previous behavior with unordered expansion and no widening', () => {
+    const legacy = searchBestAction(makeInitialState(), 'R', mixedConfig(), seededRng(30))
+    const explicit = searchBestAction(
+      makeInitialState(),
+      'R',
+      mixedConfig({ expansionPolicy: 'unordered', progressiveWidening: false }),
+      seededRng(30),
+    )
+
+    expect(explicit).toEqual(legacy)
+  })
+
+  it('orders heuristic actions deterministically with the same seed', () => {
+    const state = makePlayingState()
+    const actions = getLegalActions(state)
+    const first = orderActionsForExpansion(state, actions, 'heuristic', seededRng(31))
+    const second = orderActionsForExpansion(state, actions, 'heuristic', seededRng(31))
+
+    expect(first).toEqual(second)
+  })
+
+  it('does not lose or duplicate actions while ordering them', () => {
+    const state = makePlayingState()
+    const actions = getLegalActions(state)
+    const ordered = orderActionsForExpansion(state, actions, 'heuristic', seededRng(32))
+    const signatures = (items: PlayerAction[]) => items.map(actionKey).sort()
+
+    expect(ordered).toHaveLength(actions.length)
+    expect(new Set(ordered.map(actionKey)).size).toBe(actions.length)
+    expect(signatures(ordered)).toEqual(signatures(actions))
+  })
+
+  it('expands one of the highest-scoring actions first', () => {
+    const state = makePlayingState()
+    const actions = getLegalActions(state)
+    const bestScore = Math.max(...actions.map((action) => scoreHeuristicAction(state, action, 'default')))
+    const result = searchBestAction(
+      state,
+      'R',
+      mixedConfig({ simulations: 1, maxDepth: 1, expansionPolicy: 'heuristic' }),
+      seededRng(33),
+    )
+
+    expect(scoreHeuristicAction(state, result.children[0].action, 'default')).toBe(bestScore)
+  })
+
+  it('progressive widening initially limits expanded children', () => {
+    const result = searchBestAction(
+      makeInitialState(),
+      'R',
+      mixedConfig({ simulations: 2, maxDepth: 1, progressiveWidening: true }),
+      seededRng(34),
+    )
+
+    expect(result.rootLegalActions).toBe(getLegalActions(makeInitialState()).length)
+    expect(result.rootExpandedChildren).toBe(2)
+  })
+
+  it('increases the allowed child count with visits', () => {
+    const node = new MCTSNode(makeInitialState(), undefined, undefined, {
+      expansionPolicy: 'unordered',
+      progressiveWidening: true,
+      wideningConstant: DEFAULT_WIDENING_CONSTANT,
+      wideningExponent: DEFAULT_WIDENING_EXPONENT,
+      rng: seededRng(35),
+    })
+    const initial = node.maxChildrenAllowed
+    node.visits = 4
+    const afterFourVisits = node.maxChildrenAllowed
+    node.visits = 16
+
+    expect(initial).toBe(1)
+    expect(afterFourVisits).toBe(4)
+    expect(node.maxChildrenAllowed).toBe(8)
+  })
+
+  it('can expand every legal action with enough visits', () => {
+    const result = searchBestAction(
+      makeInitialState(),
+      'R',
+      mixedConfig({
+        simulations: 626,
+        maxDepth: 1,
+        expansionPolicy: 'heuristic',
+        progressiveWidening: true,
+      }),
+      seededRng(36),
+    )
+
+    expect(result.rootExpandedChildren).toBe(result.rootLegalActions)
+  })
+
+  it('never exceeds the progressive widening allowance', () => {
+    const result = searchBestAction(
+      makeInitialState(),
+      'R',
+      mixedConfig({ simulations: 50, progressiveWidening: true }),
+      seededRng(37),
+    )
+    const allowed = Math.max(
+      1,
+      Math.floor(DEFAULT_WIDENING_CONSTANT * result.rootVisits ** DEFAULT_WIDENING_EXPONENT),
+    )
+
+    expect(result.rootExpandedChildren).toBeLessThanOrEqual(allowed)
+  })
+
+  it('reports coherent branching and depth metrics', () => {
+    const result = searchBestAction(
+      makeInitialState(),
+      'R',
+      mixedConfig({ progressiveWidening: true }),
+      seededRng(38),
+    )
+
+    expect(result.rootLegalActions).toBe(getLegalActions(makeInitialState()).length)
+    expect(result.rootExpandedChildren).toBe(result.children.length)
+    expect(result.maxDepthReached).toBeGreaterThan(0)
+    expect(result.maxDepthReached).toBeLessThanOrEqual(4)
+    expect(result.averageSelectedDepth).toBeGreaterThanOrEqual(0)
+    expect(result.averageSelectedDepth).toBeLessThanOrEqual(result.maxDepthReached)
+  })
+
+  it('does not modify the root state with heuristic widening', () => {
+    const state = makePlayingState()
+    const before = snapshotFromState(state)
+
+    searchBestAction(
+      state,
+      'R',
+      mixedConfig({ expansionPolicy: 'heuristic', progressiveWidening: true }),
+      seededRng(39),
+    )
+
+    expect(state).toEqual(before)
+  })
+
+  it('keeps the existing heuristic decision equal to the highest-score seeded tie choice', () => {
+    const state = makePlayingState()
+    const actions = getLegalActions(state)
+    const scores = actions.map((action) => scoreHeuristicAction(state, action, 'default'))
+    const bestScore = Math.max(...scores)
+    const bestActions = actions.filter((_, index) => scores[index] === bestScore)
+    const sample = 0.625
+    const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(sample)
+
+    const selected = getBestHeuristicAction(state)
+
+    expect(selected).toEqual(bestActions[Math.floor(sample * bestActions.length)])
+    randomSpy.mockRestore()
   })
 })

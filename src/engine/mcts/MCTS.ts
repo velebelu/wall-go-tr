@@ -5,6 +5,8 @@ import { getBestHeuristicAction, getBestPlacement, getLegalActions } from '@/uti
 import { MCTSNode } from './MCTSNode'
 import {
   DEFAULT_MCTS_CONFIG,
+  DEFAULT_WIDENING_CONSTANT,
+  DEFAULT_WIDENING_EXPONENT,
   type MCTSChildResult,
   type MCTSConfig,
   type MCTSResult,
@@ -22,31 +24,41 @@ export function searchBestAction(
 ): MCTSResult {
   validateConfig(config)
   const random = rng ?? Math.random
-  const root = new MCTSNode(state)
+  const root = new MCTSNode(state, undefined, undefined, {
+    expansionPolicy: config.expansionPolicy ?? 'unordered',
+    progressiveWidening: config.progressiveWidening ?? false,
+    wideningConstant: config.wideningConstant ?? DEFAULT_WIDENING_CONSTANT,
+    wideningExponent: config.wideningExponent ?? DEFAULT_WIDENING_EXPONENT,
+    rng: random,
+  })
   if (root.isTerminal) throw new Error('Cannot search from a terminal state')
   if (root.untriedActions.length === 0) throw new Error('Cannot search a state without legal actions')
+  const rootLegalActions = root.untriedActions.length
+  let maxDepthReached = 0
+  let totalSelectedDepth = 0
 
   for (let simulation = 0; simulation < config.simulations; simulation++) {
     let node = root
     let depth = 0
 
-    // Selection follows UCT while the current node is fully expanded.
-    while (
-      !node.isTerminal &&
-      depth < config.maxDepth &&
-      node.untriedActions.length === 0 &&
-      node.children.length > 0
-    ) {
+    let selectedDepth = 0
+
+    // Selection follows UCT while expansion is unavailable at the current node.
+    while (!node.isTerminal && depth < config.maxDepth) {
+      if (node.canExpand) {
+        // Expansion adds the next allowed untried legal action.
+        node = node.expand(random)!
+        depth++
+        break
+      }
+      if (node.children.length === 0) break
       const maximizeRootValue = node.state.turn === perspective
       node = node.selectChild(config.explorationConstant, maximizeRootValue, random)
       depth++
+      selectedDepth++
     }
-
-    // Expansion adds one previously untried legal action.
-    if (!node.isTerminal && depth < config.maxDepth && node.untriedActions.length > 0) {
-      node = node.expand(random)!
-      depth++
-    }
+    totalSelectedDepth += selectedDepth
+    maxDepthReached = Math.max(maxDepthReached, depth)
 
     // Simulation uses uniformly sampled legal full actions up to the depth limit.
     const value = simulate(node.state, perspective, depth, config, random)
@@ -66,6 +78,10 @@ export function searchBestAction(
     value: best.meanValue,
     rootVisits: root.visits,
     children,
+    rootLegalActions,
+    rootExpandedChildren: root.children.length,
+    maxDepthReached,
+    averageSelectedDepth: totalSelectedDepth / config.simulations,
   }
 }
 
@@ -177,6 +193,18 @@ function validateConfig(config: MCTSConfig): void {
   const probability = config.heuristicProbability ?? DEFAULT_HEURISTIC_PROBABILITY
   if (!Number.isFinite(probability) || probability < 0 || probability > 1) {
     throw new Error('heuristicProbability must be between 0 and 1')
+  }
+  const expansionPolicy = config.expansionPolicy ?? 'unordered'
+  if (!['unordered', 'heuristic'].includes(expansionPolicy)) {
+    throw new Error('expansionPolicy must be unordered or heuristic')
+  }
+  const wideningConstant = config.wideningConstant ?? DEFAULT_WIDENING_CONSTANT
+  if (!Number.isFinite(wideningConstant) || wideningConstant <= 0) {
+    throw new Error('wideningConstant must be a finite positive number')
+  }
+  const wideningExponent = config.wideningExponent ?? DEFAULT_WIDENING_EXPONENT
+  if (!Number.isFinite(wideningExponent) || wideningExponent <= 0 || wideningExponent > 1) {
+    throw new Error('wideningExponent must be between zero and one')
   }
 }
 
