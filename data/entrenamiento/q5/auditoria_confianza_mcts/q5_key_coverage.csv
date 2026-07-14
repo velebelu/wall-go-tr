@@ -1,0 +1,12 @@
+metric,value
+qTable,27815
+confidenceMap,19652
+qLearningUpdateCounts,12068
+qTableAndConfidenceMap,19652
+qTableAndUpdateCounts,12068
+confidenceMapAndUpdateCounts,3905
+allThree,3905
+qTableWithoutConfidenceMap,8163
+confidenceMapWithoutQTable,0
+qTableWithoutEffectiveConfidence,0
+effectiveConfidenceWithoutQTable,0
