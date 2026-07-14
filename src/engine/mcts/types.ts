@@ -6,7 +6,8 @@ export interface MCTSConfig {
   maxDepth: number
   rolloutPolicy: 'random' | 'mixed' | 'heuristic'
   heuristicProbability?: number
-  expansionPolicy?: 'unordered' | 'heuristic'
+  expansionPolicy?: 'unordered' | 'heuristic' | 'heuristic-q5'
+  qPriorWeight?: number
   progressiveWidening?: boolean
   wideningConstant?: number
   wideningExponent?: number
@@ -28,6 +29,17 @@ export interface MCTSResult {
   rootExpandedChildren: number
   maxDepthReached: number
   averageSelectedDepth: number
+  qPriorKnownActions?: number
+  qPriorReliableActions?: number
+  qPriorSelectedActionKnown?: boolean
+  qPriorSelectedActionReliable?: boolean
+  averageSelectedQPrior?: number
+}
+
+export interface MCTSQPriorSource {
+  qTable: Readonly<Record<string, number>>
+  confidence: ReadonlyMap<string, number>
+  minConfidence: number
 }
 
 export const DEFAULT_WIDENING_CONSTANT = 2
@@ -39,5 +51,6 @@ export const DEFAULT_MCTS_CONFIG: Readonly<MCTSConfig> = {
   maxDepth: 60,
   rolloutPolicy: 'random',
   expansionPolicy: 'unordered',
+  qPriorWeight: 0,
   progressiveWidening: false,
 }

@@ -10,6 +10,7 @@ import {
   type MCTSChildResult,
   type MCTSConfig,
   type MCTSResult,
+  type MCTSQPriorSource,
 } from './types'
 
 // Keeps ordinary strategic evaluations useful without allowing them to exceed terminal rewards.
@@ -21,6 +22,7 @@ export function searchBestAction(
   perspective: Player,
   config: MCTSConfig = DEFAULT_MCTS_CONFIG,
   rng?: () => number,
+  qPriorSource?: MCTSQPriorSource,
 ): MCTSResult {
   validateConfig(config)
   const random = rng ?? Math.random
@@ -30,6 +32,8 @@ export function searchBestAction(
     wideningConstant: config.wideningConstant ?? DEFAULT_WIDENING_CONSTANT,
     wideningExponent: config.wideningExponent ?? DEFAULT_WIDENING_EXPONENT,
     rng: random,
+    qPriorWeight: config.qPriorWeight ?? 0,
+    qPriorSource,
   })
   if (root.isTerminal) throw new Error('Cannot search from a terminal state')
   if (root.untriedActions.length === 0) throw new Error('Cannot search a state without legal actions')
@@ -72,7 +76,7 @@ export function searchBestAction(
 
   const best = chooseFinalChild(root.children, random)
   const children = root.children.map(toChildResult)
-  return {
+  const result: MCTSResult = {
     action: best.action!,
     visits: best.visits,
     value: best.meanValue,
@@ -83,6 +87,17 @@ export function searchBestAction(
     maxDepthReached,
     averageSelectedDepth: totalSelectedDepth / config.simulations,
   }
+  if (config.expansionPolicy === 'heuristic-q5') {
+    const scores = root.expansionScores
+    const selectedScore = root.getExpansionScore(best.action!)
+    result.qPriorKnownActions = scores.filter(({ qKnown }) => qKnown).length
+    result.qPriorReliableActions = scores.filter(({ qReliable }) => qReliable).length
+    result.qPriorSelectedActionKnown = selectedScore?.qKnown ?? false
+    result.qPriorSelectedActionReliable = selectedScore?.qReliable ?? false
+    // One search reports the selected root action's prior; evaluators average it across decisions.
+    result.averageSelectedQPrior = selectedScore?.normalizedQ5Value ?? 0
+  }
+  return result
 }
 
 function simulate(
@@ -195,8 +210,12 @@ function validateConfig(config: MCTSConfig): void {
     throw new Error('heuristicProbability must be between 0 and 1')
   }
   const expansionPolicy = config.expansionPolicy ?? 'unordered'
-  if (!['unordered', 'heuristic'].includes(expansionPolicy)) {
-    throw new Error('expansionPolicy must be unordered or heuristic')
+  if (!['unordered', 'heuristic', 'heuristic-q5'].includes(expansionPolicy)) {
+    throw new Error('expansionPolicy must be unordered, heuristic, or heuristic-q5')
+  }
+  const qPriorWeight = config.qPriorWeight ?? 0
+  if (!Number.isFinite(qPriorWeight) || qPriorWeight < 0) {
+    throw new Error('qPriorWeight must be a finite non-negative number')
   }
   const wideningConstant = config.wideningConstant ?? DEFAULT_WIDENING_CONSTANT
   if (!Number.isFinite(wideningConstant) || wideningConstant <= 0) {

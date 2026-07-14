@@ -1,14 +1,21 @@
 import { describe, expect, it, vi } from 'vitest'
+import { getLearningQTableKeyQ3 } from '@/agents/learningPolicyQ3'
 import { applyFullAction } from '@/engine/gameSimulator'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import { createEmptyBoard, makeInitialState, snapshotFromState } from '@/store/gameState'
 import { getBestHeuristicAction, getLegalActions, scoreHeuristicAction } from '@/utils/ai'
 import { searchBestAction } from './MCTS'
-import { MCTSNode, orderActionsForExpansion } from './MCTSNode'
+import {
+  MCTSNode,
+  normalizeMinMax,
+  orderActionsForExpansion,
+  scoreActionsForExpansion,
+} from './MCTSNode'
 import {
   DEFAULT_WIDENING_CONSTANT,
   DEFAULT_WIDENING_EXPONENT,
   type MCTSConfig,
+  type MCTSQPriorSource,
 } from './types'
 
 const QUICK_CONFIG: MCTSConfig = {
@@ -522,5 +529,185 @@ describe('MCTS expansion policies', () => {
 
     expect(selected).toEqual(bestActions[Math.floor(sample * bestActions.length)])
     randomSpy.mockRestore()
+  })
+})
+
+describe('MCTS Q5 expansion prior', () => {
+  const qConfig = (weight: number): MCTSConfig => ({
+    simulations: 30,
+    explorationConstant: Math.SQRT2,
+    maxDepth: 4,
+    rolloutPolicy: 'mixed',
+    heuristicProbability: 0.8,
+    expansionPolicy: 'heuristic-q5',
+    qPriorWeight: weight,
+    progressiveWidening: true,
+    wideningConstant: 2,
+    wideningExponent: 0.5,
+  })
+
+  function priorFor(
+    state: GameSnapshot,
+    entries: Array<{ action: PlayerAction; value: number; confidence: number }>,
+  ): MCTSQPriorSource {
+    const qTable: Record<string, number> = {}
+    const confidence = new Map<string, number>()
+    for (const entry of entries) {
+      const key = getLearningQTableKeyQ3(state, entry.action)
+      qTable[key] = entry.value
+      confidence.set(key, entry.confidence)
+    }
+    return { qTable: Object.freeze(qTable), confidence, minConfidence: 10 }
+  }
+
+  it('makes weight zero equivalent to heuristic expansion', () => {
+    const state = makePlayingState()
+    const actions = getLegalActions(state)
+    const prior = priorFor(state, [
+      { action: actions[0], value: 1_000_000, confidence: 10 },
+      { action: actions[1], value: -1_000_000, confidence: 10 },
+    ])
+    const heuristic = searchBestAction(
+      state,
+      'R',
+      { ...qConfig(0), expansionPolicy: 'heuristic' },
+      seededRng(40),
+    )
+    const withZeroPrior = searchBestAction(state, 'R', qConfig(0), seededRng(40), prior)
+
+    expect(withZeroPrior.action).toEqual(heuristic.action)
+    expect(withZeroPrior.children).toEqual(heuristic.children)
+    expect(withZeroPrior.rootVisits).toBe(heuristic.rootVisits)
+  })
+
+  it('assigns zero prior to unknown actions', () => {
+    const state = makePlayingState()
+    const action = getLegalActions(state)[0]
+    const [score] = scoreActionsForExpansion(
+      state,
+      [action],
+      'heuristic-q5',
+      seededRng(41),
+      { qTable: {}, confidence: new Map(), minConfidence: 10 },
+      1,
+    )
+
+    expect(score).toMatchObject({ qKnown: false, qReliable: false, normalizedQ5Value: 0 })
+  })
+
+  it('assigns zero prior to known but unreliable actions', () => {
+    const state = makePlayingState()
+    const action = getLegalActions(state)[0]
+    const prior = priorFor(state, [{ action, value: 99, confidence: 9 }])
+    const [score] = scoreActionsForExpansion(
+      state,
+      [action],
+      'heuristic-q5',
+      seededRng(42),
+      prior,
+      1,
+    )
+
+    expect(score).toMatchObject({ qKnown: true, qReliable: false, normalizedQ5Value: 0 })
+  })
+
+  it('normalizes reliable Q values within the legal action set', () => {
+    const state = makePlayingState()
+    const actions = getLegalActions(state).slice(0, 3)
+    const prior = priorFor(state, [
+      { action: actions[0], value: -50, confidence: 10 },
+      { action: actions[1], value: 0, confidence: 11 },
+      { action: actions[2], value: 50, confidence: 12 },
+    ])
+    const scores = scoreActionsForExpansion(
+      state,
+      actions,
+      'heuristic-q5',
+      seededRng(43),
+      prior,
+      1,
+    )
+    const byAction = new Map(scores.map((score) => [actionKey(score.action), score]))
+
+    expect(byAction.get(actionKey(actions[0]))?.normalizedQ5Value).toBe(-1)
+    expect(byAction.get(actionKey(actions[1]))?.normalizedQ5Value).toBe(0)
+    expect(byAction.get(actionKey(actions[2]))?.normalizedQ5Value).toBe(1)
+  })
+
+  it('bounds min-max normalization and maps equal values to zero', () => {
+    expect(normalizeMinMax([-1_000_000, 0, 1_000_000])).toEqual([-1, 0, 1])
+    expect(normalizeMinMax([7, 7, 7])).toEqual([0, 0, 0])
+    expect(normalizeMinMax([-5, 2, 9]).every((value) => value >= -1 && value <= 1)).toBe(true)
+  })
+
+  it('does not lose or duplicate actions in combined ordering', () => {
+    const state = makePlayingState()
+    const actions = getLegalActions(state)
+    const prior = priorFor(state, [
+      { action: actions[0], value: 2, confidence: 10 },
+      { action: actions[1], value: 1, confidence: 10 },
+    ])
+    const ordered = orderActionsForExpansion(
+      state,
+      actions,
+      'heuristic-q5',
+      seededRng(44),
+      prior,
+      0.5,
+    )
+
+    expect(ordered).toHaveLength(actions.length)
+    expect(new Set(ordered.map(actionKey)).size).toBe(actions.length)
+    expect(ordered.map(actionKey).sort()).toEqual(actions.map(actionKey).sort())
+  })
+
+  it('orders combined scores deterministically with the same RNG', () => {
+    const state = makePlayingState()
+    const actions = getLegalActions(state)
+    const prior = priorFor(state, actions.slice(0, 3).map((action, index) => ({
+      action,
+      value: index,
+      confidence: 10,
+    })))
+    const first = orderActionsForExpansion(
+      state,
+      actions,
+      'heuristic-q5',
+      seededRng(45),
+      prior,
+      0.5,
+    )
+    const second = orderActionsForExpansion(
+      state,
+      actions,
+      'heuristic-q5',
+      seededRng(45),
+      prior,
+      0.5,
+    )
+
+    expect(first).toEqual(second)
+  })
+
+  it('does not modify Q5 data and reports coherent root prior metrics', () => {
+    const state = makePlayingState()
+    const actions = getLegalActions(state)
+    const prior = priorFor(state, [
+      { action: actions[0], value: 2, confidence: 10 },
+      { action: actions[1], value: 1, confidence: 9 },
+    ])
+    const tableBefore = JSON.stringify(prior.qTable)
+    const confidenceBefore = [...prior.confidence.entries()]
+
+    const result = searchBestAction(state, 'R', qConfig(0.5), seededRng(46), prior)
+
+    expect(JSON.stringify(prior.qTable)).toBe(tableBefore)
+    expect([...prior.confidence.entries()]).toEqual(confidenceBefore)
+    expect(result.qPriorKnownActions).toBe(2)
+    expect(result.qPriorReliableActions).toBe(1)
+    expect(typeof result.qPriorSelectedActionKnown).toBe('boolean')
+    expect(typeof result.qPriorSelectedActionReliable).toBe('boolean')
+    expect(result.averageSelectedQPrior).toBeGreaterThanOrEqual(-1)
+    expect(result.averageSelectedQPrior).toBeLessThanOrEqual(1)
   })
 })
