@@ -35,6 +35,43 @@ export interface FrozenQ5Model {
   sha256: typeof Q5_CHECKPOINT_SHA256
 }
 
+export interface Q5ConfidenceLoadStats {
+  confidenceMapEntries: number
+  qLearningUpdateCountsEntries: number
+  effectiveConfidenceEntries: number
+  maxEffectiveConfidence: number
+  effectiveEntriesAtLeast10: number
+}
+
+export function combineQ5Confidence(
+  inherited: ReadonlyMap<string, number>,
+  updates: ReadonlyMap<string, number>,
+): { confidence: Map<string, number>; stats: Q5ConfidenceLoadStats } {
+  const confidence = new Map<string, number>()
+  const keys = new Set([
+    ...Array.from(inherited.keys()),
+    ...Array.from(updates.keys()),
+  ])
+  let maxEffectiveConfidence = 0
+  let effectiveEntriesAtLeast10 = 0
+  for (const key of Array.from(keys.values())) {
+    const value = Math.max(inherited.get(key) ?? 0, updates.get(key) ?? 0)
+    confidence.set(key, value)
+    maxEffectiveConfidence = Math.max(maxEffectiveConfidence, value)
+    if (value >= 10) effectiveEntriesAtLeast10++
+  }
+  return {
+    confidence,
+    stats: {
+      confidenceMapEntries: inherited.size,
+      qLearningUpdateCountsEntries: updates.size,
+      effectiveConfidenceEntries: confidence.size,
+      maxEffectiveConfidence,
+      effectiveEntriesAtLeast10,
+    },
+  }
+}
+
 export class Q5ModelLoadError extends Error {
   constructor(message: string) {
     super(`No se pudo cargar IA aprendiz Q5: ${message}`)
@@ -100,10 +137,7 @@ export function createFrozenQ5ModelLoader(
         const updates = new Map<string, number>()
         addUpdateCounts(updates500Text, updates)
         addUpdateCounts(updates1000Text, updates)
-        const combined = new Map<string, number>()
-        for (const key of new Set([...inherited.keys(), ...updates.keys()])) {
-          combined.set(key, Math.max(inherited.get(key) ?? 0, updates.get(key) ?? 0))
-        }
+        const { confidence: combined } = combineQ5Confidence(inherited, updates)
 
         return Object.freeze({
           qTable: Object.freeze(parsedTable),

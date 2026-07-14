@@ -9,6 +9,7 @@ import {
   Q5_CHECKPOINT_SOURCE,
   Q5LearningAgent,
   Q5ModelLoadError,
+  combineQ5Confidence,
   createFrozenQ5ModelLoader,
   createHumanVsQ5Agents,
   type FrozenQ5Model,
@@ -56,10 +57,10 @@ function loadFrozenFixture(): {
     }
   }
 
-  const confidence = new Map<string, number>()
-  for (const key of new Set([...inherited.keys(), ...updates.keys()])) {
-    confidence.set(key, Math.max(inherited.get(key)?.observations ?? 0, updates.get(key) ?? 0))
-  }
+  const inheritedObservations = new Map(
+    Array.from(inherited.entries(), ([key, value]) => [key, value.observations]),
+  )
+  const { confidence } = combineQ5Confidence(inheritedObservations, updates)
 
   return {
     model: Object.freeze({
@@ -74,6 +75,18 @@ function loadFrozenFixture(): {
 }
 
 describe('Q5LearningAgent congelado', () => {
+  it('combina confianza con Array.from y max sin perder iteradores Map', () => {
+    const inherited = new Map([['a', 3], ['b', 12]])
+    const updates = new Map([['b', 2], ['c', 15]])
+    const arrayFromKeys = new Set([
+      ...Array.from(inherited.keys()),
+      ...Array.from(updates.keys()),
+    ])
+    const result = combineQ5Confidence(inherited, updates)
+    expect(new Set(result.confidence.keys())).toEqual(arrayFromKeys)
+    expect(Object.fromEntries(result.confidence)).toEqual({ a: 3, b: 12, c: 15 })
+  })
+
   it('inicia una sola carga y devuelve un error controlado si falla', async () => {
     const fetcher = vi.fn(async () => {
       throw new Error('sin acceso al recurso')

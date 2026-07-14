@@ -16,7 +16,9 @@ import {
   Q5_CHECKPOINT_SHA256,
   Q5_CHECKPOINT_SOURCE,
   Q5LearningAgent,
+  combineQ5Confidence,
   type FrozenQ5Model,
+  type Q5ConfidenceLoadStats,
 } from '@/agents/Q5LearningAgent'
 import { Q5_EPSILON, Q5_MIN_CONFIDENCE, Q5_Q_MARGIN } from '@/agents/q5Policy'
 import type { Player, PlayerAction } from '@/lib/types'
@@ -165,6 +167,26 @@ interface FrozenQ5EvaluationResources {
   qTablePath: string
   qTableFingerprintBefore: string
   resourceHashesBefore: Record<string, string>
+  confidenceStats: Q5ConfidenceLoadStats
+}
+
+export const EXPECTED_Q5_CONFIDENCE_STATS: Q5ConfidenceLoadStats = {
+  confidenceMapEntries: 19_652,
+  qLearningUpdateCountsEntries: 12_068,
+  effectiveConfidenceEntries: 27_815,
+  maxEffectiveConfidence: 778,
+  effectiveEntriesAtLeast10: 404,
+}
+
+export function assertQ5ConfidenceStats(stats: Q5ConfidenceLoadStats): void {
+  for (const [metric, expected] of Object.entries(EXPECTED_Q5_CONFIDENCE_STATS)) {
+    const actual = stats[metric as keyof Q5ConfidenceLoadStats]
+    if (actual !== expected) {
+      throw new Error(
+        `Invalid frozen Q5 confidence resources: ${metric} expected ${expected}, received ${actual}. MCTS games were not started.`,
+      )
+    }
+  }
 }
 
 export function buildMCTSEvaluationSchedule(
@@ -215,7 +237,7 @@ function isLegalAction(action: PlayerAction, legalActions: PlayerAction[]): bool
   return legalActions.some((legalAction) => actionSignature(legalAction) === signature)
 }
 
-function loadFrozenQ5EvaluationResources(): FrozenQ5EvaluationResources {
+export function loadFrozenQ5EvaluationResources(): FrozenQ5EvaluationResources {
   const qTablePath = path.resolve(Q5_POLICY_COMPARISON_QTABLE_PATH)
   const confidencePath = path.resolve(Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH)
   const updatePaths = Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS.map((filePath) =>
@@ -230,13 +252,14 @@ function loadFrozenQ5EvaluationResources(): FrozenQ5EvaluationResources {
   }
   const inheritedConfidence = loadQ5ConfidenceMap(confidencePath)
   const updateCounts = loadQUpdateCountsFromJsonl(updatePaths)
-  const confidence = new Map<string, number>()
-  for (const key of new Set([...inheritedConfidence.keys(), ...updateCounts.keys()])) {
-    confidence.set(
-      key,
-      Math.max(inheritedConfidence.get(key)?.observations ?? 0, updateCounts.get(key) ?? 0),
-    )
-  }
+  const inheritedObservations = new Map(
+    Array.from(inheritedConfidence.entries(), ([key, value]) => [key, value.observations]),
+  )
+  const { confidence, stats: confidenceStats } = combineQ5Confidence(
+    inheritedObservations,
+    updateCounts,
+  )
+  assertQ5ConfidenceStats(confidenceStats)
   const resourcePaths = [qTablePath, confidencePath, ...updatePaths]
   return {
     model: Object.freeze({
@@ -250,6 +273,7 @@ function loadFrozenQ5EvaluationResources(): FrozenQ5EvaluationResources {
     resourceHashesBefore: Object.fromEntries(
       resourcePaths.map((filePath) => [filePath, hashFile(filePath)]),
     ),
+    confidenceStats,
   }
 }
 
@@ -626,6 +650,7 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
         resourcesChangedDuringEvaluation: boolean
         resourceHashesBefore: Record<string, string>
         resourceHashesAfter: Record<string, string>
+        confidenceStats: Q5ConfidenceLoadStats
       }
     | undefined
   if (q5Resources) {
@@ -646,6 +671,7 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
       ),
       resourceHashesBefore: q5Resources.resourceHashesBefore,
       resourceHashesAfter,
+      confidenceStats: q5Resources.confidenceStats,
     }
     if (q5Verification.qTableChangedDuringEvaluation || q5Verification.resourcesChangedDuringEvaluation) {
       throw new Error('Frozen Q5 resources changed during MCTS evaluation')
