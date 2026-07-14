@@ -55,6 +55,15 @@ function syntheticResult(params: {
     mctsDecisions: 2,
     averageDecisionMs: 2,
     averageRootLegalActions: 10,
+    averageRootExpandedChildren: 5,
+    averageMaxDepthReached: 3,
+    averageSelectedDepth: 1.5,
+    averageRootExplorationRatio: 0.5,
+    averageQPriorKnownActions: 0,
+    averageQPriorReliableActions: 0,
+    qPriorSelectedActionKnownRate: 0,
+    qPriorSelectedActionReliableRate: 0,
+    averageSelectedQPrior: 0,
     mctsActionsLegal: true,
   }
 }
@@ -158,6 +167,15 @@ describe('evaluateMCTS', () => {
       averageGameTimeMs: 25,
       averageDecisionMs: 2,
       averageRootLegalActions: 10,
+      averageRootExpandedChildren: 5,
+      averageMaxDepthReached: 3,
+      averageSelectedDepth: 1.5,
+      averageRootExplorationRatio: 0.5,
+      averageQPriorKnownActions: 0,
+      averageQPriorReliableActions: 0,
+      qPriorSelectedActionKnownRate: 0,
+      qPriorSelectedActionReliableRate: 0,
+      averageSelectedQPrior: 0,
       simulations: 50,
     })
   })

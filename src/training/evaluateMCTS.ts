@@ -100,6 +100,15 @@ export interface MCTSGameResult extends MCTSScheduleItem {
   mctsDecisions: number
   averageDecisionMs: number
   averageRootLegalActions: number
+  averageRootExpandedChildren: number
+  averageMaxDepthReached: number
+  averageSelectedDepth: number
+  averageRootExplorationRatio: number
+  averageQPriorKnownActions: number
+  averageQPriorReliableActions: number
+  qPriorSelectedActionKnownRate: number
+  qPriorSelectedActionReliableRate: number
+  averageSelectedQPrior: number
   mctsActionsLegal: boolean
 }
 
@@ -117,6 +126,15 @@ export interface MCTSAggregateMetrics {
   averageGameTimeMs: number
   averageDecisionMs: number
   averageRootLegalActions: number
+  averageRootExpandedChildren: number
+  averageMaxDepthReached: number
+  averageSelectedDepth: number
+  averageRootExplorationRatio: number
+  averageQPriorKnownActions: number
+  averageQPriorReliableActions: number
+  qPriorSelectedActionKnownRate: number
+  qPriorSelectedActionReliableRate: number
+  averageSelectedQPrior: number
   simulations: number
 }
 
@@ -254,6 +272,15 @@ async function runSingleMCTSGame(params: {
   let mctsDecisions = 0
   let mctsDecisionTimeMs = 0
   let rootLegalActions = 0
+  let rootExpandedChildren = 0
+  let maxDepthReached = 0
+  let selectedDepth = 0
+  let rootExplorationRatio = 0
+  let qPriorKnownActions = 0
+  let qPriorReliableActions = 0
+  let qPriorSelectedActionKnown = 0
+  let qPriorSelectedActionReliable = 0
+  let selectedQPrior = 0
   let mctsActionsLegal = true
   const gameStartedAt = params.now()
 
@@ -265,11 +292,34 @@ async function runSingleMCTSGame(params: {
 
     if (previousState.turn === params.pairing.colorMCTS) {
       const decisionStartedAt = params.now()
-      action = searchBestAction(previousState, params.pairing.colorMCTS, params.pairing.config, mctsRng)
-        .action
+      const searchResult = searchBestAction(
+        previousState,
+        params.pairing.colorMCTS,
+        params.pairing.config,
+        mctsRng,
+        params.q5Resources
+          ? {
+              qTable: params.q5Resources.model.qTable,
+              confidence: params.q5Resources.model.confidence,
+              minConfidence: Q5_MIN_CONFIDENCE,
+            }
+          : undefined,
+      )
+      action = searchResult.action
       mctsDecisionTimeMs += params.now() - decisionStartedAt
       mctsDecisions++
-      rootLegalActions += legalActions.length
+      rootLegalActions += searchResult.rootLegalActions
+      rootExpandedChildren += searchResult.rootExpandedChildren
+      maxDepthReached += searchResult.maxDepthReached
+      selectedDepth += searchResult.averageSelectedDepth
+      rootExplorationRatio += searchResult.rootLegalActions
+        ? searchResult.rootExpandedChildren / searchResult.rootLegalActions
+        : 0
+      qPriorKnownActions += searchResult.qPriorKnownActions ?? 0
+      qPriorReliableActions += searchResult.qPriorReliableActions ?? 0
+      qPriorSelectedActionKnown += Number(searchResult.qPriorSelectedActionKnown ?? false)
+      qPriorSelectedActionReliable += Number(searchResult.qPriorSelectedActionReliable ?? false)
+      selectedQPrior += searchResult.averageSelectedQPrior ?? 0
       const legal = isLegalAction(action, legalActions)
       mctsActionsLegal &&= legal
       if (!legal) throw new Error('MCTS returned an illegal action during baseline evaluation')
@@ -309,6 +359,27 @@ async function runSingleMCTSGame(params: {
     mctsDecisions,
     averageDecisionMs: mctsDecisions ? roundMetric(mctsDecisionTimeMs / mctsDecisions) : 0,
     averageRootLegalActions: mctsDecisions ? roundMetric(rootLegalActions / mctsDecisions) : 0,
+    averageRootExpandedChildren: mctsDecisions
+      ? roundMetric(rootExpandedChildren / mctsDecisions)
+      : 0,
+    averageMaxDepthReached: mctsDecisions ? roundMetric(maxDepthReached / mctsDecisions) : 0,
+    averageSelectedDepth: mctsDecisions ? roundMetric(selectedDepth / mctsDecisions) : 0,
+    averageRootExplorationRatio: mctsDecisions
+      ? roundMetric(rootExplorationRatio / mctsDecisions)
+      : 0,
+    averageQPriorKnownActions: mctsDecisions
+      ? roundMetric(qPriorKnownActions / mctsDecisions)
+      : 0,
+    averageQPriorReliableActions: mctsDecisions
+      ? roundMetric(qPriorReliableActions / mctsDecisions)
+      : 0,
+    qPriorSelectedActionKnownRate: mctsDecisions
+      ? roundMetric(qPriorSelectedActionKnown / mctsDecisions)
+      : 0,
+    qPriorSelectedActionReliableRate: mctsDecisions
+      ? roundMetric(qPriorSelectedActionReliable / mctsDecisions)
+      : 0,
+    averageSelectedQPrior: mctsDecisions ? roundMetric(selectedQPrior / mctsDecisions) : 0,
     mctsActionsLegal,
   }
 }
@@ -326,6 +397,17 @@ export function summarizeMCTSResults(
     (sum, result) => sum + result.averageRootLegalActions * result.mctsDecisions,
     0,
   )
+  const weightedDecisionMetric = (
+    selector: (result: MCTSGameResult) => number,
+  ): number =>
+    totalDecisions
+      ? roundMetric(
+          results.reduce(
+            (sum, result) => sum + selector(result) * result.mctsDecisions,
+            0,
+          ) / totalDecisions,
+        )
+      : 0
   const average = (selector: (result: MCTSGameResult) => number): number =>
     results.length
       ? roundMetric(results.reduce((sum, result) => sum + selector(result), 0) / results.length)
@@ -348,6 +430,27 @@ export function summarizeMCTSResults(
     averageRootLegalActions: totalDecisions
       ? roundMetric(totalRootLegalActions / totalDecisions)
       : 0,
+    averageRootExpandedChildren: weightedDecisionMetric(
+      (result) => result.averageRootExpandedChildren,
+    ),
+    averageMaxDepthReached: weightedDecisionMetric((result) => result.averageMaxDepthReached),
+    averageSelectedDepth: weightedDecisionMetric((result) => result.averageSelectedDepth),
+    averageRootExplorationRatio: weightedDecisionMetric(
+      (result) => result.averageRootExplorationRatio,
+    ),
+    averageQPriorKnownActions: weightedDecisionMetric(
+      (result) => result.averageQPriorKnownActions ?? 0,
+    ),
+    averageQPriorReliableActions: weightedDecisionMetric(
+      (result) => result.averageQPriorReliableActions ?? 0,
+    ),
+    qPriorSelectedActionKnownRate: weightedDecisionMetric(
+      (result) => result.qPriorSelectedActionKnownRate ?? 0,
+    ),
+    qPriorSelectedActionReliableRate: weightedDecisionMetric(
+      (result) => result.qPriorSelectedActionReliableRate ?? 0,
+    ),
+    averageSelectedQPrior: weightedDecisionMetric((result) => result.averageSelectedQPrior ?? 0),
     simulations,
   }
 }
@@ -412,6 +515,11 @@ function resultsToCsv(results: MCTSGameResult[]): string {
     'maxDepth',
     'rolloutPolicy',
     'heuristicProbability',
+    'qPriorWeight',
+    'expansionPolicy',
+    'progressiveWidening',
+    'wideningConstant',
+    'wideningExponent',
     'rival',
     'seed',
     'game',
@@ -426,6 +534,15 @@ function resultsToCsv(results: MCTSGameResult[]): string {
     'mctsDecisions',
     'averageDecisionMs',
     'averageRootLegalActions',
+    'averageRootExpandedChildren',
+    'averageMaxDepthReached',
+    'averageSelectedDepth',
+    'averageRootExplorationRatio',
+    'averageQPriorKnownActions',
+    'averageQPriorReliableActions',
+    'qPriorSelectedActionKnownRate',
+    'qPriorSelectedActionReliableRate',
+    'averageSelectedQPrior',
     'mctsActionsLegal',
   ]
   const rows = results.map((result) => [
@@ -435,6 +552,11 @@ function resultsToCsv(results: MCTSGameResult[]): string {
     result.config.maxDepth,
     result.config.rolloutPolicy,
     result.config.heuristicProbability ?? '',
+    result.config.qPriorWeight ?? 0,
+    result.config.expansionPolicy ?? 'unordered',
+    result.config.progressiveWidening ?? false,
+    result.config.wideningConstant ?? '',
+    result.config.wideningExponent ?? '',
     result.rival,
     result.seed,
     result.game,
@@ -449,6 +571,15 @@ function resultsToCsv(results: MCTSGameResult[]): string {
     result.mctsDecisions,
     result.averageDecisionMs,
     result.averageRootLegalActions,
+    result.averageRootExpandedChildren,
+    result.averageMaxDepthReached,
+    result.averageSelectedDepth,
+    result.averageRootExplorationRatio,
+    result.averageQPriorKnownActions,
+    result.averageQPriorReliableActions,
+    result.qPriorSelectedActionKnownRate,
+    result.qPriorSelectedActionReliableRate,
+    result.averageSelectedQPrior,
     result.mctsActionsLegal,
   ])
   return [headers.join(','), ...rows.map((row) => row.map(csvEscape).join(','))].join('\n')
@@ -471,7 +602,9 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
   const evaluationVersion = options.evaluationVersion ?? MCTS_EVALUATION_VERSION
   assertOutputCanBeWritten(outputDir, options.overwrite ?? false)
   const schedule = buildMCTSEvaluationSchedule(configs, [...rivals], gamesPerCombination, seedBase)
-  const q5Resources = rivals.includes('q5-final') ? loadFrozenQ5EvaluationResources() : undefined
+  const usesQ5Prior = configs.some((config) => config.expansionPolicy === 'heuristic-q5')
+  const q5Resources =
+    rivals.includes('q5-final') || usesQ5Prior ? loadFrozenQ5EvaluationResources() : undefined
   const results: MCTSGameResult[] = []
 
   for (const pairing of schedule) {
@@ -538,7 +671,10 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
       configurations: configs,
       rivals,
       learningEnabled: false,
-      q5UsedOnlyAsFrozenOpponent: rivals.includes('q5-final'),
+      q5UsedOnlyAsFrozenOpponent: rivals.includes('q5-final') && !usesQ5Prior,
+      q5UsedAsFrozenOpponent: rivals.includes('q5-final'),
+      q5UsedAsExpansionPrior: usesQ5Prior,
+      q5UsedInRollouts: false,
       turnLimitResolution: 'finalizeGameIfNeeded using getTerritoryCounts',
     },
     positionEvaluation: {
