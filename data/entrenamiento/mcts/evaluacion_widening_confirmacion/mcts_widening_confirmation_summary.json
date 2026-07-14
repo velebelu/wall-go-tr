@@ -1,0 +1,307 @@
+{
+  "createdAt": "2026-07-14T08:07:02.939Z",
+  "evaluationVersion": "mcts-widening-confirmation-v1",
+  "git": {
+    "branch": "ia-hibrida-mcts",
+    "commit": "3fb6e070b367287236e33fb0de3ca1c20830ab74"
+  },
+  "protocol": {
+    "configuration": {
+      "name": "MCTS-50-mixed80-heuristic-widening",
+      "simulations": 50,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5
+    },
+    "heuristicGames": 100,
+    "heuristicGamesPerColor": 50,
+    "randomGames": 50,
+    "randomGamesPerColor": 25,
+    "totalGames": 150,
+    "seedBase": 617000,
+    "maxTurns": 250,
+    "learningEnabled": false,
+    "q5Included": false,
+    "turnLimitResolution": "finalizeGameIfNeeded using getTerritoryCounts"
+  },
+  "total": {
+    "aggregate": {
+      "games": 150,
+      "wins": 122,
+      "losses": 26,
+      "ties": 2,
+      "winRate": 81.3333,
+      "averageTerritoryMCTS": 24.6533,
+      "averageTerritoryRival": 14.8067,
+      "averageTerritoryDiff": 9.8467,
+      "averageTurns": 85.1267,
+      "totalTimeMs": 1116655.3864,
+      "averageGameTimeMs": 7444.3692,
+      "averageDecisionMs": 323.051,
+      "averageRootLegalActions": 67.6337,
+      "averageRootExpandedChildren": 13.9238,
+      "averageMaxDepthReached": 2.7763,
+      "averageSelectedDepth": 0.793,
+      "averageRootExplorationRatio": 0.2897,
+      "simulations": 50,
+      "winRate95CI": {
+        "confidence": 0.95,
+        "lower": 74.3443,
+        "upper": 86.7576
+      }
+    },
+    "byColor": {
+      "R": {
+        "games": 75,
+        "wins": 61,
+        "losses": 12,
+        "ties": 2,
+        "winRate": 81.3333,
+        "averageTerritoryMCTS": 24.4133,
+        "averageTerritoryRival": 14.0667,
+        "averageTerritoryDiff": 10.3467,
+        "averageTurns": 85.8933,
+        "totalTimeMs": 576158.6927,
+        "averageGameTimeMs": 7682.1159,
+        "averageDecisionMs": 326.6572,
+        "averageRootLegalActions": 69.5769,
+        "averageRootExpandedChildren": 13.9267,
+        "averageMaxDepthReached": 2.7643,
+        "averageSelectedDepth": 0.7924,
+        "averageRootExplorationRatio": 0.2784,
+        "simulations": 50,
+        "winRate95CI": {
+          "confidence": 0.95,
+          "lower": 71.0714,
+          "upper": 88.5419
+        }
+      },
+      "B": {
+        "games": 75,
+        "wins": 61,
+        "losses": 14,
+        "ties": 0,
+        "winRate": 81.3333,
+        "averageTerritoryMCTS": 24.8933,
+        "averageTerritoryRival": 15.5467,
+        "averageTerritoryDiff": 9.3467,
+        "averageTurns": 84.36,
+        "totalTimeMs": 540496.6937,
+        "averageGameTimeMs": 7206.6226,
+        "averageDecisionMs": 319.2933,
+        "averageRootLegalActions": 65.6089,
+        "averageRootExpandedChildren": 13.9207,
+        "averageMaxDepthReached": 2.7888,
+        "averageSelectedDepth": 0.7935,
+        "averageRootExplorationRatio": 0.3015,
+        "simulations": 50,
+        "winRate95CI": {
+          "confidence": 0.95,
+          "lower": 71.0714,
+          "upper": 88.5419
+        }
+      }
+    }
+  },
+  "byRival": {
+    "heuristic": {
+      "aggregate": {
+        "games": 100,
+        "wins": 72,
+        "losses": 26,
+        "ties": 2,
+        "winRate": 72,
+        "averageTerritoryMCTS": 19.96,
+        "averageTerritoryRival": 18.83,
+        "averageTerritoryDiff": 1.13,
+        "averageTurns": 88.74,
+        "totalTimeMs": 770626.7847,
+        "averageGameTimeMs": 7706.2678,
+        "averageDecisionMs": 323.8753,
+        "averageRootLegalActions": 58.6413,
+        "averageRootExpandedChildren": 13.8893,
+        "averageMaxDepthReached": 2.8771,
+        "averageSelectedDepth": 0.8016,
+        "averageRootExplorationRatio": 0.3353,
+        "simulations": 50,
+        "winRate95CI": {
+          "confidence": 0.95,
+          "lower": 62.512,
+          "upper": 79.8603
+        }
+      },
+      "byColor": {
+        "R": {
+          "games": 50,
+          "wins": 36,
+          "losses": 12,
+          "ties": 2,
+          "winRate": 72,
+          "averageTerritoryMCTS": 19.88,
+          "averageTerritoryRival": 17.5,
+          "averageTerritoryDiff": 2.38,
+          "averageTurns": 89.92,
+          "totalTimeMs": 400470.4696,
+          "averageGameTimeMs": 8009.4094,
+          "averageDecisionMs": 329.0114,
+          "averageRootLegalActions": 60.8411,
+          "averageRootExpandedChildren": 13.8938,
+          "averageMaxDepthReached": 2.8617,
+          "averageSelectedDepth": 0.8,
+          "averageRootExplorationRatio": 0.3199,
+          "simulations": 50,
+          "winRate95CI": {
+            "confidence": 0.95,
+            "lower": 58.3349,
+            "upper": 82.5258
+          }
+        },
+        "B": {
+          "games": 50,
+          "wins": 36,
+          "losses": 14,
+          "ties": 0,
+          "winRate": 72,
+          "averageTerritoryMCTS": 20.04,
+          "averageTerritoryRival": 20.16,
+          "averageTerritoryDiff": -0.12,
+          "averageTurns": 87.56,
+          "totalTimeMs": 370156.3151,
+          "averageGameTimeMs": 7403.1263,
+          "averageDecisionMs": 318.4958,
+          "averageRootLegalActions": 56.3371,
+          "averageRootExpandedChildren": 13.8845,
+          "averageMaxDepthReached": 2.8931,
+          "averageSelectedDepth": 0.8032,
+          "averageRootExplorationRatio": 0.3514,
+          "simulations": 50,
+          "winRate95CI": {
+            "confidence": 0.95,
+            "lower": 58.3349,
+            "upper": 82.5258
+          }
+        }
+      }
+    },
+    "random": {
+      "aggregate": {
+        "games": 50,
+        "wins": 50,
+        "losses": 0,
+        "ties": 0,
+        "winRate": 100,
+        "averageTerritoryMCTS": 34.04,
+        "averageTerritoryRival": 6.76,
+        "averageTerritoryDiff": 27.28,
+        "averageTurns": 77.9,
+        "totalTimeMs": 346028.6017,
+        "averageGameTimeMs": 6920.572,
+        "averageDecisionMs": 321.2316,
+        "averageRootLegalActions": 87.4823,
+        "averageRootExpandedChildren": 14,
+        "averageMaxDepthReached": 2.5539,
+        "averageSelectedDepth": 0.774,
+        "averageRootExplorationRatio": 0.1892,
+        "simulations": 50,
+        "winRate95CI": {
+          "confidence": 0.95,
+          "lower": 92.8652,
+          "upper": 100
+        }
+      },
+      "byColor": {
+        "R": {
+          "games": 25,
+          "wins": 25,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryMCTS": 33.48,
+          "averageTerritoryRival": 7.2,
+          "averageTerritoryDiff": 26.28,
+          "averageTurns": 77.84,
+          "totalTimeMs": 175688.2231,
+          "averageGameTimeMs": 7027.5289,
+          "averageDecisionMs": 321.4185,
+          "averageRootLegalActions": 89.0165,
+          "averageRootExpandedChildren": 14,
+          "averageMaxDepthReached": 2.5476,
+          "averageSelectedDepth": 0.7755,
+          "averageRootExplorationRatio": 0.186,
+          "simulations": 50,
+          "winRate95CI": {
+            "confidence": 0.95,
+            "lower": 86.6808,
+            "upper": 100
+          }
+        },
+        "B": {
+          "games": 25,
+          "wins": 25,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryMCTS": 34.6,
+          "averageTerritoryRival": 6.32,
+          "averageTerritoryDiff": 28.28,
+          "averageTurns": 77.96,
+          "totalTimeMs": 170340.3786,
+          "averageGameTimeMs": 6813.6151,
+          "averageDecisionMs": 321.0389,
+          "averageRootLegalActions": 85.9019,
+          "averageRootExpandedChildren": 14,
+          "averageMaxDepthReached": 2.5604,
+          "averageSelectedDepth": 0.7724,
+          "averageRootExplorationRatio": 0.1925,
+          "simulations": 50,
+          "winRate95CI": {
+            "confidence": 0.95,
+            "lower": 86.6808,
+            "upper": 100
+          }
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "current": {
+      "games": 100,
+      "wins": 72,
+      "losses": 26,
+      "ties": 2,
+      "winRate": 72,
+      "winRate95CI": {
+        "confidence": 0.95,
+        "lower": 62.512,
+        "upper": 79.8603
+      },
+      "averageTerritoryDiff": 1.13
+    },
+    "versusMixed80WithoutWidening": {
+      "previous": {
+        "source": "data/entrenamiento/mcts/evaluacion_mixed80_confirmacion/mcts_mixed80_confirmation_summary.json",
+        "games": 100,
+        "winRate": 17,
+        "averageTerritoryDiff": -23.26
+      },
+      "winRateDeltaPercentagePoints": 55,
+      "territoryDiffDelta": 24.39
+    },
+    "versusExpansionPilot": {
+      "previous": {
+        "source": "data/entrenamiento/mcts/evaluacion_expansion/mcts_expansion_summary.json",
+        "games": 10,
+        "winRate": 80,
+        "averageTerritoryDiff": -2.1
+      },
+      "winRateDeltaPercentagePoints": -8,
+      "territoryDiffDelta": 3.23,
+      "pilotWinRateWithinCurrent95CI": false
+    }
+  }
+}

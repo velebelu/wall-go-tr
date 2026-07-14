@@ -1,0 +1,52 @@
+{
+  "createdAt": "2026-07-14T08:07:02.939Z",
+  "evaluationVersion": "mcts-widening-confirmation-v1",
+  "git": {
+    "branch": "ia-hibrida-mcts",
+    "commit": "3fb6e070b367287236e33fb0de3ca1c20830ab74"
+  },
+  "protocol": {
+    "configuration": {
+      "name": "MCTS-50-mixed80-heuristic-widening",
+      "simulations": 50,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5
+    },
+    "heuristicGames": 100,
+    "heuristicGamesPerColor": 50,
+    "randomGames": 50,
+    "randomGamesPerColor": 25,
+    "totalGames": 150,
+    "seedBase": 617000,
+    "maxTurns": 250,
+    "learningEnabled": false,
+    "q5Included": false,
+    "turnLimitResolution": "finalizeGameIfNeeded using getTerritoryCounts"
+  },
+  "confidenceInterval": "Wilson score interval, 95%",
+  "previousExperiments": {
+    "mixed80Confirmation": {
+      "source": "data/entrenamiento/mcts/evaluacion_mixed80_confirmacion/mcts_mixed80_confirmation_summary.json",
+      "games": 100,
+      "winRate": 17,
+      "averageTerritoryDiff": -23.26
+    },
+    "expansionPilot": {
+      "source": "data/entrenamiento/mcts/evaluacion_expansion/mcts_expansion_summary.json",
+      "games": 10,
+      "winRate": 80,
+      "averageTerritoryDiff": -2.1
+    }
+  },
+  "files": {
+    "summary": "mcts_widening_confirmation_summary.json",
+    "results": "mcts_widening_confirmation_results.csv",
+    "metadata": "metadata.json"
+  }
+}
