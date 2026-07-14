@@ -8,6 +8,19 @@ import {
 } from '@/utils/ai'
 import { MinimaxAI } from '@/ai/minimax-ai'
 import { chooseLearningAction, type QTableEntries } from './learningPolicy'
+import { searchBestAction } from '@/engine/mcts/MCTS'
+import type { MCTSConfig } from '@/engine/mcts/types'
+
+function createSeededRng(seed: number): () => number {
+  let state = seed >>> 0
+  return () => {
+    state = (state + 0x6d2b79f5) >>> 0
+    let value = state
+    value = Math.imul(value ^ (value >>> 15), value | 1)
+    value ^= value + Math.imul(value ^ (value >>> 7), value | 61)
+    return ((value ^ (value >>> 14)) >>> 0) / 4_294_967_296
+  }
+}
 
 function calculateMinimaxPlayingAction(gameState: GameSnapshot, depth = 2): PlayerAction {
   const ai = new MinimaxAI(depth)
@@ -23,6 +36,9 @@ self.onmessage = (
   let action: PlayerAction | null = null
 
   try {
+    if (Array.isArray(gameState.legal)) {
+      gameState.legal = new Set(gameState.legal)
+    }
     const legalActions = getLegalActions(gameState)
 
     if (gameState.phase === 'finished') {
@@ -42,6 +58,16 @@ self.onmessage = (
 
     const heuristicMode =
       (event.data.config?.policy as 'default' | 'offensive' | 'defensive') ?? 'default'
+    if (aiType === 'mcts-final') {
+      const config = event.data.config?.mcts as MCTSConfig
+      const seed = (event.data.config?.seed as number) >>> 0
+      action = searchBestAction(gameState, gameState.turn, config, createSeededRng(seed)).action
+      if (!legalActions.some((candidate) => JSON.stringify(candidate) === JSON.stringify(action))) {
+        throw new Error('MCTS devolvió una acción que no pertenece al conjunto legal.')
+      }
+      self.postMessage({ action })
+      return
+    }
     if (gameState.phase === 'placing') {
       switch (aiType) {
         case 'heuristic':

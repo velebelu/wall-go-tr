@@ -22,11 +22,14 @@ import {
   LearningAgent,
   Q5LearningAgent,
   createHumanVsQ5Agents,
+  MCTSAgent,
+  createHumanVsMCTSAgents,
 } from '@/agents'
 import { snapshotFromState } from '@/store/gameState'
 import { runHeuristicTraining } from '@/training/TrainingRunner'
 import ConfirmDialog from './ui/ConfirmDialog'
 import TurnTimer from './ui/TurnTimer'
+import { getGameParticipantMetadata } from '@/utils/gameModeMetadata'
 
 export default function Game({
   gameMode,
@@ -181,6 +184,8 @@ export default function Game({
     let agents
     if (gameMode === 'q5-learning') {
       agents = createHumanVsQ5Agents(aiSide, new Q5LearningAgent(), human)
+    } else if (gameMode === 'mcts-final') {
+      agents = createHumanVsMCTSAgents(aiSide, new MCTSAgent(), human)
     } else {
       const aiMap = {
         practice: new RandomAgent(),
@@ -233,7 +238,7 @@ export default function Game({
       gameMode === 'learning-vs-random' ||
       gameMode === 'learning-vs-heuristic'
 
-    if (gameMode === 'ai' || gameMode === 'q5-learning') {
+    if (gameMode === 'ai' || gameMode === 'q5-learning' || gameMode === 'mcts-final') {
       useGame.getState().setHumanSide(aiSide === 'R' ? 'B' : 'R')
     } else if (isAiVsAiMode) {
       useGame.getState().setHumanSide(null)
@@ -354,55 +359,9 @@ export default function Game({
     const historyLen = useGame.getState()._history?.length ?? 1
     const turnos = Math.max(0, historyLen - 1)
 
-    // Map AI level to human-readable CSV strings
-    const aiTipoMap: Record<string, string> = {
-      practice: 'humano_vs_ia_aleatoria',
-      heuristic: 'humano_vs_ia_heuristica',
-      easy: 'humano_vs_ia_facil',
-      middle: 'humano_vs_ia_media',
-      hard: 'humano_vs_ia_dificil',
-    }
-    const aiPlayerMap: Record<string, string> = {
-      practice: 'ia_aleatoria',
-      heuristic: 'ia_heuristica',
-      easy: 'ia_facil',
-      middle: 'ia_media',
-      hard: 'ia_dificil',
-    }
-
-    let tipo_partida = 'pvp'
-    if (gameMode === 'ai') tipo_partida = aiTipoMap[aiLevel] ?? 'humano_vs_ia'
-    if (gameMode === 'q5-learning') tipo_partida = 'humano_vs_ia_aprendiz_q5_1000'
-    if (gameMode === 'ai-vs-ai') tipo_partida = 'ia_vs_ia_automatico'
-    if (gameMode === 'random-vs-heuristic') tipo_partida = 'ia_aleatoria_vs_ia_heuristica'
-    if (gameMode === 'learning-vs-random') tipo_partida = 'ia_aprendiz_vs_ia_aleatoria'
-    if (gameMode === 'learning-vs-heuristic') tipo_partida = 'ia_aprendiz_vs_ia_heuristica'
-
-    const playerLabel = (side: 'R' | 'B') => {
-      if (gameMode === 'ai-vs-ai') {
-        return side === 'R' ? 'ia_aleatoria' : 'ia_heuristica'
-      }
-      if (gameMode === 'random-vs-heuristic') {
-        return side === 'R' ? 'ia_aleatoria' : 'ia_heuristica'
-      }
-      if (gameMode === 'learning-vs-random') {
-        return side === 'R' ? 'ia_aprendiz' : 'ia_aleatoria'
-      }
-      if (gameMode === 'learning-vs-heuristic') {
-        return side === 'R' ? 'ia_aprendiz' : 'ia_heuristica'
-      }
-      if (gameMode === 'q5-learning') {
-        return side === aiSide ? 'ia_aprendiz_q5_1000' : 'humano'
-      }
-      if (gameMode !== 'ai') return 'humano'
-      // If humanSide is null (shouldn't happen), assume players[0] is human
-      if (!humanSide) return 'humano'
-      if (humanSide === side) return 'humano'
-      return aiPlayerMap[aiLevel] ?? 'ia'
-    }
-
-    const jugador_rojo = playerLabel('R')
-    const jugador_azul = playerLabel('B')
+    const { tipo_partida, jugador_rojo, jugador_azul } = getGameParticipantMetadata({
+      gameMode, aiSide, aiLevel, humanSide,
+    })
 
     const ganador = result.tie
       ? 'empate'

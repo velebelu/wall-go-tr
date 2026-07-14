@@ -13,11 +13,17 @@
       "random_vs_heuristic": "IA aleatoria vs IA heurística",
       "learning_vs_random": "IA aprendiz vs IA aleatoria",
       "learning_vs_heuristic": "IA aprendiz vs IA heurística",
-      "q5_learning": "IA aprendiz Q5"
+      "q5_learning": "IA aprendiz Q5",
+      "mcts_final": "IA estratégica MCTS"
     },
     "rule": "Reglas del Juego",
     "q5": {
       "select_side": "Elige el color de la IA aprendiz Q5:",
+      "red": "Rojo",
+      "blue": "Azul"
+    },
+    "mcts": {
+      "select_side": "Elige el color de la IA estratégica MCTS:",
       "red": "Rojo",
       "blue": "Azul"
     },

@@ -15,6 +15,7 @@ export type GameMode =
   | 'pvp'
   | 'ai'
   | 'q5-learning'
+  | 'mcts-final'
   | 'ai-vs-ai'
   | 'random-vs-heuristic'
   | 'learning-vs-random'

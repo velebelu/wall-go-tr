@@ -20,6 +20,7 @@ export default function GameModeMenu({
   const { t } = useTranslation()
   const [showAiSelect, setShowAiSelect] = useState(false)
   const [showQ5Select, setShowQ5Select] = useState(false)
+  const [showMctsSelect, setShowMctsSelect] = useState(false)
   const [selectedLevel, setSelectedLevel] = useState<AiLevel>('middle')
   const [dark, setDark] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -105,6 +106,34 @@ export default function GameModeMenu({
                 className="!bg-indigo-500 !text-white px-4 py-2 text-base font-semibold"
               >
                 {t('menu.q5.blue', 'Azul')}
+              </GameButton>
+            </div>
+          </div>
+        )}
+        <GameButton
+          onClick={() => setShowMctsSelect((show) => !show)}
+          className="text-lg py-3"
+          active={showMctsSelect}
+        >
+          {t('menu.mode.mcts_final', 'IA estratégica MCTS')}
+        </GameButton>
+        {showMctsSelect && (
+          <div className="flex flex-col gap-3 items-center p-3 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900">
+            <span className="text-sm text-zinc-700 dark:text-zinc-200">
+              {t('menu.mcts.select_side', 'Elige el color de la IA estratégica MCTS:')}
+            </span>
+            <div className="flex gap-3 justify-center w-full">
+              <GameButton
+                onClick={() => { setAiSide('R'); setMode('mcts-final') }}
+                className="!bg-rose-500 !text-white px-4 py-2 text-base font-semibold"
+              >
+                {t('menu.mcts.red', 'Rojo')}
+              </GameButton>
+              <GameButton
+                onClick={() => { setAiSide('B'); setMode('mcts-final') }}
+                className="!bg-indigo-500 !text-white px-4 py-2 text-base font-semibold"
+              >
+                {t('menu.mcts.blue', 'Azul')}
               </GameButton>
             </div>
           </div>

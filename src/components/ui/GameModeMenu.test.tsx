@@ -53,4 +53,33 @@ describe('GameModeMenu Q5', () => {
     expect(setMode).toHaveBeenLastCalledWith('q5-learning')
     act(() => root.unmount())
   })
+
+  it('muestra IA estratégica MCTS y permite elegir ambos colores', () => {
+    const setMode = vi.fn()
+    const setAiSide = vi.fn()
+    const root = createRoot(container)
+    act(() => {
+      root.render(
+        <GameModeMenu
+          setMode={setMode}
+          setAiSide={setAiSide}
+          setAiLevel={vi.fn()}
+          setShowRule={vi.fn()}
+        />,
+      )
+    })
+
+    const button = (name: string) =>
+      [...container.querySelectorAll('button')].find((candidate) => candidate.textContent === name)!
+
+    act(() => button('IA estratégica MCTS').click())
+    act(() => button('Rojo').click())
+    expect(setAiSide).toHaveBeenLastCalledWith('R')
+    expect(setMode).toHaveBeenLastCalledWith('mcts-final')
+
+    act(() => button('Azul').click())
+    expect(setAiSide).toHaveBeenLastCalledWith('B')
+    expect(setMode).toHaveBeenLastCalledWith('mcts-final')
+    act(() => root.unmount())
+  })
 })
