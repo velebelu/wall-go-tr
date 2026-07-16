@@ -26,12 +26,24 @@ const FIXED_FINAL_CONFIG = {
 
 export const MCTS_TACTICAL_VERIFICATION_CONFIGS: readonly NamedMCTSConfig[] = [
   { name: 'baseline-final', ...FIXED_FINAL_CONFIG, tacticalVerification: false },
-  { name: 'tactical-top-2', ...FIXED_FINAL_CONFIG, tacticalVerification: true, tacticalCandidateCount: 2 },
-  { name: 'tactical-top-3', ...FIXED_FINAL_CONFIG, tacticalVerification: true, tacticalCandidateCount: 3 },
+  {
+    name: 'tactical-top-2',
+    ...FIXED_FINAL_CONFIG,
+    tacticalVerification: true,
+    tacticalCandidateCount: 2,
+  },
+  {
+    name: 'tactical-top-3',
+    ...FIXED_FINAL_CONFIG,
+    tacticalVerification: true,
+    tacticalCandidateCount: 3,
+  },
 ]
 
 export const MCTS_TACTICAL_VERIFICATION_RIVALS: readonly MCTSOpponent[] = [
-  'heuristic', 'q5-final', 'baseline-mcts',
+  'heuristic',
+  'q5-final',
+  'baseline-mcts',
 ]
 
 function round(value: number): number {
@@ -53,13 +65,21 @@ export function summarizeTacticalVerification(results: readonly MCTSGameResult[]
         config: config.name,
         rival,
         results: summarizeMCTSResults([...rows], config.simulations),
-        byColor: Object.fromEntries((['R', 'B'] as const).map((color) => [
-          color,
-          summarizeMCTSResults(rows.filter((row) => row.colorMCTS === color), config.simulations),
-        ])),
+        byColor: Object.fromEntries(
+          (['R', 'B'] as const).map((color) => [
+            color,
+            summarizeMCTSResults(
+              rows.filter((row) => row.colorMCTS === color),
+              config.simulations,
+            ),
+          ]),
+        ),
         tactical: {
           decisions,
-          candidatesChecked: rows.reduce((sum, row) => sum + (row.tacticalCandidatesChecked ?? 0), 0),
+          candidatesChecked: rows.reduce(
+            (sum, row) => sum + (row.tacticalCandidatesChecked ?? 0),
+            0,
+          ),
           selectionChanges: changes,
           selectionChangeRate: decisions ? round((changes / decisions) * 100) : 0,
           averageVerificationTimeMs: decisions ? round(verificationMs / decisions) : 0,
@@ -72,7 +92,9 @@ export function summarizeTacticalVerification(results: readonly MCTSGameResult[]
           tiesWhenChanged: changedGames.filter((row) => row.tie).length,
           lossesWhenChanged: changedGames.filter((row) => !row.mctsWon && !row.tie).length,
           averageTerritoryDiffWhenChanged: changedGames.length
-            ? round(changedGames.reduce((sum, row) => sum + row.territoryDiff, 0) / changedGames.length)
+            ? round(
+                changedGames.reduce((sum, row) => sum + row.territoryDiff, 0) / changedGames.length,
+              )
             : 0,
         },
       }
@@ -80,17 +102,19 @@ export function summarizeTacticalVerification(results: readonly MCTSGameResult[]
   )
 }
 
-export async function evaluateMCTSTacticalVerification(options: {
-  gamesPerCombination?: number
-  outputDir?: string
-  overwrite?: boolean
-  maxTurns?: number
-  now?: () => number
-  createdAt?: string
-  progressEvery?: number
-  configs?: readonly NamedMCTSConfig[]
-  rivals?: readonly MCTSOpponent[]
-} = {}) {
+export async function evaluateMCTSTacticalVerification(
+  options: {
+    gamesPerCombination?: number
+    outputDir?: string
+    overwrite?: boolean
+    maxTurns?: number
+    now?: () => number
+    createdAt?: string
+    progressEvery?: number
+    configs?: readonly NamedMCTSConfig[]
+    rivals?: readonly MCTSOpponent[]
+  } = {},
+) {
   const outputDir = options.outputDir ?? MCTS_TACTICAL_VERIFICATION_OUTPUT_DIR
   const evaluation = await evaluateMCTS({
     configs: options.configs ?? MCTS_TACTICAL_VERIFICATION_CONFIGS,
@@ -127,10 +151,19 @@ async function main(): Promise<void> {
   const command = process.argv[2] ?? 'full'
   if (!['smoke', 'full'].includes(command)) throw new Error(`Unknown command: ${command}`)
   const started = performance.now()
-  const result = await evaluateMCTSTacticalVerification(command === 'smoke'
-    ? { gamesPerCombination: 2, maxTurns: 40, outputDir: `${MCTS_TACTICAL_VERIFICATION_OUTPUT_DIR}_smoke`, progressEvery: 1 }
-    : { progressEvery: 5 })
-  console.log(`[evaluateMCTSTacticalVerification] ${result.results.length} games in ${round(performance.now() - started)} ms`)
+  const result = await evaluateMCTSTacticalVerification(
+    command === 'smoke'
+      ? {
+          gamesPerCombination: 2,
+          maxTurns: 40,
+          outputDir: `${MCTS_TACTICAL_VERIFICATION_OUTPUT_DIR}_smoke`,
+          progressEvery: 1,
+        }
+      : { progressEvery: 5 },
+  )
+  console.log(
+    `[evaluateMCTSTacticalVerification] ${result.results.length} games in ${round(performance.now() - started)} ms`,
+  )
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

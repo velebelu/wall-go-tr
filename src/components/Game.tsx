@@ -24,6 +24,7 @@ import {
   createHumanVsQ5Agents,
   MCTSAgent,
   createHumanVsMCTSAgents,
+  type PlayerAgent,
 } from '@/agents'
 import { snapshotFromState } from '@/store/gameState'
 import { runHeuristicTraining } from '@/training/TrainingRunner'
@@ -89,9 +90,10 @@ export default function Game({
 
   const turnManagerStartedRef = useRef(false)
   const trainingStartedRef = useRef(false)
-  const [trainingProgress, setTrainingProgress] = useState<{ current: number; total: number } | null>(
-    null,
-  )
+  const [trainingProgress, setTrainingProgress] = useState<{
+    current: number
+    total: number
+  } | null>(null)
 
   const setupTurnManager = useCallback(() => {
     if (!gameMode) return
@@ -110,7 +112,7 @@ export default function Game({
 
     if (isExperimentalAiVsAi) {
       learningAgentRef.current = null
-      let agents: Record<'R' | 'B', any>
+      let agents: Record<'R' | 'B', PlayerAgent>
 
       if (gameMode === 'random-vs-heuristic') {
         agents = {
@@ -360,7 +362,10 @@ export default function Game({
     const turnos = Math.max(0, historyLen - 1)
 
     const { tipo_partida, jugador_rojo, jugador_azul } = getGameParticipantMetadata({
-      gameMode, aiSide, aiLevel, humanSide,
+      gameMode,
+      aiSide,
+      aiLevel,
+      humanSide,
     })
 
     const ganador = result.tie
@@ -376,7 +381,12 @@ export default function Game({
       const learningResult = result.tie ? 'draw' : result.winner === 'R' ? 'win' : 'loss'
       const territoryAprendiz = result.score?.R ?? 0
       const territoryRival = result.score?.B ?? 0
-      learningAgentRef.current.updateAfterGame(learningResult, 'R', territoryAprendiz, territoryRival)
+      learningAgentRef.current.updateAfterGame(
+        learningResult,
+        'R',
+        territoryAprendiz,
+        territoryRival,
+      )
       learningAgentRef.current.logStats()
     }
 
@@ -428,7 +438,10 @@ export default function Game({
         setDark={setDark}
       />
       {aiError && (
-        <div role="alert" className="w-full max-w-xl rounded-xl border border-red-300 bg-red-50 p-3 text-center text-red-800 dark:border-red-700 dark:bg-red-950 dark:text-red-200">
+        <div
+          role="alert"
+          className="w-full max-w-xl rounded-xl border border-red-300 bg-red-50 p-3 text-center text-red-800 dark:border-red-700 dark:bg-red-950 dark:text-red-200"
+        >
           {aiError}
         </div>
       )}
@@ -497,7 +510,8 @@ export default function Game({
       {trainingProgress && (
         <div className="w-full max-w-xl text-center py-3 rounded-2xl bg-amber-100/80 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700 mb-4">
           <p className="font-semibold text-zinc-800 dark:text-zinc-100">
-            Entrenamiento heurístico automático: {trainingProgress.current} / {trainingProgress.total}
+            Entrenamiento heurístico automático: {trainingProgress.current} /{' '}
+            {trainingProgress.total}
           </p>
           <p className="text-sm text-zinc-600 dark:text-zinc-300">
             Se ejecutan partidas automáticas y se descargarán los resultados en CSV al finalizar.

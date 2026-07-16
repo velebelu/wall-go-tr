@@ -3,11 +3,11 @@ import type { GameSnapshot, PlayerAction, Player } from '@/lib/types'
 import { getTerritoryMap } from '@/utils/territory'
 import { toSerializableSnapshot } from './serialize'
 import { sleep } from '@/utils/sleep'
-import {
-  getLearningActionKey,
-  getLearningStateKey,
-  type QTableSnapshot,
-} from './learningPolicy'
+import { getLearningActionKey, getLearningStateKey, type QTableSnapshot } from './learningPolicy'
+
+function createAIWorker(): Worker {
+  return new Worker(new URL('./AIWorker.ts', import.meta.url), { type: 'module' })
+}
 
 export function calculateFinalReward(
   result: 'win' | 'loss' | 'draw',
@@ -43,13 +43,13 @@ export class LearningAgent implements PlayerAgent {
   // Identificador único para localStorage
   private readonly storageKey = 'wall-go-learning-agent-q-table'
 
-  constructor(options: {
-    loadFromLocalStorage?: boolean
-    initialQTable?: QTableSnapshot
-  } = {}) {
-    this.worker = new Worker(new URL('./AIWorker.ts', import.meta.url), {
-      type: 'module',
-    })
+  constructor(
+    options: {
+      loadFromLocalStorage?: boolean
+      initialQTable?: QTableSnapshot
+    } = {},
+  ) {
+    this.worker = createAIWorker()
     if (options.initialQTable) {
       this.loadQTable(options.initialQTable)
     } else if (options.loadFromLocalStorage !== false) {
@@ -96,13 +96,7 @@ export class LearningAgent implements PlayerAgent {
     const prevDiff = prevTerritory[playerSide] - prevTerritory[opponent]
     const nextDiff = nextTerritory[playerSide] - nextTerritory[opponent]
     const delta = nextDiff - prevDiff
-    const reward = Math.max(-0.1, Math.min(0.1, delta * 0.05))
-
-    console.log('[LearningAgent] diferencia de territorio antes:', prevDiff)
-    console.log('[LearningAgent] diferencia de territorio después:', nextDiff)
-    console.log('[LearningAgent] recompensa intermedia aplicada:', reward)
-
-    return reward
+    return Math.max(-0.1, Math.min(0.1, delta * 0.05))
   }
 
   public recordTransition(
@@ -310,5 +304,11 @@ export class LearningAgent implements PlayerAgent {
     if (this.worker) {
       this.worker.terminate()
     }
+  }
+
+  /** Aborta el cálculo en curso (timeout del TurnManager) y deja el agente listo para el siguiente turno. */
+  public cancel(): void {
+    this.worker.terminate()
+    this.worker = createAIWorker()
   }
 }

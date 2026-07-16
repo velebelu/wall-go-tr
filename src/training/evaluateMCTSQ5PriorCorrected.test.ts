@@ -36,32 +36,49 @@ describe('evaluateMCTSQ5PriorCorrected', () => {
     expect(resources.confidenceStats).toEqual(EXPECTED_Q5_CONFIDENCE_STATS)
     expect(resources.model.confidence.size).toBe(27_815)
     expect(Math.max(...Array.from(resources.model.confidence.values()))).toBe(778)
-    expect(Array.from(resources.model.confidence.values()).filter((value) => value >= 10)).toHaveLength(404)
+    expect(
+      Array.from(resources.model.confidence.values()).filter((value) => value >= 10),
+    ).toHaveLength(404)
     expect(Object.keys(resources.model.qTable)).toHaveLength(Q5_CHECKPOINT_ENTRIES)
-    expect(createHash('sha256').update(readFileSync(checkpoint)).digest('hex')).toBe(Q5_CHECKPOINT_SHA256)
+    expect(createHash('sha256').update(readFileSync(checkpoint)).digest('hex')).toBe(
+      Q5_CHECKPOINT_SHA256,
+    )
     expect(readFileSync(checkpoint).equals(before)).toBe(true)
   })
 
   it('aborta claramente si los mapas quedan vacios', () => {
-    expect(() => assertQ5ConfidenceStats({
-      confidenceMapEntries: 0,
-      qLearningUpdateCountsEntries: 0,
-      effectiveConfidenceEntries: 0,
-      maxEffectiveConfidence: 0,
-      effectiveEntriesAtLeast10: 0,
-    })).toThrow(/confidenceMapEntries expected 19652, received 0.*games were not started/i)
+    expect(() =>
+      assertQ5ConfidenceStats({
+        confidenceMapEntries: 0,
+        qLearningUpdateCountsEntries: 0,
+        effectiveConfidenceEntries: 0,
+        maxEffectiveConfidence: 0,
+        effectiveEntriesAtLeast10: 0,
+      }),
+    ).toThrow(/confidenceMapEntries expected 19652, received 0.*games were not started/i)
   })
 
   it('es determinista y escribe solo los nombres corregidos', async () => {
     const config = { ...MCTS_Q5_PRIOR_CONFIGS[1], simulations: 1, maxDepth: 1 }
     const common = {
-      configs: [config], gamesPerCombination: 2, maxTurns: 1,
-      seedBase: 618_000, progressEvery: 0,
+      configs: [config],
+      gamesPerCombination: 2,
+      maxTurns: 1,
+      seedBase: 618_000,
+      progressEvery: 0,
       createdAt: '2026-07-14T00:00:00.000Z',
     }
-    const first = await evaluateMCTSQ5PriorCorrected({ ...common, outputDir: tempDir('a'), now: clock() })
+    const first = await evaluateMCTSQ5PriorCorrected({
+      ...common,
+      outputDir: tempDir('a'),
+      now: clock(),
+    })
     const secondDir = tempDir('b')
-    const second = await evaluateMCTSQ5PriorCorrected({ ...common, outputDir: secondDir, now: clock() })
+    const second = await evaluateMCTSQ5PriorCorrected({
+      ...common,
+      outputDir: secondDir,
+      now: clock(),
+    })
     expect(first.results).toEqual(second.results)
     expect(first.summary).toEqual(second.summary)
     expect(first.summary.evaluationVersion).toBe(MCTS_Q5_PRIOR_CORRECTED_VERSION)

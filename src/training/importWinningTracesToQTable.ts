@@ -20,9 +20,7 @@ function getRewardForVictory(territoryDiff: number): number {
   return territoryDiff >= LARGE_TERRITORY_DIFFERENCE ? LARGE_VICTORY_REWARD : NORMAL_VICTORY_REWARD
 }
 
-export function buildQTableFromWinningTraces(
-  traces: TrainingTraceGameRecord[],
-): QTableSnapshot {
+export function buildQTableFromWinningTraces(traces: TrainingTraceGameRecord[]): QTableSnapshot {
   const qTable: QTableSnapshot = {}
 
   for (const trace of traces) {
@@ -57,7 +55,9 @@ export function importWinningTracesToQTable(
     .sort((a, b) => a.localeCompare(b))
     .map((file) => path.join(absoluteInputDir, file))
 
-  const traces = traceFiles.map((file) => JSON.parse(readFileSync(file, 'utf8')) as TrainingTraceGameRecord)
+  const traces = traceFiles.map(
+    (file) => JSON.parse(readFileSync(file, 'utf8')) as TrainingTraceGameRecord,
+  )
   const qTable = buildQTableFromWinningTraces(traces)
 
   mkdirSync(path.dirname(absoluteOutputPath), { recursive: true })
@@ -73,6 +73,8 @@ function isDirectExecution(): boolean {
 
 if (isDirectExecution()) {
   const result = importWinningTracesToQTable()
-  console.log(`[importWinningTracesToQTable] Q-table generated with ${Object.keys(result).length} entries.`)
+  console.log(
+    `[importWinningTracesToQTable] Q-table generated with ${Object.keys(result).length} entries.`,
+  )
   console.log(`[importWinningTracesToQTable] Output: ${DEFAULT_QTABLE_OUTPUT_PATH}`)
 }

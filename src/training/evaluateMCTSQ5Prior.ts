@@ -10,9 +10,7 @@ import {
 } from './evaluateMCTS'
 
 export const MCTS_Q5_PRIOR_EVALUATION_VERSION = 'mcts-q5-prior-v1'
-export const MCTS_Q5_PRIOR_OUTPUT_DIR = path.join(
-  'data/entrenamiento/mcts/evaluacion_q5_prior',
-)
+export const MCTS_Q5_PRIOR_OUTPUT_DIR = path.join('data/entrenamiento/mcts/evaluacion_q5_prior')
 export const MCTS_Q5_PRIOR_SEED = 618_000
 
 const FIXED_BASELINE = {
@@ -53,11 +51,10 @@ export const MCTS_Q5_PRIOR_CONFIGS: NamedMCTSConfig[] = [
   },
 ]
 
-export interface EvaluateMCTSQ5PriorOptions
-  extends Omit<
-    EvaluateMCTSOptions,
-    'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
-  > {
+export interface EvaluateMCTSQ5PriorOptions extends Omit<
+  EvaluateMCTSOptions,
+  'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
+> {
   configs?: readonly NamedMCTSConfig[]
   gamesPerCombination?: number
   seedBase?: number

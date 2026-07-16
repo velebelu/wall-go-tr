@@ -2,7 +2,6 @@
 import { create } from 'zustand'
 import { PLAYER_LIST, type Pos, type WallDir, type State } from '@/lib/types'
 import { makeInitialState, snapshotFromState, restoreSnapshot } from './gameState'
-import { createHistoryHandlers } from './history'
 import { placingTurnIndex, advanceTurn } from './actions'
 import { isLegalMove } from '@/utils/move'
 import { checkGameEnd } from '@/utils/game'
@@ -42,26 +41,6 @@ export const useGame = create<State>((_set, get) => {
       })
     }
   }
-  // --- history ---
-  createHistoryHandlers(
-    get,
-    set,
-    (state) => {
-      // snapshot 只存遊戲狀態，不存 _history/_future/undo/redo/canUndo/canRedo
-
-      const {
-        _history: _,
-        _future: __,
-        undo: ___,
-        redo: ____,
-        canUndo: _____,
-        canRedo: ______,
-        ...rest
-      } = state
-      return snapshotFromState(rest)
-    },
-    restoreSnapshot,
-  )
   const PLAYERS = [...PLAYER_LIST]
 
   // 初始化時 _history 應包含初始狀態

@@ -43,8 +43,7 @@ export function evaluatePositionWithBreakdown(
   const ownExpansion = countAccessibleCells(state.board, perspective)
   const opponentExpansion = countAccessibleCells(state.board, opponent)
 
-  const territory =
-    (territoryCounts[perspective] - territoryCounts[opponent]) * TERRITORY_WEIGHT
+  const territory = (territoryCounts[perspective] - territoryCounts[opponent]) * TERRITORY_WEIGHT
   const mobility =
     (ownMobility.totalDestinations - opponentMobility.totalDestinations) * MOBILITY_WEIGHT
   const trappedPieces = (opponentMobility.trapPieces - ownMobility.trapPieces) * TRAPPED_WEIGHT

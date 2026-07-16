@@ -36,7 +36,8 @@ export function searchBestAction(
     qPriorSource,
   })
   if (root.isTerminal) throw new Error('Cannot search from a terminal state')
-  if (root.untriedActions.length === 0) throw new Error('Cannot search a state without legal actions')
+  if (root.untriedActions.length === 0)
+    throw new Error('Cannot search a state without legal actions')
   const rootLegalActions = root.untriedActions.length
   let maxDepthReached = 0
   let totalSelectedDepth = 0
@@ -87,9 +88,10 @@ export function searchBestAction(
       )
     : undefined
   const selectedAction = verification?.action ?? best.action!
-  const selectedChild = root.children.find(
-    (child) => JSON.stringify(child.action) === JSON.stringify(selectedAction),
-  ) ?? best
+  const selectedChild =
+    root.children.find(
+      (child) => JSON.stringify(child.action) === JSON.stringify(selectedAction),
+    ) ?? best
   const result: MCTSResult = {
     action: selectedAction,
     visits: selectedChild.visits,
@@ -128,10 +130,19 @@ export function verifyTacticalCandidates(
   originalAction: MCTSChildResult['action'],
   requestedCount = 3,
   rng: () => number = Math.random,
-): { action: MCTSChildResult['action']; metrics: Pick<MCTSResult,
-  'tacticalCandidatesChecked' | 'tacticalSelectionChanged' | 'originalMCTSActionScore' |
-  'verifiedActionScore' | 'worstOpponentReplyScore' | 'verificationTimeMs' |
-  'immediateTerminalLossAvoided'> } {
+): {
+  action: MCTSChildResult['action']
+  metrics: Pick<
+    MCTSResult,
+    | 'tacticalCandidatesChecked'
+    | 'tacticalSelectionChanged'
+    | 'originalMCTSActionScore'
+    | 'verifiedActionScore'
+    | 'worstOpponentReplyScore'
+    | 'verificationTimeMs'
+    | 'immediateTerminalLossAvoided'
+  >
+} {
   if (!Number.isInteger(requestedCount) || requestedCount <= 0) {
     throw new Error('tacticalCandidateCount must be a positive integer')
   }
@@ -140,7 +151,9 @@ export function verifyTacticalCandidates(
     .sort((a, b) => b.visits - a.visits || b.value - a.value)
     .slice(0, Math.min(requestedCount, children.length))
   if (!candidates.length) throw new Error('Tactical verification requires expanded children')
-  const evaluated = candidates.map(({ action }) => evaluateTacticalCandidate(rootState, perspective, action))
+  const evaluated = candidates.map(({ action }) =>
+    evaluateTacticalCandidate(rootState, perspective, action),
+  )
   const selected = chooseBestTacticalEvaluation(evaluated, rng)
   const original = evaluated.find(({ action }) => sameAction(action, originalAction))
   return {
@@ -176,11 +189,19 @@ function evaluateTacticalCandidate(
   const afterAction = applyFullAction(rootState, action).state
   const direct = terminalValue(afterAction, perspective)
   if (direct !== undefined) {
-    return { action, score: evaluatePosition(afterAction, perspective), permitsImmediateTerminalLoss: direct < 0 }
+    return {
+      action,
+      score: evaluatePosition(afterAction, perspective),
+      permitsImmediateTerminalLoss: direct < 0,
+    }
   }
   const replies = getLegalActions(afterAction)
   if (!replies.length) {
-    return { action, score: evaluatePosition(afterAction, perspective), permitsImmediateTerminalLoss: false }
+    return {
+      action,
+      score: evaluatePosition(afterAction, perspective),
+      permitsImmediateTerminalLoss: false,
+    }
   }
   let score = Infinity
   let permitsImmediateTerminalLoss = false
@@ -264,9 +285,8 @@ function isTerminalState(state: GameSnapshot): boolean {
 
 function chooseFinalChild(children: MCTSNode[], rng: () => number): MCTSNode {
   if (children.length === 0) throw new Error('Search completed without expanding a root action')
-  let candidates = children.filter(
-    (child) => child.visits === Math.max(...children.map((candidate) => candidate.visits)),
-  )
+  const maxVisits = Math.max(...children.map((candidate) => candidate.visits))
+  let candidates = children.filter((child) => child.visits === maxVisits)
   const bestValue = Math.max(...candidates.map((child) => child.meanValue))
   candidates = candidates.filter((child) => child.meanValue === bestValue)
   return candidates[randomIndex(candidates.length, rng)]

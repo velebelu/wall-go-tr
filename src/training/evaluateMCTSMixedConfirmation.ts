@@ -1,11 +1,4 @@
-import {
-  existsSync,
-  mkdirSync,
-  mkdtempSync,
-  readdirSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -76,11 +69,14 @@ const PREVIOUS_PILOT = {
   },
 } as const
 
-export function calculateWilson95Interval(
-  wins: number,
-  games: number,
-): WinRateConfidenceInterval {
-  if (!Number.isInteger(wins) || !Number.isInteger(games) || games < 0 || wins < 0 || wins > games) {
+export function calculateWilson95Interval(wins: number, games: number): WinRateConfidenceInterval {
+  if (
+    !Number.isInteger(wins) ||
+    !Number.isInteger(games) ||
+    games < 0 ||
+    wins < 0 ||
+    wins > games
+  ) {
     throw new Error('wins and games must be valid non-negative integer counts')
   }
   if (games === 0) return { confidence: 0.95, lower: 0, upper: 0 }
@@ -90,8 +86,7 @@ export function calculateWilson95Interval(
   const denominator = 1 + zSquared / games
   const center = (proportion + zSquared / (2 * games)) / denominator
   const margin =
-    (z *
-      Math.sqrt((proportion * (1 - proportion)) / games + zSquared / (4 * games * games))) /
+    (z * Math.sqrt((proportion * (1 - proportion)) / games + zSquared / (4 * games * games))) /
     denominator
   return {
     confidence: 0.95,
@@ -161,8 +156,7 @@ function compareWithPilot(heuristicSummary: ReturnType<typeof summarizeGroup>) {
   const winRateDelta = roundMetric(current.winRate - PREVIOUS_PILOT.winRate)
   const redBlueGap = roundMetric(red.winRate - blue.winRate)
   const intervalsOverlap = !(
-    red.winRate95CI.lower > blue.winRate95CI.upper ||
-    blue.winRate95CI.lower > red.winRate95CI.upper
+    red.winRate95CI.lower > blue.winRate95CI.upper || blue.winRate95CI.lower > red.winRate95CI.upper
   )
   return {
     previousPilot: PREVIOUS_PILOT,
@@ -257,6 +251,11 @@ export async function evaluateMCTSMixedConfirmation(
   const outputDir = path.resolve(options.outputDir ?? MCTS_MIXED_CONFIRMATION_OUTPUT_DIR)
   const now = options.now ?? (() => performance.now())
   const temporaryRoot = mkdtempSync(path.join(os.tmpdir(), 'wall-go-mcts-mixed-confirmation-'))
+  // Validado aquí y no en el finally: lanzar dentro de un finally enmascara el error original.
+  const resolvedTemporaryRoot = path.resolve(temporaryRoot)
+  if (!resolvedTemporaryRoot.startsWith(path.resolve(os.tmpdir()))) {
+    throw new Error('Refusing to clean a temporary directory outside the system temp path')
+  }
   assertOutputCanBeWritten(outputDir, options.overwrite ?? false)
 
   try {
@@ -283,9 +282,7 @@ export async function evaluateMCTSMixedConfirmation(
       createdAt: options.createdAt,
     })
     const results = [...heuristicEvaluation.results, ...randomEvaluation.results]
-    const heuristic = summarizeGroup(
-      results.filter((result) => result.rival === 'heuristic'),
-    )
+    const heuristic = summarizeGroup(results.filter((result) => result.rival === 'heuristic'))
     const random = summarizeGroup(results.filter((result) => result.rival === 'random'))
     const total = summarizeGroup(results)
     const createdAt = options.createdAt ?? new Date().toISOString()
@@ -334,10 +331,6 @@ export async function evaluateMCTSMixedConfirmation(
     writeJson(path.join(outputDir, 'metadata.json'), metadata)
     return { summary, metadata, results }
   } finally {
-    const resolvedTemporaryRoot = path.resolve(temporaryRoot)
-    if (!resolvedTemporaryRoot.startsWith(path.resolve(os.tmpdir()))) {
-      throw new Error('Refusing to clean a temporary directory outside the system temp path')
-    }
     rmSync(resolvedTemporaryRoot, { recursive: true, force: true })
   }
 }

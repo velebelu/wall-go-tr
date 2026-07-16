@@ -26,11 +26,13 @@ describe('auditQ5Confidence', () => {
   })
 
   it('calcula intersecciones y ausencias entre los tres mapas', () => {
-    expect(calculateKeyCoverage({
-      qTableKeys: new Set(['a', 'b', 'c']),
-      confidenceKeys: new Set(['b', 'c', 'd']),
-      updateKeys: new Set(['c', 'd', 'e']),
-    })).toEqual({
+    expect(
+      calculateKeyCoverage({
+        qTableKeys: new Set(['a', 'b', 'c']),
+        confidenceKeys: new Set(['b', 'c', 'd']),
+        updateKeys: new Set(['c', 'd', 'e']),
+      }),
+    ).toEqual({
       qTable: 3,
       confidenceMap: 3,
       qLearningUpdateCounts: 3,
@@ -48,7 +50,12 @@ describe('auditQ5Confidence', () => {
   it.each([
     { type: 'place', pos: { x: 2, y: 3 } },
     { type: 'move', from: { x: 1, y: 1 }, pos: { x: 2, y: 2 } },
-    { type: 'move', from: { x: 1, y: 1 }, pos: { x: 2, y: 2 }, followUp: { type: 'wall', pos: { x: 2, y: 2 }, dir: 'top' } },
+    {
+      type: 'move',
+      from: { x: 1, y: 1 },
+      pos: { x: 2, y: 2 },
+      followUp: { type: 'wall', pos: { x: 2, y: 2 }, dir: 'top' },
+    },
     { type: 'wall', pos: { x: 3, y: 3 }, dir: 'left' },
   ] satisfies PlayerAction[])('mantiene paridad de claves para $type', (action) => {
     const state = snapshotFromState(makeInitialState())

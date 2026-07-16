@@ -37,7 +37,10 @@ export const MCTS_TACTICAL_CONFIRMATION_CONFIGS: readonly NamedMCTSConfig[] = [
 ]
 
 export const MCTS_TACTICAL_CONFIRMATION_RIVALS: readonly MCTSOpponent[] = [
-  'heuristic', 'q5-final', 'baseline-mcts', 'random',
+  'heuristic',
+  'q5-final',
+  'baseline-mcts',
+  'random',
 ]
 
 export const MCTS_TACTICAL_CONFIRMATION_GAMES: Readonly<Record<MCTSOpponent, number>> = {
@@ -55,9 +58,10 @@ export function wilson95(successes: number, total: number) {
   if (!total) return { low: 0, high: 0 }
   const z = 1.959963984540054
   const p = successes / total
-  const denominator = 1 + z * z / total
-  const center = (p + z * z / (2 * total)) / denominator
-  const margin = z * Math.sqrt(p * (1 - p) / total + z * z / (4 * total * total)) / denominator
+  const denominator = 1 + (z * z) / total
+  const center = (p + (z * z) / (2 * total)) / denominator
+  const margin =
+    (z * Math.sqrt((p * (1 - p)) / total + (z * z) / (4 * total * total))) / denominator
   return { low: round(center * 100 - margin * 100), high: round(center * 100 + margin * 100) }
 }
 
@@ -75,15 +79,27 @@ export function buildPairedUtility(results: readonly MCTSGameResult[]) {
     classification: 'benefit' | 'same' | 'harm'
   }>
   for (const rival of ['heuristic', 'q5-final', 'random'] as const) {
-    for (const top2 of results.filter((row) => row.config.name === 'tactical-top-2' && row.rival === rival)) {
-      const baseline = results.find((row) =>
-        row.config.name === 'baseline-final' && row.rival === rival &&
-        row.colorMCTS === top2.colorMCTS && row.game === top2.game && row.seed === top2.seed)
-      if (!baseline) throw new Error(`Missing paired baseline for ${rival}-${top2.colorMCTS}-${top2.game}`)
+    for (const top2 of results.filter(
+      (row) => row.config.name === 'tactical-top-2' && row.rival === rival,
+    )) {
+      const baseline = results.find(
+        (row) =>
+          row.config.name === 'baseline-final' &&
+          row.rival === rival &&
+          row.colorMCTS === top2.colorMCTS &&
+          row.game === top2.game &&
+          row.seed === top2.seed,
+      )
+      if (!baseline)
+        throw new Error(`Missing paired baseline for ${rival}-${top2.colorMCTS}-${top2.game}`)
       const resultDelta = outcomeScore(top2) - outcomeScore(baseline)
       const territoryDelta = top2.territoryDiff - baseline.territoryDiff
-      const classification = resultDelta > 0 || (resultDelta === 0 && territoryDelta > 0)
-        ? 'benefit' : resultDelta < 0 || territoryDelta < 0 ? 'harm' : 'same'
+      const classification =
+        resultDelta > 0 || (resultDelta === 0 && territoryDelta > 0)
+          ? 'benefit'
+          : resultDelta < 0 || territoryDelta < 0
+            ? 'harm'
+            : 'same'
       pairs.push({
         pairId: `${rival}-${top2.colorMCTS}-${String(top2.game).padStart(2, '0')}`,
         rival,
@@ -125,17 +141,26 @@ export function summarizeTacticalConfirmation(results: readonly MCTSGameResult[]
         rival,
         aggregate,
         winRateCI95: wilson95(aggregate.wins, aggregate.games),
-        byColor: Object.fromEntries((['R', 'B'] as const).map((color) => [
-          color,
-          summarizeMCTSResults(rows.filter((row) => row.colorMCTS === color), config.simulations),
-        ])),
+        byColor: Object.fromEntries(
+          (['R', 'B'] as const).map((color) => [
+            color,
+            summarizeMCTSResults(
+              rows.filter((row) => row.colorMCTS === color),
+              config.simulations,
+            ),
+          ]),
+        ),
         tactical: {
           decisions,
-          candidatesChecked: rows.reduce((sum, row) => sum + (row.tacticalCandidatesChecked ?? 0), 0),
+          candidatesChecked: rows.reduce(
+            (sum, row) => sum + (row.tacticalCandidatesChecked ?? 0),
+            0,
+          ),
           changes,
-          changeRate: decisions ? round(changes / decisions * 100) : 0,
+          changeRate: decisions ? round((changes / decisions) * 100) : 0,
           immediateTerminalLossesAvoided: rows.reduce(
-            (sum, row) => sum + (row.immediateTerminalLossesAvoided ?? 0), 0,
+            (sum, row) => sum + (row.immediateTerminalLossesAvoided ?? 0),
+            0,
           ),
           changedGames: summarizeMCTSResults(changed, config.simulations),
           unchangedGames: summarizeMCTSResults(unchanged, config.simulations),
@@ -148,7 +173,8 @@ export function summarizeTacticalConfirmation(results: readonly MCTSGameResult[]
     const rows = combinations.filter((row) => row.config === config)
     const games = rows.reduce((sum, row) => sum + row.aggregate.games, 0)
     return games
-      ? rows.reduce((sum, row) => sum + row.aggregate.averageDecisionMs * row.aggregate.games, 0) / games
+      ? rows.reduce((sum, row) => sum + row.aggregate.averageDecisionMs * row.aggregate.games, 0) /
+          games
       : 0
   }
   const baselineDecisionMs = weightedDecisionMs('baseline-final')
@@ -165,12 +191,14 @@ export function summarizeTacticalConfirmation(results: readonly MCTSGameResult[]
   }
 }
 
-export function combineDirectTop2Results(combinations: Array<{
-  config: string
-  rival: MCTSOpponent
-  aggregate: ReturnType<typeof summarizeMCTSResults>
-  byColor: Record<string, ReturnType<typeof summarizeMCTSResults>>
-}>) {
+export function combineDirectTop2Results(
+  combinations: Array<{
+    config: string
+    rival: MCTSOpponent
+    aggregate: ReturnType<typeof summarizeMCTSResults>
+    byColor: Record<string, ReturnType<typeof summarizeMCTSResults>>
+  }>,
+) {
   const baseline = combinations.find(
     (row) => row.config === 'baseline-final' && row.rival === 'baseline-mcts',
   )
@@ -189,9 +217,14 @@ export function combineDirectTop2Results(combinations: Array<{
     const colorWins = direct.wins + inverse.losses
     const colorLosses = direct.losses + inverse.wins
     const colorTies = direct.ties + inverse.ties
-    return { games: colorWins + colorLosses + colorTies, wins: colorWins, losses: colorLosses, ties: colorTies }
+    return {
+      games: colorWins + colorLosses + colorTies,
+      wins: colorWins,
+      losses: colorLosses,
+      ties: colorTies,
+    }
   }
-  const winRate = games ? round(wins / games * 100) : 0
+  const winRate = games ? round((wins / games) * 100) : 0
   const winRateCI95 = wilson95(wins, games)
   return {
     games,
@@ -202,7 +235,8 @@ export function combineDirectTop2Results(combinations: Array<{
     winRateCI95,
     averageTerritoryDiff: round(
       (top2.aggregate.averageTerritoryDiff * top2.aggregate.games -
-        baseline.aggregate.averageTerritoryDiff * baseline.aggregate.games) / games,
+        baseline.aggregate.averageTerritoryDiff * baseline.aggregate.games) /
+        games,
     ),
     byColor: { R: color('R'), B: color('B') },
     includesBothEvaluationOrientations: true,
@@ -226,16 +260,18 @@ export function getDirectOpponentConfig(configName: string): MCTSConfig {
     : MCTS_TACTICAL_CONFIRMATION_CONFIGS[0]
 }
 
-export async function evaluateMCTSTacticalConfirmation(options: {
-  outputDir?: string
-  overwrite?: boolean
-  maxTurns?: number
-  progressEvery?: number
-  createdAt?: string
-  gamesPerRival?: Partial<Record<MCTSOpponent, number>>
-  configs?: readonly NamedMCTSConfig[]
-  rivals?: readonly MCTSOpponent[]
-} = {}) {
+export async function evaluateMCTSTacticalConfirmation(
+  options: {
+    outputDir?: string
+    overwrite?: boolean
+    maxTurns?: number
+    progressEvery?: number
+    createdAt?: string
+    gamesPerRival?: Partial<Record<MCTSOpponent, number>>
+    configs?: readonly NamedMCTSConfig[]
+    rivals?: readonly MCTSOpponent[]
+  } = {},
+) {
   const outputDir = options.outputDir ?? MCTS_TACTICAL_CONFIRMATION_OUTPUT_DIR
   const configs = options.configs ?? MCTS_TACTICAL_CONFIRMATION_CONFIGS
   const rivals = options.rivals ?? MCTS_TACTICAL_CONFIRMATION_RIVALS
@@ -274,14 +310,18 @@ export async function evaluateMCTSTacticalConfirmation(options: {
 
 async function main() {
   const command = process.argv[2] ?? 'full'
-  if (!['smoke', 'full', 'refresh-summary'].includes(command)) throw new Error(`Unknown command: ${command}`)
+  if (!['smoke', 'full', 'refresh-summary'].includes(command))
+    throw new Error(`Unknown command: ${command}`)
   if (command === 'refresh-summary') {
     const summaryPath = path.join(
       MCTS_TACTICAL_CONFIRMATION_OUTPUT_DIR,
       'mcts_tactical_confirmation_summary.json',
     )
     const summary = JSON.parse(readFileSync(summaryPath, 'utf8')) as {
-      analysis: { combinations: Parameters<typeof combineDirectTop2Results>[0]; directTop2VsBaseline: unknown }
+      analysis: {
+        combinations: Parameters<typeof combineDirectTop2Results>[0]
+        directTop2VsBaseline: unknown
+      }
     }
     summary.analysis.directTop2VsBaseline = combineDirectTop2Results(summary.analysis.combinations)
     writeFileSync(summaryPath, `${JSON.stringify(summary, null, 2)}\n`, 'utf8')
@@ -289,13 +329,19 @@ async function main() {
     return
   }
   const started = performance.now()
-  const result = await evaluateMCTSTacticalConfirmation(command === 'smoke' ? {
-    outputDir: `${MCTS_TACTICAL_CONFIRMATION_OUTPUT_DIR}_smoke`,
-    gamesPerRival: { heuristic: 2, 'q5-final': 2, 'baseline-mcts': 2, random: 2 },
-    maxTurns: 40,
-    progressEvery: 1,
-  } : { progressEvery: 10 })
-  console.log(`[evaluateMCTSTacticalConfirmation] ${result.results.length} games in ${round(performance.now() - started)} ms`)
+  const result = await evaluateMCTSTacticalConfirmation(
+    command === 'smoke'
+      ? {
+          outputDir: `${MCTS_TACTICAL_CONFIRMATION_OUTPUT_DIR}_smoke`,
+          gamesPerRival: { heuristic: 2, 'q5-final': 2, 'baseline-mcts': 2, random: 2 },
+          maxTurns: 40,
+          progressEvery: 1,
+        }
+      : { progressEvery: 10 },
+  )
+  console.log(
+    `[evaluateMCTSTacticalConfirmation] ${result.results.length} games in ${round(performance.now() - started)} ms`,
+  )
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

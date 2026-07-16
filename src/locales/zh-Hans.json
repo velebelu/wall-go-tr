@@ -9,11 +9,21 @@
       "pvp": "🤝 双人对战",
       "ai": "🤖 vs AI",
       "ai-vs-ai": "🤖 AI vs AI",
-      "q5_learning": "Q5 学习 AI"
+      "experimentalTitle": "实验模式",
+      "random_vs_heuristic": "随机 AI vs 启发式 AI",
+      "learning_vs_random": "学习 AI vs 随机 AI",
+      "learning_vs_heuristic": "学习 AI vs 启发式 AI",
+      "q5_learning": "Q5 学习 AI",
+      "mcts_final": "策略 MCTS AI"
     },
     "rule": "游戏规则",
     "q5": {
       "select_side": "选择 Q5 学习 AI 的颜色：",
+      "red": "红色",
+      "blue": "蓝色"
+    },
+    "mcts": {
+      "select_side": "选择策略 MCTS AI 的颜色：",
       "red": "红色",
       "blue": "蓝色"
     },
@@ -22,6 +32,7 @@
       "level": "AI 强度：",
       "levels": {
         "practice": "🎲 练习",
+        "heuristic": "启发式 AI",
         "easy": "🌱 初阶",
         "middle": "🐵 中阶",
         "hard": "👾 高阶"
@@ -68,6 +79,8 @@
     "redo": "重做",
     "undoAria": "撤销",
     "redoAria": "重做",
-    "menu": "主菜单"
+    "menu": "主菜单",
+    "themeToggle": "切换深色/亮色模式",
+    "languageToggle": "切换语言"
   }
 }

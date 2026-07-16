@@ -22,4 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-data/entrenamiento/q5/heuristic_experience/**/experiences.jsonl
+
+# Reportes de cobertura generados por vitest
+coverage
+
+/REDACTADO TR.pdf

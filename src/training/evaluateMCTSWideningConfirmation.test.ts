@@ -109,9 +109,7 @@ describe('evaluateMCTSWideningConfirmation', () => {
 
     expect(metrics.averageRootLegalActions).toBeGreaterThan(0)
     expect(metrics.averageRootExpandedChildren).toBeGreaterThan(0)
-    expect(metrics.averageRootExpandedChildren).toBeLessThanOrEqual(
-      metrics.averageRootLegalActions,
-    )
+    expect(metrics.averageRootExpandedChildren).toBeLessThanOrEqual(metrics.averageRootLegalActions)
     expect(metrics.averageRootExplorationRatio).toBeGreaterThan(0)
     expect(metrics.averageRootExplorationRatio).toBeLessThanOrEqual(1)
     expect(metrics.averageMaxDepthReached).toBeGreaterThan(0)
@@ -130,9 +128,7 @@ describe('evaluateMCTSWideningConfirmation', () => {
   it('does not overwrite previous evaluations, Q5, or checkpoints', async () => {
     const protectedPaths = [
       path.resolve('data/entrenamiento/mcts/evaluacion_baseline/mcts_baseline_summary.json'),
-      path.resolve(
-        'data/entrenamiento/mcts/evaluacion_rollout_policy/mcts_rollout_summary.json',
-      ),
+      path.resolve('data/entrenamiento/mcts/evaluacion_rollout_policy/mcts_rollout_summary.json'),
       path.resolve(
         'data/entrenamiento/mcts/evaluacion_mixed80_confirmacion/mcts_mixed80_confirmation_summary.json',
       ),

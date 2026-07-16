@@ -126,8 +126,6 @@ describe('evaluateMCTSQ5Prior', () => {
     expect(existsSync(path.join(secondDir, 'mcts_q5_prior_summary.json'))).toBe(true)
     expect(existsSync(path.join(secondDir, 'metadata.json'))).toBe(true)
     expect(existsSync(path.join(secondDir, 'mcts_expansion_summary.json'))).toBe(false)
-    expect(existsSync(path.join(secondDir, 'mcts_widening_confirmation_summary.json'))).toBe(
-      false,
-    )
+    expect(existsSync(path.join(secondDir, 'mcts_widening_confirmation_summary.json'))).toBe(false)
   }, 30000)
 })

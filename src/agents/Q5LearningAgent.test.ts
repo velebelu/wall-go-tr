@@ -76,12 +76,15 @@ function loadFrozenFixture(): {
 
 describe('Q5LearningAgent congelado', () => {
   it('combina confianza con Array.from y max sin perder iteradores Map', () => {
-    const inherited = new Map([['a', 3], ['b', 12]])
-    const updates = new Map([['b', 2], ['c', 15]])
-    const arrayFromKeys = new Set([
-      ...Array.from(inherited.keys()),
-      ...Array.from(updates.keys()),
+    const inherited = new Map([
+      ['a', 3],
+      ['b', 12],
     ])
+    const updates = new Map([
+      ['b', 2],
+      ['c', 15],
+    ])
+    const arrayFromKeys = new Set([...Array.from(inherited.keys()), ...Array.from(updates.keys())])
     const result = combineQ5Confidence(inherited, updates)
     expect(new Set(result.confidence.keys())).toEqual(arrayFromKeys)
     expect(Object.fromEntries(result.confidence)).toEqual({ a: 3, b: 12, c: 15 })

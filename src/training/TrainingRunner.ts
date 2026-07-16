@@ -25,7 +25,10 @@ function csvEscape(value: string | number | '' | undefined): string {
 type CsvRow = Record<string, string | number | ''>
 
 function downloadCsvFile(fileName: string, headers: string[], rows: CsvRow[]): void {
-  const csv = [headers.join(','), ...rows.map((row) => headers.map((header) => csvEscape(row[header])).join(','))].join('\n')
+  const csv = [
+    headers.join(','),
+    ...rows.map((row) => headers.map((header) => csvEscape(row[header])).join(',')),
+  ].join('\n')
   try {
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
     const url = URL.createObjectURL(blob)
@@ -52,7 +55,10 @@ function countWalls(board: ReturnType<typeof snapshotFromState>['board']): numbe
   return count
 }
 
-function getTerritoryCounts(board: ReturnType<typeof snapshotFromState>['board']): { R: number; B: number } {
+function getTerritoryCounts(board: ReturnType<typeof snapshotFromState>['board']): {
+  R: number
+  B: number
+} {
   const territory = getTerritoryMap(board)
   const totals = { R: 0, B: 0 }
   for (let y = 0; y < territory.length; y++) {
@@ -134,7 +140,12 @@ export async function runHeuristicTraining(
     }
 
     let actionCounter = 0
-    const traceActions: Array<{ turn: number; player: Player; state: GameSnapshot; action: PlayerAction }> = []
+    const traceActions: Array<{
+      turn: number
+      player: Player
+      state: GameSnapshot
+      action: PlayerAction
+    }> = []
     const turnManager = new TurnManager({
       agents,
       getGameState: () => snapshotFromState(useGame.getState()),
@@ -181,7 +192,8 @@ export async function runHeuristicTraining(
 
     const finishedState = useGame.getState()
     const finalizedState = snapshotFromState(finishedState)
-    const result = finalizedState.result ?? checkGameEnd(finalizedState.board, finalizedState.players)
+    const result =
+      finalizedState.result ?? checkGameEnd(finalizedState.board, finalizedState.players)
     const territoryCounts = result.score
       ? { R: result.score.R, B: result.score.B }
       : getTerritoryCounts(finalizedState.board)

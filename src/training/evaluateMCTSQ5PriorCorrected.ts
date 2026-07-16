@@ -14,11 +14,10 @@ export const MCTS_Q5_PRIOR_CORRECTED_OUTPUT_DIR = path.join(
   'data/entrenamiento/mcts/evaluacion_q5_prior_corregida',
 )
 
-export interface EvaluateMCTSQ5PriorCorrectedOptions
-  extends Omit<
-    EvaluateMCTSOptions,
-    'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
-  > {
+export interface EvaluateMCTSQ5PriorCorrectedOptions extends Omit<
+  EvaluateMCTSOptions,
+  'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
+> {
   configs?: readonly NamedMCTSConfig[]
   gamesPerCombination?: number
   seedBase?: number
@@ -49,17 +48,24 @@ export function buildQ5PriorWeightComparison(rows: readonly ComparisonRow[]) {
     const decisions = selected.reduce((sum, row) => sum + row.mctsDecisions, 0)
     const average = (selector: (row: ComparisonRow) => number) =>
       selected.length
-        ? Number((selected.reduce((sum, row) => sum + selector(row), 0) / selected.length).toFixed(4))
+        ? Number(
+            (selected.reduce((sum, row) => sum + selector(row), 0) / selected.length).toFixed(4),
+          )
         : 0
     const decisionAverage = (selector: (row: ComparisonRow) => number) =>
       decisions
-        ? Number((selected.reduce((sum, row) => sum + selector(row) * row.mctsDecisions, 0) / decisions).toFixed(4))
+        ? Number(
+            (
+              selected.reduce((sum, row) => sum + selector(row) * row.mctsDecisions, 0) / decisions
+            ).toFixed(4),
+          )
         : 0
     const wins = selected.filter((row) => row.mctsWon).length
     const ties = selected.filter((row) => row.tie).length
     return {
       configName,
-      qPriorWeight: MCTS_Q5_PRIOR_CONFIGS.find((config) => config.name === configName)?.qPriorWeight ?? 0,
+      qPriorWeight:
+        MCTS_Q5_PRIOR_CONFIGS.find((config) => config.name === configName)?.qPriorWeight ?? 0,
       games: selected.length,
       wins,
       losses: selected.length - wins - ties,
@@ -69,7 +75,9 @@ export function buildQ5PriorWeightComparison(rows: readonly ComparisonRow[]) {
       totalTimeMs: Number(selected.reduce((sum, row) => sum + row.durationMs, 0).toFixed(4)),
       averageQPriorKnownActions: decisionAverage((row) => row.averageQPriorKnownActions),
       averageQPriorReliableActions: decisionAverage((row) => row.averageQPriorReliableActions),
-      qPriorSelectedActionReliableRate: decisionAverage((row) => row.qPriorSelectedActionReliableRate),
+      qPriorSelectedActionReliableRate: decisionAverage(
+        (row) => row.qPriorSelectedActionReliableRate,
+      ),
       averageSelectedQPrior: decisionAverage((row) => row.averageSelectedQPrior),
     }
   })
@@ -79,7 +87,9 @@ export function buildQ5PriorWeightComparison(rows: readonly ComparisonRow[]) {
     versusBaseline: {
       wins: aggregate.wins - baseline.wins,
       winRatePoints: Number((aggregate.winRate - baseline.winRate).toFixed(4)),
-      averageTerritoryDiff: Number((aggregate.averageTerritoryDiff - baseline.averageTerritoryDiff).toFixed(4)),
+      averageTerritoryDiff: Number(
+        (aggregate.averageTerritoryDiff - baseline.averageTerritoryDiff).toFixed(4),
+      ),
       totalTimeMs: Number((aggregate.totalTimeMs - baseline.totalTimeMs).toFixed(4)),
     },
   }))
@@ -118,7 +128,11 @@ export async function evaluateMCTSQ5PriorCorrected(
     qPriorSelectedActionReliableRate: row.qPriorSelectedActionReliableRate,
     averageSelectedQPrior: row.averageSelectedQPrior,
   }))
-  const summary = { ...result.summary, correction, weightComparison: buildQ5PriorWeightComparison(comparisonRows) }
+  const summary = {
+    ...result.summary,
+    correction,
+    weightComparison: buildQ5PriorWeightComparison(comparisonRows),
+  }
   const metadata = { ...result.metadata, correction }
   writeJson(path.join(outputDir, 'mcts_q5_prior_corrected_summary.json'), summary)
   writeJson(path.join(outputDir, 'metadata.json'), metadata)
@@ -129,7 +143,9 @@ export function refreshCorrectedSummary(outputDir = MCTS_Q5_PRIOR_CORRECTED_OUTP
   const resolved = path.resolve(outputDir)
   const summaryPath = path.join(resolved, 'mcts_q5_prior_corrected_summary.json')
   const metadataPath = path.join(resolved, 'metadata.json')
-  const csvLines = readFileSync(path.join(resolved, 'mcts_q5_prior_corrected_results.csv'), 'utf8').trim().split(/\r?\n/)
+  const csvLines = readFileSync(path.join(resolved, 'mcts_q5_prior_corrected_results.csv'), 'utf8')
+    .trim()
+    .split(/\r?\n/)
   const headers = csvLines[0]!.split(',')
   const index = (name: string) => headers.indexOf(name)
   const rows: ComparisonRow[] = csvLines.slice(1).map((line) => {

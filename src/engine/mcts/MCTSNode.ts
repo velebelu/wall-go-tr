@@ -41,13 +41,13 @@ export interface ActionExpansionScore {
 
 export class MCTSNode {
   readonly children: MCTSNode[] = []
-  readonly untriedActions: PlayerAction[]
   readonly state: GameSnapshot
   readonly parent?: MCTSNode
   readonly action?: PlayerAction
   private readonly options: MCTSNodeOptions
   private actionsOrdered: boolean
   private actionScores?: ActionExpansionScore[]
+  private legalActionsCache?: PlayerAction[]
   visits = 0
   valueSum = 0
 
@@ -61,9 +61,15 @@ export class MCTSNode {
     this.parent = parent
     this.action = action
     this.options = options
-    const legalActions = isTerminalState(state) ? [] : getLegalActions(state)
-    this.untriedActions = legalActions
     this.actionsOrdered = options.expansionPolicy === 'unordered'
+  }
+
+  // Lazy: los hijos creados en la expansión pueden no visitarse nunca más,
+  // y generar sus acciones legales por adelantado domina el coste de la búsqueda.
+  get untriedActions(): PlayerAction[] {
+    return (this.legalActionsCache ??= isTerminalState(this.state)
+      ? []
+      : getLegalActions(this.state))
   }
 
   get meanValue(): number {
@@ -80,16 +86,12 @@ export class MCTSNode {
     }
     return Math.max(
       1,
-      Math.floor(
-        this.options.wideningConstant * this.visits ** this.options.wideningExponent,
-      ),
+      Math.floor(this.options.wideningConstant * this.visits ** this.options.wideningExponent),
     )
   }
 
   get canExpand(): boolean {
-    return (
-      this.untriedActions.length > 0 && this.children.length < this.maxChildrenAllowed
-    )
+    return this.untriedActions.length > 0 && this.children.length < this.maxChildrenAllowed
   }
 
   get expansionScores(): readonly ActionExpansionScore[] {
@@ -113,11 +115,7 @@ export class MCTSNode {
       this.options.qPriorWeight,
     )
     this.actionScores = scored
-    this.untriedActions.splice(
-      0,
-      this.untriedActions.length,
-      ...scored.map(({ action }) => action),
-    )
+    this.untriedActions.splice(0, this.untriedActions.length, ...scored.map(({ action }) => action))
     this.actionsOrdered = true
   }
 
@@ -177,14 +175,9 @@ export function orderActionsForExpansion(
   qPriorSource?: MCTSQPriorSource,
   qPriorWeight = 0,
 ): PlayerAction[] {
-  return scoreActionsForExpansion(
-    state,
-    actions,
-    policy,
-    rng,
-    qPriorSource,
-    qPriorWeight,
-  ).map(({ action }) => action)
+  return scoreActionsForExpansion(state, actions, policy, rng, qPriorSource, qPriorWeight).map(
+    ({ action }) => action,
+  )
 }
 
 export function scoreActionsForExpansion(
@@ -234,10 +227,7 @@ export function scoreActionsForExpansion(
 
   for (let start = 0; start < combined.length; ) {
     let end = start + 1
-    while (
-      end < combined.length &&
-      combined[end].combinedScore === combined[start].combinedScore
-    ) {
+    while (end < combined.length && combined[end].combinedScore === combined[start].combinedScore) {
       end++
     }
     shuffleRange(combined, start, end, rng)

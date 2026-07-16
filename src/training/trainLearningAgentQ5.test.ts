@@ -519,7 +519,9 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
       state,
       legalActions: [...legalActions],
       qTable: { [lowConfidenceKey]: 1.5 },
-      confidenceMap: new Map([[lowConfidenceKey, { observations: 1, confidence: '1 observation', alpha: 0.03 }]]),
+      confidenceMap: new Map([
+        [lowConfidenceKey, { observations: 1, confidence: '1 observation', alpha: 0.03 }],
+      ]),
       qLearningUpdateCounts: new Map(),
       confidenceThreshold: 3,
       epsilon: 0,
@@ -536,7 +538,9 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
       state,
       legalActions: [...legalActions],
       qTable: { [key]: 0.5 },
-      confidenceMap: new Map([[key, { observations: 3, confidence: '2-5 observations', alpha: 0.02 }]]),
+      confidenceMap: new Map([
+        [key, { observations: 3, confidence: '2-5 observations', alpha: 0.02 }],
+      ]),
       qLearningUpdateCounts: new Map(),
       confidenceThreshold: 3,
       epsilon: 1,
@@ -568,7 +572,9 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
       state,
       legalActions,
       qTable,
-      confidenceMap: new Map([[qKey, { observations: 3, confidence: '2-5 observations', alpha: 0.02 }]]),
+      confidenceMap: new Map([
+        [qKey, { observations: 3, confidence: '2-5 observations', alpha: 0.02 }],
+      ]),
       qLearningUpdateCounts: new Map(),
       variant: { id: 'B', minConfidence: 3, minMargin: 0.25 },
       rng: () => 0,
@@ -579,7 +585,9 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
       state,
       legalActions,
       qTable,
-      confidenceMap: new Map([[qKey, { observations: 3, confidence: '2-5 observations', alpha: 0.02 }]]),
+      confidenceMap: new Map([
+        [qKey, { observations: 3, confidence: '2-5 observations', alpha: 0.02 }],
+      ]),
       qLearningUpdateCounts: new Map(),
       variant: { id: 'D', minConfidence: 3, minMargin: 0.75 },
       rng: () => 0,
@@ -590,7 +598,9 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
       state,
       legalActions,
       qTable,
-      confidenceMap: new Map([[qKey, { observations: 2, confidence: '2-5 observations', alpha: 0.02 }]]),
+      confidenceMap: new Map([
+        [qKey, { observations: 2, confidence: '2-5 observations', alpha: 0.02 }],
+      ]),
       qLearningUpdateCounts: new Map(),
       variant: { id: 'C', minConfidence: 3, minMargin: 0.25 },
       rng: () => 0,
@@ -915,9 +925,24 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
           maxAbsAppliedDelta: 0.1,
           clampedUpdates: 0,
         },
-        '2-5 observations': { updates: 0, meanAbsAppliedDelta: 0, maxAbsAppliedDelta: 0, clampedUpdates: 0 },
-        '6-20 observations': { updates: 0, meanAbsAppliedDelta: 0, maxAbsAppliedDelta: 0, clampedUpdates: 0 },
-        'more than 20': { updates: 0, meanAbsAppliedDelta: 0, maxAbsAppliedDelta: 0, clampedUpdates: 0 },
+        '2-5 observations': {
+          updates: 0,
+          meanAbsAppliedDelta: 0,
+          maxAbsAppliedDelta: 0,
+          clampedUpdates: 0,
+        },
+        '6-20 observations': {
+          updates: 0,
+          meanAbsAppliedDelta: 0,
+          maxAbsAppliedDelta: 0,
+          clampedUpdates: 0,
+        },
+        'more than 20': {
+          updates: 0,
+          meanAbsAppliedDelta: 0,
+          maxAbsAppliedDelta: 0,
+          clampedUpdates: 0,
+        },
         new: { updates: 0, meanAbsAppliedDelta: 0, maxAbsAppliedDelta: 0, clampedUpdates: 0 },
       },
     }
@@ -1107,7 +1132,11 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     const stateActionKey = getLearningQTableKeyQ3(state, action)
     const initialQTablePath = path.join(tempDir, 'qtable_q5_hybrid_final_500.json')
     const previousLogPath = path.join(tempDir, 'q_update_log.jsonl')
-    writeFileSync(initialQTablePath, `${JSON.stringify({ [stateActionKey]: 0.5 }, null, 2)}\n`, 'utf8')
+    writeFileSync(
+      initialQTablePath,
+      `${JSON.stringify({ [stateActionKey]: 0.5 }, null, 2)}\n`,
+      'utf8',
+    )
     writeFileSync(
       previousLogPath,
       `${JSON.stringify({ stateActionKey })}\n${JSON.stringify({ stateActionKey })}\n`,
@@ -1140,10 +1169,20 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     expect(result.metadata.initialQTableEntries).toBe(1)
     expect(result.metadata.continuation?.qLearningUpdateCountsLoadedBeforeTraining).toBe(1)
     expect(result.metadata.summary.epsilonInitial).toBe(0.077875209331346)
-    expect(result.metadata.summary.epsilonFinal).toBe(Number((0.077875209331346 * 0.9995 ** 4).toFixed(4)))
-    expect(result.metadata.summary.thresholdPolicy?.variant).toEqual({ id: 'E', minConfidence: 10, minMargin: 0.5 })
-    expect(result.metadata.instrumentedUpdates?.updateSummary.maxAbsAppliedDelta).toBeLessThanOrEqual(1)
-    expect(() => validateQ5HybridFinal1000Metadata(result.metadata)).toThrow('must run 500 new games')
+    expect(result.metadata.summary.epsilonFinal).toBe(
+      Number((0.077875209331346 * 0.9995 ** 4).toFixed(4)),
+    )
+    expect(result.metadata.summary.thresholdPolicy?.variant).toEqual({
+      id: 'E',
+      minConfidence: 10,
+      minMargin: 0.5,
+    })
+    expect(
+      result.metadata.instrumentedUpdates?.updateSummary.maxAbsAppliedDelta,
+    ).toBeLessThanOrEqual(1)
+    expect(() => validateQ5HybridFinal1000Metadata(result.metadata)).toThrow(
+      'must run 500 new games',
+    )
   }, 15000)
 
   it('continues hybrid final 1500 training from Q5-1000 settings and writes comparison decisions log', async () => {
@@ -1153,8 +1192,16 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     const stateActionKey = getLearningQTableKeyQ3(state, action)
     const initialQTablePath = path.join(tempDir, 'qtable_q5_hybrid_final_1000.json')
     const previousLogPath = path.join(tempDir, 'q_update_log.jsonl')
-    const qVsLogPath = path.join(tempDir, 'final_checkpoint_1500', 'q_vs_heuristic_decision_log.jsonl')
-    writeFileSync(initialQTablePath, `${JSON.stringify({ [stateActionKey]: 0.5 }, null, 2)}\n`, 'utf8')
+    const qVsLogPath = path.join(
+      tempDir,
+      'final_checkpoint_1500',
+      'q_vs_heuristic_decision_log.jsonl',
+    )
+    writeFileSync(
+      initialQTablePath,
+      `${JSON.stringify({ [stateActionKey]: 0.5 }, null, 2)}\n`,
+      'utf8',
+    )
     writeFileSync(previousLogPath, `${JSON.stringify({ stateActionKey })}\n`, 'utf8')
 
     const result = await runLearningAgentQ5Training({
@@ -1182,11 +1229,21 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     expect(result.metadata.totalGames).toBe(1500)
     expect(result.metadata.newTrainingGames).toBe(4)
     expect(result.metadata.initialization).toBe('hybrid_final_1000')
-    expect(result.metadata.summary.thresholdPolicy?.variant).toEqual({ id: 'C', minConfidence: 5, minMargin: 0.25 })
-    expect(result.metadata.games.every((game) => game.epsilonInitial === 0.1 && game.epsilonFinal === 0.1)).toBe(true)
+    expect(result.metadata.summary.thresholdPolicy?.variant).toEqual({
+      id: 'C',
+      minConfidence: 5,
+      minMargin: 0.25,
+    })
+    expect(
+      result.metadata.games.every(
+        (game) => game.epsilonInitial === 0.1 && game.epsilonFinal === 0.1,
+      ),
+    ).toBe(true)
     expect(metadata.outputFiles.qVsHeuristicDecisionLog).toBe(qVsLogPath)
     expect(readFileSync(qVsLogPath, 'utf8')).toBeTypeOf('string')
-    expect(() => validateQ5HybridFinal1500Metadata(result.metadata)).toThrow('must run 500 new games')
+    expect(() => validateQ5HybridFinal1500Metadata(result.metadata)).toThrow(
+      'must run 500 new games',
+    )
   }, 15000)
 
   it('runs conservative-alpha 1500 continuation from Q5-1000 with inherited and new alpha tracking', async () => {
@@ -1197,7 +1254,10 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     const state = snapshotFromState(makeInitialState())
     const legalActions = getLegalActions(state)
     const inheritedEntries = Object.fromEntries(
-      legalActions.map((action, index) => [getLearningQTableKeyQ3(state, action), 0.5 + index * 0.001]),
+      legalActions.map((action, index) => [
+        getLearningQTableKeyQ3(state, action),
+        0.5 + index * 0.001,
+      ]),
     )
     const initialQTablePath = path.join(tempDir, 'qtable_q5_hybrid_final_1000.json')
     const buildSummaryPath = path.join(tempDir, 'build_summary.json')
@@ -1220,7 +1280,11 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
       )}\n`,
       'utf8',
     )
-    writeFileSync(previousLogPath, `${JSON.stringify({ stateActionKey: Object.keys(inheritedEntries)[0] })}\n`, 'utf8')
+    writeFileSync(
+      previousLogPath,
+      `${JSON.stringify({ stateActionKey: Object.keys(inheritedEntries)[0] })}\n`,
+      'utf8',
+    )
 
     const result = await runLearningAgentQ5Training({
       totalGames: schedule.length,
@@ -1249,24 +1313,45 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
       .trim()
       .split('\n')
       .filter(Boolean)
-      .map((line) => JSON.parse(line) as { entryOrigin: 'inherited' | 'new'; alpha: number; baseAlpha: number })
+      .map(
+        (line) =>
+          JSON.parse(line) as {
+            entryOrigin: 'inherited' | 'new'
+            alpha: number
+            baseAlpha: number
+          },
+      )
     const inheritedUpdates = updateLogs.filter((log) => log.entryOrigin === 'inherited')
     const newUpdates = updateLogs.filter((log) => log.entryOrigin === 'new')
     const inheritedSummary = JSON.parse(
       readFileSync(path.join(outputDir, 'inherited_vs_new_update_summary.json'), 'utf8'),
-    ) as { inheritedAlphaMultiplier: number; inherited: { updates: number }; new: { updates: number } }
+    ) as {
+      inheritedAlphaMultiplier: number
+      inherited: { updates: number }
+      new: { updates: number }
+    }
 
     expect(result.metadata.initialization).toBe('hybrid_final_1000')
     expect(result.metadata.checkpoint).toBe('hybrid_final_1500_conservative_alpha')
-    expect(result.metadata.summary.thresholdPolicy?.variant).toEqual({ id: 'C', minConfidence: 5, minMargin: 0.25 })
+    expect(result.metadata.summary.thresholdPolicy?.variant).toEqual({
+      id: 'C',
+      minConfidence: 5,
+      minMargin: 0.25,
+    })
     expect(result.metadata.schedule).toEqual(schedule)
-    expect(result.metadata.games.every((game) => game.epsilonInitial === 0.1 && game.epsilonFinal === 0.1)).toBe(true)
+    expect(
+      result.metadata.games.every(
+        (game) => game.epsilonInitial === 0.1 && game.epsilonFinal === 0.1,
+      ),
+    ).toBe(true)
     expect(result.metadata.hyperparameters.gamma).toBe(0.9)
     expect(result.metadata.hyperparameters.epsilonMin).toBe(0.02)
     expect(result.metadata.rewardConfiguration).toEqual(Q5_REWARD_CONFIG)
     expect(inheritedUpdates.length).toBeGreaterThan(0)
     expect(newUpdates.length).toBeGreaterThan(0)
-    expect(inheritedUpdates.every((log) => log.baseAlpha === 0.02 && log.alpha === 0.006)).toBe(true)
+    expect(inheritedUpdates.every((log) => log.baseAlpha === 0.02 && log.alpha === 0.006)).toBe(
+      true,
+    )
     expect(newUpdates.every((log) => log.alpha === log.baseAlpha)).toBe(true)
     expect(newUpdates.some((log) => log.alpha === 0.03)).toBe(true)
     expect(inheritedSummary.inheritedAlphaMultiplier).toBe(0.3)
@@ -1287,17 +1372,22 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     const state = snapshotFromState(makeInitialState())
     const legalActions = getLegalActions(state)
     const inheritedEntries = Object.fromEntries(
-      legalActions.map((action, index) => [getLearningQTableKeyQ3(state, action), 0.4 + index * 0.001]),
+      legalActions.map((action, index) => [
+        getLearningQTableKeyQ3(state, action),
+        0.4 + index * 0.001,
+      ]),
     )
     const initialQTablePath = path.join(tempDir, 'qtable_q5_hybrid_final_10.json')
     const buildSummaryPath = path.join(tempDir, 'build_summary.json')
     const outputDir = path.join(tempDir, 'final_checkpoint_15_conservative_alpha')
-    const schedule = buildQ5FinalFineTuning500Schedule().slice(0, 5).map((item, index) => ({
-      ...item,
-      game: 11 + index,
-      localGameIndex: index + 1,
-      cumulativeGameNumber: 11 + index,
-    }))
+    const schedule = buildQ5FinalFineTuning500Schedule()
+      .slice(0, 5)
+      .map((item, index) => ({
+        ...item,
+        game: 11 + index,
+        localGameIndex: index + 1,
+        cumulativeGameNumber: 11 + index,
+      }))
     writeFileSync(initialQTablePath, `${JSON.stringify(inheritedEntries, null, 2)}\n`, 'utf8')
     writeFileSync(
       buildSummaryPath,
@@ -1345,11 +1435,17 @@ describe('trainLearningAgentQ5 pilot metadata', () => {
     expect(result.metadata.totalGames).toBe(15)
     expect(result.metadata.games).toHaveLength(5)
     expect(result.metadata.games.map((game) => game.game)).toEqual([11, 12, 13, 14, 15])
-    expect(result.metadata.games.map((game) => game.epsilonInitial)).toEqual([0.1, 0.07, 0.07, 0.03, 0.03])
+    expect(result.metadata.games.map((game) => game.epsilonInitial)).toEqual([
+      0.1, 0.07, 0.07, 0.03, 0.03,
+    ])
     expect(result.metadata.schedule.map((item) => item.localGameIndex)).toEqual([1, 2, 3, 4, 5])
-    expect(result.metadata.schedule.map((item) => item.cumulativeGameNumber)).toEqual([11, 12, 13, 14, 15])
+    expect(result.metadata.schedule.map((item) => item.cumulativeGameNumber)).toEqual([
+      11, 12, 13, 14, 15,
+    ])
     expect(existsSync(path.join(outputDir, 'metadata.json'))).toBe(true)
-    expect(existsSync(path.join(outputDir, 'qtable_q5_hybrid_final_1500_conservative_alpha.json'))).toBe(true)
+    expect(
+      existsSync(path.join(outputDir, 'qtable_q5_hybrid_final_1500_conservative_alpha.json')),
+    ).toBe(true)
     expect(existsSync(path.join(outputDir, 'training_summary.json'))).toBe(true)
     expect(existsSync(path.join(outputDir, 'reward_log.json'))).toBe(true)
     expect(existsSync(path.join(outputDir, 'q_update_log.jsonl'))).toBe(true)

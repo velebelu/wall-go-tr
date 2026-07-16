@@ -46,9 +46,7 @@ describe('evaluateMCTSExpansion', () => {
       },
     ])
     expect(MCTS_EXPANSION_CONFIGS.every((config) => config.rolloutPolicy === 'mixed')).toBe(true)
-    expect(MCTS_EXPANSION_CONFIGS.every((config) => config.heuristicProbability === 0.8)).toBe(
-      true,
-    )
+    expect(MCTS_EXPANSION_CONFIGS.every((config) => config.heuristicProbability === 0.8)).toBe(true)
   })
 
   it('runs a balanced deterministic pilot and serializes expansion metrics', async () => {

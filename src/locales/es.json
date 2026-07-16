@@ -79,6 +79,8 @@
     "redo": "Rehacer",
     "undoAria": "Deshacer",
     "redoAria": "Rehacer",
-    "menu": "Menú"
+    "menu": "Menú",
+    "themeToggle": "Cambiar modo oscuro/claro",
+    "languageToggle": "Cambiar idioma"
   }
 }

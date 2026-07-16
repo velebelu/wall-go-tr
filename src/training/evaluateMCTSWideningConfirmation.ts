@@ -1,11 +1,4 @@
-import {
-  existsSync,
-  mkdirSync,
-  mkdtempSync,
-  readdirSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -107,9 +100,7 @@ function withConfidence(metrics: MCTSAggregateMetrics): WideningConfirmationMetr
 
 function summarizeGroup(results: MCTSGameResult[]) {
   const summarize = (subset: MCTSGameResult[]) =>
-    withConfidence(
-      summarizeMCTSResults(subset, MCTS_WIDENING_CONFIRMATION_CONFIG.simulations),
-    )
+    withConfidence(summarizeMCTSResults(subset, MCTS_WIDENING_CONFIRMATION_CONFIG.simulations))
   return {
     aggregate: summarize(results),
     byColor: {
@@ -124,9 +115,7 @@ function buildComparisons(heuristic: ReturnType<typeof summarizeGroup>) {
   const compare = (previous: (typeof PREVIOUS_EXPERIMENTS)[keyof typeof PREVIOUS_EXPERIMENTS]) => ({
     previous,
     winRateDeltaPercentagePoints: roundMetric(current.winRate - previous.winRate),
-    territoryDiffDelta: roundMetric(
-      current.averageTerritoryDiff - previous.averageTerritoryDiff,
-    ),
+    territoryDiffDelta: roundMetric(current.averageTerritoryDiff - previous.averageTerritoryDiff),
   })
   return {
     current: {
@@ -239,6 +228,11 @@ export async function evaluateMCTSWideningConfirmation(
   const outputDir = path.resolve(options.outputDir ?? MCTS_WIDENING_CONFIRMATION_OUTPUT_DIR)
   const now = options.now ?? (() => performance.now())
   const temporaryRoot = mkdtempSync(path.join(os.tmpdir(), 'wall-go-mcts-widening-confirmation-'))
+  // Validado aquí y no en el finally: lanzar dentro de un finally enmascara el error original.
+  const resolvedTemporaryRoot = path.resolve(temporaryRoot)
+  if (!resolvedTemporaryRoot.startsWith(path.resolve(os.tmpdir()))) {
+    throw new Error('Refusing to clean a temporary directory outside the system temp path')
+  }
   assertOutputCanBeWritten(outputDir, options.overwrite ?? false)
 
   try {
@@ -312,10 +306,6 @@ export async function evaluateMCTSWideningConfirmation(
     writeJson(path.join(outputDir, 'metadata.json'), metadata)
     return { summary, metadata, results }
   } finally {
-    const resolvedTemporaryRoot = path.resolve(temporaryRoot)
-    if (!resolvedTemporaryRoot.startsWith(path.resolve(os.tmpdir()))) {
-      throw new Error('Refusing to clean a temporary directory outside the system temp path')
-    }
     rmSync(resolvedTemporaryRoot, { recursive: true, force: true })
   }
 }

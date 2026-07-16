@@ -3,6 +3,10 @@ import type { GameSnapshot, PlayerAction } from '@/lib/types'
 import { toSerializableSnapshot } from './serialize'
 import { sleep } from '@/utils/sleep'
 
+function createAIWorker(): Worker {
+  return new Worker(new URL('./AIWorker.ts', import.meta.url), { type: 'module' })
+}
+
 export class MinimaxAgent implements PlayerAgent {
   private worker: Worker
   private depth: number
@@ -10,10 +14,14 @@ export class MinimaxAgent implements PlayerAgent {
   private timeLimit: number = 5000
 
   constructor(depth: number = 2) {
-    this.worker = new Worker(new URL('./AIWorker.ts', import.meta.url), {
-      type: 'module',
-    })
+    this.worker = createAIWorker()
     this.depth = depth
+  }
+
+  /** Aborta el cálculo en curso (timeout del TurnManager) y deja el agente listo para el siguiente turno. */
+  public cancel(): void {
+    this.worker.terminate()
+    this.worker = createAIWorker()
   }
 
   async getAction(gameState: GameSnapshot): Promise<PlayerAction> {

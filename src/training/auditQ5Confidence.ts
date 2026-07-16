@@ -21,23 +21,15 @@ import {
   buildMCTSEvaluationSchedule,
   type MCTSOpponent,
 } from './evaluateMCTS'
-import {
-  MCTS_Q5_PRIOR_CONFIGS,
-  MCTS_Q5_PRIOR_SEED,
-} from './evaluateMCTSQ5Prior'
-import {
-  finalizeGameIfNeeded,
-  hashFile,
-} from './trainLearningAgentQ5'
+import { MCTS_Q5_PRIOR_CONFIGS, MCTS_Q5_PRIOR_SEED } from './evaluateMCTSQ5Prior'
+import { finalizeGameIfNeeded, hashFile } from './trainLearningAgentQ5'
 import {
   chooseHeuristicOpponentActionQ4,
   chooseRandomActionWithRngQ4,
   createSeededRngQ4,
 } from './trainLearningAgentQ4'
 
-export const Q5_CONFIDENCE_AUDIT_DIR = path.join(
-  'data/entrenamiento/q5/auditoria_confianza_mcts',
-)
+export const Q5_CONFIDENCE_AUDIT_DIR = path.join('data/entrenamiento/q5/auditoria_confianza_mcts')
 export const Q5_CONFIDENCE_AUDIT_VERSION = 'q5-confidence-mcts-v1'
 
 export interface Distribution {
@@ -92,8 +84,7 @@ interface AuditOptions {
 
 const THRESHOLDS = [1, 2, 3, 5, 10, 20] as const
 const Q5_QTABLE_PATH = Q5_CHECKPOINT_SOURCE
-const Q5_CONFIDENCE_SOURCE =
-  'data/entrenamiento/q5/heuristic_initial_qtable/build_summary.json'
+const Q5_CONFIDENCE_SOURCE = 'data/entrenamiento/q5/heuristic_initial_qtable/build_summary.json'
 const Q5_UPDATE_SOURCES = [
   'data/entrenamiento/q5/hybrid/final_checkpoint_500/q_update_log.jsonl',
   'data/entrenamiento/q5/hybrid/final_checkpoint_1000/q_update_log.jsonl',
@@ -192,7 +183,10 @@ function readObservations(filePath: string): Map<string, { observations: number 
     entries?: Array<{ stateActionKey: string; observations: number }>
   }
   return new Map(
-    (parsed.entries ?? []).map((entry) => [entry.stateActionKey, { observations: entry.observations }]),
+    (parsed.entries ?? []).map((entry) => [
+      entry.stateActionKey,
+      { observations: entry.observations },
+    ]),
   )
 }
 
@@ -202,7 +196,8 @@ function readUpdateCounts(filePaths: readonly string[]): Map<string, number> {
     for (const line of readFileSync(filePath, 'utf8').trim().split(/\r?\n/)) {
       if (!line) continue
       const entry = JSON.parse(line) as { stateActionKey?: string }
-      if (entry.stateActionKey) counts.set(entry.stateActionKey, (counts.get(entry.stateActionKey) ?? 0) + 1)
+      if (entry.stateActionKey)
+        counts.set(entry.stateActionKey, (counts.get(entry.stateActionKey) ?? 0) + 1)
     }
   }
   return counts
@@ -210,17 +205,21 @@ function readUpdateCounts(filePaths: readonly string[]): Map<string, number> {
 
 function actionTransform(actionKey: string, transform: (pos: Pos) => Pos): string | undefined {
   const parts = actionKey.split('|')
-  const pos = (offset: number) => transform({ x: Number(parts[offset]), y: Number(parts[offset + 1]) })
+  const pos = (offset: number) =>
+    transform({ x: Number(parts[offset]), y: Number(parts[offset + 1]) })
   if (parts[0] === 'place') {
     const p = pos(1)
     return `place|${p.x}|${p.y}`
   }
   if (parts[0] === 'move') {
-    const from = pos(1); const to = pos(3)
+    const from = pos(1)
+    const to = pos(3)
     return `move|${from.x}|${from.y}|${to.x}|${to.y}`
   }
   if (parts[0] === 'move-wall') {
-    const from = pos(1); const to = pos(3); const wall = pos(5)
+    const from = pos(1)
+    const to = pos(3)
+    const wall = pos(5)
     return `move-wall|${from.x}|${from.y}|${to.x}|${to.y}|${wall.x}|${wall.y}|${parts[7]}`
   }
   if (parts[0] === 'wall') {
@@ -252,7 +251,9 @@ function symmetryAudit(keys: readonly string[]) {
     const equivalents = new Set(
       transforms.map((transform) => actionTransform(actionKey, transform)).filter(Boolean),
     )
-    const present = Array.from(equivalents).filter((candidate) => keySet.has(`${stateKey}|||${candidate}`)).length
+    const present = Array.from(equivalents).filter((candidate) =>
+      keySet.has(`${stateKey}|||${candidate}`),
+    ).length
     if (present > 1) keysWithEquivalent++
     equivalentCopies += Math.max(0, present - 1)
     potentialCopies += Math.max(0, equivalents.size - 1)
@@ -263,7 +264,9 @@ function symmetryAudit(keys: readonly string[]) {
     qTableKeysWithAtLeastOneRotatedOrReflectedEquivalent: keysWithEquivalent,
     directedEquivalentCopiesPresent: equivalentCopies,
     directedPotentialAdditionalCopies: potentialCopies,
-    percentageWithEquivalentPresent: keys.length ? round((keysWithEquivalent / keys.length) * 100) : 0,
+    percentageWithEquivalentPresent: keys.length
+      ? round((keysWithEquivalent / keys.length) * 100)
+      : 0,
     note: 'La clave de estado Q3 agrega rasgos pero la clave de accion conserva coordenadas absolutas; las simetrias geometricas pueden fragmentar una misma decision entre hasta ocho claves.',
   }
 }
@@ -331,27 +334,41 @@ export async function auditQ5Confidence(options: AuditOptions = {}) {
   const confidenceKeys = new Set(observations.keys())
   const updateKeys = new Set(updates.keys())
   const effectiveKeys = new Set([...Array.from(confidenceKeys), ...Array.from(updateKeys)])
-  const effective = new Map(Array.from(effectiveKeys).map((key) => [key, effectiveConfidence(key, observations, updates)]))
+  const effective = new Map(
+    Array.from(effectiveKeys).map((key) => [key, effectiveConfidence(key, observations, updates)]),
+  )
   const model: FrozenQ5Model = Object.freeze({
-    qTable: Object.freeze({ ...qTable }), confidence: effective,
-    source: Q5_CHECKPOINT_SOURCE, sha256: Q5_CHECKPOINT_SHA256,
+    qTable: Object.freeze({ ...qTable }),
+    confidence: effective,
+    source: Q5_CHECKPOINT_SOURCE,
+    sha256: Q5_CHECKPOINT_SHA256,
   })
   const observedKeys = options.observedKeys
     ? [...options.observedKeys]
-    : options.replayMCTS === false ? [] : await replayObservedKeys({ ...model, confidence: new Map() })
+    : options.replayMCTS === false
+      ? []
+      : await replayObservedKeys({ ...model, confidence: new Map() })
   const observedArtifactValues = observedKeys.map((key) => effective.get(key) ?? 0)
   // This is the exact map received by the historical Node/ts-node MCTS evaluation. Its
   // iterator spreads were downlevel-transpiled to empty arrays by scripts/run-ts-node-esm.mjs.
   const observedRuntimeValues = observedKeys.map(() => 0)
   const count = (set: ReadonlySet<string>) => observedKeys.filter((key) => set.has(key)).length
-  const pct = (value: number) => observedKeys.length ? round((value / observedKeys.length) * 100) : 0
+  const pct = (value: number) =>
+    observedKeys.length ? round((value / observedKeys.length) * 100) : 0
   const observed: MCTSObservedAudit = {
-    source: 'Deterministic replay of the 30 unique games underlying the three identical Q-prior weight runs',
+    source:
+      'Deterministic replay of the 30 unique games underlying the three identical Q-prior weight runs',
     exactReplay: !options.observedKeys && options.replayMCTS !== false,
     queriedActions: observedKeys.length,
     uniqueQueriedKeys: new Set(observedKeys).size,
-    withQTable: count(qKeys), withConfidenceMap: count(confidenceKeys), withUpdateCount: count(updateKeys),
-    percentages: { qTable: pct(count(qKeys)), confidenceMap: pct(count(confidenceKeys)), updateCount: pct(count(updateKeys)) },
+    withQTable: count(qKeys),
+    withConfidenceMap: count(confidenceKeys),
+    withUpdateCount: count(updateKeys),
+    percentages: {
+      qTable: pct(count(qKeys)),
+      confidenceMap: pct(count(confidenceKeys)),
+      updateCount: pct(count(updateKeys)),
+    },
     effectiveConfidenceDistribution: distribution(observedRuntimeValues),
     artifactConfidenceDistribution: distribution(observedArtifactValues),
     runtimeConfidenceMapEntries: 0,
@@ -360,59 +377,109 @@ export async function auditQ5Confidence(options: AuditOptions = {}) {
     replayedGames: options.observedKeys || options.replayMCTS === false ? 0 : 30,
     representedPriorConfigurations: 3,
   }
-  const differingCounters = Array.from(new Set([...Array.from(confidenceKeys), ...Array.from(updateKeys)])).filter(
-    (key) => (observations.get(key)?.observations ?? 0) !== (updates.get(key) ?? 0),
-  ).length
+  const differingCounters = Array.from(
+    new Set([...Array.from(confidenceKeys), ...Array.from(updateKeys)]),
+  ).filter((key) => (observations.get(key)?.observations ?? 0) !== (updates.get(key) ?? 0)).length
   const report = {
     auditVersion: Q5_CONFIDENCE_AUDIT_VERSION,
     createdAt: options.createdAt ?? '2026-07-14T00:00:00.000Z',
     offline: true,
-    approvedModel: { path: Q5_QTABLE_PATH, expectedSha256: Q5_CHECKPOINT_SHA256, actualSha256: hashFile(qPath), expectedEntries: Q5_CHECKPOINT_ENTRIES, actualEntries: qKeys.size },
+    approvedModel: {
+      path: Q5_QTABLE_PATH,
+      expectedSha256: Q5_CHECKPOINT_SHA256,
+      actualSha256: hashFile(qPath),
+      expectedEntries: Q5_CHECKPOINT_ENTRIES,
+      actualEntries: qKeys.size,
+    },
     confidenceDistribution: distribution(Array.from(effective.values())),
     confidenceOrigin: {
-      observations: distribution(Array.from(observations.values()).map((item) => item.observations)),
+      observations: distribution(
+        Array.from(observations.values()).map((item) => item.observations),
+      ),
       qLearningUpdateCounts: distribution(Array.from(updates.values())),
       effectivePolicyValue: 'max(observations, qLearningUpdateCounts)',
       effective: distribution(Array.from(effective.values())),
       effectiveEntriesInFrozenBrowserPolicy: effective.size,
       effectiveEntriesInHistoricalMCTSNodeEvaluation: 0,
-      historicalMCTSLoaderIssue: 'iterator spread over Map.keys() is downlevel-transpiled to an empty array by scripts/run-ts-node-esm.mjs',
+      historicalMCTSLoaderIssue:
+        'iterator spread over Map.keys() is downlevel-transpiled to an empty array by scripts/run-ts-node-esm.mjs',
       keysWithDifferentCounters: differingCounters,
       percentageDifferent: effective.size ? round((differingCounters / effective.size) * 100) : 0,
     },
     keyCompatibility: calculateKeyCoverage({ qTableKeys: qKeys, confidenceKeys, updateKeys }),
     mctsObserved: observed,
-    keyGeneration: { canonicalFunction: 'getLearningQTableKeyQ3', training: true, q5Final: true, mcts: true },
+    keyGeneration: {
+      canonicalFunction: 'getLearningQTableKeyQ3',
+      training: true,
+      q5Final: true,
+      mcts: true,
+    },
     symmetries: symmetryAudit(Array.from(qKeys)),
     conclusion: {
-      reliableCoverageZeroCause: observed.maxConfidence < Q5_MIN_CONFIDENCE
-        ? `MCTS recibio un confidence Map vacio por el transpile de iterator spread; su maximo efectivo fue ${observed.maxConfidence}, aunque los artefactos alcanzan ${observed.maxArtifactConfidence} en las claves consultadas.`
-        : 'Hay claves consultadas por encima del umbral; revisar el subconjunto seleccionado por MCTS.',
+      reliableCoverageZeroCause:
+        observed.maxConfidence < Q5_MIN_CONFIDENCE
+          ? `MCTS recibio un confidence Map vacio por el transpile de iterator spread; su maximo efectivo fue ${observed.maxConfidence}, aunque los artefactos alcanzan ${observed.maxArtifactConfidence} en las claves consultadas.`
+          : 'Hay claves consultadas por encima del umbral; revisar el subconjunto seleccionado por MCTS.',
       offlineCalibrationJustifiable: false,
-      recommendation: 'No calibrar ni descartar Q5 por estos resultados: la evaluacion del prior fue invalida porque MCTS recibio confianza vacia. Corregir primero la carga en el runner y repetir la evaluacion manteniendo minConfidence=10.',
+      recommendation:
+        'No calibrar ni descartar Q5 por estos resultados: la evaluacion del prior fue invalida porque MCTS recibio confianza vacia. Corregir primero la carga en el runner y repetir la evaluacion manteniendo minConfidence=10.',
     },
   }
-  if (report.approvedModel.actualSha256 !== Q5_CHECKPOINT_SHA256) throw new Error('SHA-256 Q5 no aprobado')
+  if (report.approvedModel.actualSha256 !== Q5_CHECKPOINT_SHA256)
+    throw new Error('SHA-256 Q5 no aprobado')
   if (qKeys.size !== Q5_CHECKPOINT_ENTRIES) throw new Error('Numero de entradas Q5 no aprobado')
   const hashesAfter = Object.fromEntries(protectedPaths.map((item) => [item, hashFile(item)]))
-  if (JSON.stringify(hashesBefore) !== JSON.stringify(hashesAfter)) throw new Error('La auditoria modifico un recurso Q5')
+  if (JSON.stringify(hashesBefore) !== JSON.stringify(hashesAfter))
+    throw new Error('La auditoria modifico un recurso Q5')
 
   if (options.writeOutputs !== false) {
     const outputDir = path.resolve(options.outputDir ?? Q5_CONFIDENCE_AUDIT_DIR)
     mkdirSync(outputDir, { recursive: true })
-    writeFileSync(path.join(outputDir, 'q5_confidence_audit.json'), `${JSON.stringify(report, null, 2)}\n`)
-    const distributionRows = THRESHOLDS.map((threshold) => ({ threshold, ...report.confidenceDistribution.thresholds[String(threshold)] }))
-    writeFileSync(path.join(outputDir, 'q5_confidence_distribution.csv'), csv(distributionRows, ['threshold', 'count', 'percentage']))
-    const coverageRows = Object.entries(report.keyCompatibility).map(([metric, value]) => ({ metric, value }))
-    writeFileSync(path.join(outputDir, 'q5_key_coverage.csv'), csv(coverageRows, ['metric', 'value']))
-    writeFileSync(path.join(outputDir, 'metadata.json'), `${JSON.stringify({ auditVersion: Q5_CONFIDENCE_AUDIT_VERSION, createdAt: report.createdAt, offline: true, inputs: protectedPaths, hashesBefore, hashesAfter, q5ResourcesModified: false }, null, 2)}\n`)
+    writeFileSync(
+      path.join(outputDir, 'q5_confidence_audit.json'),
+      `${JSON.stringify(report, null, 2)}\n`,
+    )
+    const distributionRows = THRESHOLDS.map((threshold) => ({
+      threshold,
+      ...report.confidenceDistribution.thresholds[String(threshold)],
+    }))
+    writeFileSync(
+      path.join(outputDir, 'q5_confidence_distribution.csv'),
+      csv(distributionRows, ['threshold', 'count', 'percentage']),
+    )
+    const coverageRows = Object.entries(report.keyCompatibility).map(([metric, value]) => ({
+      metric,
+      value,
+    }))
+    writeFileSync(
+      path.join(outputDir, 'q5_key_coverage.csv'),
+      csv(coverageRows, ['metric', 'value']),
+    )
+    writeFileSync(
+      path.join(outputDir, 'metadata.json'),
+      `${JSON.stringify({ auditVersion: Q5_CONFIDENCE_AUDIT_VERSION, createdAt: report.createdAt, offline: true, inputs: protectedPaths, hashesBefore, hashesAfter, q5ResourcesModified: false }, null, 2)}\n`,
+    )
   }
   return report
 }
 
 async function main() {
   const report = await auditQ5Confidence()
-  console.log(JSON.stringify({ max: report.confidenceDistribution.max, observedMax: report.mctsObserved.maxConfidence, output: Q5_CONFIDENCE_AUDIT_DIR }, null, 2))
+  console.log(
+    JSON.stringify(
+      {
+        max: report.confidenceDistribution.max,
+        observedMax: report.mctsObserved.maxConfidence,
+        output: Q5_CONFIDENCE_AUDIT_DIR,
+      },
+      null,
+      2,
+    ),
+  )
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) main().catch((error) => { console.error(error); process.exitCode = 1 })
+if (process.argv[1] === fileURLToPath(import.meta.url))
+  main().catch((error) => {
+    console.error(error)
+    process.exitCode = 1
+  })

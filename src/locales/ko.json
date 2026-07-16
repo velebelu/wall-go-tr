@@ -9,11 +9,21 @@
       "pvp": "🤝 2인 플레이",
       "ai": "🤖 AI 대전",
       "ai-vs-ai": "🤖 AI 대 AI",
-      "q5_learning": "Q5 학습 AI"
+      "experimentalTitle": "실험 모드",
+      "random_vs_heuristic": "무작위 AI vs 휴리스틱 AI",
+      "learning_vs_random": "학습 AI vs 무작위 AI",
+      "learning_vs_heuristic": "학습 AI vs 휴리스틱 AI",
+      "q5_learning": "Q5 학습 AI",
+      "mcts_final": "전략 MCTS AI"
     },
     "rule": "게임 규칙",
     "q5": {
       "select_side": "Q5 학습 AI 색상 선택:",
+      "red": "빨강",
+      "blue": "파랑"
+    },
+    "mcts": {
+      "select_side": "전략 MCTS AI 색상 선택:",
       "red": "빨강",
       "blue": "파랑"
     },
@@ -22,6 +32,7 @@
       "level": "AI 수준:",
       "levels": {
         "practice": "🎲 연습",
+        "heuristic": "휴리스틱 AI",
         "easy": "🌱 초급",
         "middle": "🐵 중급",
         "hard": "👾 고급"
@@ -68,6 +79,8 @@
     "redo": "다시 실행",
     "undoAria": "실행 취소",
     "redoAria": "다시 실행",
-    "menu": "메뉴"
+    "menu": "메뉴",
+    "themeToggle": "다크/라이트 모드 전환",
+    "languageToggle": "언어 변경"
   }
 }

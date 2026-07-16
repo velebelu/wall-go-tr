@@ -45,9 +45,7 @@ import {
 } from './evaluateQ5PolicyComparison'
 
 export const MCTS_EVALUATION_VERSION = 'mcts-baseline-v1'
-export const MCTS_BASELINE_OUTPUT_DIR = path.join(
-  'data/entrenamiento/mcts/evaluacion_baseline',
-)
+export const MCTS_BASELINE_OUTPUT_DIR = path.join('data/entrenamiento/mcts/evaluacion_baseline')
 export const MCTS_BASELINE_SEED = 613_000
 export const MCTS_BASELINE_MAX_TURNS = 250
 
@@ -381,19 +379,24 @@ async function runSingleMCTSGame(params: {
         throw new Error('Frozen Q5 returned an illegal action during baseline evaluation')
       }
     } else {
-      action = searchBestAction(previousState, previousState.turn, params.mctsOpponentConfig ?? {
-        simulations: 50,
-        explorationConstant: Math.SQRT2,
-        maxDepth: 60,
-        rolloutPolicy: 'mixed',
-        heuristicProbability: 0.8,
-        expansionPolicy: 'heuristic',
-        progressiveWidening: true,
-        wideningConstant: 2,
-        wideningExponent: 0.5,
-        qPriorWeight: 0,
-        tacticalVerification: false,
-      }, rivalRng).action
+      action = searchBestAction(
+        previousState,
+        previousState.turn,
+        params.mctsOpponentConfig ?? {
+          simulations: 50,
+          explorationConstant: Math.SQRT2,
+          maxDepth: 60,
+          rolloutPolicy: 'mixed',
+          heuristicProbability: 0.8,
+          expansionPolicy: 'heuristic',
+          progressiveWidening: true,
+          wideningConstant: 2,
+          wideningExponent: 0.5,
+          qPriorWeight: 0,
+          tacticalVerification: false,
+        },
+        rivalRng,
+      ).action
     }
 
     const applied = applyFullAction(state, action)
@@ -428,9 +431,7 @@ async function runSingleMCTSGame(params: {
     averageRootExplorationRatio: mctsDecisions
       ? roundMetric(rootExplorationRatio / mctsDecisions)
       : 0,
-    averageQPriorKnownActions: mctsDecisions
-      ? roundMetric(qPriorKnownActions / mctsDecisions)
-      : 0,
+    averageQPriorKnownActions: mctsDecisions ? roundMetric(qPriorKnownActions / mctsDecisions) : 0,
     averageQPriorReliableActions: mctsDecisions
       ? roundMetric(qPriorReliableActions / mctsDecisions)
       : 0,
@@ -445,7 +446,9 @@ async function runSingleMCTSGame(params: {
     mctsActionSignatures,
     tacticalCandidatesChecked,
     tacticalSelectionChanges,
-    tacticalSelectionChangeRate: mctsDecisions ? roundMetric(tacticalSelectionChanges / mctsDecisions) : 0,
+    tacticalSelectionChangeRate: mctsDecisions
+      ? roundMetric(tacticalSelectionChanges / mctsDecisions)
+      : 0,
     averageVerificationTimeMs: mctsDecisions ? roundMetric(verificationTimeMs / mctsDecisions) : 0,
     immediateTerminalLossesAvoided,
   }
@@ -464,15 +467,11 @@ export function summarizeMCTSResults(
     (sum, result) => sum + result.averageRootLegalActions * result.mctsDecisions,
     0,
   )
-  const weightedDecisionMetric = (
-    selector: (result: MCTSGameResult) => number,
-  ): number =>
+  const weightedDecisionMetric = (selector: (result: MCTSGameResult) => number): number =>
     totalDecisions
       ? roundMetric(
-          results.reduce(
-            (sum, result) => sum + selector(result) * result.mctsDecisions,
-            0,
-          ) / totalDecisions,
+          results.reduce((sum, result) => sum + selector(result) * result.mctsDecisions, 0) /
+            totalDecisions,
         )
       : 0
   const average = (selector: (result: MCTSGameResult) => number): number =>
@@ -691,10 +690,13 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
   const results: MCTSGameResult[] = []
 
   for (const pairing of scheduledGames) {
-    const mctsOpponentConfig = typeof options.mctsOpponentConfig === 'function'
-      ? options.mctsOpponentConfig(pairing)
-      : options.mctsOpponentConfig
-    results.push(await runSingleMCTSGame({ pairing, maxTurns, now, q5Resources, mctsOpponentConfig }))
+    const mctsOpponentConfig =
+      typeof options.mctsOpponentConfig === 'function'
+        ? options.mctsOpponentConfig(pairing)
+        : options.mctsOpponentConfig
+    results.push(
+      await runSingleMCTSGame({ pairing, maxTurns, now, q5Resources, mctsOpponentConfig }),
+    )
     if (progressEvery > 0 && results.length % progressEvery === 0) {
       console.log(`[evaluateMCTS] ${results.length}/${scheduledGames.length} games`)
     }
@@ -717,7 +719,10 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
     | undefined
   if (q5Resources) {
     const resourceHashesAfter = Object.fromEntries(
-      Object.keys(q5Resources.resourceHashesBefore).map((filePath) => [filePath, hashFile(filePath)]),
+      Object.keys(q5Resources.resourceHashesBefore).map((filePath) => [
+        filePath,
+        hashFile(filePath),
+      ]),
     )
     q5Verification = {
       source: q5Resources.model.source,
@@ -735,7 +740,10 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
       resourceHashesAfter,
       confidenceStats: q5Resources.confidenceStats,
     }
-    if (q5Verification.qTableChangedDuringEvaluation || q5Verification.resourcesChangedDuringEvaluation) {
+    if (
+      q5Verification.qTableChangedDuringEvaluation ||
+      q5Verification.resourcesChangedDuringEvaluation
+    ) {
       throw new Error('Frozen Q5 resources changed during MCTS evaluation')
     }
   }
@@ -751,15 +759,16 @@ export async function evaluateMCTS(options: EvaluateMCTSOptions = {}) {
     },
     protocol: {
       gamesPerCombination,
-      gamesPerRival: Object.fromEntries(rivals.map((rival) => [
-        rival,
-        options.gamesPerRival?.[rival] ?? gamesPerCombination,
-      ])),
+      gamesPerRival: Object.fromEntries(
+        rivals.map((rival) => [rival, options.gamesPerRival?.[rival] ?? gamesPerCombination]),
+      ),
       gamesPerColor: options.gamesPerRival
-        ? Object.fromEntries(rivals.map((rival) => [
-            rival,
-            (options.gamesPerRival?.[rival] ?? gamesPerCombination) / 2,
-          ]))
+        ? Object.fromEntries(
+            rivals.map((rival) => [
+              rival,
+              (options.gamesPerRival?.[rival] ?? gamesPerCombination) / 2,
+            ]),
+          )
         : gamesPerCombination / 2,
       totalGames: scheduledGames.length,
       seedBase,

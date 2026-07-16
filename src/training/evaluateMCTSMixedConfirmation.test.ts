@@ -91,9 +91,7 @@ describe('evaluateMCTSMixedConfirmation', () => {
   it('does not overwrite baseline, rollout policy, Q5, or checkpoints', async () => {
     const protectedPaths = [
       path.resolve('data/entrenamiento/mcts/evaluacion_baseline/mcts_baseline_summary.json'),
-      path.resolve(
-        'data/entrenamiento/mcts/evaluacion_rollout_policy/mcts_rollout_summary.json',
-      ),
+      path.resolve('data/entrenamiento/mcts/evaluacion_rollout_policy/mcts_rollout_summary.json'),
       path.resolve(Q5_POLICY_COMPARISON_QTABLE_PATH),
     ]
     const before = protectedPaths.map((filePath) => readFileSync(filePath, 'utf8'))

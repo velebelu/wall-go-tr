@@ -79,6 +79,8 @@
     "redo": "Redo",
     "undoAria": "Undo",
     "redoAria": "Redo",
-    "menu": "Menu"
+    "menu": "Menu",
+    "themeToggle": "Toggle dark/light mode",
+    "languageToggle": "Change language"
   }
 }

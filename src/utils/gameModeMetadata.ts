@@ -9,7 +9,11 @@ const AI_GAME_TYPES: Record<AiLevel, string> = {
 }
 
 const AI_PLAYERS: Record<AiLevel, string> = {
-  practice: 'ia_aleatoria', heuristic: 'ia_heuristica', easy: 'ia_facil', middle: 'ia_media', hard: 'ia_dificil',
+  practice: 'ia_aleatoria',
+  heuristic: 'ia_heuristica',
+  easy: 'ia_facil',
+  middle: 'ia_media',
+  hard: 'ia_dificil',
 }
 
 export function getGameParticipantMetadata(params: {
@@ -29,7 +33,8 @@ export function getGameParticipantMetadata(params: {
   if (gameMode === 'learning-vs-heuristic') tipo_partida = 'ia_aprendiz_vs_ia_heuristica'
 
   const playerLabel = (side: Player) => {
-    if (gameMode === 'ai-vs-ai' || gameMode === 'random-vs-heuristic') return side === 'R' ? 'ia_aleatoria' : 'ia_heuristica'
+    if (gameMode === 'ai-vs-ai' || gameMode === 'random-vs-heuristic')
+      return side === 'R' ? 'ia_aleatoria' : 'ia_heuristica'
     if (gameMode === 'learning-vs-random') return side === 'R' ? 'ia_aprendiz' : 'ia_aleatoria'
     if (gameMode === 'learning-vs-heuristic') return side === 'R' ? 'ia_aprendiz' : 'ia_heuristica'
     if (gameMode === 'q5-learning') return side === aiSide ? 'ia_aprendiz_q5_1000' : 'humano'

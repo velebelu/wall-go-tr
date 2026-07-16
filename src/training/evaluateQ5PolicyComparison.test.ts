@@ -146,12 +146,18 @@ describe('evaluateQ5PolicyComparison', () => {
     const summary = result.summary as {
       qTableChangedDuringEvaluation: boolean
       qTables: Array<{ label: string; qTableChangedDuringEvaluation: boolean }>
-      combinations: Array<{ table: string; policy: { label: string }; aggregate: { games: number } }>
+      combinations: Array<{
+        table: string
+        policy: { label: string }
+        aggregate: { games: number }
+      }>
     }
 
     expect(summary.qTableChangedDuringEvaluation).toBe(false)
     expect(summary.qTables.map((table) => table.label)).toEqual(['q5_1000', 'q5_1500'])
-    expect(summary.qTables.every((table) => table.qTableChangedDuringEvaluation === false)).toBe(true)
+    expect(summary.qTables.every((table) => table.qTableChangedDuringEvaluation === false)).toBe(
+      true,
+    )
     expect(result.results).toHaveLength(16)
     expect(summary.combinations).toHaveLength(4)
     for (const combination of summary.combinations) {
@@ -192,13 +198,21 @@ describe('evaluateQ5PolicyComparison', () => {
       tableConfigs: [
         { label: 'q5_1000', qTablePath: qTablePath1000, qUpdateLogPath: [] },
         { label: 'q5_1500', qTablePath: qTablePath1500, qUpdateLogPath: [] },
-        { label: 'q5_1500_conservative_alpha', qTablePath: qTablePathConservative, qUpdateLogPath: [] },
+        {
+          label: 'q5_1500_conservative_alpha',
+          qTablePath: qTablePathConservative,
+          qUpdateLogPath: [],
+        },
       ],
     })
     const summary = result.summary as {
       qTableChangedDuringEvaluation: boolean
       qTables: Array<{ label: string; qTableChangedDuringEvaluation: boolean }>
-      combinations: Array<{ table: string; policy: { label: string }; aggregate: { games: number } }>
+      combinations: Array<{
+        table: string
+        policy: { label: string }
+        aggregate: { games: number }
+      }>
     }
 
     expect(summary.qTableChangedDuringEvaluation).toBe(false)
@@ -207,7 +221,9 @@ describe('evaluateQ5PolicyComparison', () => {
       'q5_1500',
       'q5_1500_conservative_alpha',
     ])
-    expect(summary.qTables.every((table) => table.qTableChangedDuringEvaluation === false)).toBe(true)
+    expect(summary.qTables.every((table) => table.qTableChangedDuringEvaluation === false)).toBe(
+      true,
+    )
     expect(result.results).toHaveLength(12)
     expect(summary.combinations).toHaveLength(3)
     for (const combination of summary.combinations) {
@@ -223,8 +239,12 @@ describe('evaluateQ5PolicyComparison', () => {
       seedsByTable.set(table, seeds)
     }
     expect(new Set(seedsByTable.values()).size).toBe(1)
-    expect(existsSync(path.join(outputDir, 'conservative_alpha_comparison_summary.json'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'conservative_alpha_comparison_summary.json'))).toBe(
+      true,
+    )
     expect(existsSync(path.join(outputDir, 'conservative_alpha_comparison_results.csv'))).toBe(true)
-    expect(existsSync(path.join(outputDir, 'conservative_alpha_comparison_detailed.json'))).toBe(true)
+    expect(existsSync(path.join(outputDir, 'conservative_alpha_comparison_detailed.json'))).toBe(
+      true,
+    )
   }, 60000)
 })

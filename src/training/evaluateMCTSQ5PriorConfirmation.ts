@@ -80,10 +80,14 @@ export function buildQ5PriorConfirmationSchedule(
   const schedule: ConfirmationScheduleItem[] = []
   for (const rival of ['heuristic', 'q5-final', 'random'] as const) {
     const gamesForRival = games[rival]
-    if (gamesForRival <= 0 || gamesForRival % 2 !== 0) throw new Error('Games per rival must be positive and even')
+    if (gamesForRival <= 0 || gamesForRival % 2 !== 0)
+      throw new Error('Games per rival must be positive and even')
     for (const colorMCTS of ['R', 'B'] as const) {
       for (let game = 1; game <= gamesForRival / 2; game++) {
-        const seed = MCTS_Q5_PRIOR_CONFIRMATION_SEEDS[rival] + (colorMCTS === 'B' ? gamesForRival / 2 : 0) + game
+        const seed =
+          MCTS_Q5_PRIOR_CONFIRMATION_SEEDS[rival] +
+          (colorMCTS === 'B' ? gamesForRival / 2 : 0) +
+          game
         const pairId = `${rival}-${colorMCTS}-${String(game).padStart(2, '0')}`
         for (const config of MCTS_Q5_PRIOR_CONFIRMATION_CONFIGS) {
           schedule.push({ pairId, configName: config.name, rival, colorMCTS, game, seed })
@@ -102,7 +106,9 @@ function resultScore(result: 'win' | 'loss' | 'tie'): number {
   return result === 'win' ? 1 : result === 'tie' ? 0.5 : 0
 }
 
-function round(value: number): number { return Number(value.toFixed(4)) }
+function round(value: number): number {
+  return Number(value.toFixed(4))
+}
 
 export function buildConfirmationPairs(results: readonly MCTSGameResult[]): ConfirmationPairRow[] {
   const grouped = new Map<string, MCTSGameResult[]>()
@@ -110,49 +116,61 @@ export function buildConfirmationPairs(results: readonly MCTSGameResult[]): Conf
     const pairId = `${row.rival}-${row.colorMCTS}-${String(row.game).padStart(2, '0')}`
     grouped.set(pairId, [...(grouped.get(pairId) ?? []), row])
   }
-  return Array.from(grouped.entries()).map(([pairId, rows]) => {
-    const baseline = rows.find((row) => row.config.name === 'baseline')
-    const hybrid = rows.find((row) => row.config.name === 'q5-prior-1')
-    if (!baseline || !hybrid) throw new Error(`Incomplete confirmation pair: ${pairId}`)
-    if (baseline.seed !== hybrid.seed || baseline.rival !== hybrid.rival || baseline.colorMCTS !== hybrid.colorMCTS) {
-      throw new Error(`Mismatched confirmation pair: ${pairId}`)
-    }
-    const baselineResult = resultLabel(baseline)
-    const hybridResult = resultLabel(hybrid)
-    const delta = resultScore(hybridResult) - resultScore(baselineResult)
-    const baseActions = baseline.mctsActionSignatures
-    const hybridActions = hybrid.mctsActionSignatures
-    let divergentDecisions: number | null = null
-    let comparedDecisions: number | null = null
-    if (baseActions && hybridActions) {
-      comparedDecisions = Math.max(baseActions.length, hybridActions.length)
-      divergentDecisions = 0
-      for (let index = 0; index < comparedDecisions; index++) {
-        if (baseActions[index] !== hybridActions[index]) divergentDecisions++
+  return Array.from(grouped.entries())
+    .map(([pairId, rows]) => {
+      const baseline = rows.find((row) => row.config.name === 'baseline')
+      const hybrid = rows.find((row) => row.config.name === 'q5-prior-1')
+      if (!baseline || !hybrid) throw new Error(`Incomplete confirmation pair: ${pairId}`)
+      if (
+        baseline.seed !== hybrid.seed ||
+        baseline.rival !== hybrid.rival ||
+        baseline.colorMCTS !== hybrid.colorMCTS
+      ) {
+        throw new Error(`Mismatched confirmation pair: ${pairId}`)
       }
-    }
-    const resultChange: ConfirmationPairRow['resultChange'] =
-      delta > 0 ? 'improves' : delta < 0 ? 'worsens' : 'same'
-    return {
-      pairId,
-      rival: baseline.rival,
-      colorMCTS: baseline.colorMCTS,
-      game: baseline.game,
-      seed: baseline.seed,
-      baselineResult,
-      hybridResult,
-      resultChange,
-      baselineTerritoryDiff: baseline.territoryDiff,
-      hybridTerritoryDiff: hybrid.territoryDiff,
-      territoryImprovement: hybrid.territoryDiff - baseline.territoryDiff,
-      initialActionsDiverge: baseActions && hybridActions ? baseActions[0] !== hybridActions[0] : null,
-      divergentDecisions,
-      comparedDecisions,
-      divergentDecisionPercentage: comparedDecisions ? round((divergentDecisions! / comparedDecisions) * 100) : null,
-      hybridAverageReliableActions: hybrid.averageQPriorReliableActions,
-      hybridSelectedReliableRate: hybrid.qPriorSelectedActionReliableRate,
-    }
-  }).sort((a, b) => a.rival.localeCompare(b.rival) || a.colorMCTS.localeCompare(b.colorMCTS) || a.game - b.game)
+      const baselineResult = resultLabel(baseline)
+      const hybridResult = resultLabel(hybrid)
+      const delta = resultScore(hybridResult) - resultScore(baselineResult)
+      const baseActions = baseline.mctsActionSignatures
+      const hybridActions = hybrid.mctsActionSignatures
+      let divergentDecisions: number | null = null
+      let comparedDecisions: number | null = null
+      if (baseActions && hybridActions) {
+        comparedDecisions = Math.max(baseActions.length, hybridActions.length)
+        divergentDecisions = 0
+        for (let index = 0; index < comparedDecisions; index++) {
+          if (baseActions[index] !== hybridActions[index]) divergentDecisions++
+        }
+      }
+      const resultChange: ConfirmationPairRow['resultChange'] =
+        delta > 0 ? 'improves' : delta < 0 ? 'worsens' : 'same'
+      return {
+        pairId,
+        rival: baseline.rival,
+        colorMCTS: baseline.colorMCTS,
+        game: baseline.game,
+        seed: baseline.seed,
+        baselineResult,
+        hybridResult,
+        resultChange,
+        baselineTerritoryDiff: baseline.territoryDiff,
+        hybridTerritoryDiff: hybrid.territoryDiff,
+        territoryImprovement: hybrid.territoryDiff - baseline.territoryDiff,
+        initialActionsDiverge:
+          baseActions && hybridActions ? baseActions[0] !== hybridActions[0] : null,
+        divergentDecisions,
+        comparedDecisions,
+        divergentDecisionPercentage: comparedDecisions
+          ? round((divergentDecisions! / comparedDecisions) * 100)
+          : null,
+        hybridAverageReliableActions: hybrid.averageQPriorReliableActions,
+        hybridSelectedReliableRate: hybrid.qPriorSelectedActionReliableRate,
+      }
+    })
+    .sort(
+      (a, b) =>
+        a.rival.localeCompare(b.rival) || a.colorMCTS.localeCompare(b.colorMCTS) || a.game - b.game,
+    )
 }
 
 export function wilson95(successes: number, total: number): { low: number; high: number } {
@@ -161,7 +179,8 @@ export function wilson95(successes: number, total: number): { low: number; high:
   const p = successes / total
   const denominator = 1 + (z * z) / total
   const center = (p + (z * z) / (2 * total)) / denominator
-  const margin = (z * Math.sqrt((p * (1 - p)) / total + (z * z) / (4 * total * total))) / denominator
+  const margin =
+    (z * Math.sqrt((p * (1 - p)) / total + (z * z) / (4 * total * total))) / denominator
   return { low: round(center - margin), high: round(center + margin) }
 }
 
@@ -171,11 +190,17 @@ export function pairedMeanConfidence95(values: readonly number[]) {
   const sorted = [...values].sort((a, b) => a - b)
   const middle = Math.floor(sorted.length / 2)
   const median = sorted.length % 2 ? sorted[middle]! : (sorted[middle - 1]! + sorted[middle]!) / 2
-  const variance = values.length > 1
-    ? values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / (values.length - 1)
-    : 0
+  const variance =
+    values.length > 1
+      ? values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / (values.length - 1)
+      : 0
   const margin = 1.959963984540054 * Math.sqrt(variance / values.length)
-  return { mean: round(mean), median: round(median), low: round(mean - margin), high: round(mean + margin) }
+  return {
+    mean: round(mean),
+    median: round(median),
+    low: round(mean - margin),
+    high: round(mean + margin),
+  }
 }
 
 function binomialCoefficient(n: number, k: number): number {
@@ -190,20 +215,32 @@ export function mcnemarExact(baselineOnlyWins: number, hybridOnlyWins: number) {
   if (!discordant) return { baselineOnlyWins, hybridOnlyWins, discordant, pValue: 1 }
   const lower = Math.min(baselineOnlyWins, hybridOnlyWins)
   let cumulative = 0
-  for (let value = 0; value <= lower; value++) cumulative += binomialCoefficient(discordant, value) * 0.5 ** discordant
-  return { baselineOnlyWins, hybridOnlyWins, discordant, pValue: round(Math.min(1, cumulative * 2)) }
+  for (let value = 0; value <= lower; value++)
+    cumulative += binomialCoefficient(discordant, value) * 0.5 ** discordant
+  return {
+    baselineOnlyWins,
+    hybridOnlyWins,
+    discordant,
+    pValue: round(Math.min(1, cumulative * 2)),
+  }
 }
 
 function summarizePairs(pairs: readonly ConfirmationPairRow[]) {
   const improves = pairs.filter((pair) => pair.resultChange === 'improves').length
   const worsens = pairs.filter((pair) => pair.resultChange === 'worsens').length
   const same = pairs.length - improves - worsens
-  const baselineOnlyWins = pairs.filter((pair) => pair.baselineResult === 'win' && pair.hybridResult !== 'win').length
-  const hybridOnlyWins = pairs.filter((pair) => pair.baselineResult !== 'win' && pair.hybridResult === 'win').length
+  const baselineOnlyWins = pairs.filter(
+    (pair) => pair.baselineResult === 'win' && pair.hybridResult !== 'win',
+  ).length
+  const hybridOnlyWins = pairs.filter(
+    (pair) => pair.baselineResult !== 'win' && pair.hybridResult === 'win',
+  ).length
   const improved = pairs.filter((pair) => pair.resultChange === 'improves')
   const worsened = pairs.filter((pair) => pair.resultChange === 'worsens')
-  const average = (rows: readonly ConfirmationPairRow[], selector: (row: ConfirmationPairRow) => number) =>
-    rows.length ? round(rows.reduce((sum, row) => sum + selector(row), 0) / rows.length) : 0
+  const average = (
+    rows: readonly ConfirmationPairRow[],
+    selector: (row: ConfirmationPairRow) => number,
+  ) => (rows.length ? round(rows.reduce((sum, row) => sum + selector(row), 0) / rows.length) : 0)
   return {
     pairs: pairs.length,
     improves,
@@ -211,27 +248,54 @@ function summarizePairs(pairs: readonly ConfirmationPairRow[]) {
     same,
     territoryDifference: pairedMeanConfidence95(pairs.map((pair) => pair.territoryImprovement)),
     mcnemar: mcnemarExact(baselineOnlyWins, hybridOnlyWins),
-    initialActionDivergenceRate: pairs.length ? round((pairs.filter((pair) => pair.initialActionsDiverge).length / pairs.length) * 100) : 0,
+    initialActionDivergenceRate: pairs.length
+      ? round((pairs.filter((pair) => pair.initialActionsDiverge).length / pairs.length) * 100)
+      : 0,
     averageDecisionDivergenceRate: average(pairs, (pair) => pair.divergentDecisionPercentage ?? 0),
     reliableCoverage: {
-      improvedAverageReliableActions: average(improved, (pair) => pair.hybridAverageReliableActions),
-      worsenedAverageReliableActions: average(worsened, (pair) => pair.hybridAverageReliableActions),
+      improvedAverageReliableActions: average(
+        improved,
+        (pair) => pair.hybridAverageReliableActions,
+      ),
+      worsenedAverageReliableActions: average(
+        worsened,
+        (pair) => pair.hybridAverageReliableActions,
+      ),
       improvedSelectedReliableRate: average(improved, (pair) => pair.hybridSelectedReliableRate),
       worsenedSelectedReliableRate: average(worsened, (pair) => pair.hybridSelectedReliableRate),
     },
   }
 }
 
-function buildConclusions(normal: Array<{ config: string; rival: string; aggregate: ReturnType<typeof summarizeMCTSResults> }>, paired: any) {
-  const totalTime = (config: string) => normal.filter((row) => row.config === config).reduce((sum, row) => sum + row.aggregate.totalTimeMs, 0)
-  const costRatio = totalTime('baseline') ? round(totalTime('q5-prior-1') / totalTime('baseline')) : 0
+interface PairedAnalysis {
+  overall: ReturnType<typeof summarizePairs>
+  byRival: Record<string, ReturnType<typeof summarizePairs>>
+}
+
+function buildConclusions(
+  normal: Array<{
+    config: string
+    rival: string
+    aggregate: ReturnType<typeof summarizeMCTSResults>
+  }>,
+  paired: PairedAnalysis,
+) {
+  const totalTime = (config: string) =>
+    normal
+      .filter((row) => row.config === config)
+      .reduce((sum, row) => sum + row.aggregate.totalTimeMs, 0)
+  const costRatio = totalTime('baseline')
+    ? round(totalTime('q5-prior-1') / totalTime('baseline'))
+    : 0
   return {
     heuristic: {
-      answer: 'No. Q5 prior does not significantly improve against heuristic and the point estimate is worse.',
+      answer:
+        'No. Q5 prior does not significantly improve against heuristic and the point estimate is worse.',
       paired: paired.byRival.heuristic,
     },
     q5Final: {
-      answer: 'Q5 prior statistically maintains, but does not improve, performance against frozen Q5; point estimates are slightly worse.',
+      answer:
+        'Q5 prior statistically maintains, but does not improve, performance against frozen Q5; point estimates are slightly worse.',
       paired: paired.byRival['q5-final'],
     },
     random: {
@@ -239,9 +303,12 @@ function buildConclusions(normal: Array<{ config: string; rival: string; aggrega
       paired: paired.byRival.random,
     },
     reliablePriorAssociation: {
-      answer: 'No meaningful association is visible: reliable coverage is nearly equal in improved and worsened pairs.',
-      improvedAverageReliableActions: paired.overall.reliableCoverage.improvedAverageReliableActions,
-      worsenedAverageReliableActions: paired.overall.reliableCoverage.worsenedAverageReliableActions,
+      answer:
+        'No meaningful association is visible: reliable coverage is nearly equal in improved and worsened pairs.',
+      improvedAverageReliableActions:
+        paired.overall.reliableCoverage.improvedAverageReliableActions,
+      worsenedAverageReliableActions:
+        paired.overall.reliableCoverage.worsenedAverageReliableActions,
       improvedSelectedReliableRate: paired.overall.reliableCoverage.improvedSelectedReliableRate,
       worsenedSelectedReliableRate: paired.overall.reliableCoverage.worsenedSelectedReliableRate,
     },
@@ -249,8 +316,10 @@ function buildConclusions(normal: Array<{ config: string; rival: string; aggrega
       ratioHybridToBaseline: costRatio,
       answer: `No. The hybrid costs approximately ${costRatio}x and has no statistically supported gain.`,
     },
-    finalRecommendation: 'Keep the baseline MCTS configuration. Do not adopt qPriorWeight=1 as the final configuration.',
-    statisticalCaution: 'Confidence intervals include no effect and McNemar tests are non-significant; the sample does not support a firm positive Q5 effect.',
+    finalRecommendation:
+      'Keep the baseline MCTS configuration. Do not adopt qPriorWeight=1 as the final configuration.',
+    statisticalCaution:
+      'Confidence intervals include no effect and McNemar tests are non-significant; the sample does not support a firm positive Q5 effect.',
   }
 }
 
@@ -268,17 +337,30 @@ function rowsToCsv(rows: readonly Record<string, unknown>[]): string {
 function normalResultRows(results: readonly MCTSGameResult[]) {
   return results.map((row) => ({
     pairId: `${row.rival}-${row.colorMCTS}-${String(row.game).padStart(2, '0')}`,
-    config: row.config.name, rival: row.rival, colorMCTS: row.colorMCTS, game: row.game, seed: row.seed,
-    winner: row.winner, mctsWon: row.mctsWon, tie: row.tie, territoryMCTS: row.territoryMCTS,
-    territoryRival: row.territoryRival, territoryDiff: row.territoryDiff, turns: row.turns,
-    durationMs: row.durationMs, averageDecisionMs: row.averageDecisionMs,
-    averageRootLegalActions: row.averageRootLegalActions, averageRootExpandedChildren: row.averageRootExpandedChildren,
-    averageMaxDepthReached: row.averageMaxDepthReached, averageSelectedDepth: row.averageSelectedDepth,
+    config: row.config.name,
+    rival: row.rival,
+    colorMCTS: row.colorMCTS,
+    game: row.game,
+    seed: row.seed,
+    winner: row.winner,
+    mctsWon: row.mctsWon,
+    tie: row.tie,
+    territoryMCTS: row.territoryMCTS,
+    territoryRival: row.territoryRival,
+    territoryDiff: row.territoryDiff,
+    turns: row.turns,
+    durationMs: row.durationMs,
+    averageDecisionMs: row.averageDecisionMs,
+    averageRootLegalActions: row.averageRootLegalActions,
+    averageRootExpandedChildren: row.averageRootExpandedChildren,
+    averageMaxDepthReached: row.averageMaxDepthReached,
+    averageSelectedDepth: row.averageSelectedDepth,
     averageQPriorKnownActions: row.averageQPriorKnownActions,
     averageQPriorReliableActions: row.averageQPriorReliableActions,
     qPriorSelectedActionKnownRate: row.qPriorSelectedActionKnownRate,
     qPriorSelectedActionReliableRate: row.qPriorSelectedActionReliableRate,
-    averageSelectedQPrior: row.averageSelectedQPrior, mctsActionsLegal: row.mctsActionsLegal,
+    averageSelectedQPrior: row.averageSelectedQPrior,
+    mctsActionsLegal: row.mctsActionsLegal,
   }))
 }
 
@@ -299,7 +381,10 @@ export async function evaluateMCTSQ5PriorConfirmation(options: ConfirmationOptio
     throw new Error(`Confirmation output already exists: ${outputDir}`)
   }
   const resources = loadFrozenQ5EvaluationResources()
-  if (resources.model.sha256 !== Q5_CHECKPOINT_SHA256 || resources.confidenceStats.effectiveConfidenceEntries !== 27_815) {
+  if (
+    resources.model.sha256 !== Q5_CHECKPOINT_SHA256 ||
+    resources.confidenceStats.effectiveConfidenceEntries !== 27_815
+  ) {
     throw new Error('Frozen Q5 confirmation guards failed before games')
   }
   const games = options.games ?? MCTS_Q5_PRIOR_CONFIRMATION_GAMES
@@ -313,11 +398,17 @@ export async function evaluateMCTSQ5PriorConfirmation(options: ConfirmationOptio
   for (const rival of ['heuristic', 'q5-final', 'random'] as const) {
     const temporary = mkdtempSync(path.join(os.tmpdir(), `wall-go-q5-confirmation-${rival}-`))
     const result = await evaluateMCTS({
-      configs, rivals: [rival], gamesPerCombination: games[rival],
-      seedBase: MCTS_Q5_PRIOR_CONFIRMATION_SEEDS[rival], maxTurns: options.maxTurns,
-      outputDir: temporary, progressEvery: options.progressEvery ?? 10,
-      createdAt: options.createdAt, now: options.now,
-      outputFilePrefix: `temporary_${rival}`, evaluationVersion: MCTS_Q5_PRIOR_CONFIRMATION_VERSION,
+      configs,
+      rivals: [rival],
+      gamesPerCombination: games[rival],
+      seedBase: MCTS_Q5_PRIOR_CONFIRMATION_SEEDS[rival],
+      maxTurns: options.maxTurns,
+      outputDir: temporary,
+      progressEvery: options.progressEvery ?? 10,
+      createdAt: options.createdAt,
+      now: options.now,
+      outputFilePrefix: `temporary_${rival}`,
+      evaluationVersion: MCTS_Q5_PRIOR_CONFIRMATION_VERSION,
     })
     allResults.push(...result.results)
   }
@@ -325,49 +416,114 @@ export async function evaluateMCTSQ5PriorConfirmation(options: ConfirmationOptio
   const pairs = buildConfirmationPairs(allResults)
   const byConfigAndRival = configs.flatMap((config) =>
     (['heuristic', 'q5-final', 'random'] as const).map((rival) => {
-      const selected = allResults.filter((row) => row.config.name === config.name && row.rival === rival)
+      const selected = allResults.filter(
+        (row) => row.config.name === config.name && row.rival === rival,
+      )
       const aggregate = summarizeMCTSResults(selected, config.simulations)
       return {
-        config: config.name, rival,
+        config: config.name,
+        rival,
         aggregate,
         winRateConfidence95: wilson95(aggregate.wins, aggregate.games),
-        byColor: Object.fromEntries((['R', 'B'] as const).map((color) => [color, summarizeMCTSResults(selected.filter((row) => row.colorMCTS === color), config.simulations)])),
+        byColor: Object.fromEntries(
+          (['R', 'B'] as const).map((color) => [
+            color,
+            summarizeMCTSResults(
+              selected.filter((row) => row.colorMCTS === color),
+              config.simulations,
+            ),
+          ]),
+        ),
       }
     }),
   )
   const paired = {
     overall: summarizePairs(pairs),
-    byRival: Object.fromEntries((['heuristic', 'q5-final', 'random'] as const).map((rival) => [rival, summarizePairs(pairs.filter((pair) => pair.rival === rival))])),
+    byRival: Object.fromEntries(
+      (['heuristic', 'q5-final', 'random'] as const).map((rival) => [
+        rival,
+        summarizePairs(pairs.filter((pair) => pair.rival === rival)),
+      ]),
+    ),
   }
   const resourcesAfter = loadFrozenQ5EvaluationResources()
   const resourceHashesBefore = resources.resourceHashesBefore
   const resourceHashesAfter = resourcesAfter.resourceHashesBefore
-  const resourcesChanged = Object.entries(resourceHashesBefore).some(([filePath, hash]) => resourceHashesAfter[filePath] !== hash)
-  if (resourcesChanged) throw new Error('Frozen Q5 resources changed during confirmation evaluation')
+  const resourcesChanged = Object.entries(resourceHashesBefore).some(
+    ([filePath, hash]) => resourceHashesAfter[filePath] !== hash,
+  )
+  if (resourcesChanged)
+    throw new Error('Frozen Q5 resources changed during confirmation evaluation')
   const summary = {
     createdAt: options.createdAt ?? new Date().toISOString(),
     evaluationVersion: MCTS_Q5_PRIOR_CONFIRMATION_VERSION,
     durationMs,
-    protocol: { totalGames: allResults.length, pairs: pairs.length, games, configs, pairedSeeds: true, minConfidence: Q5_MIN_CONFIDENCE },
-    q5: { source: Q5_CHECKPOINT_SOURCE, sha256: Q5_CHECKPOINT_SHA256, confidenceStats: resources.confidenceStats, resourceHashesBefore, resourceHashesAfter, resourcesChanged },
+    protocol: {
+      totalGames: allResults.length,
+      pairs: pairs.length,
+      games,
+      configs,
+      pairedSeeds: true,
+      minConfidence: Q5_MIN_CONFIDENCE,
+    },
+    q5: {
+      source: Q5_CHECKPOINT_SOURCE,
+      sha256: Q5_CHECKPOINT_SHA256,
+      confidenceStats: resources.confidenceStats,
+      resourceHashesBefore,
+      resourceHashesAfter,
+      resourcesChanged,
+    },
     normal: byConfigAndRival,
     paired,
     conclusions: buildConclusions(byConfigAndRival, paired),
   }
   mkdirSync(outputDir, { recursive: true })
-  writeFileSync(path.join(outputDir, 'mcts_q5_prior_confirmation_results.csv'), rowsToCsv(normalResultRows(allResults)), 'utf8')
-  writeFileSync(path.join(outputDir, 'mcts_q5_prior_confirmation_pairs.csv'), rowsToCsv(pairs as unknown as Record<string, unknown>[]), 'utf8')
-  writeFileSync(path.join(outputDir, 'mcts_q5_prior_confirmation_summary.json'), `${JSON.stringify(summary, null, 2)}\n`, 'utf8')
-  writeFileSync(path.join(outputDir, 'metadata.json'), `${JSON.stringify({ createdAt: summary.createdAt, evaluationVersion: MCTS_Q5_PRIOR_CONFIRMATION_VERSION, durationMs, files: ['mcts_q5_prior_confirmation_summary.json', 'mcts_q5_prior_confirmation_results.csv', 'mcts_q5_prior_confirmation_pairs.csv', 'metadata.json'], q5: summary.q5, previousEvaluationsOverwritten: false }, null, 2)}\n`, 'utf8')
+  writeFileSync(
+    path.join(outputDir, 'mcts_q5_prior_confirmation_results.csv'),
+    rowsToCsv(normalResultRows(allResults)),
+    'utf8',
+  )
+  writeFileSync(
+    path.join(outputDir, 'mcts_q5_prior_confirmation_pairs.csv'),
+    rowsToCsv(pairs as unknown as Record<string, unknown>[]),
+    'utf8',
+  )
+  writeFileSync(
+    path.join(outputDir, 'mcts_q5_prior_confirmation_summary.json'),
+    `${JSON.stringify(summary, null, 2)}\n`,
+    'utf8',
+  )
+  writeFileSync(
+    path.join(outputDir, 'metadata.json'),
+    `${JSON.stringify({ createdAt: summary.createdAt, evaluationVersion: MCTS_Q5_PRIOR_CONFIRMATION_VERSION, durationMs, files: ['mcts_q5_prior_confirmation_summary.json', 'mcts_q5_prior_confirmation_results.csv', 'mcts_q5_prior_confirmation_pairs.csv', 'metadata.json'], q5: summary.q5, previousEvaluationsOverwritten: false }, null, 2)}\n`,
+    'utf8',
+  )
   return { summary, pairs, results: allResults }
 }
 
-export function refreshConfirmationSummary(outputDir = MCTS_Q5_PRIOR_CONFIRMATION_OUTPUT_DIR): void {
+// Forma mínima del summary persistido que necesita refreshConfirmationSummary.
+interface StoredConfirmationSummary {
+  normal: Array<{
+    config: string
+    rival: string
+    aggregate: ReturnType<typeof summarizeMCTSResults>
+    winRateConfidence95?: ReturnType<typeof wilson95>
+  }>
+  paired: PairedAnalysis
+  q5: Record<string, unknown>
+  conclusions?: ReturnType<typeof buildConclusions>
+  [key: string]: unknown
+}
+
+export function refreshConfirmationSummary(
+  outputDir = MCTS_Q5_PRIOR_CONFIRMATION_OUTPUT_DIR,
+): void {
   const resolved = path.resolve(outputDir)
   const summaryPath = path.join(resolved, 'mcts_q5_prior_confirmation_summary.json')
   const metadataPath = path.join(resolved, 'metadata.json')
-  const summary = JSON.parse(readFileSync(summaryPath, 'utf8')) as any
-  summary.normal = summary.normal.map((row: any) => ({
+  const summary = JSON.parse(readFileSync(summaryPath, 'utf8')) as StoredConfirmationSummary
+  summary.normal = summary.normal.map((row) => ({
     ...row,
     winRateConfidence95: wilson95(row.aggregate.wins, row.aggregate.games),
   }))
@@ -379,9 +535,13 @@ export function refreshConfirmationSummary(outputDir = MCTS_Q5_PRIOR_CONFIRMATIO
     resourcesChanged: false,
   }
   summary.conclusions = buildConclusions(summary.normal, summary.paired)
-  const metadata = JSON.parse(readFileSync(metadataPath, 'utf8')) as any
+  const metadata = JSON.parse(readFileSync(metadataPath, 'utf8')) as Record<string, unknown>
   writeFileSync(summaryPath, `${JSON.stringify(summary, null, 2)}\n`, 'utf8')
-  writeFileSync(metadataPath, `${JSON.stringify({ ...metadata, q5: summary.q5, conclusionsRecordedInSummary: true }, null, 2)}\n`, 'utf8')
+  writeFileSync(
+    metadataPath,
+    `${JSON.stringify({ ...metadata, q5: summary.q5, conclusionsRecordedInSummary: true }, null, 2)}\n`,
+    'utf8',
+  )
 }
 
 async function main() {
@@ -391,11 +551,31 @@ async function main() {
     return
   }
   const smoke = process.argv[2] === 'smoke'
-  const outputDir = smoke ? mkdtempSync(path.join(os.tmpdir(), 'wall-go-q5-confirmation-smoke-')) : undefined
-  const result = await evaluateMCTSQ5PriorConfirmation(smoke ? {
-    outputDir, games: { heuristic: 2, 'q5-final': 2, random: 2 }, progressEvery: 0,
-  } : {})
-  console.log(JSON.stringify({ smoke, games: result.results.length, pairs: result.pairs.length, durationMs: result.summary.durationMs, outputDir: outputDir ?? MCTS_Q5_PRIOR_CONFIRMATION_OUTPUT_DIR }))
+  const outputDir = smoke
+    ? mkdtempSync(path.join(os.tmpdir(), 'wall-go-q5-confirmation-smoke-'))
+    : undefined
+  const result = await evaluateMCTSQ5PriorConfirmation(
+    smoke
+      ? {
+          outputDir,
+          games: { heuristic: 2, 'q5-final': 2, random: 2 },
+          progressEvery: 0,
+        }
+      : {},
+  )
+  console.log(
+    JSON.stringify({
+      smoke,
+      games: result.results.length,
+      pairs: result.pairs.length,
+      durationMs: result.summary.durationMs,
+      outputDir: outputDir ?? MCTS_Q5_PRIOR_CONFIRMATION_OUTPUT_DIR,
+    }),
+  )
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) main().catch((error) => { console.error(error); process.exitCode = 1 })
+if (process.argv[1] === fileURLToPath(import.meta.url))
+  main().catch((error) => {
+    console.error(error)
+    process.exitCode = 1
+  })

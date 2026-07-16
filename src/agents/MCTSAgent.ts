@@ -4,6 +4,9 @@ import type { PlayerAgent } from './PlayerAgent'
 import { toSerializableSnapshot } from './serialize'
 import { getLegalActions } from '@/utils/ai'
 
+// Configuración "tactical-top-2" confirmada en evaluacion_verificacion_tactica_confirmacion
+// (340 partidas, semillas emparejadas). El prior de la tabla aprendida permanece desactivado:
+// su evaluación de confirmación concluyó no adoptarlo (sin mejora estadística y coste ~2x).
 export const FINAL_MCTS_CONFIG = Object.freeze({
   simulations: 50,
   explorationConstant: Math.SQRT2,
@@ -15,6 +18,8 @@ export const FINAL_MCTS_CONFIG = Object.freeze({
   wideningConstant: 2,
   wideningExponent: 0.5,
   qPriorWeight: 0,
+  tacticalVerification: true,
+  tacticalCandidateCount: 2,
 } satisfies MCTSConfig)
 
 type MCTSWorkerResponse = {
@@ -37,27 +42,32 @@ export class MCTSAgent implements PlayerAgent {
 
   constructor(options: MCTSAgentOptions = {}) {
     this.seed = options.seed ?? 0x4d435453
-    this.workerFactory = options.workerFactory ?? (() => new Worker(new URL('./AIWorker.ts', import.meta.url), { type: 'module' }))
+    this.workerFactory =
+      options.workerFactory ??
+      (() => new Worker(new URL('./AIWorker.ts', import.meta.url), { type: 'module' }))
     this.worker = this.workerFactory()
   }
 
   async getAction(gameState: GameSnapshot): Promise<PlayerAction> {
     const worker = this.worker ?? (this.worker = this.workerFactory())
     const requestSeed = (this.seed + this.decision++) >>> 0
-    const legalActionKeys = new Set(getLegalActions(gameState).map((action) => JSON.stringify(action)))
+    const legalActionKeys = new Set(
+      getLegalActions(gameState).map((action) => JSON.stringify(action)),
+    )
     return new Promise((resolve, reject) => {
       worker.onmessage = (event: MessageEvent<MCTSWorkerResponse>) => {
         worker.onmessage = null
         worker.onerror = null
         if (event.data.error) {
           reject(new Error(`La IA MCTS final no pudo elegir una acción: ${event.data.error}`))
-        } else if (
-          event.data.action &&
-          legalActionKeys.has(JSON.stringify(event.data.action))
-        ) {
+        } else if (event.data.action && legalActionKeys.has(JSON.stringify(event.data.action))) {
           resolve(event.data.action)
         } else {
-          reject(new Error(`La IA MCTS final no devolvió una acción legal. ${event.data.info ?? ''}`.trim()))
+          reject(
+            new Error(
+              `La IA MCTS final no devolvió una acción legal. ${event.data.info ?? ''}`.trim(),
+            ),
+          )
         }
       }
       worker.onerror = (error: ErrorEvent) => {

@@ -64,11 +64,11 @@ export function saveGameResult(payload: SaveGamePayload) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       try {
         navigator.clipboard.writeText(row)
-      } catch (e) {
+      } catch {
         // ignore clipboard errors
       }
     }
-  } catch (e) {
+  } catch {
     // ignore download errors
   }
 

@@ -14,10 +14,14 @@ const Q5_1000_QTABLE_PATH =
   'data/entrenamiento/q5/hybrid/final_checkpoint_1000/qtable_q5_hybrid_final_1000.json'
 const Q5_1500_QTABLE_PATH =
   'data/entrenamiento/q5/hybrid/final_checkpoint_1500/qtable_q5_hybrid_final_1500.json'
-const Q5_INITIAL_BUILD_SUMMARY_PATH = 'data/entrenamiento/q5/heuristic_initial_qtable/build_summary.json'
-const Q5_500_UPDATE_LOG_PATH = 'data/entrenamiento/q5/hybrid/final_checkpoint_500/q_update_log.jsonl'
-const Q5_1000_UPDATE_LOG_PATH = 'data/entrenamiento/q5/hybrid/final_checkpoint_1000/q_update_log.jsonl'
-const Q5_1500_UPDATE_LOG_PATH = 'data/entrenamiento/q5/hybrid/final_checkpoint_1500/q_update_log.jsonl'
+const Q5_INITIAL_BUILD_SUMMARY_PATH =
+  'data/entrenamiento/q5/heuristic_initial_qtable/build_summary.json'
+const Q5_500_UPDATE_LOG_PATH =
+  'data/entrenamiento/q5/hybrid/final_checkpoint_500/q_update_log.jsonl'
+const Q5_1000_UPDATE_LOG_PATH =
+  'data/entrenamiento/q5/hybrid/final_checkpoint_1000/q_update_log.jsonl'
+const Q5_1500_UPDATE_LOG_PATH =
+  'data/entrenamiento/q5/hybrid/final_checkpoint_1500/q_update_log.jsonl'
 const Q5_1500_METADATA_PATH = 'data/entrenamiento/q5/hybrid/final_checkpoint_1500/metadata.json'
 const Q5_VS_HEURISTIC_LOG_PATH =
   'data/entrenamiento/q5/hybrid/final_checkpoint_1500/q_vs_heuristic_decision_log.jsonl'
@@ -147,7 +151,9 @@ function readJsonl<T>(filePath: string): T[] {
 }
 
 function hashFile(filePath: string): string {
-  return createHash('sha256').update(readFileSync(path.resolve(filePath))).digest('hex')
+  return createHash('sha256')
+    .update(readFileSync(path.resolve(filePath)))
+    .digest('hex')
 }
 
 function splitStateActionKey(key: string): { stateKey: string; actionKey: string } {
@@ -167,7 +173,8 @@ function median(values: number[]): number {
 }
 
 function stats(values: number[]) {
-  if (values.length === 0) return { count: 0, mean: 0, median: 0, min: 0, max: 0, standardDeviation: 0 }
+  if (values.length === 0)
+    return { count: 0, mean: 0, median: 0, min: 0, max: 0, standardDeviation: 0 }
   const mean = values.reduce((sum, value) => sum + value, 0) / values.length
   const variance = values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length
   return {
@@ -193,7 +200,17 @@ function valueBucket(value: number): string {
 }
 
 function histogram(values: number[]): Record<string, number> {
-  const buckets = ['< -2', '[-2, -1)', '[-1, -0.5)', '[-0.5, 0)', '0', '(0, 0.5]', '(0.5, 1]', '(1, 2]', '> 2']
+  const buckets = [
+    '< -2',
+    '[-2, -1)',
+    '[-1, -0.5)',
+    '[-0.5, 0)',
+    '0',
+    '(0, 0.5]',
+    '(0.5, 1]',
+    '(1, 2]',
+    '> 2',
+  ]
   const result = Object.fromEntries(buckets.map((bucket) => [bucket, 0])) as Record<string, number>
   for (const value of values) result[valueBucket(value)]++
   return result
@@ -227,28 +244,33 @@ function buildUpdateCountMap(logs: QUpdateLogEntry[]): Map<string, number> {
   return counts
 }
 
-function getConfidence(key: string, observations: Map<string, number>, updates: Map<string, number>): number {
+function getConfidence(
+  key: string,
+  observations: Map<string, number>,
+  updates: Map<string, number>,
+): number {
   return Math.max(observations.get(key) ?? 0, updates.get(key) ?? 0)
 }
 
-function buildUpdateStats(logs: QUpdateLogEntry[], games: Map<number, GameMetadata>): Map<string, KeyUpdateStats> {
+function buildUpdateStats(
+  logs: QUpdateLogEntry[],
+  games: Map<number, GameMetadata>,
+): Map<string, KeyUpdateStats> {
   const result = new Map<string, KeyUpdateStats>()
   for (const log of logs) {
-    const current =
-      result.get(log.stateActionKey) ??
-      {
-        updates: 0,
-        positiveUpdates: 0,
-        negativeUpdates: 0,
-        zeroUpdates: 0,
-        randomUpdates: 0,
-        heuristicUpdates: 0,
-        finalRewardUpdates: 0,
-        intermediateRewardUpdates: 0,
-        winUpdates: 0,
-        lossUpdates: 0,
-        tieUpdates: 0,
-      }
+    const current = result.get(log.stateActionKey) ?? {
+      updates: 0,
+      positiveUpdates: 0,
+      negativeUpdates: 0,
+      zeroUpdates: 0,
+      randomUpdates: 0,
+      heuristicUpdates: 0,
+      finalRewardUpdates: 0,
+      intermediateRewardUpdates: 0,
+      winUpdates: 0,
+      lossUpdates: 0,
+      tieUpdates: 0,
+    }
     current.updates++
     if (log.appliedDelta > 0) current.positiveUpdates++
     else if (log.appliedDelta < 0) current.negativeUpdates++
@@ -333,7 +355,12 @@ function buildChangeRows(params: {
   return rows
 }
 
-function thresholdPass(confidence: number, margin: number, minConfidence: number, minMargin: number): boolean {
+function thresholdPass(
+  confidence: number,
+  margin: number,
+  minConfidence: number,
+  minMargin: number,
+): boolean {
   return confidence >= minConfidence && margin >= minMargin
 }
 
@@ -414,7 +441,8 @@ function buildThresholdRows(params: {
 }
 
 function summarizeThresholdRows(rows: ThresholdTransitionRow[]) {
-  const count = (predicate: (row: ThresholdTransitionRow) => boolean) => rows.filter(predicate).length
+  const count = (predicate: (row: ThresholdTransitionRow) => boolean) =>
+    rows.filter(predicate).length
   const byCause = new Map<string, number>()
   for (const row of rows) addCount(byCause, row.likelyLossCause)
   const byOpponent = {
@@ -506,23 +534,46 @@ function summarizeSubstitutions(rows: QVsHeuristicLogEntry[]) {
 
 function csvEscape(value: unknown): string {
   const text = value === null || value === undefined ? '' : String(value)
-  if (text.includes(',') || text.includes('"') || text.includes('\n')) return `"${text.replace(/"/g, '""')}"`
+  if (text.includes(',') || text.includes('"') || text.includes('\n'))
+    return `"${text.replace(/"/g, '""')}"`
   return text
 }
 
 function rowsToCsv<T extends Record<string, unknown>>(rows: T[], headers: string[]): string {
-  return [headers.join(','), ...rows.map((row) => headers.map((header) => csvEscape(row[header])).join(','))].join('\n')
+  return [
+    headers.join(','),
+    ...rows.map((row) => headers.map((header) => csvEscape(row[header])).join(',')),
+  ].join('\n')
 }
 
 function writeJson(filePath: string, data: unknown): void {
   writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, 'utf8')
 }
 
-function writeCsv<T extends Record<string, unknown>>(filePath: string, rows: T[], headers: string[]): void {
+function writeCsv<T extends Record<string, unknown>>(
+  filePath: string,
+  rows: T[],
+  headers: string[],
+): void {
   writeFileSync(filePath, `${rowsToCsv(rows, headers)}\n`, 'utf8')
 }
 
-function writeReport(filePath: string, summary: Record<string, any>): void {
+// Solo los campos del summary que aparecen en el informe de texto.
+interface AuditReportSummary {
+  qTable: {
+    entries: { common: number; new: number; disappeared: number }
+    valueDirection: { increased: number; decreased: number; unchanged: number }
+    signChanges: { positiveToNegative: number; negativeToPositive: number }
+  }
+  thresholdTransitions: {
+    passC1000: number
+    passC1500: number
+    transitionC: { lost: number; gained: number }
+  }
+  conclusion: { primaryInterventionDropCause: string; text: string }
+}
+
+function writeReport(filePath: string, summary: AuditReportSummary): void {
   const lines = [
     '# Auditoria Q5 1000 vs 1500',
     '',
@@ -549,7 +600,9 @@ function writeReport(filePath: string, summary: Record<string, any>): void {
   writeFileSync(filePath, `${lines.join('\n')}\n`, 'utf8')
 }
 
-export async function auditQ5Checkpoint1000Vs1500(options: { outputDir?: string; overwrite?: boolean } = {}) {
+export async function auditQ5Checkpoint1000Vs1500(
+  options: { outputDir?: string; overwrite?: boolean } = {},
+) {
   const outputDir = path.resolve(options.outputDir ?? Q5_AUDIT_1000_VS_1500_DIR)
   mkdirSync(outputDir, { recursive: true })
   const hash1000Before = hashFile(Q5_1000_QTABLE_PATH)
@@ -566,16 +619,31 @@ export async function auditQ5Checkpoint1000Vs1500(options: { outputDir?: string;
   const substitutions1500 = readJsonl<QVsHeuristicLogEntry>(Q5_VS_HEURISTIC_LOG_PATH)
   const evaluationSummary = readJson<unknown>(Q5_EVAL_SUMMARY_PATH)
   const updateCounts1000 = buildUpdateCountMap([...updateLogs500, ...updateLogs1000])
-  const updateCounts1500 = buildUpdateCountMap([...updateLogs500, ...updateLogs1000, ...updateLogs1500])
+  const updateCounts1500 = buildUpdateCountMap([
+    ...updateLogs500,
+    ...updateLogs1000,
+    ...updateLogs1500,
+  ])
   const confidence1000 = new Map<string, number>()
   const confidence1500 = new Map<string, number>()
-  const confidenceKeys = new Set([...Object.keys(q1000), ...Object.keys(q1500), ...observations.keys(), ...updateCounts1500.keys()])
+  const confidenceKeys = new Set([
+    ...Object.keys(q1000),
+    ...Object.keys(q1500),
+    ...observations.keys(),
+    ...updateCounts1500.keys(),
+  ])
   confidenceKeys.forEach((key) => {
     confidence1000.set(key, getConfidence(key, observations, updateCounts1000))
     confidence1500.set(key, getConfidence(key, observations, updateCounts1500))
   })
   const updateStats1500 = buildUpdateStats(updateLogs1500, games1500)
-  const changeRows = buildChangeRows({ q1000, q1500, confidence1000, confidence1500, updateStats1500 })
+  const changeRows = buildChangeRows({
+    q1000,
+    q1500,
+    confidence1000,
+    confidence1500,
+    updateStats1500,
+  })
   const commonRows = changeRows.filter((row) => row.status === 'common' && row.delta !== null)
   const thresholdRows = buildThresholdRows({
     q1000,
@@ -593,8 +661,13 @@ export async function auditQ5Checkpoint1000Vs1500(options: { outputDir?: string;
     .sort((left, right) => (right.delta ?? 0) - (left.delta ?? 0))
     .slice(0, 100)
   const highUpdateDeterioration = commonRows
-    .filter((row) => (row.updates1500 >= 5 || row.heuristicUpdates1500 >= 3) && (row.delta ?? 0) < 0)
-    .sort((left, right) => right.updates1500 - left.updates1500 || (left.delta ?? 0) - (right.delta ?? 0))
+    .filter(
+      (row) => (row.updates1500 >= 5 || row.heuristicUpdates1500 >= 3) && (row.delta ?? 0) < 0,
+    )
+    .sort(
+      (left, right) =>
+        right.updates1500 - left.updates1500 || (left.delta ?? 0) - (right.delta ?? 0),
+    )
     .slice(0, 50)
   const valueDirection = {
     increased: commonRows.filter((row) => (row.delta ?? 0) > 0).length,
@@ -602,9 +675,12 @@ export async function auditQ5Checkpoint1000Vs1500(options: { outputDir?: string;
     unchanged: commonRows.filter((row) => (row.delta ?? 0) === 0).length,
   }
   const thresholdSummary = summarizeThresholdRows(thresholdRows)
-  const lossCauseEntries = Object.entries(thresholdSummary.likelyLossCauses).filter(([cause]) => cause !== 'not_lost_c')
+  const lossCauseEntries = Object.entries(thresholdSummary.likelyLossCauses).filter(
+    ([cause]) => cause !== 'not_lost_c',
+  )
   const primaryInterventionDropCause =
-    lossCauseEntries.sort((left, right) => Number(right[1]) - Number(left[1]))[0]?.[0] ?? 'no_lost_candidates'
+    lossCauseEntries.sort((left, right) => Number(right[1]) - Number(left[1]))[0]?.[0] ??
+    'no_lost_candidates'
   const summary = {
     createdAt: new Date().toISOString(),
     inputs: {
@@ -620,7 +696,8 @@ export async function auditQ5Checkpoint1000Vs1500(options: { outputDir?: string;
       q1500Before: hash1500Before,
       q1500After: hashFile(Q5_1500_QTABLE_PATH),
       qTablesChangedDuringAudit:
-        hash1000Before !== hashFile(Q5_1000_QTABLE_PATH) || hash1500Before !== hashFile(Q5_1500_QTABLE_PATH),
+        hash1000Before !== hashFile(Q5_1000_QTABLE_PATH) ||
+        hash1500Before !== hashFile(Q5_1500_QTABLE_PATH),
     },
     qTable: {
       entries: {
@@ -634,8 +711,10 @@ export async function auditQ5Checkpoint1000Vs1500(options: { outputDir?: string;
       changeStats: stats(commonRows.map((row) => row.delta ?? 0)),
       absChangeStats: stats(commonRows.map((row) => row.absDelta ?? 0)),
       signChanges: {
-        positiveToNegative: commonRows.filter((row) => row.signChange === 'positive_to_negative').length,
-        negativeToPositive: commonRows.filter((row) => row.signChange === 'negative_to_positive').length,
+        positiveToNegative: commonRows.filter((row) => row.signChange === 'positive_to_negative')
+          .length,
+        negativeToPositive: commonRows.filter((row) => row.signChange === 'negative_to_positive')
+          .length,
       },
       valueDistribution: {
         q1000: histogram(Object.values(q1000)),
@@ -654,10 +733,12 @@ export async function auditQ5Checkpoint1000Vs1500(options: { outputDir?: string;
     conclusion: {
       primaryInterventionDropCause,
       text:
-        primaryInterventionDropCause.includes('lower_q') || primaryInterventionDropCause.includes('higher_heuristic')
+        primaryInterventionDropCause.includes('lower_q') ||
+        primaryInterventionDropCause.includes('higher_heuristic')
           ? 'Q5-1500 reduce intervenciones porque varios candidatos observados pierden margen frente a la heuristica; la perdida se explica principalmente por cambios relativos entre el valor Q aprendido y el valor de la accion heuristica, no por falta de confianza.'
           : 'Q5-1500 reduce intervenciones en los candidatos observados por margen insuficiente; no hay evidencia de que la confianza sea la causa principal.',
-      recommendedSingleVariable: 'reducir alpha efectivo o el clamp de actualizacion para estados/acciones heredados con confianza media-alta',
+      recommendedSingleVariable:
+        'reducir alpha efectivo o el clamp de actualizacion para estados/acciones heredados con confianza media-alta',
       recommendedRestartPoint: 'q5_1000',
     },
   }
@@ -713,7 +794,11 @@ export async function auditQ5Checkpoint1000Vs1500(options: { outputDir?: string;
     'finalTerritoryDiff',
   ]
   writeJson(path.join(outputDir, 'audit_summary.json'), summary)
-  writeCsv(path.join(outputDir, 'q_value_changes.csv'), changeRows as unknown as Record<string, unknown>[], changeHeaders)
+  writeCsv(
+    path.join(outputDir, 'q_value_changes.csv'),
+    changeRows as unknown as Record<string, unknown>[],
+    changeHeaders,
+  )
   writeCsv(
     path.join(outputDir, 'threshold_transitions.csv'),
     thresholdRows as unknown as Record<string, unknown>[],

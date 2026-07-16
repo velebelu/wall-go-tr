@@ -63,10 +63,7 @@ export default function GameModeMenu({
         {t('menu.title', 'Wall Go')}
       </h1>
       <div className="flex flex-col gap-4 w-full max-w-xs animate-fade-in min-h-[120px] transition-all duration-500">
-        <GameButton
-          onClick={() => setMode('pvp')}
-          className="text-lg py-3"
-        >
+        <GameButton onClick={() => setMode('pvp')} className="text-lg py-3">
           {t('menu.mode.pvp')}
         </GameButton>
         <GameButton
@@ -124,13 +121,19 @@ export default function GameModeMenu({
             </span>
             <div className="flex gap-3 justify-center w-full">
               <GameButton
-                onClick={() => { setAiSide('R'); setMode('mcts-final') }}
+                onClick={() => {
+                  setAiSide('R')
+                  setMode('mcts-final')
+                }}
                 className="!bg-rose-500 !text-white px-4 py-2 text-base font-semibold"
               >
                 {t('menu.mcts.red', 'Rojo')}
               </GameButton>
               <GameButton
-                onClick={() => { setAiSide('B'); setMode('mcts-final') }}
+                onClick={() => {
+                  setAiSide('B')
+                  setMode('mcts-final')
+                }}
                 className="!bg-indigo-500 !text-white px-4 py-2 text-base font-semibold"
               >
                 {t('menu.mcts.blue', 'Azul')}

@@ -47,7 +47,10 @@ describe('MCTS tactical verification', () => {
     const state = makePlayingState()
     const implicit = searchBestAction(state, 'R', QUICK_CONFIG, seededRng(91))
     const explicit = searchBestAction(
-      state, 'R', { ...QUICK_CONFIG, tacticalVerification: false }, seededRng(91),
+      state,
+      'R',
+      { ...QUICK_CONFIG, tacticalVerification: false },
+      seededRng(91),
     )
     expect(explicit).toEqual(implicit)
   })
@@ -72,23 +75,39 @@ describe('MCTS tactical verification', () => {
   })
 
   it('evita una derrota terminal inmediata y prioriza una victoria terminal', () => {
-    const lose = { action: { type: 'place', pos: { x: 0, y: 0 } } as PlayerAction,
-      score: -1_000_000, permitsImmediateTerminalLoss: true }
-    const safe = { action: { type: 'place', pos: { x: 1, y: 0 } } as PlayerAction,
-      score: 10, permitsImmediateTerminalLoss: false }
-    const win = { action: { type: 'place', pos: { x: 2, y: 0 } } as PlayerAction,
-      score: 1_000_000, permitsImmediateTerminalLoss: false }
+    const lose = {
+      action: { type: 'place', pos: { x: 0, y: 0 } } as PlayerAction,
+      score: -1_000_000,
+      permitsImmediateTerminalLoss: true,
+    }
+    const safe = {
+      action: { type: 'place', pos: { x: 1, y: 0 } } as PlayerAction,
+      score: 10,
+      permitsImmediateTerminalLoss: false,
+    }
+    const win = {
+      action: { type: 'place', pos: { x: 2, y: 0 } } as PlayerAction,
+      score: 1_000_000,
+      permitsImmediateTerminalLoss: false,
+    }
     expect(chooseBestTacticalEvaluation([lose, safe], seededRng(1))).toBe(safe)
     expect(chooseBestTacticalEvaluation([safe, win], seededRng(1))).toBe(win)
   })
 
   it('entre opciones no terminales evita la que tiene peor puntuacion por movilidad', () => {
-    const mobilityLoss = { action: { type: 'place', pos: { x: 0, y: 1 } } as PlayerAction,
-      score: -20, permitsImmediateTerminalLoss: false }
-    const mobilityKept = { action: { type: 'place', pos: { x: 1, y: 1 } } as PlayerAction,
-      score: 4, permitsImmediateTerminalLoss: false }
-    expect(chooseBestTacticalEvaluation([mobilityLoss, mobilityKept], seededRng(2)))
-      .toBe(mobilityKept)
+    const mobilityLoss = {
+      action: { type: 'place', pos: { x: 0, y: 1 } } as PlayerAction,
+      score: -20,
+      permitsImmediateTerminalLoss: false,
+    }
+    const mobilityKept = {
+      action: { type: 'place', pos: { x: 1, y: 1 } } as PlayerAction,
+      score: 4,
+      permitsImmediateTerminalLoss: false,
+    }
+    expect(chooseBestTacticalEvaluation([mobilityLoss, mobilityKept], seededRng(2))).toBe(
+      mobilityKept,
+    )
   })
 
   it('no carga ni modifica Q5 durante la verificacion tactica', () => {
@@ -257,9 +276,9 @@ describe('searchBestAction', () => {
 
     expect(losingActions.length).toBeGreaterThan(0)
     expect(safeActions.length).toBeGreaterThan(0)
-    expect(actions.some((action) => applyFullAction(state, action).state.result?.winner === 'R')).toBe(
-      false,
-    )
+    expect(
+      actions.some((action) => applyFullAction(state, action).state.result?.winner === 'R'),
+    ).toBe(false)
     expect(losingActions).not.toContainEqual(result.action)
   })
 
@@ -383,12 +402,7 @@ describe('MCTS rollout policies', () => {
   })
 
   it('makes mixed probability zero equivalent to random with the same RNG', () => {
-    const random = searchBestAction(
-      makeInitialState(),
-      'R',
-      rolloutConfig('random'),
-      seededRng(23),
-    )
+    const random = searchBestAction(makeInitialState(), 'R', rolloutConfig('random'), seededRng(23))
     const mixed = searchBestAction(
       makeInitialState(),
       'R',
@@ -419,12 +433,7 @@ describe('MCTS rollout policies', () => {
 
   it('keeps reported values between minus one and one for every rollout policy', () => {
     for (const policy of ['random', 'mixed', 'heuristic'] as const) {
-      const result = searchBestAction(
-        makeInitialState(),
-        'R',
-        rolloutConfig(policy),
-        seededRng(26),
-      )
+      const result = searchBestAction(makeInitialState(), 'R', rolloutConfig(policy), seededRng(26))
       expect(result.value).toBeGreaterThanOrEqual(-1)
       expect(result.value).toBeLessThanOrEqual(1)
       expect(result.children.every((child) => child.value >= -1 && child.value <= 1)).toBe(true)
@@ -489,7 +498,9 @@ describe('MCTS expansion policies', () => {
   it('expands one of the highest-scoring actions first', () => {
     const state = makePlayingState()
     const actions = getLegalActions(state)
-    const bestScore = Math.max(...actions.map((action) => scoreHeuristicAction(state, action, 'default')))
+    const bestScore = Math.max(
+      ...actions.map((action) => scoreHeuristicAction(state, action, 'default')),
+    )
     const result = searchBestAction(
       state,
       'R',
@@ -694,14 +705,7 @@ describe('MCTS Q5 expansion prior', () => {
       { action: actions[1], value: 0, confidence: 11 },
       { action: actions[2], value: 50, confidence: 12 },
     ])
-    const scores = scoreActionsForExpansion(
-      state,
-      actions,
-      'heuristic-q5',
-      seededRng(43),
-      prior,
-      1,
-    )
+    const scores = scoreActionsForExpansion(state, actions, 'heuristic-q5', seededRng(43), prior, 1)
     const byAction = new Map(scores.map((score) => [actionKey(score.action), score]))
 
     expect(byAction.get(actionKey(actions[0]))?.normalizedQ5Value).toBe(-1)
@@ -739,11 +743,14 @@ describe('MCTS Q5 expansion prior', () => {
   it('orders combined scores deterministically with the same RNG', () => {
     const state = makePlayingState()
     const actions = getLegalActions(state)
-    const prior = priorFor(state, actions.slice(0, 3).map((action, index) => ({
-      action,
-      value: index,
-      confidence: 10,
-    })))
+    const prior = priorFor(
+      state,
+      actions.slice(0, 3).map((action, index) => ({
+        action,
+        value: index,
+        confidence: 10,
+      })),
+    )
     const first = orderActionsForExpansion(
       state,
       actions,

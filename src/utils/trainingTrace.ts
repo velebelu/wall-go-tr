@@ -25,11 +25,13 @@ export interface TrainingTraceGameRecord {
 }
 
 function normalizeBoard(board: GameSnapshot['board']) {
-  return board.map((row) => row.map((cell) => ({
-    stone: cell.stone,
-    wallTop: cell.wallTop,
-    wallLeft: cell.wallLeft,
-  })))
+  return board.map((row) =>
+    row.map((cell) => ({
+      stone: cell.stone,
+      wallTop: cell.wallTop,
+      wallLeft: cell.wallLeft,
+    })),
+  )
 }
 
 function normalizeStateForKey(state: GameSnapshot) {
@@ -79,7 +81,10 @@ function countWalls(board: GameSnapshot['board']): number {
   return count
 }
 
-function getWinnerLabel(result: GameSnapshot['result'], score: Record<Player, number>): Player | 'tie' {
+function getWinnerLabel(
+  result: GameSnapshot['result'],
+  score: Record<Player, number>,
+): Player | 'tie' {
   if (!result && score.R === score.B) {
     return 'tie'
   }
@@ -138,7 +143,10 @@ export function createTrainingTraceDirectoryName(): string {
   return 'data/entrenamiento/heuristicas'
 }
 
-export function downloadTrainingTraceFile(fileName: string, payload: TrainingTraceGameRecord): void {
+export function downloadTrainingTraceFile(
+  fileName: string,
+  payload: TrainingTraceGameRecord,
+): void {
   const json = JSON.stringify(payload, null, 2)
   try {
     const blob = new Blob([json], { type: 'application/json;charset=utf-8;' })
@@ -159,7 +167,10 @@ export function getTrainingTraceStoragePath(fileName: string): string {
   return `${createTrainingTraceDirectoryName()}/${fileName}`
 }
 
-export function saveTrainingTraceToLocalStorage(fileName: string, payload: TrainingTraceGameRecord): void {
+export function saveTrainingTraceToLocalStorage(
+  fileName: string,
+  payload: TrainingTraceGameRecord,
+): void {
   if (typeof window === 'undefined' || !window.localStorage) {
     return
   }

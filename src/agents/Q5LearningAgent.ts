@@ -48,10 +48,7 @@ export function combineQ5Confidence(
   updates: ReadonlyMap<string, number>,
 ): { confidence: Map<string, number>; stats: Q5ConfidenceLoadStats } {
   const confidence = new Map<string, number>()
-  const keys = new Set([
-    ...Array.from(inherited.keys()),
-    ...Array.from(updates.keys()),
-  ])
+  const keys = new Set([...Array.from(inherited.keys()), ...Array.from(updates.keys())])
   let maxEffectiveConfidence = 0
   let effectiveEntriesAtLeast10 = 0
   for (const key of Array.from(keys.values())) {

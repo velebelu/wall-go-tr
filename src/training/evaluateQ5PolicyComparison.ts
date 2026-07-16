@@ -312,10 +312,14 @@ function summarizeGroup(results: Q5PolicyComparisonGameResult[]) {
       ? roundMetric(results.reduce((sum, result) => sum + result.territoryQ5, 0) / results.length)
       : 0,
     averageTerritoryRival: results.length
-      ? roundMetric(results.reduce((sum, result) => sum + result.territoryRival, 0) / results.length)
+      ? roundMetric(
+          results.reduce((sum, result) => sum + result.territoryRival, 0) / results.length,
+        )
       : 0,
     averageTerritorialDiff: results.length
-      ? roundMetric(results.reduce((sum, result) => sum + result.territorialDiff, 0) / results.length)
+      ? roundMetric(
+          results.reduce((sum, result) => sum + result.territorialDiff, 0) / results.length,
+        )
       : 0,
     averageTurns: results.length
       ? roundMetric(results.reduce((sum, result) => sum + result.turns, 0) / results.length)
@@ -352,7 +356,10 @@ function summarizeGroup(results: Q5PolicyComparisonGameResult[]) {
   }
 }
 
-function summarizePolicy(policy: Q5PolicyComparisonPolicy, results: Q5PolicyComparisonGameResult[]) {
+function summarizePolicy(
+  policy: Q5PolicyComparisonPolicy,
+  results: Q5PolicyComparisonGameResult[],
+) {
   return {
     policy,
     aggregate: summarizeGroup(results),
@@ -444,15 +451,13 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
   const progressEvery = options.progressEvery ?? 500
   const pairings = buildQ5PolicyComparisonPairings(gamesPerRival, seedBase)
   const confidenceMap = loadQ5ConfidenceMap(Q5_HEURISTIC_INITIAL_BUILD_SUMMARY_PATH)
-  const tableConfigs =
-    options.tableConfigs ??
-    [
-      {
-        label: options.tableLabel ?? 'q5_1000',
-        qTablePath: options.qTablePath ?? Q5_POLICY_COMPARISON_QTABLE_PATH,
-        qUpdateLogPath: options.qUpdateLogPath ?? Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
-      },
-    ]
+  const tableConfigs = options.tableConfigs ?? [
+    {
+      label: options.tableLabel ?? 'q5_1000',
+      qTablePath: options.qTablePath ?? Q5_POLICY_COMPARISON_QTABLE_PATH,
+      qUpdateLogPath: options.qUpdateLogPath ?? Q5_POLICY_COMPARISON_Q_UPDATE_LOG_PATHS,
+    },
+  ]
   const allResults: Q5PolicyComparisonGameResult[] = []
   const tableSummaries: Array<{
     label: string
@@ -513,7 +518,9 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
     model: 'Q5',
     experiment: options.outputFilePrefix ?? 'policy_comparison_checkpoint_1000',
     qTables: tableSummaries,
-    qTableChangedDuringEvaluation: tableSummaries.some((table) => table.qTableChangedDuringEvaluation),
+    qTableChangedDuringEvaluation: tableSummaries.some(
+      (table) => table.qTableChangedDuringEvaluation,
+    ),
     protocol: {
       epsilon: 0,
       learnsDuringEvaluation: false,
@@ -547,7 +554,9 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
       policies: policies.map((policy) =>
         summarizePolicy(
           policy,
-          allResults.filter((result) => result.table === table.label && result.policy === policy.label),
+          allResults.filter(
+            (result) => result.table === table.label && result.policy === policy.label,
+          ),
         ),
       ),
     })),
@@ -557,7 +566,9 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
         table: table.label,
         ...summarizePolicy(
           policy,
-          allResults.filter((result) => result.table === table.label && result.policy === policy.label),
+          allResults.filter(
+            (result) => result.table === table.label && result.policy === policy.label,
+          ),
         ),
       })),
     })),
@@ -566,7 +577,9 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
         table: table.label,
         ...summarizePolicy(
           policy,
-          allResults.filter((result) => result.table === table.label && result.policy === policy.label),
+          allResults.filter(
+            (result) => result.table === table.label && result.policy === policy.label,
+          ),
         ),
       })),
     ),
@@ -577,7 +590,11 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
 
   const prefix = options.outputFilePrefix ?? 'policy_comparison'
   writeJson(path.join(outputDir, `${prefix}_summary.json`), summary)
-  writeFileSync(path.join(outputDir, `${prefix}_results.csv`), `${resultsToCsv(allResults)}\n`, 'utf8')
+  writeFileSync(
+    path.join(outputDir, `${prefix}_results.csv`),
+    `${resultsToCsv(allResults)}\n`,
+    'utf8',
+  )
   writeJson(path.join(outputDir, `${prefix}_detailed.json`), {
     createdAt: summary.createdAt,
     protocol: summary.protocol,
@@ -589,12 +606,14 @@ export async function evaluateQ5PolicyComparison(options: Q5PolicyComparisonOpti
   return { summary, results: allResults }
 }
 
-export async function evaluateQ5Checkpoint1000Vs1500(options: {
-  outputDir?: string
-  gamesPerRival?: number
-  seedBase?: number
-  overwrite?: boolean
-} = {}) {
+export async function evaluateQ5Checkpoint1000Vs1500(
+  options: {
+    outputDir?: string
+    gamesPerRival?: number
+    seedBase?: number
+    overwrite?: boolean
+  } = {},
+) {
   return evaluateQ5PolicyComparison({
     outputDir: options.outputDir ?? Q5_1000_VS_1500_EVAL_DIR,
     outputFilePrefix: 'q5_1000_vs_1500',
@@ -617,12 +636,14 @@ export async function evaluateQ5Checkpoint1000Vs1500(options: {
   })
 }
 
-export async function evaluateQ5ConservativeAlphaComparison(options: {
-  outputDir?: string
-  gamesPerRival?: number
-  seedBase?: number
-  overwrite?: boolean
-} = {}) {
+export async function evaluateQ5ConservativeAlphaComparison(
+  options: {
+    outputDir?: string
+    gamesPerRival?: number
+    seedBase?: number
+    overwrite?: boolean
+  } = {},
+) {
   return evaluateQ5PolicyComparison({
     outputDir: options.outputDir ?? Q5_1500_CONSERVATIVE_ALPHA_EVAL_DIR,
     outputFilePrefix: 'conservative_alpha_comparison',
@@ -660,7 +681,9 @@ async function main(): Promise<void> {
   }
   if (command === 'conservative-alpha-comparison') {
     const result = await evaluateQ5ConservativeAlphaComparison()
-    console.log(`[evaluateQ5PolicyComparison] Q5 conservative alpha comparison games: ${result.results.length}`)
+    console.log(
+      `[evaluateQ5PolicyComparison] Q5 conservative alpha comparison games: ${result.results.length}`,
+    )
     console.log(`[evaluateQ5PolicyComparison] output: ${Q5_1500_CONSERVATIVE_ALPHA_EVAL_DIR}`)
     return
   }

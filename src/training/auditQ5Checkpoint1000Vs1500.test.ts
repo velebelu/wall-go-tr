@@ -15,7 +15,9 @@ function makeTempDir(): string {
 }
 
 function hashFile(filePath: string): string {
-  return createHash('sha256').update(readFileSync(path.resolve(filePath))).digest('hex')
+  return createHash('sha256')
+    .update(readFileSync(path.resolve(filePath)))
+    .digest('hex')
 }
 
 describe('auditQ5Checkpoint1000Vs1500', () => {

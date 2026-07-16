@@ -10,9 +10,7 @@ import {
 } from './evaluateMCTS'
 
 export const MCTS_EXPANSION_EVALUATION_VERSION = 'mcts-expansion-v1'
-export const MCTS_EXPANSION_OUTPUT_DIR = path.join(
-  'data/entrenamiento/mcts/evaluacion_expansion',
-)
+export const MCTS_EXPANSION_OUTPUT_DIR = path.join('data/entrenamiento/mcts/evaluacion_expansion')
 export const MCTS_EXPANSION_SEED = 616_000
 
 const MIXED_80 = {
@@ -57,11 +55,10 @@ export const MCTS_EXPANSION_CONFIGS: NamedMCTSConfig[] = [
   },
 ]
 
-export interface EvaluateMCTSExpansionOptions
-  extends Omit<
-    EvaluateMCTSOptions,
-    'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
-  > {
+export interface EvaluateMCTSExpansionOptions extends Omit<
+  EvaluateMCTSOptions,
+  'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
+> {
   configs?: readonly NamedMCTSConfig[]
   gamesPerCombination?: number
   seedBase?: number

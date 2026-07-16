@@ -3,15 +3,23 @@ import type { GameSnapshot, PlayerAction, HeuristicMode } from '@/lib/types'
 import { toSerializableSnapshot } from './serialize'
 import { sleep } from '@/utils/sleep'
 
+function createAIWorker(): Worker {
+  return new Worker(new URL('./AIWorker.ts', import.meta.url), { type: 'module' })
+}
+
 export class HeuristicAgent implements PlayerAgent {
   private worker: Worker
   private readonly mode: HeuristicMode
 
   constructor(mode: HeuristicMode = 'default') {
     this.mode = mode
-    this.worker = new Worker(new URL('./AIWorker.ts', import.meta.url), {
-      type: 'module',
-    })
+    this.worker = createAIWorker()
+  }
+
+  /** Aborta el cálculo en curso (timeout del TurnManager) y deja el agente listo para el siguiente turno. */
+  public cancel(): void {
+    this.worker.terminate()
+    this.worker = createAIWorker()
   }
 
   async getAction(gameState: GameSnapshot): Promise<PlayerAction> {
