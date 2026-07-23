@@ -55,10 +55,11 @@ export const MCTS_EXPANSION_CONFIGS: NamedMCTSConfig[] = [
   },
 ]
 
-export interface EvaluateMCTSExpansionOptions extends Omit<
-  EvaluateMCTSOptions,
-  'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
-> {
+export interface EvaluateMCTSExpansionOptions
+  extends Omit<
+    EvaluateMCTSOptions,
+    'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
+  > {
   configs?: readonly NamedMCTSConfig[]
   gamesPerCombination?: number
   seedBase?: number

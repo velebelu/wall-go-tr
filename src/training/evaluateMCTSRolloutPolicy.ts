@@ -41,10 +41,11 @@ export const MCTS_ROLLOUT_CONFIGS: NamedMCTSConfig[] = [
   rolloutConfig(200, 'heuristic'),
 ]
 
-export interface EvaluateMCTSRolloutPolicyOptions extends Omit<
-  EvaluateMCTSOptions,
-  'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
-> {
+export interface EvaluateMCTSRolloutPolicyOptions
+  extends Omit<
+    EvaluateMCTSOptions,
+    'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
+  > {
   configs?: readonly NamedMCTSConfig[]
   gamesPerCombination?: number
   seedBase?: number

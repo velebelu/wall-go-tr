@@ -14,10 +14,11 @@ export const MCTS_Q5_PRIOR_CORRECTED_OUTPUT_DIR = path.join(
   'data/entrenamiento/mcts/evaluacion_q5_prior_corregida',
 )
 
-export interface EvaluateMCTSQ5PriorCorrectedOptions extends Omit<
-  EvaluateMCTSOptions,
-  'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
-> {
+export interface EvaluateMCTSQ5PriorCorrectedOptions
+  extends Omit<
+    EvaluateMCTSOptions,
+    'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
+  > {
   configs?: readonly NamedMCTSConfig[]
   gamesPerCombination?: number
   seedBase?: number

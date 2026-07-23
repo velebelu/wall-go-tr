@@ -51,10 +51,11 @@ export const MCTS_Q5_PRIOR_CONFIGS: NamedMCTSConfig[] = [
   },
 ]
 
-export interface EvaluateMCTSQ5PriorOptions extends Omit<
-  EvaluateMCTSOptions,
-  'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
-> {
+export interface EvaluateMCTSQ5PriorOptions
+  extends Omit<
+    EvaluateMCTSOptions,
+    'configs' | 'rivals' | 'gamesPerCombination' | 'seedBase' | 'maxTurns'
+  > {
   configs?: readonly NamedMCTSConfig[]
   gamesPerCombination?: number
   seedBase?: number
