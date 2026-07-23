@@ -11,6 +11,7 @@ import {
   buildPlayableMCTSSchedule,
   evaluatePlayableMCTS,
   getPlayableDecisionSeed,
+  pairedCsv,
   runPlayableMCTSGame,
   type PlayableMCTSGameResult,
 } from './evaluatePlayableMCTS'
@@ -118,6 +119,38 @@ describe('playable MCTS evaluation schedule and protocol', () => {
 })
 
 describe('playable MCTS metrics and output protection', () => {
+  it('serializes 250 valid results as 125 complete red-blue pairs', () => {
+    const results = buildPlayableMCTSSchedule().map((item) =>
+      syntheticResult({
+        ...item,
+        gameId: item.gameId,
+        finalColor: item.finalColor,
+        territoryDiff: item.finalColor === 'R' ? 3 : -2,
+      }),
+    )
+    const csv = pairedCsv(results)
+    const lines = csv.split('\n')
+    expect(results).toHaveLength(250)
+    expect(new Set(results.map((row) => row.pairId)).size).toBe(125)
+    expect(lines).toHaveLength(126)
+    for (const pairId of new Set(results.map((row) => row.pairId))) {
+      const pair = results.filter((row) => row.pairId === pairId)
+      expect(pair.map((row) => row.finalColor).sort()).toEqual(['B', 'R'])
+    }
+  })
+
+  it('rejects incomplete and duplicated color pairs', () => {
+    const red = syntheticResult()
+    const blue = syntheticResult({
+      gameId: 'heuristic-001-B',
+      finalColor: 'B',
+      winner: 'B',
+    })
+    expect(() => pairedCsv([red])).toThrow(/Incomplete color pair/)
+    expect(() => pairedCsv([red, red])).toThrow(/Duplicate color/)
+    expect(() => pairedCsv([red, blue, blue])).toThrow(/Duplicate color pair/)
+  })
+
   it('aggregates outcomes, territories, timings and Wilson with ties as non-wins', () => {
     const aggregate = aggregatePlayableMCTSResults([
       syntheticResult(),

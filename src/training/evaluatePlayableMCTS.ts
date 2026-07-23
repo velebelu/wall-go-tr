@@ -1,5 +1,12 @@
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -403,8 +410,20 @@ function resultsCsv(results: readonly PlayableMCTSGameResult[]): string {
   ].join('\n')
 }
 
-function pairedCsv(results: readonly PlayableMCTSGameResult[]): string {
-  const rows = new Map<string, PlayableMCTSGameResult[]>()
+type PairablePlayableMCTSResult = Pick<
+  PlayableMCTSGameResult,
+  | 'pairId'
+  | 'rival'
+  | 'finalColor'
+  | 'scenarioSeed'
+  | 'subjectBaseSeed'
+  | 'opponentBaseSeed'
+  | 'outcome'
+  | 'territoryDiff'
+>
+
+export function pairedCsv(results: readonly PairablePlayableMCTSResult[]): string {
+  const rows = new Map<string, PairablePlayableMCTSResult[]>()
   for (const result of results) {
     const pair = rows.get(result.pairId) ?? []
     pair.push(result)
@@ -415,10 +434,16 @@ function pairedCsv(results: readonly PlayableMCTSGameResult[]): string {
     'redTerritoryDiff,blueTerritoryDiff'
   return [
     header,
-    ...[...rows.values()].map((pair) => {
+    ...Array.from(rows.values()).map((pair) => {
+      if (pair.length !== 2) {
+        const kind = pair.length < 2 ? 'Incomplete' : 'Duplicate'
+        throw new Error(
+          `${kind} color pair: ${pair[0]?.pairId ?? 'unknown'} (${pair.length} games)`,
+        )
+      }
       const red = pair.find((row) => row.finalColor === 'R')
       const blue = pair.find((row) => row.finalColor === 'B')
-      if (!red || !blue) throw new Error(`Incomplete color pair: ${pair[0]?.pairId}`)
+      if (!red || !blue) throw new Error(`Duplicate color in pair: ${pair[0]?.pairId}`)
       return [
         red.pairId,
         red.rival,
@@ -432,6 +457,101 @@ function pairedCsv(results: readonly PlayableMCTSGameResult[]): string {
       ].join(',')
     }),
   ].join('\n')
+}
+
+function parseCsvLine(line: string): string[] {
+  const cells: string[] = []
+  let cell = ''
+  let quoted = false
+  for (let index = 0; index < line.length; index++) {
+    const character = line[index]!
+    if (character === '"') {
+      if (quoted && line[index + 1] === '"') {
+        cell += '"'
+        index++
+      } else {
+        quoted = !quoted
+      }
+    } else if (character === ',' && !quoted) {
+      cells.push(cell)
+      cell = ''
+    } else {
+      cell += character
+    }
+  }
+  if (quoted) throw new Error('Unterminated quoted CSV field')
+  cells.push(cell)
+  return cells
+}
+
+function parsePairableResultsCsv(csv: string): PairablePlayableMCTSResult[] {
+  const lines = csv.split(/\r?\n/).filter((line) => line.length > 0)
+  if (lines.length < 2) throw new Error('Playable MCTS results CSV has no result rows')
+  const headers = parseCsvLine(lines[0]!)
+  const required = [
+    'pairId',
+    'rival',
+    'finalColor',
+    'scenarioSeed',
+    'subjectBaseSeed',
+    'opponentBaseSeed',
+    'outcome',
+    'territoryDiff',
+  ] as const
+  const indexes = Object.fromEntries(
+    required.map((column) => {
+      const index = headers.indexOf(column)
+      if (index < 0) throw new Error(`Missing CSV column: ${column}`)
+      return [column, index]
+    }),
+  ) as Record<(typeof required)[number], number>
+
+  return lines.slice(1).map((line, rowIndex) => {
+    const cells = parseCsvLine(line)
+    const value = (column: (typeof required)[number]) => cells[indexes[column]]
+    const rival = value('rival')
+    const finalColor = value('finalColor')
+    const outcome = value('outcome')
+    if (rival !== 'heuristic' && rival !== 'random' && rival !== 'baseline-mcts') {
+      throw new Error(`Invalid rival at CSV row ${rowIndex + 2}: ${rival}`)
+    }
+    if (finalColor !== 'R' && finalColor !== 'B') {
+      throw new Error(`Invalid finalColor at CSV row ${rowIndex + 2}: ${finalColor}`)
+    }
+    if (outcome !== 'win' && outcome !== 'loss' && outcome !== 'tie') {
+      throw new Error(`Invalid outcome at CSV row ${rowIndex + 2}: ${outcome}`)
+    }
+    return {
+      pairId: value('pairId')!,
+      rival,
+      finalColor,
+      scenarioSeed: Number(value('scenarioSeed')),
+      subjectBaseSeed: Number(value('subjectBaseSeed')),
+      opponentBaseSeed: Number(value('opponentBaseSeed')),
+      outcome,
+      territoryDiff: Number(value('territoryDiff')),
+    }
+  })
+}
+
+export function regeneratePlayableMCTSPairedCsv(outputDir: string = PLAYABLE_MCTS_OUTPUT_DIR): {
+  games: number
+  pairs: number
+  lines: number
+  outputPath: string
+} {
+  const resolvedOutputDir = path.resolve(outputDir)
+  const resultsPath = path.join(resolvedOutputDir, 'playable_mcts_final_results.csv')
+  const outputPath = path.join(resolvedOutputDir, 'playable_mcts_final_paired.csv')
+  const results = parsePairableResultsCsv(readFileSync(resultsPath, 'utf8'))
+  const csv = pairedCsv(results)
+  writeFileSync(outputPath, `${csv}\n`, 'utf8')
+  return {
+    games: results.length,
+    pairs: results.length / 2,
+    lines: csv.split('\n').length,
+    outputPath,
+  }
 }
 
 function gitValue(...args: string[]): string {
@@ -521,9 +641,16 @@ export async function evaluatePlayableMCTS(options: EvaluatePlayableMCTSOptions 
 
 async function main(): Promise<void> {
   const args = new Set(process.argv.slice(2))
-  const allowed = new Set(['--smoke', '--overwrite'])
+  const allowed = new Set(['--smoke', '--overwrite', '--regenerate-paired'])
   const unsupported = [...args].filter((arg) => !allowed.has(arg))
   if (unsupported.length) throw new Error(`Unsupported arguments: ${unsupported.join(', ')}`)
+  if (args.has('--regenerate-paired')) {
+    if (args.size !== 1) {
+      throw new Error('--regenerate-paired cannot be combined with other arguments')
+    }
+    console.log(JSON.stringify(regeneratePlayableMCTSPairedCsv(), null, 2))
+    return
+  }
   const smoke = args.has('--smoke')
   const startedAt = performance.now()
   const evaluation = await evaluatePlayableMCTS({
