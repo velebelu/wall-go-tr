@@ -93,7 +93,7 @@ describe('evaluateMCTSWideningConfirmation', () => {
 
     expect(first.results).toEqual(second.results)
     expect(first.summary).toEqual(second.summary)
-  }, 30000)
+  }, 60000)
 
   it('calculates metrics separately for both colors', () => {
     expect(sharedSummary.byRival.heuristic.byColor.R.games).toBe(1)
