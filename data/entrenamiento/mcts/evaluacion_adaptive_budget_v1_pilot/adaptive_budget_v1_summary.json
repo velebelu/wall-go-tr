@@ -1,0 +1,111 @@
+{
+  "version": "adaptive-budget-v1",
+  "games": 80,
+  "pairedProtocol": "Each pairId repeats color, scenario seed, subject seed and opponent seed across variants.",
+  "variants": {
+    "playable-baseline": {
+      "overall": {
+        "games": 40,
+        "wins": 30,
+        "losses": 10,
+        "ties": 0,
+        "winRate": 75,
+        "winRateCI95": {
+          "low": 59.806,
+          "high": 85.8129
+        },
+        "averageTerritoryDiff": 6.175,
+        "averageDecisionMs": 354.6511,
+        "p50DecisionMs": 302.7415,
+        "p95DecisionMs": 772.1105,
+        "subjectDecisions": 1008
+      },
+      "byRival": {
+        "heuristic": {
+          "games": 20,
+          "wins": 20,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "winRateCI95": {
+            "low": 83.8875,
+            "high": 100
+          },
+          "averageTerritoryDiff": 10.8,
+          "averageDecisionMs": 364.5456,
+          "p50DecisionMs": 318.6874,
+          "p95DecisionMs": 791.7362,
+          "subjectDecisions": 478
+        },
+        "baseline-mcts": {
+          "games": 20,
+          "wins": 10,
+          "losses": 10,
+          "ties": 0,
+          "winRate": 50,
+          "winRateCI95": {
+            "low": 29.9298,
+            "high": 70.0702
+          },
+          "averageTerritoryDiff": 1.55,
+          "averageDecisionMs": 345.7274,
+          "p50DecisionMs": 297.0745,
+          "p95DecisionMs": 768.6592,
+          "subjectDecisions": 530
+        }
+      }
+    },
+    "adaptive-budget-v1": {
+      "overall": {
+        "games": 40,
+        "wins": 27,
+        "losses": 11,
+        "ties": 2,
+        "winRate": 67.5,
+        "winRateCI95": {
+          "low": 52.0177,
+          "high": 79.9155
+        },
+        "averageTerritoryDiff": 5.125,
+        "averageDecisionMs": 913.3368,
+        "p50DecisionMs": 613.4777,
+        "p95DecisionMs": 2524.7113,
+        "subjectDecisions": 1010
+      },
+      "byRival": {
+        "heuristic": {
+          "games": 20,
+          "wins": 16,
+          "losses": 4,
+          "ties": 0,
+          "winRate": 80,
+          "winRateCI95": {
+            "low": 58.3983,
+            "high": 91.9342
+          },
+          "averageTerritoryDiff": 4.4,
+          "averageDecisionMs": 908.1799,
+          "p50DecisionMs": 597.1272,
+          "p95DecisionMs": 2536.5584,
+          "subjectDecisions": 479
+        },
+        "baseline-mcts": {
+          "games": 20,
+          "wins": 11,
+          "losses": 7,
+          "ties": 2,
+          "winRate": 55,
+          "winRateCI95": {
+            "low": 34.2085,
+            "high": 74.1802
+          },
+          "averageTerritoryDiff": 5.85,
+          "averageDecisionMs": 917.9887,
+          "p50DecisionMs": 621.792,
+          "p95DecisionMs": 2524.7113,
+          "subjectDecisions": 531
+        }
+      }
+    }
+  }
+}
