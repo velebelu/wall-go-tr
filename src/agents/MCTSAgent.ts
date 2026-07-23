@@ -34,6 +34,12 @@ export interface MCTSAgentOptions {
   workerFactory?: () => Worker
 }
 
+function createHumanGameSeed(): number {
+  const values = new Uint32Array(1)
+  globalThis.crypto.getRandomValues(values)
+  return values[0]!
+}
+
 export class MCTSAgent implements PlayerAgent {
   private worker?: Worker
   private decision = 0
@@ -41,7 +47,7 @@ export class MCTSAgent implements PlayerAgent {
   private readonly workerFactory: () => Worker
 
   constructor(options: MCTSAgentOptions = {}) {
-    this.seed = options.seed ?? 0x4d435453
+    this.seed = options.seed ?? createHumanGameSeed()
     this.workerFactory =
       options.workerFactory ??
       (() => new Worker(new URL('./AIWorker.ts', import.meta.url), { type: 'module' }))
