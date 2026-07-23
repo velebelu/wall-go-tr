@@ -1,10 +1,11 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { makeInitialState } from '@/store/gameState'
+import { createEmptyBoard, makeInitialState } from '@/store/gameState'
 import { getLegalActions } from '@/utils/ai'
 import type { GameSnapshot, PlayerAction } from '@/lib/types'
 import { createHumanVsMCTSAgents, FINAL_MCTS_CONFIG, MCTSAgent } from './MCTSAgent'
 import { HumanAgent } from './HumanAgent'
+import { choosePlayableMCTSAction, type MCTSWorkerGameState } from './mctsWorkerDecision'
 
 type WorkerRequest = {
   aiType: string
@@ -32,6 +33,43 @@ class FakeWorker {
     )
   }
   terminate() {}
+}
+
+class InProcessMCTSWorker {
+  onmessage: ((event: MessageEvent) => void) | null = null
+  onerror: ((event: ErrorEvent) => void) | null = null
+  request?: WorkerRequest
+
+  postMessage(request: WorkerRequest) {
+    this.request = request
+    queueMicrotask(() => {
+      try {
+        const action = choosePlayableMCTSAction({
+          gameState: request.gameState as MCTSWorkerGameState,
+          config: request.config.mcts,
+          seed: request.config.seed,
+        })
+        this.onmessage?.({ data: { action } } as MessageEvent)
+      } catch (error) {
+        this.onmessage?.({
+          data: { error: error instanceof Error ? error.message : String(error) },
+        } as MessageEvent)
+      }
+    })
+  }
+
+  terminate() {}
+}
+
+function makeFixedPlayingState(): GameSnapshot {
+  const state = makeInitialState()
+  state.phase = 'playing'
+  state.turn = 'R'
+  state.stonesPlaced = { R: 4, B: 4 }
+  state.board = createEmptyBoard()
+  state.board[0][0].stone = 'R'
+  state.board[1][0].stone = 'B'
+  return state
 }
 
 describe('MCTSAgent final', () => {
@@ -101,5 +139,55 @@ describe('MCTSAgent final', () => {
   it('no carga ni referencia recursos Q5', () => {
     expect(readFileSync('src/agents/MCTSAgent.ts', 'utf8')).not.toMatch(/Q5|q5/)
     expect(readFileSync('src/agents/AIWorker.ts', 'utf8')).not.toMatch(/Q5|q5/)
+  })
+
+  it('integra de forma determinista MCTSAgent con la logica jugable compartida', async () => {
+    // Certifica el protocolo jugable; evaluateMCTS.ts conserva otro protocolo de RNG.
+    const seed = 0x12345678
+    const state = makeFixedPlayingState()
+    const before = structuredClone(state)
+    const legalActions = getLegalActions(state)
+    const worker = new InProcessMCTSWorker()
+    const agent = new MCTSAgent({ seed, workerFactory: () => worker as unknown as Worker })
+
+    expect(legalActions.length).toBeGreaterThan(1)
+    const action = await agent.getAction(state)
+
+    expect(worker.request).toBeDefined()
+    expect(worker.request?.aiType).toBe('mcts-final')
+    expect(worker.request?.gameState).toEqual({
+      ...state,
+      legal: Array.from(state.legal),
+    })
+    expect(worker.request?.config).toEqual({ mcts: FINAL_MCTS_CONFIG, seed })
+    expect(legalActions).toContainEqual(action)
+    expect(state).toEqual(before)
+  })
+
+  it('elige la misma accion con el mismo estado, configuracion y semilla jugables', () => {
+    const seed = 0x12345678
+    const state = makeFixedPlayingState()
+    const before = structuredClone(state)
+    const serialized = {
+      ...state,
+      legal: Array.from(state.legal),
+    }
+    const serializedBefore = structuredClone(serialized)
+
+    const first = choosePlayableMCTSAction({
+      gameState: serialized,
+      config: FINAL_MCTS_CONFIG,
+      seed,
+    })
+    const second = choosePlayableMCTSAction({
+      gameState: serialized,
+      config: FINAL_MCTS_CONFIG,
+      seed,
+    })
+
+    expect(first).toEqual(second)
+    expect(getLegalActions(state)).toContainEqual(first)
+    expect(serialized).toEqual(serializedBefore)
+    expect(state).toEqual(before)
   })
 })

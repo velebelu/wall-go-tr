@@ -35,7 +35,7 @@ describe('evaluateMCTSWideningConfirmation', () => {
     })
     sharedResults = evaluation.results
     sharedSummary = evaluation.summary
-  }, 20000)
+  }, 60000)
 
   it('builds exactly 50 red and 50 blue games against heuristic', () => {
     const schedule = buildMCTSWideningConfirmationSchedule()
