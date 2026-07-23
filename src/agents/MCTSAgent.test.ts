@@ -6,6 +6,11 @@ import type { GameSnapshot, PlayerAction } from '@/lib/types'
 import { createHumanVsMCTSAgents, FINAL_MCTS_CONFIG, MCTSAgent } from './MCTSAgent'
 import { HumanAgent } from './HumanAgent'
 import { choosePlayableMCTSAction, type MCTSWorkerGameState } from './mctsWorkerDecision'
+import { TurnManager, type TurnDecisionTrace } from './TurnManager'
+import { applyAgentActionToGame } from './gameAgentIntegration'
+import { useGame } from '@/store'
+import { snapshotFromState } from '@/store/gameState'
+import { applyFullAction } from '@/engine/gameSimulator'
 
 type WorkerRequest = {
   aiType: string
@@ -189,5 +194,55 @@ describe('MCTSAgent final', () => {
     expect(getLegalActions(state)).toContainEqual(first)
     expect(serialized).toEqual(serializedBefore)
     expect(state).toEqual(before)
+  })
+
+  it('mantiene paridad desde el evaluador hasta TurnManager y el store usado por Game', async () => {
+    const seed = 0x12345678
+    const state = makeFixedPlayingState()
+    const expectedAction = choosePlayableMCTSAction({
+      gameState: state,
+      config: FINAL_MCTS_CONFIG,
+      seed,
+    })
+    useGame.setState({
+      ...state,
+      _history: [snapshotFromState(state)],
+      _future: [],
+    })
+    const worker = new InProcessMCTSWorker()
+    const agent = new MCTSAgent({ seed, workerFactory: () => worker as unknown as Worker })
+    let trace: TurnDecisionTrace | undefined
+    const manager = new TurnManager({
+      agents: {
+        R: agent,
+        B: {
+          getAction: async () => {
+            throw new Error('Blue must not act in this one-decision integration test')
+          },
+        },
+      },
+      getGameState: () => snapshotFromState(useGame.getState()),
+      applyAction: (action) => {
+        applyAgentActionToGame(action, useGame.getState())
+      },
+      isGameOver: () => trace !== undefined,
+      onDecision: (decisionTrace) => {
+        trace = decisionTrace
+      },
+    })
+
+    await manager.startLoop()
+
+    expect(trace?.action).toEqual(expectedAction)
+    expect(worker.request?.config).toEqual({ mcts: FINAL_MCTS_CONFIG, seed })
+    expect(trace?.player).toBe(state.turn)
+    expect(trace?.agentDiagnostics).toEqual({
+      baseSeed: seed,
+      decisionIndex: 0,
+      decisionSeed: seed,
+    })
+    expect(snapshotFromState(useGame.getState())).toEqual(
+      applyFullAction(state, expectedAction).state,
+    )
   })
 })

@@ -1,6 +1,6 @@
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import type { MCTSConfig } from '@/engine/mcts/types'
-import type { PlayerAgent } from './PlayerAgent'
+import type { AgentDecisionDiagnostics, PlayerAgent } from './PlayerAgent'
 import { toSerializableSnapshot } from './serialize'
 import { getLegalActions } from '@/utils/ai'
 
@@ -45,6 +45,7 @@ export class MCTSAgent implements PlayerAgent {
   private decision = 0
   private readonly seed: number
   private readonly workerFactory: () => Worker
+  private lastDecisionDiagnostics?: AgentDecisionDiagnostics
 
   constructor(options: MCTSAgentOptions = {}) {
     this.seed = options.seed ?? createHumanGameSeed()
@@ -56,7 +57,13 @@ export class MCTSAgent implements PlayerAgent {
 
   async getAction(gameState: GameSnapshot): Promise<PlayerAction> {
     const worker = this.worker ?? (this.worker = this.workerFactory())
-    const requestSeed = (this.seed + this.decision++) >>> 0
+    const decisionIndex = this.decision++
+    const requestSeed = (this.seed + decisionIndex) >>> 0
+    this.lastDecisionDiagnostics = {
+      baseSeed: this.seed,
+      decisionIndex,
+      decisionSeed: requestSeed,
+    }
     const legalActionKeys = new Set(
       getLegalActions(gameState).map((action) => JSON.stringify(action)),
     )
@@ -92,6 +99,10 @@ export class MCTSAgent implements PlayerAgent {
   cancel(): void {
     this.worker?.terminate()
     this.worker = undefined
+  }
+
+  getDecisionDiagnostics(): AgentDecisionDiagnostics | undefined {
+    return this.lastDecisionDiagnostics ? { ...this.lastDecisionDiagnostics } : undefined
   }
 }
 
