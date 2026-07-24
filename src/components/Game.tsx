@@ -32,6 +32,16 @@ import ConfirmDialog from './ui/ConfirmDialog'
 import TurnTimer from './ui/TurnTimer'
 import { getGameParticipantMetadata } from '@/utils/gameModeMetadata'
 import { appendMCTSGameTurnTrace } from '@/utils/mctsGameTrace'
+import {
+  createHumanMCTSTrace,
+  downloadPreparedHumanMCTSTrace,
+  finalizeHumanMCTSTrace,
+  prepareHumanMCTSTraceFile,
+  recordHumanMCTSDecision,
+  type HumanMCTSTraceV1,
+  type PreparedHumanMCTSTraceFile,
+} from '@/utils/humanMCTSTrace'
+import { FINAL_MCTS_CONFIG } from '@/agents/MCTSAgent'
 
 export default function Game({
   gameMode,
@@ -79,6 +89,11 @@ export default function Game({
     null,
   )
   const [mctsTraceComplete, setMctsTraceComplete] = useState(false)
+  const [fullTraceDownload, setFullTraceDownload] = useState<{
+    fileName: string
+    bytes: number
+    error?: string
+  } | null>(null)
   const [timeLeft, setTimeLeft] = useState(90_000)
   const turnTimeLimit = 90_000
   const [turnStart, setTurnStart] = useState<number | null>(null)
@@ -89,6 +104,10 @@ export default function Game({
   const learningAgentRef = useRef<LearningAgent | null>(null)
   // Diagnóstico completo de cada decisión en partidas humano contra MCTS.
   const mctsTraceRef = useRef<MCTSGameTurnTrace[]>([])
+  const fullMctsTraceRef = useRef<HumanMCTSTraceV1 | null>(null)
+  const finalizedFullMctsTraceRef = useRef<HumanMCTSTraceV1 | null>(null)
+  const preparedFullTraceRef = useRef<PreparedHumanMCTSTraceFile | null>(null)
+  const savedRef = useRef(false)
 
   const turnManagerStartedRef = useRef(false)
   const trainingStartedRef = useRef(false)
@@ -99,6 +118,12 @@ export default function Game({
 
   const setupTurnManager = useCallback(() => {
     if (!gameMode) return
+
+    fullMctsTraceRef.current = null
+    finalizedFullMctsTraceRef.current = null
+    preparedFullTraceRef.current = null
+    savedRef.current = false
+    setFullTraceDownload(null)
 
     if (gameMode === 'heuristic-training') {
       learningAgentRef.current = null
@@ -184,7 +209,15 @@ export default function Game({
       mctsTraceRef.current = []
       setMctsTraceSaveResult(null)
       setMctsTraceComplete(false)
-      agents = createHumanVsMCTSAgents(aiSide, new MCTSAgent(), human)
+      const mcts = new MCTSAgent()
+      fullMctsTraceRef.current = createHumanMCTSTrace({
+        humanColor: aiSide === 'R' ? 'B' : 'R',
+        mctsColor: aiSide,
+        seed: mcts.getBaseSeed(),
+        mctsConfig: FINAL_MCTS_CONFIG,
+        initialState: snapshotFromState(useGame.getState()),
+      })
+      agents = createHumanVsMCTSAgents(aiSide, mcts, human)
     } else {
       const aiMap = {
         practice: new RandomAgent(),
@@ -223,6 +256,7 @@ export default function Game({
       onDecision: (trace) => {
         if (gameMode !== 'mcts-final') return
         appendMCTSGameTurnTrace(mctsTraceRef.current, trace, aiSide)
+        recordHumanMCTSDecision(fullMctsTraceRef.current, trace, aiSide)
       },
     })
     turnManagerStartedRef.current = false
@@ -257,6 +291,9 @@ export default function Game({
       turnManagerRef.current = null
       humanAgentRef.current = null
       turnManagerStartedRef.current = false
+      fullMctsTraceRef.current = null
+      finalizedFullMctsTraceRef.current = null
+      preparedFullTraceRef.current = null
     }
   }, [gameMode, aiSide, setPhase, setupTurnManager])
 
@@ -348,7 +385,6 @@ export default function Game({
   }, [onTurnEnd, turn, phase, result, live])
 
   // Evita guardar varias veces si se vuelve a renderizar la pantalla final.
-  const savedRef = useRef(false)
   useEffect(() => {
     if (phase !== 'finished' || !result) return
     if (savedRef.current) return
@@ -423,6 +459,23 @@ export default function Game({
     if (saved.traceResult.status !== 'not_applicable') {
       setMctsTraceSaveResult(saved.traceResult)
     }
+    if (gameMode === 'mcts-final' && fullMctsTraceRef.current) {
+      try {
+        const trace = fullMctsTraceRef.current
+        finalizeHumanMCTSTrace(trace, id, snapshotFromState(useGame.getState()))
+        finalizedFullMctsTraceRef.current = trace
+        const prepared = prepareHumanMCTSTraceFile(trace)
+        preparedFullTraceRef.current = prepared
+        setFullTraceDownload({ fileName: prepared.fileName, bytes: prepared.bytes })
+      } catch (error) {
+        preparedFullTraceRef.current = null
+        setFullTraceDownload({
+          fileName: `traza_humano_mcts_${id}.json`,
+          bytes: 0,
+          error: error instanceof Error ? error.message : String(error),
+        })
+      }
+    }
     savedRef.current = true
   }, [phase, result, board, players, gameMode, aiLevel, aiSide, humanSide, mctsTraceComplete])
 
@@ -491,6 +544,34 @@ export default function Game({
               Descargar traza
             </button>
           )}
+          <div className="mt-2">
+            {!fullTraceDownload
+              ? 'La traza JSON reproducible todavía no se ha generado.'
+              : fullTraceDownload.error
+                ? `Falló la traza JSON ${fullTraceDownload.fileName}: ${fullTraceDownload.error}`
+                : `Traza reproducible preparada: ${fullTraceDownload.fileName} (${fullTraceDownload.bytes} bytes).`}
+            {preparedFullTraceRef.current && finalizedFullMctsTraceRef.current && (
+              <button
+                type="button"
+                className="ml-2 underline"
+                onClick={() => {
+                  try {
+                    setFullTraceDownload(
+                      downloadPreparedHumanMCTSTrace(preparedFullTraceRef.current!),
+                    )
+                  } catch (error) {
+                    setFullTraceDownload({
+                      fileName: preparedFullTraceRef.current!.fileName,
+                      bytes: 0,
+                      error: error instanceof Error ? error.message : String(error),
+                    })
+                  }
+                }}
+              >
+                Descargar JSON reproducible
+              </button>
+            )}
+          </div>
         </div>
       )}
       <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-800 dark:text-zinc-100 drop-shadow animate-fade-in flex items-center gap-2">

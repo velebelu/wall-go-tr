@@ -27,6 +27,7 @@ type MCTSWorkerResponse = {
   error?: string
   stack?: string
   info?: string
+  diagnostics?: NonNullable<AgentDecisionDiagnostics['mcts']>
 }
 
 export interface MCTSAgentOptions {
@@ -74,6 +75,9 @@ export class MCTSAgent implements PlayerAgent {
         if (event.data.error) {
           reject(new Error(`La IA MCTS final no pudo elegir una acción: ${event.data.error}`))
         } else if (event.data.action && legalActionKeys.has(JSON.stringify(event.data.action))) {
+          if (this.lastDecisionDiagnostics && event.data.diagnostics) {
+            this.lastDecisionDiagnostics.mcts = structuredClone(event.data.diagnostics)
+          }
           resolve(event.data.action)
         } else {
           reject(
@@ -102,7 +106,11 @@ export class MCTSAgent implements PlayerAgent {
   }
 
   getDecisionDiagnostics(): AgentDecisionDiagnostics | undefined {
-    return this.lastDecisionDiagnostics ? { ...this.lastDecisionDiagnostics } : undefined
+    return this.lastDecisionDiagnostics ? structuredClone(this.lastDecisionDiagnostics) : undefined
+  }
+
+  getBaseSeed(): number {
+    return this.seed
   }
 }
 

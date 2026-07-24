@@ -9,7 +9,7 @@ import {
 import { MinimaxAI } from '@/ai/minimax-ai'
 import { chooseLearningAction, type QTableEntries } from './learningPolicy'
 import type { MCTSConfig } from '@/engine/mcts/types'
-import { choosePlayableMCTSAction } from './mctsWorkerDecision'
+import { choosePlayableMCTSDecision } from './mctsWorkerDecision'
 
 function calculateMinimaxPlayingAction(gameState: GameSnapshot, depth = 2): PlayerAction {
   const ai = new MinimaxAI(depth)
@@ -50,8 +50,17 @@ self.onmessage = (
     if (aiType === 'mcts-final') {
       const config = event.data.config?.mcts as MCTSConfig
       const seed = (event.data.config?.seed as number) >>> 0
-      action = choosePlayableMCTSAction({ gameState, config, seed })
-      self.postMessage({ action })
+      const startedAt = performance.now()
+      const result = choosePlayableMCTSDecision({ gameState, config, seed })
+      action = result.action
+      self.postMessage({
+        action,
+        diagnostics: {
+          result,
+          effectiveConfig: config,
+          searchTimeMs: performance.now() - startedAt,
+        },
+      })
       return
     }
     if (gameState.phase === 'placing') {

@@ -29,6 +29,7 @@ export interface MCTSChildResult {
 
 export interface MCTSResult {
   action: PlayerAction
+  originalAction?: PlayerAction
   visits: number
   value: number
   rootVisits: number

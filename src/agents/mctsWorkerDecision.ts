@@ -1,5 +1,5 @@
 import { searchBestAction } from '@/engine/mcts/MCTS'
-import type { MCTSConfig } from '@/engine/mcts/types'
+import type { MCTSConfig, MCTSResult } from '@/engine/mcts/types'
 import type { GameSnapshot, PlayerAction } from '@/lib/types'
 import { getLegalActions } from '@/utils/ai'
 
@@ -25,6 +25,14 @@ export function choosePlayableMCTSAction(params: {
   config: MCTSConfig
   seed: number
 }): PlayerAction {
+  return choosePlayableMCTSDecision(params).action
+}
+
+export function choosePlayableMCTSDecision(params: {
+  gameState: MCTSWorkerGameState
+  config: MCTSConfig
+  seed: number
+}): MCTSResult {
   const gameState: GameSnapshot = {
     ...params.gameState,
     legal: new Set(params.gameState.legal),
@@ -38,15 +46,16 @@ export function choosePlayableMCTSAction(params: {
     throw new Error('No legal actions available but game is not finished.')
   }
 
-  const action = searchBestAction(
+  const result = searchBestAction(
     gameState,
     gameState.turn,
     params.config,
     createPlayableMCTSRng(params.seed),
     undefined,
-  ).action
+  )
+  const action = result.action
   if (!legalActions.some((candidate) => JSON.stringify(candidate) === JSON.stringify(action))) {
     throw new Error('MCTS devolvió una acción que no pertenece al conjunto legal.')
   }
-  return action
+  return result
 }

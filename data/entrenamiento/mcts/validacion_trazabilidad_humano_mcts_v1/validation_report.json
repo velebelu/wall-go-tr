@@ -1,0 +1,13 @@
+{
+  "schema": "HumanMCTSTraceV1",
+  "replay": {
+    "ok": true,
+    "decisionsReplayed": 1
+  },
+  "fixtureTurn": 0,
+  "traceBytes": 62536,
+  "fixtureBytes": 39218,
+  "recordingMs": 3.0465,
+  "containsPrivatePath": false,
+  "finalResultMatches": true
+}

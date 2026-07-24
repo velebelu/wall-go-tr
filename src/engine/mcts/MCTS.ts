@@ -96,6 +96,7 @@ export function searchBestAction(
     ) ?? best
   const result: MCTSResult = {
     action: selectedAction,
+    originalAction: best.action!,
     visits: selectedChild.visits,
     value: selectedChild.meanValue,
     rootVisits: root.visits,
