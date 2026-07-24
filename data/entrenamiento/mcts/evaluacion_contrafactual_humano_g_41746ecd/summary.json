@@ -1,0 +1,805 @@
+{
+  "schema": "HumanMCTSCounterfactualSummaryV1",
+  "evaluatorVersion": "human-mcts-counterfactual-pilot-v1",
+  "mode": "pilot",
+  "generatedAt": "2026-07-24T11:14:11.554Z",
+  "design": {
+    "budgets": [
+      50,
+      100,
+      250,
+      500,
+      1000
+    ],
+    "selectionSeeds": [
+      417460,
+      417461,
+      417462,
+      417463,
+      417464,
+      417465,
+      417466,
+      417467,
+      417468,
+      417469,
+      417470,
+      417471,
+      417472,
+      417473,
+      417474,
+      417475,
+      417476,
+      417477,
+      417478,
+      417479
+    ],
+    "pairedMatchSeeds": [
+      517460,
+      517461
+    ],
+    "referenceSimulations": 250,
+    "maxTurns": 250,
+    "configRule": "FINAL_MCTS_CONFIG copied with simulations as the only override."
+  },
+  "durationMs": 2885183.9374,
+  "decisions": [
+    {
+      "fixtureId": "1_turn_3_mcts_1",
+      "turnIndex": 3,
+      "player": "R",
+      "candidates": [
+        {
+          "key": "{\"type\":\"place\",\"pos\":{\"x\":4,\"y\":2}}",
+          "action": {
+            "type": "place",
+            "pos": {
+              "x": 4,
+              "y": 2
+            }
+          },
+          "sources": [
+            "final-played",
+            "recorded-root-2"
+          ]
+        },
+        {
+          "key": "{\"type\":\"place\",\"pos\":{\"x\":1,\"y\":2}}",
+          "action": {
+            "type": "place",
+            "pos": {
+              "x": 1,
+              "y": 2
+            }
+          },
+          "sources": [
+            "original-pre-tactical",
+            "recorded-root-1"
+          ]
+        },
+        {
+          "key": "{\"type\":\"place\",\"pos\":{\"x\":3,\"y\":0}}",
+          "action": {
+            "type": "place",
+            "pos": {
+              "x": 3,
+              "y": 0
+            }
+          },
+          "sources": [
+            "high-budget-modal-500"
+          ]
+        },
+        {
+          "key": "{\"type\":\"place\",\"pos\":{\"x\":4,\"y\":1}}",
+          "action": {
+            "type": "place",
+            "pos": {
+              "x": 4,
+              "y": 1
+            }
+          },
+          "sources": [
+            "high-budget-modal-1000"
+          ]
+        }
+      ],
+      "stability": [
+        {
+          "budget": 50,
+          "seeds": 20,
+          "uniqueActions": 10,
+          "modalActionKey": "{\"type\":\"place\",\"pos\":{\"x\":2,\"y\":1}}",
+          "modalFrequency": 0.2,
+          "averageVisits": 7.75,
+          "averageValue": 0.3398,
+          "averageElapsedMs": 820.9666
+        },
+        {
+          "budget": 100,
+          "seeds": 20,
+          "uniqueActions": 11,
+          "modalActionKey": "{\"type\":\"place\",\"pos\":{\"x\":3,\"y\":1}}",
+          "modalFrequency": 0.25,
+          "averageVisits": 12.4,
+          "averageValue": 0.3453,
+          "averageElapsedMs": 1497.81
+        },
+        {
+          "budget": 250,
+          "seeds": 20,
+          "uniqueActions": 15,
+          "modalActionKey": "{\"type\":\"place\",\"pos\":{\"x\":5,\"y\":2}}",
+          "modalFrequency": 0.15,
+          "averageVisits": 17.6667,
+          "averageValue": 0.2864,
+          "averageElapsedMs": 3539.4078
+        },
+        {
+          "budget": 500,
+          "seeds": 20,
+          "uniqueActions": 15,
+          "modalActionKey": "{\"type\":\"place\",\"pos\":{\"x\":3,\"y\":0}}",
+          "modalFrequency": 0.1,
+          "averageVisits": 25.5,
+          "averageValue": 0.2746,
+          "averageElapsedMs": 6843.5733
+        },
+        {
+          "budget": 1000,
+          "seeds": 20,
+          "uniqueActions": 15,
+          "modalActionKey": "{\"type\":\"place\",\"pos\":{\"x\":4,\"y\":1}}",
+          "modalFrequency": 0.15,
+          "averageVisits": 55.3333,
+          "averageValue": 0.2142,
+          "averageElapsedMs": 13962.3076
+        }
+      ],
+      "aggregates": [
+        {
+          "candidateKey": "{\"type\":\"place\",\"pos\":{\"x\":4,\"y\":2}}",
+          "action": {
+            "type": "place",
+            "pos": {
+              "x": 4,
+              "y": 2
+            }
+          },
+          "games": 2,
+          "wins": 2,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 1,
+          "winRateCI95": {
+            "low": 34.238,
+            "high": 100
+          },
+          "averageTerritory": 24.5,
+          "averageTerritoryDiff": 10.5,
+          "averageDurationMs": 71747.7413
+        },
+        {
+          "candidateKey": "{\"type\":\"place\",\"pos\":{\"x\":1,\"y\":2}}",
+          "action": {
+            "type": "place",
+            "pos": {
+              "x": 1,
+              "y": 2
+            }
+          },
+          "games": 2,
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "winRate": 0,
+          "winRateCI95": {
+            "low": 0,
+            "high": 65.762
+          },
+          "averageTerritory": 8.5,
+          "averageTerritoryDiff": -13.5,
+          "averageDurationMs": 73881.7014
+        },
+        {
+          "candidateKey": "{\"type\":\"place\",\"pos\":{\"x\":3,\"y\":0}}",
+          "action": {
+            "type": "place",
+            "pos": {
+              "x": 3,
+              "y": 0
+            }
+          },
+          "games": 2,
+          "wins": 1,
+          "losses": 1,
+          "ties": 0,
+          "winRate": 0.5,
+          "winRateCI95": {
+            "low": 9.4531,
+            "high": 90.5469
+          },
+          "averageTerritory": 14.5,
+          "averageTerritoryDiff": 0.5,
+          "averageDurationMs": 75727.1108
+        },
+        {
+          "candidateKey": "{\"type\":\"place\",\"pos\":{\"x\":4,\"y\":1}}",
+          "action": {
+            "type": "place",
+            "pos": {
+              "x": 4,
+              "y": 1
+            }
+          },
+          "games": 2,
+          "wins": 1,
+          "losses": 0,
+          "ties": 1,
+          "winRate": 0.5,
+          "winRateCI95": {
+            "low": 9.4531,
+            "high": 90.5469
+          },
+          "averageTerritory": 18,
+          "averageTerritoryDiff": 1.5,
+          "averageDurationMs": 76559.9776
+        }
+      ],
+      "classifications": [
+        "budget-sensitive",
+        "seed-sensitive",
+        "tactical-improvement-supported"
+      ]
+    },
+    {
+      "fixtureId": "2_turn_6_mcts_3",
+      "turnIndex": 6,
+      "player": "R",
+      "candidates": [
+        {
+          "key": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":1},\"dir\":\"right\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 4,
+                "y": 1
+              },
+              "dir": "right"
+            }
+          },
+          "sources": [
+            "final-played",
+            "recorded-root-2",
+            "high-budget-modal-1000"
+          ]
+        },
+        {
+          "key": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":3},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":3},\"dir\":\"left\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 4,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 4,
+                "y": 3
+              },
+              "dir": "left"
+            }
+          },
+          "sources": [
+            "original-pre-tactical",
+            "recorded-root-1"
+          ]
+        },
+        {
+          "key": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":2},\"dir\":\"top\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 4,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 4,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          },
+          "sources": [
+            "high-budget-modal-500"
+          ]
+        }
+      ],
+      "stability": [
+        {
+          "budget": 50,
+          "seeds": 20,
+          "uniqueActions": 9,
+          "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":1},\"dir\":\"right\"}}",
+          "modalFrequency": 0.3,
+          "averageVisits": 6.5,
+          "averageValue": 0.4257,
+          "averageElapsedMs": 840.4012
+        },
+        {
+          "budget": 100,
+          "seeds": 20,
+          "uniqueActions": 11,
+          "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":5,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":2},\"dir\":\"top\"}}",
+          "modalFrequency": 0.25,
+          "averageVisits": 12.6,
+          "averageValue": 0.3248,
+          "averageElapsedMs": 1479.7713
+        },
+        {
+          "budget": 250,
+          "seeds": 20,
+          "uniqueActions": 12,
+          "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":2,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":2,\"y\":1},\"dir\":\"bottom\"}}",
+          "modalFrequency": 0.1,
+          "averageVisits": 19,
+          "averageValue": 0.3684,
+          "averageElapsedMs": 3411.7683
+        },
+        {
+          "budget": 500,
+          "seeds": 20,
+          "uniqueActions": 15,
+          "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":2},\"dir\":\"top\"}}",
+          "modalFrequency": 0.2,
+          "averageVisits": 29.25,
+          "averageValue": 0.3559,
+          "averageElapsedMs": 6663.7753
+        },
+        {
+          "budget": 1000,
+          "seeds": 20,
+          "uniqueActions": 14,
+          "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":1},\"dir\":\"right\"}}",
+          "modalFrequency": 0.15,
+          "averageVisits": 50.3333,
+          "averageValue": 0.3766,
+          "averageElapsedMs": 13120.8423
+        }
+      ],
+      "aggregates": [
+        {
+          "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":1},\"dir\":\"right\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 4,
+                "y": 1
+              },
+              "dir": "right"
+            }
+          },
+          "games": 2,
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "winRate": 0,
+          "winRateCI95": {
+            "low": 0,
+            "high": 65.762
+          },
+          "averageTerritory": 15.5,
+          "averageTerritoryDiff": -4.5,
+          "averageDurationMs": 64337.7631
+        },
+        {
+          "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":3},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":3},\"dir\":\"left\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 4,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 4,
+                "y": 3
+              },
+              "dir": "left"
+            }
+          },
+          "games": 2,
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "winRate": 0,
+          "winRateCI95": {
+            "low": 0,
+            "high": 65.762
+          },
+          "averageTerritory": 16,
+          "averageTerritoryDiff": -5.5,
+          "averageDurationMs": 66481.504
+        },
+        {
+          "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":2},\"dir\":\"top\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 4,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 4,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          },
+          "games": 2,
+          "wins": 1,
+          "losses": 1,
+          "ties": 0,
+          "winRate": 0.5,
+          "winRateCI95": {
+            "low": 9.4531,
+            "high": 90.5469
+          },
+          "averageTerritory": 22,
+          "averageTerritoryDiff": 4,
+          "averageDurationMs": 65568.0828
+        }
+      ],
+      "classifications": [
+        "budget-sensitive",
+        "seed-sensitive"
+      ]
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "player": "R",
+      "candidates": [
+        {
+          "key": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 5
+            },
+            "pos": {
+              "x": 5,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 5,
+                "y": 4
+              },
+              "dir": "left"
+            }
+          },
+          "sources": [
+            "final-played",
+            "recorded-root-2"
+          ]
+        },
+        {
+          "key": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 5
+            },
+            "pos": {
+              "x": 4,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 4,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          },
+          "sources": [
+            "original-pre-tactical",
+            "recorded-root-1"
+          ]
+        },
+        {
+          "key": "{\"type\":\"move\",\"from\":{\"x\":1,\"y\":1},\"pos\":{\"x\":2,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":2,\"y\":1},\"dir\":\"bottom\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "sources": [
+            "high-budget-modal-500"
+          ]
+        },
+        {
+          "key": "{\"type\":\"move\",\"from\":{\"x\":4,\"y\":3},\"pos\":{\"x\":5,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":2},\"dir\":\"top\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 3
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          },
+          "sources": [
+            "high-budget-modal-1000"
+          ]
+        }
+      ],
+      "stability": [
+        {
+          "budget": 50,
+          "seeds": 20,
+          "uniqueActions": 9,
+          "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":4,\"y\":3},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+          "modalFrequency": 0.2,
+          "averageVisits": 7,
+          "averageValue": 0.7036,
+          "averageElapsedMs": 687.8257
+        },
+        {
+          "budget": 100,
+          "seeds": 20,
+          "uniqueActions": 11,
+          "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":5},\"pos\":{\"x\":2,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":2,\"y\":5},\"dir\":\"left\"}}",
+          "modalFrequency": 0.2,
+          "averageVisits": 11.25,
+          "averageValue": 0.444,
+          "averageElapsedMs": 1261.8164
+        },
+        {
+          "budget": 250,
+          "seeds": 20,
+          "uniqueActions": 12,
+          "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":1,\"y\":1},\"pos\":{\"x\":2,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":2,\"y\":1},\"dir\":\"bottom\"}}",
+          "modalFrequency": 0.15,
+          "averageVisits": 16.3333,
+          "averageValue": 0.3815,
+          "averageElapsedMs": 2957.31
+        },
+        {
+          "budget": 500,
+          "seeds": 20,
+          "uniqueActions": 16,
+          "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":1,\"y\":1},\"pos\":{\"x\":2,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":2,\"y\":1},\"dir\":\"bottom\"}}",
+          "modalFrequency": 0.15,
+          "averageVisits": 26,
+          "averageValue": 0.3539,
+          "averageElapsedMs": 5893.9023
+        },
+        {
+          "budget": 1000,
+          "seeds": 20,
+          "uniqueActions": 15,
+          "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":4,\"y\":3},\"pos\":{\"x\":5,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":2},\"dir\":\"top\"}}",
+          "modalFrequency": 0.15,
+          "averageVisits": 40,
+          "averageValue": 0.4012,
+          "averageElapsedMs": 11588.5274
+        }
+      ],
+      "aggregates": [
+        {
+          "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 5
+            },
+            "pos": {
+              "x": 5,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 5,
+                "y": 4
+              },
+              "dir": "left"
+            }
+          },
+          "games": 2,
+          "wins": 1,
+          "losses": 1,
+          "ties": 0,
+          "winRate": 0.5,
+          "winRateCI95": {
+            "low": 9.4531,
+            "high": 90.5469
+          },
+          "averageTerritory": 17,
+          "averageTerritoryDiff": -1.5,
+          "averageDurationMs": 50302.283
+        },
+        {
+          "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 5
+            },
+            "pos": {
+              "x": 4,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 4,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          },
+          "games": 2,
+          "wins": 2,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 1,
+          "winRateCI95": {
+            "low": 34.238,
+            "high": 100
+          },
+          "averageTerritory": 28,
+          "averageTerritoryDiff": 14,
+          "averageDurationMs": 47929.4867
+        },
+        {
+          "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":1,\"y\":1},\"pos\":{\"x\":2,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":2,\"y\":1},\"dir\":\"bottom\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "games": 2,
+          "wins": 1,
+          "losses": 1,
+          "ties": 0,
+          "winRate": 0.5,
+          "winRateCI95": {
+            "low": 9.4531,
+            "high": 90.5469
+          },
+          "averageTerritory": 20,
+          "averageTerritoryDiff": 5,
+          "averageDurationMs": 54522.4981
+        },
+        {
+          "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":4,\"y\":3},\"pos\":{\"x\":5,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":2},\"dir\":\"top\"}}",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 3
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          },
+          "games": 2,
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "winRate": 0,
+          "winRateCI95": {
+            "low": 0,
+            "high": 65.762
+          },
+          "averageTerritory": 15,
+          "averageTerritoryDiff": -6.5,
+          "averageDurationMs": 49803.9041
+        }
+      ],
+      "classifications": [
+        "budget-sensitive",
+        "seed-sensitive",
+        "possible-suboptimal-action"
+      ]
+    }
+  ],
+  "disclaimer": "Pilot classifications are provisional; signals do not prove an action was erroneous."
+}
