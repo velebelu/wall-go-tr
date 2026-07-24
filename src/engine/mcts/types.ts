@@ -13,6 +13,12 @@ export interface MCTSConfig {
   wideningExponent?: number
   tacticalVerification?: boolean
   tacticalCandidateCount?: number
+  immediateTerritorialClosureThreat?: {
+    enabled: boolean
+    weight: number
+    minimumTerritoryDrop: number
+    minimumAccessibleDrop: number
+  }
 }
 
 export interface MCTSChildResult {
@@ -43,6 +49,9 @@ export interface MCTSResult {
   worstOpponentReplyScore?: number
   verificationTimeMs?: number
   immediateTerminalLossAvoided?: boolean
+  closureThreatsDetected?: number
+  closureThreatPenalty?: number
+  closureThreatWorstReply?: PlayerAction
 }
 
 export interface MCTSQPriorSource {

@@ -1,4 +1,5 @@
 import { evaluatePosition } from '@/engine/evaluatePosition'
+import { immediateTerritorialClosureThreat } from '@/engine/immediateTerritorialClosureThreat'
 import { applyFullAction } from '@/engine/gameSimulator'
 import type { GameSnapshot, Player } from '@/lib/types'
 import { getBestHeuristicAction, getBestPlacement, getLegalActions } from '@/utils/ai'
@@ -85,6 +86,7 @@ export function searchBestAction(
         best.action!,
         config.tacticalCandidateCount ?? 3,
         random,
+        config,
       )
     : undefined
   const selectedAction = verification?.action ?? best.action!
@@ -121,6 +123,9 @@ export interface TacticalCandidateEvaluation {
   action: MCTSChildResult['action']
   score: number
   permitsImmediateTerminalLoss: boolean
+  closureThreatDetected?: boolean
+  closureThreatPenalty?: number
+  closureThreatWorstReply?: MCTSChildResult['action']
 }
 
 export function verifyTacticalCandidates(
@@ -130,6 +135,7 @@ export function verifyTacticalCandidates(
   originalAction: MCTSChildResult['action'],
   requestedCount = 3,
   rng: () => number = Math.random,
+  config: MCTSConfig = DEFAULT_MCTS_CONFIG,
 ): {
   action: MCTSChildResult['action']
   metrics: Pick<
@@ -141,6 +147,9 @@ export function verifyTacticalCandidates(
     | 'worstOpponentReplyScore'
     | 'verificationTimeMs'
     | 'immediateTerminalLossAvoided'
+    | 'closureThreatsDetected'
+    | 'closureThreatPenalty'
+    | 'closureThreatWorstReply'
   >
 } {
   if (!Number.isInteger(requestedCount) || requestedCount <= 0) {
@@ -152,7 +161,7 @@ export function verifyTacticalCandidates(
     .slice(0, Math.min(requestedCount, children.length))
   if (!candidates.length) throw new Error('Tactical verification requires expanded children')
   const evaluated = candidates.map(({ action }) =>
-    evaluateTacticalCandidate(rootState, perspective, action),
+    evaluateTacticalCandidate(rootState, perspective, action, config),
   )
   const selected = chooseBestTacticalEvaluation(evaluated, rng)
   const original = evaluated.find(({ action }) => sameAction(action, originalAction))
@@ -167,6 +176,10 @@ export function verifyTacticalCandidates(
       verificationTimeMs: performance.now() - started,
       immediateTerminalLossAvoided:
         (original?.permitsImmediateTerminalLoss ?? false) && !selected.permitsImmediateTerminalLoss,
+      closureThreatsDetected: evaluated.filter((candidate) => candidate.closureThreatDetected)
+        .length,
+      closureThreatPenalty: selected.closureThreatPenalty ?? 0,
+      closureThreatWorstReply: selected.closureThreatWorstReply,
     },
   }
 }
@@ -185,22 +198,33 @@ function evaluateTacticalCandidate(
   rootState: GameSnapshot,
   perspective: Player,
   action: MCTSChildResult['action'],
+  config: MCTSConfig,
 ): TacticalCandidateEvaluation {
   const afterAction = applyFullAction(rootState, action).state
+  const threatConfig = config.immediateTerritorialClosureThreat
+  const threat = threatConfig
+    ? immediateTerritorialClosureThreat(afterAction, perspective, threatConfig)
+    : undefined
   const direct = terminalValue(afterAction, perspective)
   if (direct !== undefined) {
     return {
       action,
-      score: evaluatePosition(afterAction, perspective),
+      score: evaluatePosition(afterAction, perspective) - (threat?.penalty ?? 0),
       permitsImmediateTerminalLoss: direct < 0,
+      closureThreatDetected: threat?.detected,
+      closureThreatPenalty: threat?.penalty,
+      closureThreatWorstReply: threat?.worstReply,
     }
   }
   const replies = getLegalActions(afterAction)
   if (!replies.length) {
     return {
       action,
-      score: evaluatePosition(afterAction, perspective),
+      score: evaluatePosition(afterAction, perspective) - (threat?.penalty ?? 0),
       permitsImmediateTerminalLoss: false,
+      closureThreatDetected: threat?.detected,
+      closureThreatPenalty: threat?.penalty,
+      closureThreatWorstReply: threat?.worstReply,
     }
   }
   let score = Infinity
@@ -211,7 +235,14 @@ function evaluateTacticalCandidate(
     if (terminalValue(replied, perspective) === -1) permitsImmediateTerminalLoss = true
     score = Math.min(score, replyScore)
   }
-  return { action, score, permitsImmediateTerminalLoss }
+  return {
+    action,
+    score: score - (threat?.penalty ?? 0),
+    permitsImmediateTerminalLoss,
+    closureThreatDetected: threat?.detected,
+    closureThreatPenalty: threat?.penalty,
+    closureThreatWorstReply: threat?.worstReply,
+  }
 }
 
 function sameAction(a: MCTSChildResult['action'], b: MCTSChildResult['action']): boolean {
@@ -345,6 +376,20 @@ function validateConfig(config: MCTSConfig): void {
   const tacticalCandidateCount = config.tacticalCandidateCount ?? 3
   if (!Number.isInteger(tacticalCandidateCount) || tacticalCandidateCount <= 0) {
     throw new Error('tacticalCandidateCount must be a positive integer')
+  }
+  const threat = config.immediateTerritorialClosureThreat
+  if (threat) {
+    if (!Number.isFinite(threat.weight) || threat.weight < 0) {
+      throw new Error('immediateTerritorialClosureThreat.weight must be non-negative')
+    }
+    if (!Number.isFinite(threat.minimumTerritoryDrop) || threat.minimumTerritoryDrop < 0) {
+      throw new Error('immediateTerritorialClosureThreat.minimumTerritoryDrop must be non-negative')
+    }
+    if (!Number.isFinite(threat.minimumAccessibleDrop) || threat.minimumAccessibleDrop < 0) {
+      throw new Error(
+        'immediateTerritorialClosureThreat.minimumAccessibleDrop must be non-negative',
+      )
+    }
   }
 }
 

@@ -23,6 +23,7 @@
     "evaluate:mcts": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateMCTS.ts",
     "evaluate:mcts:playable": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluatePlayableMCTS.ts",
     "evaluate:mcts:adaptive-budget": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateAdaptiveBudgetMCTS.ts",
+    "evaluate:mcts:closure-threat-pilot": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateImmediateTerritorialClosurePilot.ts",
     "training:analyze-q3-heuristic-traces": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeHeuristicTracesForQ3.ts",
     "training:analyze-q3-representation": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeQ3Representation.ts",
     "prepare": "husky"

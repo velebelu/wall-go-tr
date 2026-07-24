@@ -117,6 +117,8 @@ export interface MCTSGameResult extends MCTSScheduleItem {
   tacticalSelectionChangeRate?: number
   averageVerificationTimeMs?: number
   immediateTerminalLossesAvoided?: number
+  closureThreatsDetected?: number
+  averageClosureThreatPenalty?: number
 }
 
 export interface MCTSAggregateMetrics {
@@ -321,6 +323,8 @@ async function runSingleMCTSGame(params: {
   let tacticalSelectionChanges = 0
   let verificationTimeMs = 0
   let immediateTerminalLossesAvoided = 0
+  let closureThreatsDetected = 0
+  let closureThreatPenalty = 0
   const mctsActionSignatures: string[] = []
   const gameStartedAt = params.now()
 
@@ -365,6 +369,8 @@ async function runSingleMCTSGame(params: {
       tacticalSelectionChanges += Number(searchResult.tacticalSelectionChanged ?? false)
       verificationTimeMs += searchResult.verificationTimeMs ?? 0
       immediateTerminalLossesAvoided += Number(searchResult.immediateTerminalLossAvoided ?? false)
+      closureThreatsDetected += searchResult.closureThreatsDetected ?? 0
+      closureThreatPenalty += searchResult.closureThreatPenalty ?? 0
       const legal = isLegalAction(action, legalActions)
       mctsActionsLegal &&= legal
       if (!legal) throw new Error('MCTS returned an illegal action during baseline evaluation')
@@ -451,6 +457,8 @@ async function runSingleMCTSGame(params: {
       : 0,
     averageVerificationTimeMs: mctsDecisions ? roundMetric(verificationTimeMs / mctsDecisions) : 0,
     immediateTerminalLossesAvoided,
+    closureThreatsDetected,
+    averageClosureThreatPenalty: mctsDecisions ? closureThreatPenalty / mctsDecisions : 0,
   }
 }
 
@@ -615,6 +623,8 @@ function resultsToCsv(results: MCTSGameResult[]): string {
     'tacticalSelectionChangeRate',
     'averageVerificationTimeMs',
     'immediateTerminalLossesAvoided',
+    'closureThreatsDetected',
+    'averageClosureThreatPenalty',
   ]
   const rows = results.map((result) => [
     result.config.name,
@@ -657,6 +667,8 @@ function resultsToCsv(results: MCTSGameResult[]): string {
     result.tacticalSelectionChangeRate ?? 0,
     result.averageVerificationTimeMs ?? 0,
     result.immediateTerminalLossesAvoided ?? 0,
+    result.closureThreatsDetected ?? 0,
+    result.averageClosureThreatPenalty ?? 0,
   ])
   return [headers.join(','), ...rows.map((row) => row.map(csvEscape).join(','))].join('\n')
 }

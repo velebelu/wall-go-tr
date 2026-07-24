@@ -1,0 +1,84 @@
+{
+  "createdAt": "2026-07-24T08:15:48.939Z",
+  "evaluationVersion": "immediate-territorial-closure-threat-v1-pilot",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\mcts\\evaluacion_amenaza_cierre_inmediato_v1_pilot\\directo",
+  "git": {},
+  "protocol": {
+    "gamesPerCombination": 2,
+    "gamesPerRival": {
+      "baseline-mcts": 2
+    },
+    "gamesPerColor": 1,
+    "totalGames": 4,
+    "seedBase": 1247000,
+    "seeds": [
+      1247001,
+      1247002,
+      1247001,
+      1247002
+    ],
+    "maxTurns": 80,
+    "configurations": [
+      {
+        "name": "baseline-final",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "mixed",
+        "heuristicProbability": 0.8,
+        "expansionPolicy": "heuristic",
+        "progressiveWidening": true,
+        "wideningConstant": 2,
+        "wideningExponent": 0.5,
+        "qPriorWeight": 0,
+        "tacticalVerification": true,
+        "tacticalCandidateCount": 2
+      },
+      {
+        "name": "closure-threat-v1",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "mixed",
+        "heuristicProbability": 0.8,
+        "expansionPolicy": "heuristic",
+        "progressiveWidening": true,
+        "wideningConstant": 2,
+        "wideningExponent": 0.5,
+        "qPriorWeight": 0,
+        "tacticalVerification": true,
+        "tacticalCandidateCount": 2,
+        "immediateTerritorialClosureThreat": {
+          "enabled": true,
+          "weight": 10,
+          "minimumTerritoryDrop": 5,
+          "minimumAccessibleDrop": 5
+        }
+      }
+    ],
+    "rivals": [
+      "baseline-mcts"
+    ],
+    "learningEnabled": false,
+    "q5UsedOnlyAsFrozenOpponent": false,
+    "q5UsedAsFrozenOpponent": false,
+    "q5UsedAsExpansionPrior": false,
+    "q5UsedInRollouts": false,
+    "turnLimitResolution": "finalizeGameIfNeeded using getTerritoryCounts"
+  },
+  "positionEvaluation": {
+    "version": "evaluatePosition-v1",
+    "normalization": "tanh(score / 100)",
+    "weights": {
+      "territory": 10,
+      "mobility": 2,
+      "trappedPieces": 8,
+      "expansion": 1
+    }
+  },
+  "files": {
+    "summary": "closure_threat_direct_summary.json",
+    "results": "closure_threat_direct_results.csv",
+    "metadata": "metadata.json"
+  }
+}
