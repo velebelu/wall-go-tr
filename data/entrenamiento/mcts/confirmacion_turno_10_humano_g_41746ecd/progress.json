@@ -1,0 +1,1415 @@
+{
+  "schema": "HumanMCTSTurn10ProgressV1",
+  "evaluatorVersion": "human-mcts-turn-10-confirmation-v1",
+  "fixtureId": "3_turn_10_mcts_5",
+  "plannedSeeds": [
+    617460,
+    617461,
+    617462,
+    617463,
+    617464,
+    617465,
+    617466,
+    617467,
+    617468,
+    617469,
+    617470,
+    617471,
+    617472,
+    617473,
+    617474,
+    617475,
+    617476,
+    617477,
+    617478,
+    617479
+  ],
+  "completedSeeds": [
+    617460,
+    617461,
+    617462,
+    617463,
+    617464,
+    617465,
+    617466,
+    617467,
+    617468,
+    617469,
+    617470,
+    617471,
+    617472,
+    617473,
+    617474,
+    617475,
+    617476,
+    617477,
+    617478,
+    617479
+  ],
+  "matches": [
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617460,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 11,
+      "territoryOpponent": 20,
+      "territoryDiff": -9,
+      "turns": 46,
+      "reachedTurnLimit": false,
+      "durationMs": 63682.9002,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617460,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 19,
+      "territoryOpponent": 25,
+      "territoryDiff": -6,
+      "turns": 38,
+      "reachedTurnLimit": false,
+      "durationMs": 64712.1606,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617461,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 24,
+      "territoryOpponent": 23,
+      "territoryDiff": 1,
+      "turns": 39,
+      "reachedTurnLimit": false,
+      "durationMs": 54191.1289,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617461,
+      "winner": "tie",
+      "outcome": "tie",
+      "territoryCandidate": 13,
+      "territoryOpponent": 13,
+      "territoryDiff": 0,
+      "turns": 48,
+      "reachedTurnLimit": false,
+      "durationMs": 76852.1841,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617462,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 16,
+      "territoryOpponent": 13,
+      "territoryDiff": 3,
+      "turns": 49,
+      "reachedTurnLimit": false,
+      "durationMs": 67907.531,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617462,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 18,
+      "territoryOpponent": 11,
+      "territoryDiff": 7,
+      "turns": 49,
+      "reachedTurnLimit": false,
+      "durationMs": 66561.65,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617463,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 13,
+      "territoryOpponent": 14,
+      "territoryDiff": -1,
+      "turns": 54,
+      "reachedTurnLimit": false,
+      "durationMs": 75171.4659,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617463,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 17,
+      "territoryOpponent": 7,
+      "territoryDiff": 10,
+      "turns": 51,
+      "reachedTurnLimit": false,
+      "durationMs": 75994.5704,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617464,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 10,
+      "territoryOpponent": 21,
+      "territoryDiff": -11,
+      "turns": 48,
+      "reachedTurnLimit": false,
+      "durationMs": 69364.4301,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617464,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 23,
+      "territoryOpponent": 7,
+      "territoryDiff": 16,
+      "turns": 45,
+      "reachedTurnLimit": false,
+      "durationMs": 61149.5898,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617465,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 18,
+      "territoryOpponent": 21,
+      "territoryDiff": -3,
+      "turns": 44,
+      "reachedTurnLimit": false,
+      "durationMs": 72728.182,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617465,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 22,
+      "territoryOpponent": 21,
+      "territoryDiff": 1,
+      "turns": 43,
+      "reachedTurnLimit": false,
+      "durationMs": 71093.2454,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617466,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 7,
+      "territoryOpponent": 25,
+      "territoryDiff": -18,
+      "turns": 49,
+      "reachedTurnLimit": false,
+      "durationMs": 62790.1605,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617466,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 16,
+      "territoryOpponent": 20,
+      "territoryDiff": -4,
+      "turns": 42,
+      "reachedTurnLimit": false,
+      "durationMs": 62400.7058,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617467,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 24,
+      "territoryOpponent": 21,
+      "territoryDiff": 3,
+      "turns": 35,
+      "reachedTurnLimit": false,
+      "durationMs": 60824.0177,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617467,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 15,
+      "territoryOpponent": 17,
+      "territoryDiff": -2,
+      "turns": 48,
+      "reachedTurnLimit": false,
+      "durationMs": 60235.9891,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617468,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 9,
+      "territoryOpponent": 4,
+      "territoryDiff": 5,
+      "turns": 52,
+      "reachedTurnLimit": false,
+      "durationMs": 70393.3871,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617468,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 4,
+      "territoryOpponent": 39,
+      "territoryDiff": -35,
+      "turns": 37,
+      "reachedTurnLimit": false,
+      "durationMs": 53830.7199,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617469,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 13,
+      "territoryOpponent": 16,
+      "territoryDiff": -3,
+      "turns": 50,
+      "reachedTurnLimit": false,
+      "durationMs": 74502.7388,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617469,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 21,
+      "territoryOpponent": 12,
+      "territoryDiff": 9,
+      "turns": 44,
+      "reachedTurnLimit": false,
+      "durationMs": 67329.6558,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617470,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 14,
+      "territoryOpponent": 17,
+      "territoryDiff": -3,
+      "turns": 42,
+      "reachedTurnLimit": false,
+      "durationMs": 61035.0722,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617470,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 23,
+      "territoryOpponent": 18,
+      "territoryDiff": 5,
+      "turns": 43,
+      "reachedTurnLimit": false,
+      "durationMs": 60308.3109,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617471,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 19,
+      "territoryOpponent": 17,
+      "territoryDiff": 2,
+      "turns": 39,
+      "reachedTurnLimit": false,
+      "durationMs": 49791.8897,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617471,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 16,
+      "territoryOpponent": 23,
+      "territoryDiff": -7,
+      "turns": 42,
+      "reachedTurnLimit": false,
+      "durationMs": 58841.3447,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617472,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 24,
+      "territoryOpponent": 21,
+      "territoryDiff": 3,
+      "turns": 35,
+      "reachedTurnLimit": false,
+      "durationMs": 54858.3928,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617472,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 23,
+      "territoryOpponent": 21,
+      "territoryDiff": 2,
+      "turns": 39,
+      "reachedTurnLimit": false,
+      "durationMs": 61759.9777,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617473,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 14,
+      "territoryOpponent": 16,
+      "territoryDiff": -2,
+      "turns": 50,
+      "reachedTurnLimit": false,
+      "durationMs": 65466.4051,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617473,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 29,
+      "territoryOpponent": 8,
+      "territoryDiff": 21,
+      "turns": 38,
+      "reachedTurnLimit": false,
+      "durationMs": 54108.6092,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617474,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 20,
+      "territoryOpponent": 7,
+      "territoryDiff": 13,
+      "turns": 49,
+      "reachedTurnLimit": false,
+      "durationMs": 64668.2664,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617474,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 13,
+      "territoryOpponent": 21,
+      "territoryDiff": -8,
+      "turns": 46,
+      "reachedTurnLimit": false,
+      "durationMs": 66664.0009,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617475,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 27,
+      "territoryOpponent": 7,
+      "territoryDiff": 20,
+      "turns": 48,
+      "reachedTurnLimit": false,
+      "durationMs": 59930.9883,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617475,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 23,
+      "territoryOpponent": 15,
+      "territoryDiff": 8,
+      "turns": 43,
+      "reachedTurnLimit": false,
+      "durationMs": 69358.7221,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617476,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 9,
+      "territoryOpponent": 17,
+      "territoryDiff": -8,
+      "turns": 56,
+      "reachedTurnLimit": false,
+      "durationMs": 78237.951,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617476,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 34,
+      "territoryOpponent": 7,
+      "territoryDiff": 27,
+      "turns": 40,
+      "reachedTurnLimit": false,
+      "durationMs": 56520.5498,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617477,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 18,
+      "territoryOpponent": 21,
+      "territoryDiff": -3,
+      "turns": 46,
+      "reachedTurnLimit": false,
+      "durationMs": 75521.9884,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617477,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 11,
+      "territoryOpponent": 23,
+      "territoryDiff": -12,
+      "turns": 42,
+      "reachedTurnLimit": false,
+      "durationMs": 63863.0246,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617478,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 14,
+      "territoryOpponent": 13,
+      "territoryDiff": 1,
+      "turns": 53,
+      "reachedTurnLimit": false,
+      "durationMs": 72167.576,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617478,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 11,
+      "territoryOpponent": 22,
+      "territoryDiff": -11,
+      "turns": 43,
+      "reachedTurnLimit": false,
+      "durationMs": 67070.1504,
+      "actionName": "original"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":5,\"y\":4},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":4},\"dir\":\"left\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "pairSeed": 617479,
+      "winner": "B",
+      "outcome": "loss",
+      "territoryCandidate": 12,
+      "territoryOpponent": 23,
+      "territoryDiff": -11,
+      "turns": 46,
+      "reachedTurnLimit": false,
+      "durationMs": 74536.2968,
+      "actionName": "final"
+    },
+    {
+      "fixtureId": "3_turn_10_mcts_5",
+      "turnIndex": 10,
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":5,\"y\":5},\"pos\":{\"x\":4,\"y\":5},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":5},\"dir\":\"top\"}}",
+      "candidateAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "pairSeed": 617479,
+      "winner": "R",
+      "outcome": "win",
+      "territoryCandidate": 18,
+      "territoryOpponent": 9,
+      "territoryDiff": 9,
+      "turns": 49,
+      "reachedTurnLimit": false,
+      "durationMs": 71076.9825,
+      "actionName": "original"
+    }
+  ],
+  "startedAt": "2026-07-24T12:19:44.947Z",
+  "updatedAt": "2026-07-24T13:03:22.707Z",
+  "durationMsAccumulated": 2617545.0821,
+  "complete": true
+}
