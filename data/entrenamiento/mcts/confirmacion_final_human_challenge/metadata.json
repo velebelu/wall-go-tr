@@ -1,0 +1,25 @@
+{
+  "schema": "HumanChallengeFinalConfirmationMetadataV1",
+  "evaluatorVersion": "human-challenge-final-confirmation-v1",
+  "totalPlannedGames": 150,
+  "maximumDecisionsSafetyLimit": 250,
+  "candidateSolverEnabled": false,
+  "qPriorWeight": 0,
+  "baselineConfig": {
+    "simulations": 50,
+    "explorationConstant": 1.4142135623730951,
+    "maxDepth": 60,
+    "rolloutPolicy": "mixed",
+    "heuristicProbability": 0.8,
+    "expansionPolicy": "heuristic",
+    "progressiveWidening": true,
+    "wideningConstant": 2,
+    "wideningExponent": 0.5,
+    "qPriorWeight": 0,
+    "tacticalVerification": true,
+    "tacticalCandidateCount": 2
+  },
+  "reproducibility": "Fixed plan, deterministic seeds, persisted after every game.",
+  "startedAt": "2026-07-24T16:48:44.831Z",
+  "updatedAt": "2026-07-24T19:39:46.454Z"
+}

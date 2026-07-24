@@ -31,6 +31,7 @@
     "evaluate:human-mcts-counterfactual": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateHumanMCTSCounterfactual.ts",
     "confirm:human-mcts-turn-10": "node --import ./scripts/run-ts-node-esm.mjs src/training/confirmHumanMCTSTurn10.ts",
     "evaluate:human-challenge-mcts": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateHumanChallengeMCTSPilot.ts",
+    "confirm:human-challenge-mcts": "node --import ./scripts/run-ts-node-esm.mjs src/training/confirmFinalHumanChallengeMCTS.ts",
     "training:analyze-q3-heuristic-traces": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeHeuristicTracesForQ3.ts",
     "training:analyze-q3-representation": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeQ3Representation.ts",
     "prepare": "husky"
