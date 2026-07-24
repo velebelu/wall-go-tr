@@ -27,6 +27,7 @@
     "replay:human-mcts": "node --import ./scripts/run-ts-node-esm.mjs src/training/replayHumanMCTSTrace.ts",
     "fixture:human-mcts": "node --import ./scripts/run-ts-node-esm.mjs src/training/extractHumanMCTSFixture.ts",
     "validate:human-mcts-trace": "node --import ./scripts/run-ts-node-esm.mjs src/training/validateHumanMCTSTrace.ts",
+    "analyze:human-mcts": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeHumanMCTSTrace.ts",
     "training:analyze-q3-heuristic-traces": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeHeuristicTracesForQ3.ts",
     "training:analyze-q3-representation": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeQ3Representation.ts",
     "prepare": "husky"

@@ -1,0 +1,1067 @@
+{
+  "schema": "HumanMCTSDecisionFixtureV1",
+  "source": {
+    "gameId": "g_41746ecd",
+    "turnIndex": 3,
+    "schema": "HumanMCTSTraceV1"
+  },
+  "player": "R",
+  "actor": "mcts",
+  "stateBefore": {
+    "board": [
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ]
+    ],
+    "turn": "R",
+    "legal": [],
+    "stepsTaken": 0,
+    "phase": "placing",
+    "players": [
+      "R",
+      "B"
+    ],
+    "stonesLimit": 4,
+    "stonesPlaced": {
+      "R": 3,
+      "B": 4
+    }
+  },
+  "legalActions": [
+    {
+      "type": "place",
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 1,
+        "y": 0
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 2,
+        "y": 0
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 3,
+        "y": 0
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 4,
+        "y": 0
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 5,
+        "y": 0
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 6,
+        "y": 0
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 0,
+        "y": 1
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 2,
+        "y": 1
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 3,
+        "y": 1
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 4,
+        "y": 1
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 6,
+        "y": 1
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 0,
+        "y": 2
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 1,
+        "y": 2
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 3,
+        "y": 2
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 4,
+        "y": 2
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 5,
+        "y": 2
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 6,
+        "y": 2
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 0,
+        "y": 3
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 1,
+        "y": 3
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 2,
+        "y": 3
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 3,
+        "y": 3
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 4,
+        "y": 3
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 5,
+        "y": 3
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 6,
+        "y": 3
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 0,
+        "y": 4
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 1,
+        "y": 4
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 2,
+        "y": 4
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 3,
+        "y": 4
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 6,
+        "y": 4
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 0,
+        "y": 5
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 2,
+        "y": 5
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 4,
+        "y": 5
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 6,
+        "y": 5
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 0,
+        "y": 6
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 1,
+        "y": 6
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 2,
+        "y": 6
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 3,
+        "y": 6
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 4,
+        "y": 6
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 5,
+        "y": 6
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 6,
+        "y": 6
+      }
+    }
+  ],
+  "action": {
+    "type": "place",
+    "pos": {
+      "x": 4,
+      "y": 2
+    }
+  },
+  "stateAfter": {
+    "board": [
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ]
+    ],
+    "turn": "R",
+    "legal": [],
+    "stepsTaken": 0,
+    "phase": "playing",
+    "players": [
+      "R",
+      "B"
+    ],
+    "stonesLimit": 4,
+    "stonesPlaced": {
+      "R": 4,
+      "B": 4
+    }
+  },
+  "mcts": {
+    "baseSeed": 2680903615,
+    "decisionIndex": 1,
+    "decisionSeed": 2680903616,
+    "originalAction": {
+      "type": "place",
+      "pos": {
+        "x": 1,
+        "y": 2
+      }
+    },
+    "finalAction": {
+      "type": "place",
+      "pos": {
+        "x": 4,
+        "y": 2
+      }
+    },
+    "simulations": 50,
+    "rootVisits": 50,
+    "selectedVisits": 5,
+    "selectedValue": 0.6,
+    "rootCandidates": [
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 3,
+            "y": 4
+          }
+        },
+        "visits": 3,
+        "value": -0.3333333333333333
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 3,
+            "y": 3
+          }
+        },
+        "visits": 5,
+        "value": 0.2
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 2,
+            "y": 1
+          }
+        },
+        "visits": 4,
+        "value": 0
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 5,
+            "y": 4
+          }
+        },
+        "visits": 5,
+        "value": 0.2
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 5,
+            "y": 3
+          }
+        },
+        "visits": 1,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 2,
+            "y": 5
+          }
+        },
+        "visits": 4,
+        "value": 0
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        "visits": 7,
+        "value": 0.42857142857142855
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 1,
+            "y": 3
+          }
+        },
+        "visits": 3,
+        "value": -0.3333333333333333
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 3,
+            "y": 1
+          }
+        },
+        "visits": 3,
+        "value": -0.3333333333333333
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 4,
+            "y": 5
+          }
+        },
+        "visits": 1,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 2,
+            "y": 3
+          }
+        },
+        "visits": 4,
+        "value": 0
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 2,
+            "y": 4
+          }
+        },
+        "visits": 4,
+        "value": 0
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 4,
+            "y": 2
+          }
+        },
+        "visits": 5,
+        "value": 0.6
+      },
+      {
+        "action": {
+          "type": "place",
+          "pos": {
+            "x": 3,
+            "y": 2
+          }
+        },
+        "visits": 1,
+        "value": -1
+      }
+    ],
+    "tacticalCandidatesChecked": 2,
+    "originalScore": -30,
+    "verifiedScore": -20,
+    "worstOpponentReplyScore": -20,
+    "tacticalSelectionChanged": true,
+    "immediateTerminalLossAvoided": false,
+    "searchTimeMs": 816.5,
+    "verificationTimeMs": 141.09999999403954,
+    "qMetrics": {},
+    "effectiveConfig": {
+      "simulations": 50,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5,
+      "qPriorWeight": 0,
+      "tacticalVerification": true,
+      "tacticalCandidateCount": 2
+    }
+  }
+}

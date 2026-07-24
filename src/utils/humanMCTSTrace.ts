@@ -252,7 +252,7 @@ export function replayHumanMCTSTrace(trace: HumanMCTSTraceV1): ReplayResult {
       return divergence(decision.turnIndex, 'state-before', decision.stateBefore, before)
     }
     const legalActions = getLegalActions(state)
-    if (!legalActions.some((action) => deepEqual(action, decision.action))) {
+    if (!legalActions.some((action) => samePlayableAction(action, decision.action))) {
       return {
         ok: false,
         decisionsReplayed: decision.turnIndex,
@@ -397,6 +397,17 @@ function accessibleCount(state: GameSnapshot, player: Player): number {
 
 function deepEqual(left: unknown, right: unknown): boolean {
   return JSON.stringify(left) === JSON.stringify(right)
+}
+
+function samePlayableAction(left: PlayerAction, right: PlayerAction): boolean {
+  return deepEqual(normalizePlayableAction(left), normalizePlayableAction(right))
+}
+
+function normalizePlayableAction(action: PlayerAction): PlayerAction {
+  const normalized = structuredClone(action)
+  if (normalized.type === 'wall') delete normalized.from
+  if (normalized.followUp) normalized.followUp = normalizePlayableAction(normalized.followUp)
+  return normalized
 }
 
 function divergence(

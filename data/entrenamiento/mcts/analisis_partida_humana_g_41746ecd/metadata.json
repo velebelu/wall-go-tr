@@ -1,0 +1,37 @@
+{
+  "schema": "HumanMCTSTraceAnalysisMetadataV1",
+  "createdAt": "2026-07-24T09:37:29.288Z",
+  "source": {
+    "fileName": "traza_humano_mcts_g_41746ecd.json",
+    "bytes": 1750036,
+    "sha256": "120eed135a0d008ba5cb65a5c4cae91819a087ecdeb6c2124bc42e7ade497d0c",
+    "traceSchema": "HumanMCTSTraceV1",
+    "gameId": "g_41746ecd"
+  },
+  "replay": {
+    "ok": true,
+    "decisionsReplayed": 34
+  },
+  "thresholds": {
+    "lowConfidenceMaxVisitGap": 1,
+    "lowConfidenceMaxValueGap": 0.1,
+    "lowConfidenceMaxSelectedVisitShare": 0.12,
+    "largeScoreChange": 10,
+    "territorySwing": 5,
+    "accessibleTerritorySwing": 5,
+    "ownMobilityDrop": 4,
+    "opponentMobilityGain": 4,
+    "trappedPiecesIncrease": 1,
+    "highSearchTimeMs": 750,
+    "highVerificationTimeMs": 125,
+    "criticalSignalCount": 2
+  },
+  "rankingMethod": "Weighted non-exclusive signals; deterministic tie-breakers: category count descending, turnIndex ascending.",
+  "fixtureFiles": [
+    "fixtures\\1_turn_3_mcts_1.fixture.json",
+    "fixtures\\2_turn_6_mcts_3.fixture.json",
+    "fixtures\\3_turn_10_mcts_5.fixture.json"
+  ],
+  "git": {},
+  "disclaimer": "Signals identify candidates for later comparison; they do not prove that an MCTS action was wrong."
+}
