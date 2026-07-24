@@ -18,6 +18,27 @@ import {
 export const POSITION_EVALUATION_SCALE = 100
 export const DEFAULT_HEURISTIC_PROBABILITY = 0.8
 
+export interface MCTSStageDecision {
+  continueSearch: boolean
+  reason: string
+}
+
+export interface StagedMCTSSearchOptions {
+  simulationTargets: readonly number[]
+  timeLimitMs?: number
+  now?: () => number
+  shouldContinue?: (result: MCTSResult, stageIndex: number) => MCTSStageDecision
+  onStage?: (result: MCTSResult, stageIndex: number, decision: MCTSStageDecision) => void
+}
+
+export interface StagedMCTSResult {
+  result: MCTSResult
+  completedTargets: number[]
+  stoppedByTimeLimit: boolean
+  elapsedMs: number
+  stageReasons: string[]
+}
+
 export function searchBestAction(
   state: GameSnapshot,
   perspective: Player,
@@ -25,8 +46,40 @@ export function searchBestAction(
   rng?: () => number,
   qPriorSource?: MCTSQPriorSource,
 ): MCTSResult {
+  return searchBestActionStaged(
+    state,
+    perspective,
+    config,
+    {
+      simulationTargets: [config.simulations],
+    },
+    rng,
+    qPriorSource,
+  ).result
+}
+
+export function searchBestActionStaged(
+  state: GameSnapshot,
+  perspective: Player,
+  config: MCTSConfig,
+  staged: StagedMCTSSearchOptions,
+  rng?: () => number,
+  qPriorSource?: MCTSQPriorSource,
+): StagedMCTSResult {
   validateConfig(config)
+  if (
+    !staged.simulationTargets.length ||
+    staged.simulationTargets.some(
+      (target, index) =>
+        !Number.isInteger(target) ||
+        target <= 0 ||
+        (index > 0 && target <= staged.simulationTargets[index - 1]!),
+    )
+  )
+    throw new Error('simulationTargets must be strictly increasing positive integers')
   const random = rng ?? Math.random
+  const now = staged.now ?? (() => performance.now())
+  const startedAt = now()
   const root = new MCTSNode(state, undefined, undefined, {
     expansionPolicy: config.expansionPolicy ?? 'unordered',
     progressiveWidening: config.progressiveWidening ?? false,
@@ -42,14 +95,14 @@ export function searchBestAction(
   const rootLegalActions = root.untriedActions.length
   let maxDepthReached = 0
   let totalSelectedDepth = 0
+  let stoppedByTimeLimit = false
+  const completedTargets: number[] = []
+  const stageReasons: string[] = []
 
-  for (let simulation = 0; simulation < config.simulations; simulation++) {
+  const runSimulation = () => {
     let node = root
     let depth = 0
-
     let selectedDepth = 0
-
-    // Selection follows UCT while expansion is unavailable at the current node.
     while (!node.isTerminal && depth < config.maxDepth) {
       if (node.canExpand) {
         // Expansion adds the next allowed untried legal action.
@@ -76,48 +129,80 @@ export function searchBestAction(
     }
   }
 
-  const best = chooseFinalChild(root.children, random)
-  const children = root.children.map(toChildResult)
-  const verification = config.tacticalVerification
-    ? verifyTacticalCandidates(
-        state,
-        perspective,
-        children,
-        best.action!,
-        config.tacticalCandidateCount ?? 3,
-        random,
-        config,
-      )
-    : undefined
-  const selectedAction = verification?.action ?? best.action!
-  const selectedChild =
-    root.children.find(
-      (child) => JSON.stringify(child.action) === JSON.stringify(selectedAction),
-    ) ?? best
-  const result: MCTSResult = {
-    action: selectedAction,
-    originalAction: best.action!,
-    visits: selectedChild.visits,
-    value: selectedChild.meanValue,
-    rootVisits: root.visits,
-    children,
-    rootLegalActions,
-    rootExpandedChildren: root.children.length,
-    maxDepthReached,
-    averageSelectedDepth: totalSelectedDepth / config.simulations,
-    ...(verification && verification.metrics),
+  const buildResult = (): MCTSResult => {
+    const best = chooseFinalChild(root.children, random)
+    const children = root.children.map(toChildResult)
+    const verification = config.tacticalVerification
+      ? verifyTacticalCandidates(
+          state,
+          perspective,
+          children,
+          best.action!,
+          config.tacticalCandidateCount ?? 3,
+          random,
+          config,
+        )
+      : undefined
+    const selectedAction = verification?.action ?? best.action!
+    const selectedChild =
+      root.children.find(
+        (child) => JSON.stringify(child.action) === JSON.stringify(selectedAction),
+      ) ?? best
+    const result: MCTSResult = {
+      action: selectedAction,
+      originalAction: best.action!,
+      visits: selectedChild.visits,
+      value: selectedChild.meanValue,
+      rootVisits: root.visits,
+      children,
+      rootLegalActions,
+      rootExpandedChildren: root.children.length,
+      maxDepthReached,
+      averageSelectedDepth: root.visits ? totalSelectedDepth / root.visits : 0,
+      ...(verification && verification.metrics),
+    }
+    if (config.expansionPolicy === 'heuristic-q5') {
+      const scores = root.expansionScores
+      const selectedScore = root.getExpansionScore(selectedAction)
+      result.qPriorKnownActions = scores.filter(({ qKnown }) => qKnown).length
+      result.qPriorReliableActions = scores.filter(({ qReliable }) => qReliable).length
+      result.qPriorSelectedActionKnown = selectedScore?.qKnown ?? false
+      result.qPriorSelectedActionReliable = selectedScore?.qReliable ?? false
+      result.averageSelectedQPrior = selectedScore?.normalizedQ5Value ?? 0
+    }
+    return result
   }
-  if (config.expansionPolicy === 'heuristic-q5') {
-    const scores = root.expansionScores
-    const selectedScore = root.getExpansionScore(selectedAction)
-    result.qPriorKnownActions = scores.filter(({ qKnown }) => qKnown).length
-    result.qPriorReliableActions = scores.filter(({ qReliable }) => qReliable).length
-    result.qPriorSelectedActionKnown = selectedScore?.qKnown ?? false
-    result.qPriorSelectedActionReliable = selectedScore?.qReliable ?? false
-    // One search reports the selected root action's prior; evaluators average it across decisions.
-    result.averageSelectedQPrior = selectedScore?.normalizedQ5Value ?? 0
+
+  let result!: MCTSResult
+  for (let stageIndex = 0; stageIndex < staged.simulationTargets.length; stageIndex++) {
+    const target = staged.simulationTargets[stageIndex]!
+    while (root.visits < target) {
+      if (staged.timeLimitMs !== undefined && now() - startedAt >= staged.timeLimitMs) {
+        stoppedByTimeLimit = true
+        break
+      }
+      runSimulation()
+    }
+    result = buildResult()
+    if (root.visits >= target) completedTargets.push(target)
+    const decision =
+      stoppedByTimeLimit || stageIndex === staged.simulationTargets.length - 1
+        ? { continueSearch: false, reason: stoppedByTimeLimit ? 'time-limit' : 'final-stage' }
+        : (staged.shouldContinue?.(result, stageIndex) ?? {
+            continueSearch: true,
+            reason: 'next-stage',
+          })
+    stageReasons.push(decision.reason)
+    staged.onStage?.(result, stageIndex, decision)
+    if (!decision.continueSearch || stoppedByTimeLimit) break
   }
-  return result
+  return {
+    result,
+    completedTargets,
+    stoppedByTimeLimit,
+    elapsedMs: now() - startedAt,
+    stageReasons,
+  }
 }
 
 export interface TacticalCandidateEvaluation {
