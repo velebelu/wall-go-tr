@@ -1,0 +1,75 @@
+{
+  "schema": "HumanMCTSDefeatAuditV1",
+  "createdAt": "2026-07-25T21:56:38.995Z",
+  "source": {
+    "fileName": "traza_humano_mcts_g_e09743f2.json",
+    "bytes": 2157268,
+    "sha256": "d13c8596783bb95299be6de6178908727a0dd11ec4d1873aaac0107452067375"
+  },
+  "replay": {
+    "ok": true,
+    "decisionsReplayed": 42
+  },
+  "finalResult": {
+    "finished": true,
+    "winner": "B",
+    "score": {
+      "R": 5,
+      "B": 32
+    }
+  },
+  "recordedConfig": {
+    "mcts": {
+      "simulations": 250,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5,
+      "qPriorWeight": 0,
+      "tacticalVerification": true,
+      "tacticalCandidateCount": 2
+    },
+    "budget": {
+      "enable750": false,
+      "base": 250,
+      "lowConfidence": 500,
+      "highUncertainty": 500,
+      "maxDecisionMs": 5000,
+      "maxVisitGap": 3,
+      "maxValueGap": 0.04,
+      "maxSelectedVisitShare": 0.12,
+      "highUncertaintyVisitGap": 1,
+      "highUncertaintyValueGap": 0.015,
+      "highUncertaintySelectedVisitShare": 0.08
+    },
+    "endgame": {
+      "enabled": false,
+      "maxLegalActions": 8,
+      "maxConnectedRegions": 3,
+      "maxMobilePieces": 2,
+      "maxDepth": 8,
+      "maxNodes": 40000,
+      "maxTimeMs": 1500
+    }
+  },
+  "frozenConfigUnmodified": true,
+  "criticalTurns": [
+    34,
+    36,
+    38
+  ],
+  "pairSeeds": [
+    3768009473,
+    3768009474
+  ],
+  "metricDefinitions": {
+    "connectedRegions": "Connected components returned by floodRegions.",
+    "openFrontiers": "Legal full actions whose origin belongs to the largest contested component; a reproducible proxy for remaining ways to alter that frontier.",
+    "observedMinimumBlueTurnsToClosure": "Distance along the witnessed blue closure sequence (turns 35, 37, 39); it is not an exhaustive game-theoretic proof.",
+    "legalDefensesAgainstImmediateClosure": "Red actions reducing both the worst one-reply blue territory gain and red accessible-territory drop relative to the played action."
+  }
+}

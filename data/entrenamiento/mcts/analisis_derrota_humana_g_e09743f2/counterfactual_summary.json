@@ -1,0 +1,921 @@
+{
+  "protocol": {
+    "pairSeeds": [
+      3768009473,
+      3768009474
+    ],
+    "continuation": "FINAL_HUMAN_CHALLENGE_MCTS_CONFIG for both colors",
+    "maximumContinuationTurns": 40
+  },
+  "positions": [
+    {
+      "turn": 34,
+      "classification": "emerging-closure-threat",
+      "candidates": [
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "dir": "top"
+          },
+          "sources": [
+            "played",
+            "recorded-visits-35"
+          ],
+          "recordedVisits": 35,
+          "recordedValue": -0.9714285714285714,
+          "heuristicAfter": {
+            "territory": 20,
+            "mobility": -26,
+            "trappedPieces": -16,
+            "expansion": 2,
+            "total": -20
+          },
+          "immediateRisk": {
+            "opponentGain": 1,
+            "redAccessibleDrop": 1,
+            "terminal": false,
+            "reply": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 0
+              },
+              "pos": {
+                "x": 1,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          },
+          "matches": [
+            {
+              "pairSeed": 3768009473,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 7,
+                  "B": 19
+                }
+              },
+              "territory": {
+                "R": 7,
+                "B": 19
+              },
+              "territoryDiffRed": -12,
+              "maxBlueCapturedRegion": 7,
+              "turnsToClosure": null,
+              "continuationTurns": 25,
+              "reachedLimit": false
+            },
+            {
+              "pairSeed": 3768009474,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 4,
+                  "B": 26
+                }
+              },
+              "territory": {
+                "R": 4,
+                "B": 26
+              },
+              "territoryDiffRed": -22,
+              "maxBlueCapturedRegion": 18,
+              "turnsToClosure": null,
+              "continuationTurns": 17,
+              "reachedLimit": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 0
+              },
+              "pos": {
+                "x": 5,
+                "y": 0
+              },
+              "dir": "left"
+            }
+          },
+          "sources": [
+            "recorded-visits-31"
+          ],
+          "recordedVisits": 31,
+          "recordedValue": -1,
+          "heuristicAfter": {
+            "territory": 60,
+            "mobility": -24,
+            "trappedPieces": -16,
+            "expansion": 6,
+            "total": 26
+          },
+          "immediateRisk": {
+            "opponentGain": 35,
+            "redAccessibleDrop": 35,
+            "terminal": true,
+            "reply": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 2
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 1,
+                  "y": 4
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 4
+                },
+                "dir": "left"
+              }
+            }
+          },
+          "matches": [
+            {
+              "pairSeed": 3768009473,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 12,
+                  "B": 34
+                }
+              },
+              "territory": {
+                "R": 12,
+                "B": 34
+              },
+              "territoryDiffRed": -22,
+              "maxBlueCapturedRegion": 34,
+              "turnsToClosure": 2,
+              "continuationTurns": 2,
+              "reachedLimit": false
+            },
+            {
+              "pairSeed": 3768009474,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 12,
+                  "B": 34
+                }
+              },
+              "territory": {
+                "R": 12,
+                "B": 34
+              },
+              "territoryDiffRed": -22,
+              "maxBlueCapturedRegion": 34,
+              "turnsToClosure": 2,
+              "continuationTurns": 2,
+              "reachedLimit": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 0
+              },
+              "pos": {
+                "x": 5,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          },
+          "sources": [
+            "recorded-visits-31",
+            "generated-defensive"
+          ],
+          "recordedVisits": 31,
+          "recordedValue": -1,
+          "heuristicAfter": {
+            "territory": 20,
+            "mobility": -22,
+            "trappedPieces": -16,
+            "expansion": 2,
+            "total": -16
+          },
+          "immediateRisk": {
+            "opponentGain": 1,
+            "redAccessibleDrop": 1,
+            "terminal": false,
+            "reply": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 0
+              },
+              "pos": {
+                "x": 1,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          },
+          "matches": [
+            {
+              "pairSeed": 3768009473,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 4,
+                  "B": 32
+                }
+              },
+              "territory": {
+                "R": 4,
+                "B": 32
+              },
+              "territoryDiffRed": -28,
+              "maxBlueCapturedRegion": 19,
+              "turnsToClosure": null,
+              "continuationTurns": 15,
+              "reachedLimit": false
+            },
+            {
+              "pairSeed": 3768009474,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 6,
+                  "B": 35
+                }
+              },
+              "territory": {
+                "R": 6,
+                "B": 35
+              },
+              "territoryDiffRed": -29,
+              "maxBlueCapturedRegion": 35,
+              "turnsToClosure": 7,
+              "continuationTurns": 7,
+              "reachedLimit": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "turn": 36,
+      "classification": "last-defensive-opportunity",
+      "candidates": [
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 6
+              },
+              "pos": {
+                "x": 1,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          },
+          "sources": [
+            "played",
+            "recorded-visits-50"
+          ],
+          "recordedVisits": 50,
+          "recordedValue": -1,
+          "heuristicAfter": {
+            "territory": 20,
+            "mobility": -30,
+            "trappedPieces": -16,
+            "expansion": 2,
+            "total": -24
+          },
+          "immediateRisk": {
+            "opponentGain": 1,
+            "redAccessibleDrop": 1,
+            "terminal": false,
+            "reply": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 0
+              },
+              "pos": {
+                "x": 1,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          },
+          "matches": [
+            {
+              "pairSeed": 3768009473,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 6,
+                  "B": 25
+                }
+              },
+              "territory": {
+                "R": 6,
+                "B": 25
+              },
+              "territoryDiffRed": -19,
+              "maxBlueCapturedRegion": 20,
+              "turnsToClosure": 15,
+              "continuationTurns": 15,
+              "reachedLimit": false
+            },
+            {
+              "pairSeed": 3768009474,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 6,
+                  "B": 27
+                }
+              },
+              "territory": {
+                "R": 6,
+                "B": 27
+              },
+              "territoryDiffRed": -21,
+              "maxBlueCapturedRegion": 25,
+              "turnsToClosure": 13,
+              "continuationTurns": 13,
+              "reachedLimit": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 2
+              },
+              "pos": {
+                "x": 4,
+                "y": 2
+              },
+              "dir": "right"
+            }
+          },
+          "sources": [
+            "recorded-visits-50"
+          ],
+          "recordedVisits": 50,
+          "recordedValue": -1,
+          "heuristicAfter": {
+            "territory": 40,
+            "mobility": -32,
+            "trappedPieces": -16,
+            "expansion": 4,
+            "total": -4
+          },
+          "immediateRisk": {
+            "opponentGain": 32,
+            "redAccessibleDrop": 32,
+            "terminal": true,
+            "reply": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 2
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 1,
+                  "y": 4
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 4
+                },
+                "dir": "left"
+              }
+            }
+          },
+          "matches": [
+            {
+              "pairSeed": 3768009473,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 4,
+                  "B": 27
+                }
+              },
+              "territory": {
+                "R": 4,
+                "B": 27
+              },
+              "territoryDiffRed": -23,
+              "maxBlueCapturedRegion": 22,
+              "turnsToClosure": 10,
+              "continuationTurns": 10,
+              "reachedLimit": false
+            },
+            {
+              "pairSeed": 3768009474,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 7,
+                  "B": 22
+                }
+              },
+              "territory": {
+                "R": 7,
+                "B": 22
+              },
+              "territoryDiffRed": -15,
+              "maxBlueCapturedRegion": 14,
+              "turnsToClosure": null,
+              "continuationTurns": 15,
+              "reachedLimit": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 2
+              },
+              "pos": {
+                "x": 4,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          },
+          "sources": [
+            "recorded-visits-50",
+            "generated-defensive"
+          ],
+          "recordedVisits": 50,
+          "recordedValue": -1,
+          "heuristicAfter": {
+            "territory": 20,
+            "mobility": -30,
+            "trappedPieces": -16,
+            "expansion": 2,
+            "total": -24
+          },
+          "immediateRisk": {
+            "opponentGain": 1,
+            "redAccessibleDrop": 1,
+            "terminal": false,
+            "reply": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 0
+              },
+              "pos": {
+                "x": 1,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          },
+          "matches": [
+            {
+              "pairSeed": 3768009473,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 9,
+                  "B": 25
+                }
+              },
+              "territory": {
+                "R": 9,
+                "B": 25
+              },
+              "territoryDiffRed": -16,
+              "maxBlueCapturedRegion": 25,
+              "turnsToClosure": 10,
+              "continuationTurns": 10,
+              "reachedLimit": false
+            },
+            {
+              "pairSeed": 3768009474,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 6,
+                  "B": 27
+                }
+              },
+              "territory": {
+                "R": 6,
+                "B": 27
+              },
+              "territoryDiffRed": -21,
+              "maxBlueCapturedRegion": 27,
+              "turnsToClosure": 11,
+              "continuationTurns": 11,
+              "reachedLimit": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "turn": 38,
+      "classification": "territorial-collapse-unavoidable",
+      "candidates": [
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 2
+              },
+              "pos": {
+                "x": 4,
+                "y": 2
+              },
+              "dir": "right"
+            }
+          },
+          "sources": [
+            "played",
+            "recorded-visits-56"
+          ],
+          "recordedVisits": 56,
+          "recordedValue": -1,
+          "heuristicAfter": {
+            "territory": 40,
+            "mobility": -24,
+            "trappedPieces": -16,
+            "expansion": 4,
+            "total": 4
+          },
+          "immediateRisk": {
+            "opponentGain": 31,
+            "redAccessibleDrop": 31,
+            "terminal": true,
+            "reply": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 2
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 1,
+                  "y": 4
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 4
+                },
+                "dir": "left"
+              }
+            }
+          },
+          "matches": [
+            {
+              "pairSeed": 3768009473,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 7,
+                  "B": 27
+                }
+              },
+              "territory": {
+                "R": 7,
+                "B": 27
+              },
+              "territoryDiffRed": -20,
+              "maxBlueCapturedRegion": 16,
+              "turnsToClosure": null,
+              "continuationTurns": 11,
+              "reachedLimit": false
+            },
+            {
+              "pairSeed": 3768009474,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 6,
+                  "B": 32
+                }
+              },
+              "territory": {
+                "R": 6,
+                "B": 32
+              },
+              "territoryDiffRed": -26,
+              "maxBlueCapturedRegion": 32,
+              "turnsToClosure": 5,
+              "continuationTurns": 5,
+              "reachedLimit": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 0,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 6
+              },
+              "pos": {
+                "x": 0,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          },
+          "sources": [
+            "recorded-visits-56"
+          ],
+          "recordedVisits": 56,
+          "recordedValue": -1,
+          "heuristicAfter": {
+            "territory": 0,
+            "mobility": 0,
+            "trappedPieces": 0,
+            "expansion": 0,
+            "total": -1000000
+          },
+          "immediateRisk": {
+            "opponentGain": 33,
+            "redAccessibleDrop": 0,
+            "terminal": true
+          },
+          "matches": [
+            {
+              "pairSeed": 3768009473,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 7,
+                  "B": 33
+                }
+              },
+              "territory": {
+                "R": 7,
+                "B": 33
+              },
+              "territoryDiffRed": -26,
+              "maxBlueCapturedRegion": 33,
+              "turnsToClosure": 0,
+              "continuationTurns": 1,
+              "reachedLimit": false
+            },
+            {
+              "pairSeed": 3768009474,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 7,
+                  "B": 33
+                }
+              },
+              "territory": {
+                "R": 7,
+                "B": 33
+              },
+              "territoryDiffRed": -26,
+              "maxBlueCapturedRegion": 33,
+              "turnsToClosure": 0,
+              "continuationTurns": 1,
+              "reachedLimit": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 5
+              },
+              "pos": {
+                "x": 0,
+                "y": 5
+              },
+              "dir": "bottom"
+            }
+          },
+          "sources": [
+            "recorded-visits-55",
+            "generated-defensive"
+          ],
+          "recordedVisits": 55,
+          "recordedValue": -1,
+          "heuristicAfter": {
+            "territory": 50,
+            "mobility": -22,
+            "trappedPieces": -16,
+            "expansion": 5,
+            "total": 17
+          },
+          "immediateRisk": {
+            "opponentGain": 31,
+            "redAccessibleDrop": 31,
+            "terminal": true,
+            "reply": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 2
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 1,
+                  "y": 4
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 4
+                },
+                "dir": "left"
+              }
+            }
+          },
+          "matches": [
+            {
+              "pairSeed": 3768009473,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 8,
+                  "B": 30
+                }
+              },
+              "territory": {
+                "R": 8,
+                "B": 30
+              },
+              "territoryDiffRed": -22,
+              "maxBlueCapturedRegion": 30,
+              "turnsToClosure": 2,
+              "continuationTurns": 2,
+              "reachedLimit": false
+            },
+            {
+              "pairSeed": 3768009474,
+              "result": {
+                "finished": true,
+                "winner": "B",
+                "score": {
+                  "R": 6,
+                  "B": 30
+                }
+              },
+              "territory": {
+                "R": 6,
+                "B": 30
+              },
+              "territoryDiffRed": -24,
+              "maxBlueCapturedRegion": 30,
+              "turnsToClosure": 5,
+              "continuationTurns": 5,
+              "reachedLimit": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

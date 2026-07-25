@@ -219,6 +219,18 @@ describe('HumanMCTSTraceV1', () => {
     })
   })
 
+  it('reproduce una pared humana codificada como movimiento nulo con follow-up', () => {
+    const { trace } = completeSyntheticTrace()
+    const decision = trace.decisions[0]!
+    decision.action = {
+      type: 'move',
+      from: { x: 3, y: 3 },
+      pos: { x: 3, y: 3 },
+      followUp: { type: 'wall', pos: { x: 3, y: 3 }, dir: 'right' },
+    }
+    expect(replayHumanMCTSTrace(trace)).toEqual({ ok: true, decisionsReplayed: 1 })
+  })
+
   it('detecta el snapshot posterior alterado', () => {
     const { trace } = completeSyntheticTrace()
     trace.decisions[0].stateAfter.board[0][0].stone = 'R'

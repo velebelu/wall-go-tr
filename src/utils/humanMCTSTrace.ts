@@ -257,8 +257,9 @@ export function replayHumanMCTSTrace(trace: HumanMCTSTraceV1): ReplayResult {
     if (!deepEqual(before, decision.stateBefore)) {
       return divergence(decision.turnIndex, 'state-before', decision.stateBefore, before)
     }
+    const replayAction = recordedActionForReplay(decision.action)
     const legalActions = getLegalActions(state)
-    if (!legalActions.some((action) => samePlayableAction(action, decision.action))) {
+    if (!legalActions.some((action) => samePlayableAction(action, replayAction))) {
       return {
         ok: false,
         decisionsReplayed: decision.turnIndex,
@@ -271,7 +272,7 @@ export function replayHumanMCTSTrace(trace: HumanMCTSTraceV1): ReplayResult {
         },
       }
     }
-    state = applyFullAction(state, decision.action).state
+    state = applyFullAction(state, replayAction).state
     const after = serializeGameSnapshot(state)
     if (!deepEqual(after, decision.stateAfter)) {
       return divergence(decision.turnIndex, 'state-after', decision.stateAfter, after)
@@ -414,6 +415,28 @@ function normalizePlayableAction(action: PlayerAction): PlayerAction {
   if (normalized.type === 'wall') delete normalized.from
   if (normalized.followUp) normalized.followUp = normalizePlayableAction(normalized.followUp)
   return normalized
+}
+
+// Human input can submit a wall after the UI has already moved the selected
+// stone. A same-cell move therefore represents the legal standalone wall
+// encoded in its follow-up; replay it canonically without altering the trace.
+function recordedActionForReplay(action: PlayerAction): PlayerAction {
+  if (
+    action.type === 'move' &&
+    action.from &&
+    action.from.x === action.pos.x &&
+    action.from.y === action.pos.y &&
+    action.followUp?.type === 'wall' &&
+    action.followUp.dir
+  ) {
+    return {
+      type: 'wall',
+      from: structuredClone(action.from),
+      pos: structuredClone(action.followUp.pos),
+      dir: action.followUp.dir,
+    }
+  }
+  return action
 }
 
 function divergence(
