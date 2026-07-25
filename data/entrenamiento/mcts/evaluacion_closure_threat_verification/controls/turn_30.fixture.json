@@ -1,0 +1,1907 @@
+{
+  "schema": "HumanMCTSDecisionFixtureV1",
+  "source": {
+    "gameId": "g_e09743f2",
+    "turnIndex": 30,
+    "schema": "HumanMCTSTraceV1"
+  },
+  "player": "R",
+  "actor": "mcts",
+  "stateBefore": {
+    "board": [
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": "R",
+          "wallLeft": "R"
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": "B",
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": "R",
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": "B",
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": "R",
+          "wallTop": "B",
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": "R",
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": "R",
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": "B",
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "R"
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": "B",
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": "R",
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": "B",
+          "wallLeft": "R"
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ]
+    ],
+    "turn": "R",
+    "legal": [],
+    "stepsTaken": 0,
+    "phase": "playing",
+    "players": [
+      "R",
+      "B"
+    ],
+    "stonesLimit": 4,
+    "stonesPlaced": {
+      "R": 4,
+      "B": 4
+    }
+  },
+  "legalActions": [
+    {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 1
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 0
+        },
+        "pos": {
+          "x": 0,
+          "y": 0
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 1
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 0
+        },
+        "pos": {
+          "x": 0,
+          "y": 0
+        },
+        "dir": "bottom"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 1
+      },
+      "pos": {
+        "x": 1,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 0
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 1
+      },
+      "pos": {
+        "x": 1,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 0
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 1
+      },
+      "pos": {
+        "x": 0,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "wall",
+      "from": {
+        "x": 0,
+        "y": 1
+      },
+      "pos": {
+        "x": 0,
+        "y": 1
+      },
+      "dir": "bottom"
+    },
+    {
+      "type": "wall",
+      "from": {
+        "x": 0,
+        "y": 1
+      },
+      "pos": {
+        "x": 0,
+        "y": 1
+      },
+      "dir": "top"
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 4,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 0
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 4,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 0
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 4,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 0
+        },
+        "dir": "bottom"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 4,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 4,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "dir": "bottom"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 4,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 5,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 5,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 5,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 5,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 5,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 6,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 2
+        },
+        "pos": {
+          "x": 6,
+          "y": 2
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 6,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 2
+        },
+        "pos": {
+          "x": 6,
+          "y": 2
+        },
+        "dir": "bottom"
+      }
+    },
+    {
+      "type": "wall",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "dir": "right"
+    },
+    {
+      "type": "wall",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "dir": "top"
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 0,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 6
+        },
+        "pos": {
+          "x": 0,
+          "y": 6
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 0,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 6
+        },
+        "pos": {
+          "x": 0,
+          "y": 6
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "wall",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 5
+      },
+      "dir": "bottom"
+    }
+  ],
+  "action": {
+    "type": "move",
+    "from": {
+      "x": 4,
+      "y": 2
+    },
+    "pos": {
+      "x": 4,
+      "y": 1
+    },
+    "followUp": {
+      "type": "wall",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 4,
+        "y": 1
+      },
+      "dir": "right"
+    }
+  },
+  "stateAfter": {
+    "board": [
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": "R",
+          "wallLeft": "R"
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": null,
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": "B",
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": "R",
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": "B",
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": "R",
+          "wallTop": "B",
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": "R",
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": "R",
+          "wallLeft": null
+        },
+        {
+          "stone": "B",
+          "wallTop": "B",
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "R"
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": "B",
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "R"
+        },
+        {
+          "stone": null,
+          "wallTop": "R",
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": "R",
+          "wallTop": "B",
+          "wallLeft": "R"
+        },
+        {
+          "stone": "B",
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ],
+      [
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": "B"
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        },
+        {
+          "stone": null,
+          "wallTop": null,
+          "wallLeft": null
+        }
+      ]
+    ],
+    "turn": "B",
+    "legal": [],
+    "stepsTaken": 0,
+    "phase": "playing",
+    "players": [
+      "R",
+      "B"
+    ],
+    "stonesLimit": 4,
+    "stonesPlaced": {
+      "R": 4,
+      "B": 4
+    }
+  },
+  "mcts": {
+    "baseSeed": 373782144,
+    "decisionIndex": 15,
+    "decisionSeed": 373782159,
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "top"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 4,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "dir": "right"
+      }
+    },
+    "simulations": 250,
+    "rootVisits": 500,
+    "selectedVisits": 22,
+    "selectedValue": -0.9090909090909091,
+    "rootCandidates": [
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "dir": "top"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "dir": "right"
+          }
+        },
+        "visits": 22,
+        "value": -0.9090909090909091
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "dir": "left"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "dir": "top"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "dir": "bottom"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "dir": "right"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 0
+            },
+            "pos": {
+              "x": 4,
+              "y": 0
+            },
+            "dir": "bottom"
+          }
+        },
+        "visits": 22,
+        "value": -0.9090909090909091
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 0
+            },
+            "pos": {
+              "x": 4,
+              "y": 0
+            },
+            "dir": "right"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 0
+            },
+            "pos": {
+              "x": 4,
+              "y": 0
+            },
+            "dir": "left"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 2
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "dir": "left"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 2
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "dir": "right"
+          }
+        },
+        "visits": 22,
+        "value": -0.9090909090909091
+      },
+      {
+        "action": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "top"
+        },
+        "visits": 18,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "right"
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 6,
+            "y": 2
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 6,
+              "y": 2
+            },
+            "pos": {
+              "x": 6,
+              "y": 2
+            },
+            "dir": "left"
+          }
+        },
+        "visits": 18,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 5
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "dir": "left"
+          }
+        },
+        "visits": 18,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 6,
+            "y": 2
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 6,
+              "y": 2
+            },
+            "pos": {
+              "x": 6,
+              "y": 2
+            },
+            "dir": "bottom"
+          }
+        },
+        "visits": 18,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 0
+            },
+            "pos": {
+              "x": 1,
+              "y": 0
+            },
+            "dir": "right"
+          }
+        },
+        "visits": 18,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 0
+            },
+            "pos": {
+              "x": 1,
+              "y": 0
+            },
+            "dir": "left"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 5
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "dir": "top"
+          }
+        },
+        "visits": 26,
+        "value": -0.8461538461538461
+      },
+      {
+        "action": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 1
+          },
+          "dir": "bottom"
+        },
+        "visits": 22,
+        "value": -0.9090909090909091
+      },
+      {
+        "action": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 1
+          },
+          "dir": "top"
+        },
+        "visits": 18,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "dir": "right"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 5
+          },
+          "pos": {
+            "x": 0,
+            "y": 6
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 6
+            },
+            "pos": {
+              "x": 0,
+              "y": 6
+            },
+            "dir": "right"
+          }
+        },
+        "visits": 22,
+        "value": -0.9090909090909091
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "dir": "bottom"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 5
+          },
+          "pos": {
+            "x": 0,
+            "y": 6
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 6
+            },
+            "pos": {
+              "x": 0,
+              "y": 6
+            },
+            "dir": "top"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 5
+          },
+          "pos": {
+            "x": 1,
+            "y": 5
+          },
+          "dir": "bottom"
+        },
+        "visits": 18,
+        "value": -1
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "top"
+          }
+        },
+        "visits": 17,
+        "value": -1
+      }
+    ],
+    "tacticalCandidatesChecked": 2,
+    "originalScore": -25,
+    "verifiedScore": -25,
+    "worstOpponentReplyScore": -25,
+    "tacticalSelectionChanged": true,
+    "immediateTerminalLossAvoided": false,
+    "searchTimeMs": 1528.199999988079,
+    "verificationTimeMs": 33.80000001192093,
+    "qMetrics": {},
+    "effectiveConfig": {
+      "simulations": 250,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5,
+      "qPriorWeight": 0,
+      "tacticalVerification": true,
+      "tacticalCandidateCount": 2
+    }
+  }
+}

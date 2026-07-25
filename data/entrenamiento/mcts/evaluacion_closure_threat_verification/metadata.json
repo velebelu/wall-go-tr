@@ -1,0 +1,10 @@
+{
+  "createdAt": "2026-07-25T22:19:17.896Z",
+  "source": {
+    "fileName": "traza_humano_mcts_g_e09743f2.json",
+    "sha256": "d13c8596783bb95299be6de6178908727a0dd11ec4d1873aaac0107452067375"
+  },
+  "protocol": "Paired selection seeds; one paired continuation per critical fixture; no long competitive evaluation.",
+  "activeInterfaceModified": false,
+  "frozenConfigModified": false
+}

@@ -1,0 +1,621 @@
+{
+  "schema": "ClosureThreatVerificationPilotV1",
+  "classification": "promising-needs-confirmation",
+  "experimentalOnly": true,
+  "config": {
+    "enabled": true,
+    "candidateCount": 4,
+    "maxRepliesPerCandidate": 80,
+    "maxTimeMsPerCandidate": 250,
+    "minimumOpponentTerritoryGain": 12,
+    "minimumOwnAccessibleDrop": 12,
+    "minimumExposedComponentSize": 15,
+    "terminalTerritoryDiffThreshold": -12
+  },
+  "frozenConfig": {
+    "mcts": {
+      "simulations": 250,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5,
+      "qPriorWeight": 0,
+      "tacticalVerification": true,
+      "tacticalCandidateCount": 2
+    },
+    "budget": {
+      "enable750": false,
+      "base": 250,
+      "lowConfidence": 500,
+      "highUncertainty": 500,
+      "maxDecisionMs": 5000,
+      "maxVisitGap": 3,
+      "maxValueGap": 0.04,
+      "maxSelectedVisitShare": 0.12,
+      "highUncertaintyVisitGap": 1,
+      "highUncertaintyValueGap": 0.015,
+      "highUncertaintySelectedVisitShare": 0.08
+    },
+    "endgame": {
+      "enabled": false,
+      "maxLegalActions": 8,
+      "maxConnectedRegions": 3,
+      "maxMobilePieces": 2,
+      "maxDepth": 8,
+      "maxNodes": 40000,
+      "maxTimeMs": 1500
+    }
+  },
+  "fixtures": {
+    "critical": [
+      34,
+      36,
+      38
+    ],
+    "negativeControls": [
+      24,
+      26,
+      28,
+      30,
+      32
+    ]
+  },
+  "negativeControlDefinitions": {
+    "24": "Large component with several own stones; no severe reply.",
+    "26": "Small accessibility variation below threshold.",
+    "28": "Normal contested position without consolidated rival gain.",
+    "30": "Apparently risky accessibility change remains below severe threshold.",
+    "32": "Small closure/territory change that is tactically acceptable."
+  },
+  "seeds": {
+    "selection": [
+      3238330369,
+      3238330370
+    ],
+    "continuation": 3238334465
+  },
+  "success": {
+    "detectsTurns34And36": true,
+    "turn38UsesFallback": true,
+    "avoidsKnownTurn34Collapse": true,
+    "reducesOrDelaysDefendableClosure": true,
+    "negativeControlChangeRate": 0,
+    "negativeControlRateBelow15Percent": true,
+    "noIllegalActions": true
+  },
+  "timing": {
+    "averageDetectorMs": 40.2013249999999,
+    "maximumDetectorMs": 46.367700000000696
+  },
+  "knownDangerousTurn34Probe": {
+    "action": {
+      "type": "wall",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 4,
+        "y": 1
+      },
+      "dir": "top"
+    },
+    "changed": true,
+    "reason": "safer-candidate-preferred",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 5,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 5,
+          "y": 0
+        },
+        "dir": "left"
+      }
+    },
+    "candidates": [
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "dir": "left"
+          }
+        },
+        "visits": 31,
+        "value": -1,
+        "severe": true,
+        "repliesAvailable": 53,
+        "repliesChecked": 53,
+        "stoppedByTimeLimit": false,
+        "elapsedMs": 9.281999999999243,
+        "maximumOpponentTerritoryGain": 35,
+        "maximumOwnAccessibleDrop": 35,
+        "lostLastOwnStoneInLargeComponent": true,
+        "worstReply": {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 4
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "dir": "left"
+            }
+          },
+          "ownTerritoryBefore": 6,
+          "ownTerritoryAfter": 11,
+          "opponentTerritoryBefore": 0,
+          "opponentTerritoryAfter": 35,
+          "ownAccessibleBefore": 46,
+          "ownAccessibleAfter": 11,
+          "opponentAccessibleBefore": 40,
+          "opponentAccessibleAfter": 35,
+          "opponentTerritoryGain": 35,
+          "ownAccessibleDrop": 35,
+          "largestComponentBefore": 40,
+          "largestComponentAfter": 35,
+          "lostLastOwnStoneInLargeComponent": true,
+          "exposedComponentSize": 35,
+          "terminalTerritoryDiff": -24,
+          "severe": true,
+          "reasons": [
+            "opponent-territory-gain",
+            "own-accessibility-drop",
+            "last-own-stone-lost-in-large-component",
+            "terminal-negative-territory-difference"
+          ]
+        }
+      },
+      {
+        "action": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "top"
+        },
+        "visits": 35,
+        "value": -0.9714285714285714,
+        "severe": false,
+        "repliesAvailable": 53,
+        "repliesChecked": 53,
+        "stoppedByTimeLimit": false,
+        "elapsedMs": 9.475900000004913,
+        "maximumOpponentTerritoryGain": 1,
+        "maximumOwnAccessibleDrop": 1,
+        "lostLastOwnStoneInLargeComponent": false,
+        "worstReply": {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 0
+            },
+            "pos": {
+              "x": 1,
+              "y": 0
+            },
+            "dir": "right"
+          },
+          "ownTerritoryBefore": 2,
+          "ownTerritoryAfter": 2,
+          "opponentTerritoryBefore": 0,
+          "opponentTerritoryAfter": 1,
+          "ownAccessibleBefore": 41,
+          "ownAccessibleAfter": 40,
+          "opponentAccessibleBefore": 39,
+          "opponentAccessibleAfter": 39,
+          "opponentTerritoryGain": 1,
+          "ownAccessibleDrop": 1,
+          "largestComponentBefore": 39,
+          "largestComponentAfter": 38,
+          "lostLastOwnStoneInLargeComponent": false,
+          "exposedComponentSize": 1,
+          "severe": false,
+          "reasons": []
+        }
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "dir": "bottom"
+          }
+        },
+        "visits": 31,
+        "value": -1,
+        "severe": false,
+        "repliesAvailable": 53,
+        "repliesChecked": 53,
+        "stoppedByTimeLimit": false,
+        "elapsedMs": 9.270199999999022,
+        "maximumOpponentTerritoryGain": 1,
+        "maximumOwnAccessibleDrop": 1,
+        "lostLastOwnStoneInLargeComponent": false,
+        "worstReply": {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 0
+            },
+            "pos": {
+              "x": 1,
+              "y": 0
+            },
+            "dir": "right"
+          },
+          "ownTerritoryBefore": 2,
+          "ownTerritoryAfter": 2,
+          "opponentTerritoryBefore": 0,
+          "opponentTerritoryAfter": 1,
+          "ownAccessibleBefore": 46,
+          "ownAccessibleAfter": 45,
+          "opponentAccessibleBefore": 44,
+          "opponentAccessibleAfter": 44,
+          "opponentTerritoryGain": 1,
+          "ownAccessibleDrop": 1,
+          "largestComponentBefore": 44,
+          "largestComponentAfter": 43,
+          "lostLastOwnStoneInLargeComponent": false,
+          "exposedComponentSize": 1,
+          "severe": false,
+          "reasons": []
+        }
+      },
+      {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "dir": "right"
+          }
+        },
+        "visits": 31,
+        "value": -1,
+        "severe": false,
+        "repliesAvailable": 53,
+        "repliesChecked": 53,
+        "stoppedByTimeLimit": false,
+        "elapsedMs": 10.519000000000233,
+        "maximumOpponentTerritoryGain": 1,
+        "maximumOwnAccessibleDrop": 1,
+        "lostLastOwnStoneInLargeComponent": false,
+        "worstReply": {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 0
+            },
+            "pos": {
+              "x": 1,
+              "y": 0
+            },
+            "dir": "right"
+          },
+          "ownTerritoryBefore": 2,
+          "ownTerritoryAfter": 2,
+          "opponentTerritoryBefore": 0,
+          "opponentTerritoryAfter": 1,
+          "ownAccessibleBefore": 46,
+          "ownAccessibleAfter": 45,
+          "opponentAccessibleBefore": 44,
+          "opponentAccessibleAfter": 44,
+          "opponentTerritoryGain": 1,
+          "ownAccessibleDrop": 1,
+          "largestComponentBefore": 44,
+          "largestComponentAfter": 43,
+          "lostLastOwnStoneInLargeComponent": false,
+          "exposedComponentSize": 1,
+          "severe": false,
+          "reasons": []
+        }
+      }
+    ],
+    "threatsDetected": 1,
+    "totalElapsedMs": 38.658400000000256
+  },
+  "continuations": [
+    {
+      "turn": 34,
+      "baselineAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      },
+      "experimentalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      },
+      "actionChanged": false,
+      "baseline": {
+        "winner": "B",
+        "territory": {
+          "R": 7,
+          "B": 27
+        },
+        "territoryDiffRed": -20,
+        "turns": 13,
+        "reachedLimit": false,
+        "detectorChanges": 0
+      },
+      "experimental": {
+        "winner": "B",
+        "territory": {
+          "R": 7,
+          "B": 27
+        },
+        "territoryDiffRed": -20,
+        "turns": 13,
+        "reachedLimit": false,
+        "detectorChanges": 0
+      }
+    },
+    {
+      "turn": 36,
+      "baselineAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 5
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "dir": "left"
+        }
+      },
+      "experimentalAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 5
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "dir": "top"
+        }
+      },
+      "actionChanged": true,
+      "baseline": {
+        "winner": "B",
+        "territory": {
+          "R": 6,
+          "B": 34
+        },
+        "territoryDiffRed": -28,
+        "turns": 5,
+        "reachedLimit": false,
+        "detectorChanges": 0
+      },
+      "experimental": {
+        "winner": "B",
+        "territory": {
+          "R": 4,
+          "B": 25
+        },
+        "territoryDiffRed": -21,
+        "turns": 21,
+        "reachedLimit": false,
+        "detectorChanges": 1
+      }
+    },
+    {
+      "turn": 38,
+      "baselineAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "experimentalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "actionChanged": false,
+      "baseline": {
+        "winner": "B",
+        "territory": {
+          "R": 7,
+          "B": 19
+        },
+        "territoryDiffRed": -12,
+        "turns": 15,
+        "reachedLimit": false,
+        "detectorChanges": 0
+      },
+      "experimental": {
+        "winner": "B",
+        "territory": {
+          "R": 7,
+          "B": 25
+        },
+        "territoryDiffRed": -18,
+        "turns": 11,
+        "reachedLimit": false,
+        "detectorChanges": 1
+      }
+    }
+  ]
+}
