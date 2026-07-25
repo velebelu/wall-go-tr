@@ -10,6 +10,7 @@ import { MinimaxAI } from '@/ai/minimax-ai'
 import { chooseLearningAction, type QTableEntries } from './learningPolicy'
 import type { MCTSConfig } from '@/engine/mcts/types'
 import { choosePlayableMCTSDecision } from './mctsWorkerDecision'
+import { chooseHumanChallengeMCTSDecision, type HumanChallengeConfig } from './humanChallengeMCTS'
 
 function calculateMinimaxPlayingAction(gameState: GameSnapshot, depth = 2): PlayerAction {
   const ai = new MinimaxAI(depth)
@@ -47,6 +48,21 @@ self.onmessage = (
 
     const heuristicMode =
       (event.data.config?.policy as 'default' | 'offensive' | 'defensive') ?? 'default'
+    if (aiType === 'mcts-human-challenge') {
+      const config = event.data.config?.challenge as HumanChallengeConfig
+      const seed = (event.data.config?.seed as number) >>> 0
+      const result = chooseHumanChallengeMCTSDecision({ gameState, config, seed })
+      action = result.action
+      self.postMessage({
+        action,
+        diagnostics: {
+          result: result.mcts,
+          effectiveConfig: config.mcts,
+          searchTimeMs: result.decisionMs,
+        },
+      })
+      return
+    }
     if (aiType === 'mcts-final') {
       const config = event.data.config?.mcts as MCTSConfig
       const seed = (event.data.config?.seed as number) >>> 0

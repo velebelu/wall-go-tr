@@ -3,24 +3,9 @@ import type { MCTSConfig } from '@/engine/mcts/types'
 import type { AgentDecisionDiagnostics, PlayerAgent } from './PlayerAgent'
 import { toSerializableSnapshot } from './serialize'
 import { getLegalActions } from '@/utils/ai'
-
-// Configuración "tactical-top-2" confirmada en evaluacion_verificacion_tactica_confirmacion
-// (340 partidas, semillas emparejadas). El prior de la tabla aprendida permanece desactivado:
-// su evaluación de confirmación concluyó no adoptarlo (sin mejora estadística y coste ~2x).
-export const FINAL_MCTS_CONFIG = Object.freeze({
-  simulations: 50,
-  explorationConstant: Math.SQRT2,
-  maxDepth: 60,
-  rolloutPolicy: 'mixed',
-  heuristicProbability: 0.8,
-  expansionPolicy: 'heuristic',
-  progressiveWidening: true,
-  wideningConstant: 2,
-  wideningExponent: 0.5,
-  qPriorWeight: 0,
-  tacticalVerification: true,
-  tacticalCandidateCount: 2,
-} satisfies MCTSConfig)
+import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG, type HumanChallengeConfig } from './humanChallengeMCTS'
+import { FINAL_MCTS_CONFIG } from './mctsConfig'
+export { FINAL_MCTS_CONFIG } from './mctsConfig'
 
 type MCTSWorkerResponse = {
   action?: PlayerAction | null
@@ -33,6 +18,7 @@ type MCTSWorkerResponse = {
 export interface MCTSAgentOptions {
   seed?: number
   workerFactory?: () => Worker
+  profile?: 'fast' | 'human-challenge'
 }
 
 function createHumanGameSeed(): number {
@@ -46,10 +32,12 @@ export class MCTSAgent implements PlayerAgent {
   private decision = 0
   private readonly seed: number
   private readonly workerFactory: () => Worker
+  private readonly profile: 'fast' | 'human-challenge'
   private lastDecisionDiagnostics?: AgentDecisionDiagnostics
 
   constructor(options: MCTSAgentOptions = {}) {
     this.seed = options.seed ?? createHumanGameSeed()
+    this.profile = options.profile ?? 'human-challenge'
     this.workerFactory =
       options.workerFactory ??
       (() => new Worker(new URL('./AIWorker.ts', import.meta.url), { type: 'module' }))
@@ -93,9 +81,21 @@ export class MCTSAgent implements PlayerAgent {
         reject(new Error(`La IA MCTS final falló en el proceso de cálculo: ${error.message}`))
       }
       worker.postMessage({
-        aiType: 'mcts-final',
+        aiType: this.profile === 'human-challenge' ? 'mcts-human-challenge' : 'mcts-final',
         gameState: toSerializableSnapshot(gameState),
-        config: { mcts: FINAL_MCTS_CONFIG, seed: requestSeed },
+        config: {
+          challenge:
+            this.profile === 'human-challenge' ? FINAL_HUMAN_CHALLENGE_MCTS_CONFIG : undefined,
+          mcts:
+            this.profile === 'human-challenge'
+              ? FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.mcts
+              : FINAL_MCTS_CONFIG,
+          seed: requestSeed,
+        } satisfies {
+          challenge?: Readonly<HumanChallengeConfig>
+          mcts: Readonly<MCTSConfig>
+          seed: number
+        },
       })
     })
   }

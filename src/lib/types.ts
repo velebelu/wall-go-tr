@@ -16,6 +16,7 @@ export type GameMode =
   | 'ai'
   | 'q5-learning'
   | 'mcts-final'
+  | 'mcts-fast'
   | 'ai-vs-ai'
   | 'random-vs-heuristic'
   | 'learning-vs-random'

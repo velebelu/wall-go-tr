@@ -1,6 +1,6 @@
 import { calculatePlayerMobilityQ3 } from '@/agents/learningPolicyQ3'
 import { createPlayableMCTSRng } from '@/agents/mctsWorkerDecision'
-import { FINAL_MCTS_CONFIG } from '@/agents/MCTSAgent'
+import { FINAL_MCTS_CONFIG } from '@/agents/mctsConfig'
 import { evaluatePosition } from '@/engine/evaluatePosition'
 import { applyFullAction } from '@/engine/gameSimulator'
 import { searchBestActionStaged, type MCTSStageDecision } from '@/engine/mcts/MCTS'
@@ -8,7 +8,7 @@ import type { MCTSConfig, MCTSResult } from '@/engine/mcts/types'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import { getLegalActions } from '@/utils/ai'
 import { floodRegions } from '@/utils/region'
-import { getTerritoryCounts } from '@/training/compareLearningAgents'
+import { getTerritoryMap } from '@/utils/territory'
 
 export interface HumanChallengeConfig {
   mcts: Readonly<MCTSConfig>
@@ -39,10 +39,10 @@ export interface HumanChallengeConfig {
 export const FINAL_HUMAN_CHALLENGE_MCTS_CONFIG: Readonly<HumanChallengeConfig> = Object.freeze({
   mcts: Object.freeze({ ...FINAL_MCTS_CONFIG, simulations: 250, qPriorWeight: 0 }),
   budget: Object.freeze({
-    enable750: true,
+    enable750: false,
     base: 250,
     lowConfidence: 500,
-    highUncertainty: 750,
+    highUncertainty: 500,
     maxDecisionMs: 5_000,
     maxVisitGap: 3,
     maxValueGap: 0.04,
@@ -52,7 +52,7 @@ export const FINAL_HUMAN_CHALLENGE_MCTS_CONFIG: Readonly<HumanChallengeConfig> =
     highUncertaintySelectedVisitShare: 0.08,
   }),
   endgame: Object.freeze({
-    enabled: true,
+    enabled: false,
     maxLegalActions: 8,
     maxConnectedRegions: 3,
     maxMobilePieces: 2,
@@ -62,12 +62,9 @@ export const FINAL_HUMAN_CHALLENGE_MCTS_CONFIG: Readonly<HumanChallengeConfig> =
   }),
 })
 
-export const MODERATE_HUMAN_CHALLENGE_MCTS_CONFIG: Readonly<HumanChallengeConfig> = Object.freeze({
-  ...FINAL_HUMAN_CHALLENGE_MCTS_CONFIG,
-  budget: Object.freeze({ ...FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.budget, enable750: false }),
-})
-
-export const FINAL_HUMAN_CHALLENGE_MCTS_CONFIG_CANDIDATE = MODERATE_HUMAN_CHALLENGE_MCTS_CONFIG
+// Alias histórico: la configuración congelada es la única fuente de verdad.
+export const MODERATE_HUMAN_CHALLENGE_MCTS_CONFIG = FINAL_HUMAN_CHALLENGE_MCTS_CONFIG
+export const FINAL_HUMAN_CHALLENGE_MCTS_CONFIG_CANDIDATE = FINAL_HUMAN_CHALLENGE_MCTS_CONFIG
 
 export interface ConfidenceMetrics {
   visitGap: number
@@ -140,6 +137,14 @@ interface SolverResult {
   score?: number
 }
 
+function getTerritoryCounts(state: GameSnapshot): Record<Player, number> {
+  const totals: Record<Player, number> = { R: 0, B: 0 }
+  for (const row of getTerritoryMap(state.board)) {
+    for (const owner of row) if (owner) totals[owner]++
+  }
+  return totals
+}
+
 export function solveSmallEndgame(
   state: GameSnapshot,
   perspective: Player,
@@ -150,7 +155,7 @@ export function solveSmallEndgame(
   let nodes = 0
   let aborted = false
   const terminalScore = (snapshot: GameSnapshot): number => {
-    const territory = snapshot.result?.score ?? getTerritoryCounts(snapshot.board)
+    const territory = snapshot.result?.score ?? getTerritoryCounts(snapshot)
     return territory[perspective] - territory[perspective === 'R' ? 'B' : 'R']
   }
   const search = (snapshot: GameSnapshot, depth: number, alpha: number, beta: number): number => {

@@ -41,7 +41,7 @@ import {
   type HumanMCTSTraceV1,
   type PreparedHumanMCTSTraceFile,
 } from '@/utils/humanMCTSTrace'
-import { FINAL_MCTS_CONFIG } from '@/agents/MCTSAgent'
+import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
 
 export default function Game({
   gameMode,
@@ -209,15 +209,18 @@ export default function Game({
       mctsTraceRef.current = []
       setMctsTraceSaveResult(null)
       setMctsTraceComplete(false)
-      const mcts = new MCTSAgent()
+      const mcts = new MCTSAgent({ profile: 'human-challenge' })
       fullMctsTraceRef.current = createHumanMCTSTrace({
         humanColor: aiSide === 'R' ? 'B' : 'R',
         mctsColor: aiSide,
         seed: mcts.getBaseSeed(),
-        mctsConfig: FINAL_MCTS_CONFIG,
+        mctsConfig: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.mcts,
+        finalHumanChallengeConfig: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG,
         initialState: snapshotFromState(useGame.getState()),
       })
       agents = createHumanVsMCTSAgents(aiSide, mcts, human)
+    } else if (gameMode === 'mcts-fast') {
+      agents = createHumanVsMCTSAgents(aiSide, new MCTSAgent({ profile: 'fast' }), human)
     } else {
       const aiMap = {
         practice: new RandomAgent(),
@@ -273,7 +276,12 @@ export default function Game({
       gameMode === 'learning-vs-random' ||
       gameMode === 'learning-vs-heuristic'
 
-    if (gameMode === 'ai' || gameMode === 'q5-learning' || gameMode === 'mcts-final') {
+    if (
+      gameMode === 'ai' ||
+      gameMode === 'q5-learning' ||
+      gameMode === 'mcts-final' ||
+      gameMode === 'mcts-fast'
+    ) {
       useGame.getState().setHumanSide(aiSide === 'R' ? 'B' : 'R')
     } else if (isAiVsAiMode) {
       useGame.getState().setHumanSide(null)
@@ -346,6 +354,10 @@ export default function Game({
   }, [])
 
   const isHumanTurn = turnManagerRef.current?.['agents']?.[turn] instanceof HumanAgent
+  const isAIThinking =
+    (gameMode === 'mcts-final' || gameMode === 'mcts-fast') &&
+    (phase === 'placing' || phase === 'playing') &&
+    !isHumanTurn
 
   const onTurnEnd = useCallback(() => {
     if (phase !== 'playing') return
@@ -516,6 +528,15 @@ export default function Game({
           {aiError}
         </div>
       )}
+      {isAIThinking && !aiError && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="w-full max-w-xl rounded-xl border border-indigo-200 bg-indigo-50 p-2 text-center text-indigo-800 dark:border-indigo-800 dark:bg-indigo-950 dark:text-indigo-200"
+        >
+          La IA está pensando…
+        </div>
+      )}
       {gameMode === 'mcts-final' && phase === 'finished' && (
         <div
           role="status"
@@ -654,11 +675,7 @@ export default function Game({
           turn={turn}
           selected={selected ?? null}
           legal={legal}
-          placeStone={
-            phase === 'placing' || isHumanTurn
-              ? (pos) => handlePlayerAction({ type: 'place', pos })
-              : undefined
-          }
+          placeStone={isHumanTurn ? (pos) => handlePlayerAction({ type: 'place', pos }) : undefined}
           selectStone={
             isHumanTurn && phase === 'playing'
               ? (pos) => {

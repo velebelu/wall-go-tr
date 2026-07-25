@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { FINAL_MCTS_CONFIG } from '@/agents/MCTSAgent'
+import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
 import type { TurnDecisionTrace } from '@/agents/TurnManager'
 import { choosePlayableMCTSAction, choosePlayableMCTSDecision } from '@/agents/mctsWorkerDecision'
 import { applyFullAction } from '@/engine/gameSimulator'
@@ -77,6 +78,21 @@ describe('HumanMCTSTraceV1', () => {
   afterEach(() => {
     vi.restoreAllMocks()
     vi.unstubAllGlobals()
+  })
+
+  it('registra la configuración definitiva completa en la traza del desafío humano', () => {
+    const trace = createHumanMCTSTrace({
+      humanColor: 'R',
+      mctsColor: 'B',
+      seed: 7,
+      mctsConfig: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.mcts,
+      finalHumanChallengeConfig: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG,
+      initialState: closingState(),
+    })
+    expect(trace.metadata.mctsConfig).toEqual(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.mcts)
+    expect(trace.metadata.finalHumanChallengeConfig).toEqual(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG)
+    expect(trace.metadata.finalHumanChallengeConfig?.budget.enable750).toBe(false)
+    expect(trace.metadata.finalHumanChallengeConfig?.endgame.enabled).toBe(false)
   })
 
   it('crea cada partida con una traza nueva, vacía y sin versión inventada', () => {

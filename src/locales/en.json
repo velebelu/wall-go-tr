@@ -10,7 +10,8 @@
       "learning_vs_random": "Learning AI vs Random AI",
       "learning_vs_heuristic": "Learning AI vs Heuristic AI",
       "q5_learning": "Q5 Learning AI",
-      "mcts_final": "Strategic MCTS AI"
+      "mcts_final": "Final AI / MCTS Challenge",
+      "mcts_fast": "Current MCTS / fast mode"
     },
     "rule": "Game Rules",
     "q5": {

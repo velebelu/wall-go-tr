@@ -11,11 +11,16 @@ import { applyAgentActionToGame } from './gameAgentIntegration'
 import { useGame } from '@/store'
 import { snapshotFromState } from '@/store/gameState'
 import { applyFullAction } from '@/engine/gameSimulator'
+import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from './humanChallengeMCTS'
 
 type WorkerRequest = {
   aiType: string
   gameState: GameSnapshot & { legal: unknown }
-  config: { mcts: typeof FINAL_MCTS_CONFIG; seed: number }
+  config: {
+    challenge?: typeof FINAL_HUMAN_CHALLENGE_MCTS_CONFIG
+    mcts: typeof FINAL_MCTS_CONFIG
+    seed: number
+  }
 }
 
 class FakeWorker {
@@ -84,8 +89,12 @@ describe('MCTSAgent final', () => {
     const worker = new FakeWorker(legalAction)
     const agent = new MCTSAgent({ seed: 123, workerFactory: () => worker as unknown as Worker })
     await expect(agent.getAction(state)).resolves.toEqual(legalAction)
-    expect(worker.request?.aiType).toBe('mcts-final')
-    expect(worker.request?.config).toEqual({ mcts: FINAL_MCTS_CONFIG, seed: 123 })
+    expect(worker.request?.aiType).toBe('mcts-human-challenge')
+    expect(worker.request?.config).toEqual({
+      challenge: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG,
+      mcts: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.mcts,
+      seed: 123,
+    })
     expect(FINAL_MCTS_CONFIG).toEqual({
       simulations: 50,
       explorationConstant: Math.SQRT2,
@@ -153,7 +162,11 @@ describe('MCTSAgent final', () => {
     const before = structuredClone(state)
     const legalActions = getLegalActions(state)
     const worker = new InProcessMCTSWorker()
-    const agent = new MCTSAgent({ seed, workerFactory: () => worker as unknown as Worker })
+    const agent = new MCTSAgent({
+      seed,
+      profile: 'fast',
+      workerFactory: () => worker as unknown as Worker,
+    })
 
     expect(legalActions.length).toBeGreaterThan(1)
     const action = await agent.getAction(state)
@@ -164,7 +177,11 @@ describe('MCTSAgent final', () => {
       ...state,
       legal: Array.from(state.legal),
     })
-    expect(worker.request?.config).toEqual({ mcts: FINAL_MCTS_CONFIG, seed })
+    expect(worker.request?.config).toEqual({
+      challenge: undefined,
+      mcts: FINAL_MCTS_CONFIG,
+      seed,
+    })
     expect(legalActions).toContainEqual(action)
     expect(state).toEqual(before)
   })
@@ -210,7 +227,11 @@ describe('MCTSAgent final', () => {
       _future: [],
     })
     const worker = new InProcessMCTSWorker()
-    const agent = new MCTSAgent({ seed, workerFactory: () => worker as unknown as Worker })
+    const agent = new MCTSAgent({
+      seed,
+      profile: 'fast',
+      workerFactory: () => worker as unknown as Worker,
+    })
     let trace: TurnDecisionTrace | undefined
     const manager = new TurnManager({
       agents: {
@@ -234,7 +255,11 @@ describe('MCTSAgent final', () => {
     await manager.startLoop()
 
     expect(trace?.action).toEqual(expectedAction)
-    expect(worker.request?.config).toEqual({ mcts: FINAL_MCTS_CONFIG, seed })
+    expect(worker.request?.config).toEqual({
+      challenge: undefined,
+      mcts: FINAL_MCTS_CONFIG,
+      seed,
+    })
     expect(trace?.player).toBe(state.turn)
     expect(trace?.agentDiagnostics).toEqual({
       baseSeed: seed,

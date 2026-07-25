@@ -14,7 +14,8 @@
       "learning_vs_random": "IA aprendiz vs IA aleatoria",
       "learning_vs_heuristic": "IA aprendiz vs IA heurística",
       "q5_learning": "IA aprendiz Q5",
-      "mcts_final": "IA estratégica MCTS"
+      "mcts_final": "IA final / Desafío MCTS",
+      "mcts_fast": "MCTS actual / modo rápido"
     },
     "rule": "Reglas del Juego",
     "q5": {

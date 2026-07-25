@@ -57,21 +57,21 @@ describe('FINAL_HUMAN_CHALLENGE_MCTS_CONFIG', () => {
     })
   })
 
-  it('reutiliza un único árbol al ampliar 250→500→750', () => {
+  it('reutiliza un único árbol al ampliar 250→500 sin etapa de 750', () => {
     const state = makeInitialState()
     const staged = searchBestActionStaged(
       state,
       state.turn,
       { ...FINAL_MCTS_CONFIG, simulations: 250 },
       {
-        simulationTargets: [10, 20, 30],
+        simulationTargets: [10, 20],
         shouldContinue: () => ({ continueSearch: true, reason: 'test' }),
       },
       createPlayableMCTSRng(123),
     )
-    expect(staged.completedTargets).toEqual([10, 20, 30])
-    expect(staged.result.rootVisits).toBe(30)
-    expect(staged.result.children.reduce((sum, child) => sum + child.visits, 0)).toBe(30)
+    expect(staged.completedTargets).toEqual([10, 20])
+    expect(staged.result.rootVisits).toBe(20)
+    expect(staged.result.children.reduce((sum, child) => sum + child.visits, 0)).toBe(20)
   })
 
   it('respeta el límite temporal conservando una acción legal', () => {
@@ -94,6 +94,9 @@ describe('FINAL_HUMAN_CHALLENGE_MCTS_CONFIG', () => {
 
   it('no activa el solucionador en la posición inicial', () => {
     expect(detectSmallEndgame(makeInitialState()).active).toBe(false)
+    expect(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.endgame.enabled).toBe(false)
+    expect(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.budget.enable750).toBe(false)
+    expect(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.budget.highUncertainty).toBe(500)
   })
 
   it('abandona limpiamente el solucionador al alcanzar su límite', () => {

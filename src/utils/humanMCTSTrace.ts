@@ -7,6 +7,7 @@ import { snapshotFromState } from '@/store/gameState'
 import { getLegalActions } from '@/utils/ai'
 import { floodRegions } from '@/utils/region'
 import { getTerritoryMap } from '@/utils/territory'
+import type { HumanChallengeConfig } from '@/agents/humanChallengeMCTS'
 
 export const HUMAN_MCTS_TRACE_SCHEMA = 'HumanMCTSTraceV1' as const
 
@@ -87,6 +88,7 @@ export interface HumanMCTSTraceV1 {
     mctsColor: Player
     seed: number
     mctsConfig: MCTSConfig
+    finalHumanChallengeConfig?: HumanChallengeConfig
     initialState: SerializableGameSnapshot
   }
   decisions: HumanMCTSTraceDecisionV1[]
@@ -168,6 +170,7 @@ export function createHumanMCTSTrace(params: {
   mctsColor: Player
   seed: number
   mctsConfig: MCTSConfig
+  finalHumanChallengeConfig?: Readonly<HumanChallengeConfig>
   initialState: GameSnapshot
 }): HumanMCTSTraceV1 {
   return {
@@ -183,6 +186,9 @@ export function createHumanMCTSTrace(params: {
       mctsColor: params.mctsColor,
       seed: params.seed,
       mctsConfig: structuredClone(params.mctsConfig),
+      ...(params.finalHumanChallengeConfig
+        ? { finalHumanChallengeConfig: structuredClone(params.finalHumanChallengeConfig) }
+        : {}),
       initialState: serializeGameSnapshot(params.initialState),
     },
     decisions: [],

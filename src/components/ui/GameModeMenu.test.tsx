@@ -54,7 +54,7 @@ describe('GameModeMenu Q5', () => {
     act(() => root.unmount())
   })
 
-  it('muestra IA estratégica MCTS y permite elegir ambos colores', () => {
+  it('distingue el desafío MCTS final y permite elegir ambos colores', () => {
     const setMode = vi.fn()
     const setAiSide = vi.fn()
     const root = createRoot(container)
@@ -72,7 +72,7 @@ describe('GameModeMenu Q5', () => {
     const button = (name: string) =>
       [...container.querySelectorAll('button')].find((candidate) => candidate.textContent === name)!
 
-    act(() => button('IA estratégica MCTS').click())
+    act(() => button('IA final / Desafío MCTS').click())
     act(() => button('Rojo').click())
     expect(setAiSide).toHaveBeenLastCalledWith('R')
     expect(setMode).toHaveBeenLastCalledWith('mcts-final')
@@ -80,6 +80,10 @@ describe('GameModeMenu Q5', () => {
     act(() => button('Azul').click())
     expect(setAiSide).toHaveBeenLastCalledWith('B')
     expect(setMode).toHaveBeenLastCalledWith('mcts-final')
+
+    act(() => button('MCTS actual / modo rápido').click())
+    act(() => button('Rojo').click())
+    expect(setMode).toHaveBeenLastCalledWith('mcts-fast')
     act(() => root.unmount())
   })
 })
