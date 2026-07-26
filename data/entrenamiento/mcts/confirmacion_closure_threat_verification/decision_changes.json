@@ -1,0 +1,2310 @@
+[
+  {
+    "scope": "fixture",
+    "gameId": "fixture-34-3238395904-closure",
+    "turnIndex": 16,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 5
+      },
+      "pos": {
+        "x": 0,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 4
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "wall",
+      "from": {
+        "x": 5,
+        "y": 4
+      },
+      "pos": {
+        "x": 5,
+        "y": 4
+      },
+      "dir": "bottom"
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 31.81000000000131,
+    "quality": "harmful"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-34-3238395909-closure",
+    "turnIndex": 20,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 6
+      },
+      "pos": {
+        "x": 5,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 6
+        },
+        "pos": {
+          "x": 5,
+          "y": 6
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 6
+      },
+      "pos": {
+        "x": 4,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 6
+        },
+        "pos": {
+          "x": 4,
+          "y": 6
+        },
+        "dir": "left"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 21.555000000007567,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-34-3238395911-closure",
+    "turnIndex": 8,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 3
+      },
+      "pos": {
+        "x": 6,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 4
+        },
+        "pos": {
+          "x": 6,
+          "y": 4
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 3
+      },
+      "pos": {
+        "x": 6,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 5
+        },
+        "pos": {
+          "x": 6,
+          "y": 5
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 44.48999999999069,
+    "quality": "harmful"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-34-3238395913-closure",
+    "turnIndex": 22,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 4
+      },
+      "pos": {
+        "x": 6,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 2
+        },
+        "pos": {
+          "x": 6,
+          "y": 2
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 4
+      },
+      "pos": {
+        "x": 6,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 6,
+          "y": 3
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 12.045299999997951,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-34-3238395916-closure",
+    "turnIndex": 16,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 6
+      },
+      "pos": {
+        "x": 0,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 6
+        },
+        "pos": {
+          "x": 0,
+          "y": 6
+        },
+        "dir": "top"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 6
+      },
+      "pos": {
+        "x": 0,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 6
+        },
+        "pos": {
+          "x": 0,
+          "y": 6
+        },
+        "dir": "right"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 28.786599999992177,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-34-3238395918-closure",
+    "turnIndex": 8,
+    "player": "R",
+    "originalAction": {
+      "type": "wall",
+      "from": {
+        "x": 0,
+        "y": 5
+      },
+      "pos": {
+        "x": 0,
+        "y": 5
+      },
+      "dir": "top"
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 0
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 35.98009999998612,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395904-closure",
+    "turnIndex": 4,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 5,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 40.50250000000233,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395904-closure",
+    "turnIndex": 6,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "dir": "top"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 5
+      },
+      "pos": {
+        "x": 0,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 4
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "dir": "bottom"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 39.42450000002282,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395906-closure",
+    "turnIndex": 8,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 6
+      },
+      "pos": {
+        "x": 0,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 5
+        },
+        "pos": {
+          "x": 0,
+          "y": 5
+        },
+        "dir": "top"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 6
+      },
+      "pos": {
+        "x": 0,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 5
+        },
+        "pos": {
+          "x": 0,
+          "y": 5
+        },
+        "dir": "bottom"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 11.757800000021234,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395907-closure",
+    "turnIndex": 0,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "left"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 39.8403999999864,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395909-closure",
+    "turnIndex": 0,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "left"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 42.851299999980256,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395911-closure",
+    "turnIndex": 0,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "left"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 38.13000000000466,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395912-closure",
+    "turnIndex": 18,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 5
+      },
+      "pos": {
+        "x": 3,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 3
+        },
+        "pos": {
+          "x": 3,
+          "y": 3
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 4
+      },
+      "pos": {
+        "x": 1,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 23.51650000002701,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395913-closure",
+    "turnIndex": 0,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "left"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 42.2326999999932,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395914-closure",
+    "turnIndex": 0,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 38.67000000004191,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395915-closure",
+    "turnIndex": 4,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "left"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 2
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "dir": "right"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 26.15749999997206,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395917-closure",
+    "turnIndex": 10,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 4
+      },
+      "pos": {
+        "x": 3,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 3,
+          "y": 4
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 4
+      },
+      "pos": {
+        "x": 3,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 3,
+          "y": 4
+        },
+        "dir": "bottom"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 35.366299999994226,
+    "quality": "neutral"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395917-closure",
+    "turnIndex": 18,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 3
+      },
+      "pos": {
+        "x": 3,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 3,
+          "y": 4
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 6
+      },
+      "pos": {
+        "x": 0,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 5
+        },
+        "pos": {
+          "x": 0,
+          "y": 5
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 23.01799999998184,
+    "quality": "neutral"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395920-closure",
+    "turnIndex": 4,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "dir": "top"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 5
+      },
+      "pos": {
+        "x": 0,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 4
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "dir": "bottom"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 40.37269999994896,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395921-closure",
+    "turnIndex": 12,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 3
+      },
+      "pos": {
+        "x": 2,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 3
+        },
+        "pos": {
+          "x": 2,
+          "y": 3
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 2
+      },
+      "pos": {
+        "x": 6,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 4
+        },
+        "pos": {
+          "x": 6,
+          "y": 4
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 36.83069999999134,
+    "quality": "neutral"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395922-closure",
+    "turnIndex": 14,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 3
+      },
+      "pos": {
+        "x": 2,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 2
+        },
+        "pos": {
+          "x": 2,
+          "y": 2
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 3
+      },
+      "pos": {
+        "x": 2,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 2
+        },
+        "pos": {
+          "x": 2,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 35.005200000014156,
+    "quality": "harmful"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-36-3238395923-closure",
+    "turnIndex": 4,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 5,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 5,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "dir": "left"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 40.7041999999783,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-38-3238395906-closure",
+    "turnIndex": 12,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 2
+      },
+      "pos": {
+        "x": 2,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 2
+        },
+        "pos": {
+          "x": 2,
+          "y": 2
+        },
+        "dir": "left"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 2
+      },
+      "pos": {
+        "x": 2,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 1
+        },
+        "pos": {
+          "x": 2,
+          "y": 1
+        },
+        "dir": "bottom"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 27.988899999996647,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-38-3238395906-closure",
+    "turnIndex": 14,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 1
+      },
+      "pos": {
+        "x": 3,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 1
+      },
+      "pos": {
+        "x": 2,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "dir": "right"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 22.67349999997532,
+    "quality": "favorable"
+  },
+  {
+    "scope": "fixture",
+    "gameId": "fixture-38-3238395908-closure",
+    "turnIndex": 6,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 4
+      },
+      "pos": {
+        "x": 1,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "dir": "top"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 4
+      },
+      "pos": {
+        "x": 1,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "dir": "left"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 14.341000000014901,
+    "quality": "favorable"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-heuristic-9-R-closure",
+    "turnIndex": 40,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 2
+      },
+      "pos": {
+        "x": 0,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 1
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 4
+      },
+      "pos": {
+        "x": 1,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "dir": "right"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 45.66630000004079,
+    "quality": "harmful"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-heuristic-21-R-closure",
+    "turnIndex": 42,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "top"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 0
+      },
+      "pos": {
+        "x": 1,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "dir": "right"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 41.82730000000447,
+    "quality": "favorable"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-heuristic-37-R-closure",
+    "turnIndex": 38,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 0
+      },
+      "pos": {
+        "x": 3,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "dir": "left"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 0
+      },
+      "pos": {
+        "x": 3,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "dir": "bottom"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 27.302299999864772,
+    "quality": "favorable"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-baseline-29-R-closure",
+    "turnIndex": 32,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 1
+      },
+      "pos": {
+        "x": 0,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 1
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "wall",
+      "from": {
+        "x": 5,
+        "y": 5
+      },
+      "pos": {
+        "x": 5,
+        "y": 5
+      },
+      "dir": "bottom"
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 1,
+    "detectorMs": 29.818200000096112,
+    "quality": "favorable"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-baseline-33-R-closure",
+    "turnIndex": 50,
+    "player": "R",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 6
+      },
+      "pos": {
+        "x": 2,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 6
+        },
+        "pos": {
+          "x": 2,
+          "y": 6
+        },
+        "dir": "left"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 51.06059999996796,
+    "quality": "harmful"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-heuristic-14-B-closure",
+    "turnIndex": 37,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 1
+      },
+      "pos": {
+        "x": 2,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 5
+      },
+      "pos": {
+        "x": 3,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 6
+        },
+        "pos": {
+          "x": 3,
+          "y": 6
+        },
+        "dir": "right"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 53.35740000009537,
+    "quality": "favorable"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-heuristic-26-B-closure",
+    "turnIndex": 39,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 3
+      },
+      "pos": {
+        "x": 2,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 4
+        },
+        "dir": "top"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 3
+      },
+      "pos": {
+        "x": 1,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 1,
+    "detectorMs": 27.43969999998808,
+    "quality": "favorable"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-heuristic-26-B-closure",
+    "turnIndex": 41,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 4
+      },
+      "pos": {
+        "x": 2,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 3
+        },
+        "pos": {
+          "x": 2,
+          "y": 3
+        },
+        "dir": "top"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 2,
+    "detectorMs": 29.78579999995418,
+    "quality": "favorable"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-heuristic-38-B-closure",
+    "turnIndex": 35,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 6
+      },
+      "pos": {
+        "x": 5,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 5
+        },
+        "dir": "left"
+      }
+    },
+    "finalAction": {
+      "type": "wall",
+      "from": {
+        "x": 3,
+        "y": 6
+      },
+      "pos": {
+        "x": 3,
+        "y": 6
+      },
+      "dir": "left"
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 31.42589999991469,
+    "quality": "favorable"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-baseline-2-B-closure",
+    "turnIndex": 29,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 2
+      },
+      "pos": {
+        "x": 5,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 4
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 1
+      },
+      "pos": {
+        "x": 1,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 0
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "dir": "left"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 42.86500000022352,
+    "quality": "harmful"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-baseline-2-B-closure",
+    "turnIndex": 33,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 2
+      },
+      "pos": {
+        "x": 5,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 4
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 0
+      },
+      "pos": {
+        "x": 1,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "dir": "right"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 31.172400000039488,
+    "quality": "harmful"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-baseline-30-B-closure",
+    "turnIndex": 61,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 2
+      },
+      "pos": {
+        "x": 0,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 1
+        },
+        "dir": "top"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 4
+      },
+      "pos": {
+        "x": 2,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 1,
+    "detectorMs": 17.7347999997437,
+    "quality": "harmful"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-baseline-34-B-closure",
+    "turnIndex": 45,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 4
+      },
+      "pos": {
+        "x": 3,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 5
+        },
+        "dir": "left"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 4
+      },
+      "pos": {
+        "x": 3,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 5
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 21.662399999797344,
+    "quality": "favorable"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-heuristic-8-B-closure",
+    "turnIndex": 43,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 6
+      },
+      "pos": {
+        "x": 0,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 5
+        },
+        "pos": {
+          "x": 0,
+          "y": 5
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 6
+      },
+      "pos": {
+        "x": 0,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 6
+        },
+        "pos": {
+          "x": 0,
+          "y": 6
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 33.347900000051595,
+    "quality": "harmful"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-heuristic-24-B-closure",
+    "turnIndex": 41,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 4
+      },
+      "pos": {
+        "x": 0,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 6
+        },
+        "pos": {
+          "x": 0,
+          "y": 6
+        },
+        "dir": "right"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 0
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 0
+        },
+        "pos": {
+          "x": 0,
+          "y": 0
+        },
+        "dir": "bottom"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 1,
+    "detectorMs": 30.789499999955297,
+    "quality": "favorable"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-heuristic-36-B-closure",
+    "turnIndex": 51,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 0
+      },
+      "pos": {
+        "x": 6,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 1
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "dir": "bottom"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 0
+      },
+      "pos": {
+        "x": 6,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 1
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "dir": "top"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 1,
+    "detectorMs": 26.523999999975786,
+    "quality": "harmful"
+  },
+  {
+    "scope": "competitive",
+    "gameId": "competitive-baseline-40-B-closure",
+    "turnIndex": 43,
+    "player": "B",
+    "originalAction": {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 3
+      },
+      "pos": {
+        "x": 6,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 2
+        },
+        "pos": {
+          "x": 6,
+          "y": 2
+        },
+        "dir": "left"
+      }
+    },
+    "finalAction": {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 3
+      },
+      "pos": {
+        "x": 6,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 6,
+          "y": 3
+        },
+        "dir": "left"
+      }
+    },
+    "reason": "safer-candidate-preferred",
+    "threatsDetected": 3,
+    "detectorMs": 52.376600000075996,
+    "quality": "favorable"
+  }
+]
