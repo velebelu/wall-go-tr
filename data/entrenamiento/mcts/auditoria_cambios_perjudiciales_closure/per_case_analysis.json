@@ -1,0 +1,481 @@
+{
+  "schema": "ClosureHarmfulCaseAnalysisV1",
+  "cases": [
+    {
+      "caseId": "case-1",
+      "gameId": "competitive-heuristic-9-R-closure",
+      "turnIndex": 40,
+      "player": "R",
+      "state": null,
+      "stateAvailable": false,
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "detectorAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 4
+          },
+          "pos": {
+            "x": 1,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "mctsOriginal": null,
+      "mctsSelected": null,
+      "detectorMetrics": null,
+      "repliesAnalyzed": null,
+      "worstOpponentReply": null,
+      "pairedCounterfactual": {
+        "closureOutcome": "win",
+        "closureTerritoryDiff": 6,
+        "frozenOutcome": "win",
+        "frozenTerritoryDiff": 10,
+        "territoryDiffDelta": -4
+      },
+      "threatClassification": "indeterminate",
+      "auditStatus": "blocked-missing-state-and-action-trace"
+    },
+    {
+      "caseId": "case-2",
+      "gameId": "competitive-baseline-33-R-closure",
+      "turnIndex": 50,
+      "player": "R",
+      "state": null,
+      "stateAvailable": false,
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "detectorAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 6
+        },
+        "pos": {
+          "x": 2,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 6
+          },
+          "pos": {
+            "x": 2,
+            "y": 6
+          },
+          "dir": "left"
+        }
+      },
+      "mctsOriginal": null,
+      "mctsSelected": null,
+      "detectorMetrics": null,
+      "repliesAnalyzed": null,
+      "worstOpponentReply": null,
+      "pairedCounterfactual": {
+        "closureOutcome": "loss",
+        "closureTerritoryDiff": -22,
+        "frozenOutcome": "loss",
+        "frozenTerritoryDiff": -10,
+        "territoryDiffDelta": -12
+      },
+      "threatClassification": "indeterminate",
+      "auditStatus": "blocked-missing-state-and-action-trace"
+    },
+    {
+      "caseId": "case-3",
+      "gameId": "competitive-baseline-2-B-closure",
+      "turnIndex": 29,
+      "player": "B",
+      "state": null,
+      "stateAvailable": false,
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 4
+          },
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "detectorAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "left"
+        }
+      },
+      "mctsOriginal": null,
+      "mctsSelected": null,
+      "detectorMetrics": null,
+      "repliesAnalyzed": null,
+      "worstOpponentReply": null,
+      "pairedCounterfactual": {
+        "closureOutcome": "loss",
+        "closureTerritoryDiff": -8,
+        "frozenOutcome": "loss",
+        "frozenTerritoryDiff": -6,
+        "territoryDiffDelta": -2
+      },
+      "threatClassification": "indeterminate",
+      "auditStatus": "blocked-missing-state-and-action-trace"
+    },
+    {
+      "caseId": "case-4",
+      "gameId": "competitive-baseline-2-B-closure",
+      "turnIndex": 33,
+      "player": "B",
+      "state": null,
+      "stateAvailable": false,
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 4
+          },
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "bottom"
+        }
+      },
+      "detectorAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 0
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "mctsOriginal": null,
+      "mctsSelected": null,
+      "detectorMetrics": null,
+      "repliesAnalyzed": null,
+      "worstOpponentReply": null,
+      "pairedCounterfactual": {
+        "closureOutcome": "loss",
+        "closureTerritoryDiff": -8,
+        "frozenOutcome": "loss",
+        "frozenTerritoryDiff": -6,
+        "territoryDiffDelta": -2
+      },
+      "threatClassification": "indeterminate",
+      "auditStatus": "blocked-missing-state-and-action-trace"
+    },
+    {
+      "caseId": "case-5",
+      "gameId": "competitive-baseline-30-B-closure",
+      "turnIndex": 61,
+      "player": "B",
+      "state": null,
+      "stateAvailable": false,
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "detectorAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "mctsOriginal": null,
+      "mctsSelected": null,
+      "detectorMetrics": null,
+      "repliesAnalyzed": null,
+      "worstOpponentReply": null,
+      "pairedCounterfactual": {
+        "closureOutcome": "loss",
+        "closureTerritoryDiff": -4,
+        "frozenOutcome": "win",
+        "frozenTerritoryDiff": 5,
+        "territoryDiffDelta": -9
+      },
+      "threatClassification": "indeterminate",
+      "auditStatus": "blocked-missing-state-and-action-trace"
+    },
+    {
+      "caseId": "case-6",
+      "gameId": "competitive-heuristic-8-B-closure",
+      "turnIndex": 43,
+      "player": "B",
+      "state": null,
+      "stateAvailable": false,
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 0,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 5
+          },
+          "pos": {
+            "x": 0,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      },
+      "detectorAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 0,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 6
+          },
+          "pos": {
+            "x": 0,
+            "y": 6
+          },
+          "dir": "top"
+        }
+      },
+      "mctsOriginal": null,
+      "mctsSelected": null,
+      "detectorMetrics": null,
+      "repliesAnalyzed": null,
+      "worstOpponentReply": null,
+      "pairedCounterfactual": {
+        "closureOutcome": "win",
+        "closureTerritoryDiff": 8,
+        "frozenOutcome": "win",
+        "frozenTerritoryDiff": 18,
+        "territoryDiffDelta": -10
+      },
+      "threatClassification": "indeterminate",
+      "auditStatus": "blocked-missing-state-and-action-trace"
+    },
+    {
+      "caseId": "case-7",
+      "gameId": "competitive-heuristic-36-B-closure",
+      "turnIndex": 51,
+      "player": "B",
+      "state": null,
+      "stateAvailable": false,
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "detectorAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "mctsOriginal": null,
+      "mctsSelected": null,
+      "detectorMetrics": null,
+      "repliesAnalyzed": null,
+      "worstOpponentReply": null,
+      "pairedCounterfactual": {
+        "closureOutcome": "loss",
+        "closureTerritoryDiff": -8,
+        "frozenOutcome": "win",
+        "frozenTerritoryDiff": 3,
+        "territoryDiffDelta": -11
+      },
+      "threatClassification": "indeterminate",
+      "auditStatus": "blocked-missing-state-and-action-trace"
+    }
+  ]
+}

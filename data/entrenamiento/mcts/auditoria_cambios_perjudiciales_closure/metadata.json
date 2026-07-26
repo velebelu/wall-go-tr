@@ -1,0 +1,15 @@
+{
+  "schema": "ClosureHarmfulAuditMetadataV1",
+  "generatedAt": "2026-07-26T08:36:22.354Z",
+  "sourceDir": "data/entrenamiento/mcts/confirmacion_closure_threat_verification",
+  "requestedCases": 7,
+  "completeCases": 0,
+  "replayAttempts": 1,
+  "replayDivergences": 1,
+  "absenceOfDivergences": false,
+  "conclusion": "blocked-by-insufficient-source-provenance",
+  "sourceChangesSha256": "ee13d6d080aa79e6ab9188c926e09fb79d72ce3d7f7a990b1881c50744d44855",
+  "errors": [
+    "Missing MCTS child in competitive-heuristic-9-R-closure/40"
+  ]
+}
