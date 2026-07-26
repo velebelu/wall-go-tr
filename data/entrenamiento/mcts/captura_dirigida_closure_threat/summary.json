@@ -1,0 +1,108 @@
+{
+  "schema": "DirectedClosureCaptureSummaryV1",
+  "games": 42,
+  "interventions": 19,
+  "completeInterventions": 19,
+  "missingInterventions": 1,
+  "counts": {
+    "beneficial": 0,
+    "harmful": 4,
+    "neutral": 1,
+    "inconclusive": 14
+  },
+  "aggregateEffect": -1.8368421052631583,
+  "harmfulRate": 0.21052631578947367,
+  "averageDetectorMs": 27.898173684223654,
+  "breakdownByRival": {
+    "heuristic": {
+      "interventions": 12,
+      "beneficial": 0,
+      "harmful": 3,
+      "neutral": 1,
+      "inconclusive": 8,
+      "meanTerritoryDiffDelta": -1.7083333333333333
+    },
+    "baseline": {
+      "interventions": 7,
+      "beneficial": 0,
+      "harmful": 1,
+      "neutral": 0,
+      "inconclusive": 6,
+      "meanTerritoryDiffDelta": -2.0571428571428574
+    }
+  },
+  "breakdownByPhase": {
+    "opening": {
+      "interventions": 0,
+      "beneficial": 0,
+      "harmful": 0,
+      "neutral": 0,
+      "inconclusive": 0,
+      "meanTerritoryDiffDelta": 0
+    },
+    "middle": {
+      "interventions": 1,
+      "beneficial": 0,
+      "harmful": 0,
+      "neutral": 0,
+      "inconclusive": 1,
+      "meanTerritoryDiffDelta": 6.6
+    },
+    "end": {
+      "interventions": 18,
+      "beneficial": 0,
+      "harmful": 4,
+      "neutral": 1,
+      "inconclusive": 13,
+      "meanTerritoryDiffDelta": -2.3055555555555554
+    }
+  },
+  "breakdownByCriterion": {
+    "opponent-territory-gain": {
+      "interventions": 19,
+      "beneficial": 0,
+      "harmful": 4,
+      "neutral": 1,
+      "inconclusive": 14,
+      "meanTerritoryDiffDelta": -1.8368421052631583
+    },
+    "own-accessibility-drop": {
+      "interventions": 19,
+      "beneficial": 0,
+      "harmful": 4,
+      "neutral": 1,
+      "inconclusive": 14,
+      "meanTerritoryDiffDelta": -1.8368421052631583
+    },
+    "last-own-stone-lost-in-large-component": {
+      "interventions": 9,
+      "beneficial": 0,
+      "harmful": 3,
+      "neutral": 0,
+      "inconclusive": 6,
+      "meanTerritoryDiffDelta": -1.1444444444444444
+    },
+    "terminal-negative-territory-difference": {
+      "interventions": 2,
+      "beneficial": 0,
+      "harmful": 1,
+      "neutral": 0,
+      "inconclusive": 1,
+      "meanTerritoryDiffDelta": 0.7
+    }
+  },
+  "criteria": {
+    "harmfulConfirmedBelow5Percent": false,
+    "beneficialClearlyExceedHarmful": false,
+    "aggregateTerritoryEffectNonNegative": false,
+    "turn36ContinuesImproving": true,
+    "turn36ReferenceTerritoryDiffDelta": 4.15,
+    "noRepeatedDamagePattern": false,
+    "averageAddedCostBelow100Ms": true,
+    "noIllegalActionsOrDivergences": true
+  },
+  "noIllegalActions": true,
+  "noDivergences": true,
+  "captureLimitReached": true,
+  "classification": "reject"
+}
