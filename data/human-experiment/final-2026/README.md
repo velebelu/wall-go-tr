@@ -5,21 +5,18 @@ contiene resultados, semillas, territorios ni trazas ficticias.
 
 ## Preparación de una sesión
 
-1. Abra `participants/Pxx/participant.json`.
-2. Sustituya `null` en `experienceGroup` por `none`, `basic` o `experienced`.
-3. Sustituya `null` en `previousWallGoGames` por un entero no negativo.
-4. Complete `notes` solo si es necesario, sin nombres ni información personal.
-5. Registre el participante con el comando indicado en `commands.md`, pasando primero la raíz
-   `data/human-experiment/final-2026` y después la ruta de la plantilla.
-6. Realice exactamente una partida de práctica, que no se registra.
-7. Inicie la aplicación con `VITE_GIT_COMMIT` igual al commit completo del código utilizado.
-8. Juegue las dos partidas en el orden de colores asignado.
-9. Al finalizar cada partida, descargue el JSON reproducible y guárdelo como
-   `traces/game-1.json` o `traces/game-2.json`.
-10. Anote la comprobación manual en `checklist.md`. Si hubo incidencias, añada sus códigos a la
-    plantilla de partida antes de registrarla.
-11. Registre cada partida pasando primero la misma raíz explícita, y valide el directorio
-    completo. Los comandos nunca deben crear un `registry.json` dentro de `participants/Pxx/`.
+1. Ejecute `npm run human-experiment:setup-participant -- Pxx <grupo> <partidas-previas>`.
+   El comando completa la plantilla y registra el participante de forma transaccional.
+2. Realice exactamente una partida de práctica, que no se registra.
+3. Inicie la aplicación con `npm run human-experiment:start`; el comando obtiene e inyecta el
+   commit completo.
+4. Juegue las dos partidas en el orden de colores asignado.
+5. Al finalizar cada partida, conserve la descarga JSON reproducible y ejecute
+   `npm run human-experiment:ingest-latest -- Pxx N`. No mueva ni renombre manualmente el original.
+6. Anote la comprobación manual en `checklist.md`. Si hubo incidencias, añada sus códigos a la
+   plantilla de partida antes de registrarla.
+7. La ingestión copia la traza, registra la partida y valida el directorio completo. Los
+   comandos nunca crean un `registry.json` dentro de `participants/Pxx/`.
 
 Los CSV auxiliares de pantalla pueden guardarse en `auxiliary/game-1/` y `auxiliary/game-2/`.
 Nunca sustituya la traza JSON reproducible por el CSV ligero.

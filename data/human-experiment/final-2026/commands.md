@@ -2,14 +2,17 @@
 
 Ejecutar desde la raíz del repositorio.
 
-## Aplicación trazable
+## Flujo simplificado
 
 ```powershell
-$env:VITE_GIT_COMMIT = git rev-parse HEAD
-npm run dev
+npm run human-experiment:setup-participant -- P02 basic 3
+npm run human-experiment:start
+npm run human-experiment:ingest-latest -- P02 1
+npm run human-experiment:ingest-latest -- P02 2
 ```
 
-Antes de jugar, confirme que `$env:VITE_GIT_COMMIT` contiene el hash completo.
+`start` muestra e inyecta el hash completo. `ingest-latest` conserva la descarga original,
+rechaza ambigüedades y actualiza únicamente el registro raíz.
 
 ## Registro de participantes
 

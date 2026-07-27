@@ -74,6 +74,21 @@ npm run human-experiment:register-game -- <experiment-directory> <game.json> <tr
 `<experiment-directory>/registry.json` debe existir previamente y su `experimentId` debe coincidir
 con el de la entrada. Los comandos no crean registros secundarios junto a las plantillas.
 
+Para la recogida definitiva se dispone de un flujo CLI abreviado:
+
+```powershell
+npm run human-experiment:setup-participant -- P02 basic 3
+npm run human-experiment:start
+npm run human-experiment:ingest-latest -- P02 1
+npm run human-experiment:ingest-latest -- P02 2
+```
+
+`start` obtiene e inyecta el commit completo. `setup-participant` valida la coherencia entre
+experiencia y partidas previas y actualiza plantilla y registro. `ingest-latest` examina únicamente
+carpetas habituales de descargas, conserva el original, se detiene ante ambigüedad, copia la traza
+sin sobrescribir y registra contra la raíz definitiva. Se puede proporcionar una ruta explícita
+como tercer argumento para resolver una descarga ambigua.
+
 La exportación produce `participants.csv`, `games.csv`, `summary.json` y `manifest.json`. El
 manifiesto contiene hashes SHA-256, commits, conteos y el resultado de validación.
 
