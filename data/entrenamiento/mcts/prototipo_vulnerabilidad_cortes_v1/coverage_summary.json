@@ -1,0 +1,80 @@
+{
+  "schema": "TerritorialCutVulnerabilityCoverageSummaryV1",
+  "total": 27,
+  "zero": 1,
+  "nonZero": 26,
+  "coveragePercent": 96.29629629629629,
+  "mean": 6.444444444444445,
+  "median": 3,
+  "minimum": 0,
+  "maximum": 31,
+  "p75": 12,
+  "p90": 16,
+  "intensity": {
+    "none": 1,
+    "small": 15,
+    "moderate": 2,
+    "high": 9
+  },
+  "bySource": {
+    "humanCritical": {
+      "total": 3,
+      "active": 3,
+      "meanLoss": 11,
+      "high": 1
+    },
+    "humanControl": {
+      "total": 5,
+      "active": 4,
+      "meanLoss": 0.8,
+      "high": 0
+    },
+    "directed": {
+      "total": 19,
+      "active": 19,
+      "meanLoss": 7.2105263157894735,
+      "high": 8
+    },
+    "previousDetectorHarmful": {
+      "total": 4,
+      "active": 4,
+      "meanLoss": 9,
+      "high": 2
+    }
+  },
+  "byPhase": {
+    "opening": {
+      "total": 0,
+      "active": 0,
+      "meanLoss": 0,
+      "high": 0
+    },
+    "middle": {
+      "total": 5,
+      "active": 4,
+      "meanLoss": 1,
+      "high": 0
+    },
+    "end": {
+      "total": 22,
+      "active": 22,
+      "meanLoss": 7.681818181818182,
+      "high": 9
+    }
+  },
+  "performance": {
+    "measuredEvaluations": 135,
+    "meanMs": 1.7572985185185146,
+    "medianMs": 1.6391999999999598,
+    "p95Ms": 2.689799999999991,
+    "maximumMs": 3.84050000000002,
+    "meanUniqueWalls": 25.85185185185185,
+    "meanLegalActionsInspected": 48.111111111111114,
+    "meanDuplicateWallsDiscarded": 22.25925925925926,
+    "meanCostPerWallMs": 0.06797573065902564,
+    "observedEvaluationsPerDecision": 167.7037037037037,
+    "estimatedAddedMsPerDecision": 294.7054700685864,
+    "estimatedOverheadPercent": 28.875795194294973,
+    "estimateOnly": true
+  }
+}

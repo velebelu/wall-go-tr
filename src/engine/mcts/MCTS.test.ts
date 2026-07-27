@@ -20,6 +20,7 @@ import {
   type MCTSConfig,
   type MCTSQPriorSource,
 } from './types'
+import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
 
 const QUICK_CONFIG: MCTSConfig = {
   simulations: 12,
@@ -27,6 +28,40 @@ const QUICK_CONFIG: MCTSConfig = {
   maxDepth: 2,
   rolloutPolicy: 'random',
 }
+
+describe('MCTS contestedRegionSupport integration', () => {
+  it.each([
+    ['absent', {}],
+    ['disabled', { contestedRegionSupport: { enabled: false, weight: 1 } }],
+    ['zero weight', { contestedRegionSupport: { enabled: true, weight: 0 } }],
+  ])('preserves the seeded baseline when %s', (_name, extra) => {
+    const state = makeInitialState()
+    const baseline = searchBestAction(state, 'R', QUICK_CONFIG, seededRng(912))
+    const experimental = searchBestAction(state, 'R', { ...QUICK_CONFIG, ...extra }, seededRng(912))
+    expect(experimental).toEqual(baseline)
+  })
+
+  it('does not consume RNG and does not mutate the frozen final config', () => {
+    const before = JSON.stringify(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG)
+    let baselineCalls = 0
+    let candidateCalls = 0
+    searchBestAction(makeInitialState(), 'R', QUICK_CONFIG, () => {
+      baselineCalls++
+      return 0.25
+    })
+    searchBestAction(
+      makeInitialState(),
+      'R',
+      { ...QUICK_CONFIG, contestedRegionSupport: { enabled: true, weight: 1 } },
+      () => {
+        candidateCalls++
+        return 0.25
+      },
+    )
+    expect(candidateCalls).toBe(baselineCalls)
+    expect(JSON.stringify(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG)).toBe(before)
+  })
+})
 
 describe('MCTS tactical verification', () => {
   const tacticalConfig: MCTSConfig = {

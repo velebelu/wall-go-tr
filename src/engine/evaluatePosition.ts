@@ -14,16 +14,55 @@ export interface PositionEvaluationBreakdown {
   mobility: number
   trappedPieces: number
   expansion: number
+  contestedRegionSupport: number
   total: number
 }
 
-export function evaluatePosition(state: GameSnapshot, perspective: Player): number {
-  return evaluatePositionWithBreakdown(state, perspective).total
+export interface ContestedRegionSupportBreakdown {
+  ownSupport: number
+  opponentSupport: number
+  differential: number
+}
+
+export interface PositionEvaluationOptions {
+  contestedRegionSupport?: {
+    enabled: boolean
+    weight: number
+  }
+  onContestedRegionSupportEvaluation?: (elapsedMs: number) => void
+}
+
+export function calculateContestedRegionSupport(
+  board: Cell[][],
+  perspective: Player,
+): ContestedRegionSupportBreakdown {
+  const opponent = getOpponent(perspective)
+  let ownSupport = 0
+  let opponentSupport = 0
+  for (const region of floodRegions(board)) {
+    const ownStones = region.borderingCounts[perspective]
+    const opponentStones = region.borderingCounts[opponent]
+    if (ownStones === 0 || opponentStones === 0) continue
+    const occupied = ownStones + opponentStones
+    const emptyCells = region.cells.length - occupied
+    ownSupport += emptyCells * Math.min(1, ownStones / 2)
+    opponentSupport += emptyCells * Math.min(1, opponentStones / 2)
+  }
+  return { ownSupport, opponentSupport, differential: ownSupport - opponentSupport }
+}
+
+export function evaluatePosition(
+  state: GameSnapshot,
+  perspective: Player,
+  options?: PositionEvaluationOptions,
+): number {
+  return evaluatePositionWithBreakdown(state, perspective, options).total
 }
 
 export function evaluatePositionWithBreakdown(
   state: GameSnapshot,
   perspective: Player,
+  options?: PositionEvaluationOptions,
 ): PositionEvaluationBreakdown {
   const terminal = evaluateTerminal(state, perspective)
   if (terminal !== undefined) {
@@ -32,6 +71,7 @@ export function evaluatePositionWithBreakdown(
       mobility: 0,
       trappedPieces: 0,
       expansion: 0,
+      contestedRegionSupport: 0,
       total: terminal,
     }
   }
@@ -48,13 +88,22 @@ export function evaluatePositionWithBreakdown(
     (ownMobility.totalDestinations - opponentMobility.totalDestinations) * MOBILITY_WEIGHT
   const trappedPieces = (opponentMobility.trapPieces - ownMobility.trapPieces) * TRAPPED_WEIGHT
   const expansion = (ownExpansion - opponentExpansion) * EXPANSION_WEIGHT
+  let contestedRegionSupport = 0
+  const supportConfig = options?.contestedRegionSupport
+  if (supportConfig?.enabled && supportConfig.weight !== 0) {
+    const started = performance.now()
+    contestedRegionSupport =
+      calculateContestedRegionSupport(state.board, perspective).differential * supportConfig.weight
+    options?.onContestedRegionSupportEvaluation?.(performance.now() - started)
+  }
 
   return {
     territory,
     mobility,
     trappedPieces,
     expansion,
-    total: territory + mobility + trappedPieces + expansion,
+    contestedRegionSupport,
+    total: territory + mobility + trappedPieces + expansion + contestedRegionSupport,
   }
 }
 

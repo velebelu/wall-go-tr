@@ -1,0 +1,60 @@
+{
+  "schema": "StrategicPositionPilotManifestV1",
+  "createdAt": "2026-07-27T08:04:44.260Z",
+  "git": {
+    "commit": "c3c7eb39f40474c5d16a74d1de7572ff7dfca58d",
+    "status": "M src/engine/evaluatePosition.test.ts\n M src/engine/evaluatePosition.ts\n M src/engine/mcts/MCTS.test.ts\n M src/engine/mcts/MCTS.ts\n M src/engine/mcts/types.ts\n?? data/entrenamiento/mcts/benchmark_utilidad_territorial_v1_smoke/\n?? docs/mcts-contested-region-support-experiment.md\n?? src/training/evaluateStrategicPositionBenchmark.test.ts\n?? src/training/evaluateStrategicPositionBenchmark.ts"
+  },
+  "baselineConfig": {
+    "simulations": 250,
+    "explorationConstant": 1.4142135623730951,
+    "maxDepth": 60,
+    "rolloutPolicy": "mixed",
+    "heuristicProbability": 0.8,
+    "expansionPolicy": "heuristic",
+    "progressiveWidening": true,
+    "wideningConstant": 2,
+    "wideningExponent": 0.5,
+    "qPriorWeight": 0,
+    "tacticalVerification": true,
+    "tacticalCandidateCount": 2,
+    "contestedRegionSupport": {
+      "enabled": false,
+      "weight": 0
+    }
+  },
+  "candidateConfig": {
+    "simulations": 250,
+    "explorationConstant": 1.4142135623730951,
+    "maxDepth": 60,
+    "rolloutPolicy": "mixed",
+    "heuristicProbability": 0.8,
+    "expansionPolicy": "heuristic",
+    "progressiveWidening": true,
+    "wideningConstant": 2,
+    "wideningExponent": 0.5,
+    "qPriorWeight": 0,
+    "tacticalVerification": true,
+    "tacticalCandidateCount": 2,
+    "contestedRegionSupport": {
+      "enabled": true,
+      "weight": 1
+    }
+  },
+  "weight": 1,
+  "selectionSeeds": [
+    3254910977,
+    3254910978
+  ],
+  "continuationSeeds": [
+    3254915073,
+    3254915074
+  ],
+  "sourceFiles": [],
+  "commands": [
+    "npx vitest run src/engine/evaluatePosition.test.ts src/engine/mcts/MCTS.test.ts src/training/evaluateStrategicPositionBenchmark.test.ts",
+    "npm run lint",
+    "npm run build",
+    "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateStrategicPositionBenchmark.ts --pilot"
+  ]
+}

@@ -13,6 +13,10 @@ export interface MCTSConfig {
   wideningExponent?: number
   tacticalVerification?: boolean
   tacticalCandidateCount?: number
+  contestedRegionSupport?: {
+    enabled: boolean
+    weight: number
+  }
   immediateTerritorialClosureThreat?: {
     enabled: boolean
     weight: number

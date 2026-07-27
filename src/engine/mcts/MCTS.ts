@@ -1,4 +1,4 @@
-import { evaluatePosition } from '@/engine/evaluatePosition'
+import { evaluatePosition, type PositionEvaluationOptions } from '@/engine/evaluatePosition'
 import { immediateTerritorialClosureThreat } from '@/engine/immediateTerritorialClosureThreat'
 import { applyFullAction } from '@/engine/gameSimulator'
 import type { GameSnapshot, Player } from '@/lib/types'
@@ -29,6 +29,12 @@ export interface StagedMCTSSearchOptions {
   now?: () => number
   shouldContinue?: (result: MCTSResult, stageIndex: number) => MCTSStageDecision
   onStage?: (result: MCTSResult, stageIndex: number, decision: MCTSStageDecision) => void
+  evaluationDiagnostics?: MCTSEvaluationDiagnostics
+}
+
+export interface MCTSEvaluationDiagnostics {
+  metricEvaluationCalls: number
+  metricTotalElapsedMs: number
 }
 
 export interface StagedMCTSResult {
@@ -80,6 +86,15 @@ export function searchBestActionStaged(
   const random = rng ?? Math.random
   const now = staged.now ?? (() => performance.now())
   const startedAt = now()
+  const evaluationOptions: PositionEvaluationOptions = {
+    contestedRegionSupport: config.contestedRegionSupport,
+    onContestedRegionSupportEvaluation: (elapsedMs) => {
+      if (staged.evaluationDiagnostics) {
+        staged.evaluationDiagnostics.metricEvaluationCalls++
+        staged.evaluationDiagnostics.metricTotalElapsedMs += elapsedMs
+      }
+    },
+  }
   const root = new MCTSNode(state, undefined, undefined, {
     expansionPolicy: config.expansionPolicy ?? 'unordered',
     progressiveWidening: config.progressiveWidening ?? false,
@@ -120,7 +135,7 @@ export function searchBestActionStaged(
     maxDepthReached = Math.max(maxDepthReached, depth)
 
     // Simulation uses uniformly sampled legal full actions up to the depth limit.
-    const value = simulate(node.state, perspective, depth, config, random)
+    const value = simulate(node.state, perspective, depth, config, random, evaluationOptions)
 
     // Backpropagation stores every value from the unchanged root perspective.
     for (let current: MCTSNode | undefined = node; current; current = current.parent) {
@@ -141,6 +156,7 @@ export function searchBestActionStaged(
           config.tacticalCandidateCount ?? 3,
           random,
           config,
+          evaluationOptions,
         )
       : undefined
     const selectedAction = verification?.action ?? best.action!
@@ -222,6 +238,7 @@ export function verifyTacticalCandidates(
   requestedCount = 3,
   rng: () => number = Math.random,
   config: MCTSConfig = DEFAULT_MCTS_CONFIG,
+  evaluationOptions?: PositionEvaluationOptions,
 ): {
   action: MCTSChildResult['action']
   metrics: Pick<
@@ -247,7 +264,7 @@ export function verifyTacticalCandidates(
     .slice(0, Math.min(requestedCount, children.length))
   if (!candidates.length) throw new Error('Tactical verification requires expanded children')
   const evaluated = candidates.map(({ action }) =>
-    evaluateTacticalCandidate(rootState, perspective, action, config),
+    evaluateTacticalCandidate(rootState, perspective, action, config, evaluationOptions),
   )
   const selected = chooseBestTacticalEvaluation(evaluated, rng)
   const original = evaluated.find(({ action }) => sameAction(action, originalAction))
@@ -285,6 +302,7 @@ function evaluateTacticalCandidate(
   perspective: Player,
   action: MCTSChildResult['action'],
   config: MCTSConfig,
+  evaluationOptions?: PositionEvaluationOptions,
 ): TacticalCandidateEvaluation {
   const afterAction = applyFullAction(rootState, action).state
   const threatConfig = config.immediateTerritorialClosureThreat
@@ -295,7 +313,7 @@ function evaluateTacticalCandidate(
   if (direct !== undefined) {
     return {
       action,
-      score: evaluatePosition(afterAction, perspective) - (threat?.penalty ?? 0),
+      score: evaluatePosition(afterAction, perspective, evaluationOptions) - (threat?.penalty ?? 0),
       permitsImmediateTerminalLoss: direct < 0,
       closureThreatDetected: threat?.detected,
       closureThreatPenalty: threat?.penalty,
@@ -306,7 +324,7 @@ function evaluateTacticalCandidate(
   if (!replies.length) {
     return {
       action,
-      score: evaluatePosition(afterAction, perspective) - (threat?.penalty ?? 0),
+      score: evaluatePosition(afterAction, perspective, evaluationOptions) - (threat?.penalty ?? 0),
       permitsImmediateTerminalLoss: false,
       closureThreatDetected: threat?.detected,
       closureThreatPenalty: threat?.penalty,
@@ -317,7 +335,7 @@ function evaluateTacticalCandidate(
   let permitsImmediateTerminalLoss = false
   for (const reply of replies) {
     const replied = applyFullAction(afterAction, reply).state
-    const replyScore = evaluatePosition(replied, perspective)
+    const replyScore = evaluatePosition(replied, perspective, evaluationOptions)
     if (terminalValue(replied, perspective) === -1) permitsImmediateTerminalLoss = true
     score = Math.min(score, replyScore)
   }
@@ -341,6 +359,7 @@ function simulate(
   initialDepth: number,
   config: MCTSConfig,
   rng: () => number,
+  evaluationOptions?: PositionEvaluationOptions,
 ): number {
   let state = initialState
   let depth = initialDepth
@@ -354,7 +373,9 @@ function simulate(
 
   const terminal = terminalValue(state, perspective)
   if (terminal !== undefined) return terminal
-  return Math.tanh(evaluatePosition(state, perspective) / POSITION_EVALUATION_SCALE)
+  return Math.tanh(
+    evaluatePosition(state, perspective, evaluationOptions) / POSITION_EVALUATION_SCALE,
+  )
 }
 
 function chooseRolloutAction(
@@ -464,6 +485,12 @@ function validateConfig(config: MCTSConfig): void {
     throw new Error('tacticalCandidateCount must be a positive integer')
   }
   const threat = config.immediateTerritorialClosureThreat
+  const support = config.contestedRegionSupport
+  if (support) {
+    if (!Number.isFinite(support.weight) || support.weight < 0) {
+      throw new Error('contestedRegionSupport.weight must be non-negative')
+    }
+  }
   if (threat) {
     if (!Number.isFinite(threat.weight) || threat.weight < 0) {
       throw new Error('immediateTerritorialClosureThreat.weight must be non-negative')

@@ -4,6 +4,7 @@ import { createEmptyBoard, makeInitialState, snapshotFromState } from '@/store/g
 import {
   TERMINAL_SCORE,
   TRAPPED_WEIGHT,
+  calculateContestedRegionSupport,
   evaluatePosition,
   evaluatePositionWithBreakdown,
 } from './evaluatePosition'
@@ -49,6 +50,14 @@ describe('evaluatePosition terminal states', () => {
   it('returns zero for a tie', () => {
     expect(evaluatePosition(makeTerminalState(undefined, true), 'R')).toBe(0)
     expect(evaluatePosition(makeTerminalState(undefined, true), 'B')).toBe(0)
+  })
+
+  it('is unchanged when contestedRegionSupport is enabled', () => {
+    expect(
+      evaluatePosition(makeTerminalState('R'), 'R', {
+        contestedRegionSupport: { enabled: true, weight: 1 },
+      }),
+    ).toBe(TERMINAL_SCORE)
   })
 })
 
@@ -119,6 +128,95 @@ describe('evaluatePosition strategic components', () => {
   })
 })
 
+describe('contestedRegionSupport', () => {
+  function support(stones: Array<[number, number, Player]>) {
+    const state = makePlayingState()
+    for (const [x, y, player] of stones) state.board[y][x].stone = player
+    return { state, value: calculateContestedRegionSupport(state.board, 'R') }
+  }
+
+  it('gives equal half support to one stone per player and excludes occupied cells', () => {
+    const { value } = support([
+      [0, 0, 'R'],
+      [6, 6, 'B'],
+    ])
+    expect(value).toEqual({ ownSupport: 23.5, opponentSupport: 23.5, differential: 0 })
+  })
+
+  it('gives half support to one own stone and full support to two rivals', () => {
+    const { value } = support([
+      [0, 0, 'R'],
+      [5, 6, 'B'],
+      [6, 6, 'B'],
+    ])
+    expect(value).toEqual({ ownSupport: 23, opponentSupport: 46, differential: -23 })
+  })
+
+  it('is symmetric for two own stones and one rival', () => {
+    const { state, value } = support([
+      [0, 0, 'R'],
+      [1, 0, 'R'],
+      [6, 6, 'B'],
+    ])
+    expect(value.differential).toBe(23)
+    expect(calculateContestedRegionSupport(state.board, 'B').differential).toBe(-23)
+  })
+
+  it('caps support at 100 percent for three or more stones', () => {
+    const two = support([
+      [0, 0, 'R'],
+      [1, 0, 'R'],
+      [6, 6, 'B'],
+    ]).value.ownSupport
+    const three = support([
+      [0, 0, 'R'],
+      [1, 0, 'R'],
+      [2, 0, 'R'],
+      [6, 6, 'B'],
+    ]).value.ownSupport
+    expect(two).toBe(46)
+    expect(three).toBe(45)
+  })
+
+  it('ignores single-player and empty regions', () => {
+    expect(support([[0, 0, 'R']]).value.differential).toBe(0)
+    expect(support([]).value.differential).toBe(0)
+  })
+
+  it('uses wall-separated components and sums them independently', () => {
+    const state = makePlayingState()
+    addVerticalDivider(state, 3)
+    state.board[0][0].stone = 'R'
+    state.board[0][1].stone = 'B'
+    state.board[0][4].stone = 'R'
+    state.board[0][5].stone = 'R'
+    state.board[0][6].stone = 'B'
+    const value = calculateContestedRegionSupport(state.board, 'R')
+    expect(value.ownSupport).toBe(9.5 + 25)
+    expect(value.opponentSupport).toBe(9.5 + 12.5)
+    expect(value.differential).toBe(12.5)
+  })
+
+  it('has no evaluation effect when absent, disabled, or weight zero', () => {
+    const { state } = support([
+      [0, 0, 'R'],
+      [5, 6, 'B'],
+      [6, 6, 'B'],
+    ])
+    const baseline = evaluatePosition(state, 'R')
+    expect(
+      evaluatePosition(state, 'R', {
+        contestedRegionSupport: { enabled: false, weight: 1 },
+      }),
+    ).toBe(baseline)
+    expect(
+      evaluatePosition(state, 'R', {
+        contestedRegionSupport: { enabled: true, weight: 0 },
+      }),
+    ).toBe(baseline)
+  })
+})
+
 describe('evaluatePosition purity', () => {
   it('does not modify the received state', () => {
     const state = makePlayingState()
@@ -149,7 +247,11 @@ describe('evaluatePosition purity', () => {
     const breakdown = evaluatePositionWithBreakdown(state, 'R')
 
     expect(breakdown.total).toBe(
-      breakdown.territory + breakdown.mobility + breakdown.trappedPieces + breakdown.expansion,
+      breakdown.territory +
+        breakdown.mobility +
+        breakdown.trappedPieces +
+        breakdown.expansion +
+        breakdown.contestedRegionSupport,
     )
     expect(evaluatePosition(state, 'R')).toBe(breakdown.total)
   })

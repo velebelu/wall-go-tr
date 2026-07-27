@@ -1,0 +1,4910 @@
+{
+  "schema": "StrategicPositionSmokeV1",
+  "selectionSeed": 3254845441,
+  "continuationSeed": 3254849537,
+  "duplicateStateFingerprints": [],
+  "rows": [
+    {
+      "fixture": "human-e09743f2-turn-36",
+      "type": "last-defensive-opportunity",
+      "source": "data/entrenamiento/mcts/analisis_derrota_humana_g_e09743f2/turn_36.fixture.json",
+      "stateFingerprint": "053f43154934296c54cce56652e9de8d5871cf1093fcfe0b437e2c89d7171213",
+      "baseline": {
+        "initialMCTSAction": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 5
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "dir": "top"
+          }
+        },
+        "finalActionAfterTacticalVerification": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 5
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "dir": "top"
+          }
+        },
+        "actionChangedByTacticalVerification": false,
+        "score": -0.9649122807017544,
+        "result": {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 6
+              },
+              "pos": {
+                "x": 1,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          },
+          "originalAction": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 6
+              },
+              "pos": {
+                "x": 1,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 57,
+          "value": -0.9649122807017544,
+          "rootVisits": 500,
+          "children": [
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 57,
+              "value": -0.9649122807017544
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 5
+                },
+                "dir": "bottom"
+              },
+              "visits": 50,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "dir": "bottom"
+              },
+              "visits": 50,
+              "value": -1
+            }
+          ],
+          "rootLegalActions": 10,
+          "rootExpandedChildren": 10,
+          "maxDepthReached": 3,
+          "averageSelectedDepth": 1.694,
+          "tacticalCandidatesChecked": 2,
+          "tacticalSelectionChanged": false,
+          "originalMCTSActionScore": -30,
+          "verifiedActionScore": -30,
+          "worstOpponentReplyScore": -30,
+          "verificationTimeMs": 26.753400000000056,
+          "immediateTerminalLossAvoided": false,
+          "closureThreatsDetected": 0,
+          "closureThreatPenalty": 0
+        },
+        "elapsedMs": 498.0600999999999,
+        "completedSimulations": 500,
+        "stoppedByTimeLimit": false,
+        "metricEvaluationCalls": 0,
+        "metricTotalElapsedMs": 0,
+        "metricMeanElapsedUs": 0
+      },
+      "candidate": {
+        "initialMCTSAction": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 5
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "dir": "top"
+          }
+        },
+        "finalActionAfterTacticalVerification": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 5
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "dir": "top"
+          }
+        },
+        "actionChangedByTacticalVerification": false,
+        "score": -0.9649122807017544,
+        "result": {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 6
+              },
+              "pos": {
+                "x": 1,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          },
+          "originalAction": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 6
+              },
+              "pos": {
+                "x": 1,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 57,
+          "value": -0.9649122807017544,
+          "rootVisits": 500,
+          "children": [
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 57,
+              "value": -0.9649122807017544
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 49,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 5
+                },
+                "dir": "bottom"
+              },
+              "visits": 50,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "dir": "bottom"
+              },
+              "visits": 50,
+              "value": -1
+            }
+          ],
+          "rootLegalActions": 10,
+          "rootExpandedChildren": 10,
+          "maxDepthReached": 3,
+          "averageSelectedDepth": 1.694,
+          "tacticalCandidatesChecked": 2,
+          "tacticalSelectionChanged": false,
+          "originalMCTSActionScore": -31,
+          "verifiedActionScore": -31,
+          "worstOpponentReplyScore": -31,
+          "verificationTimeMs": 27.98610000000008,
+          "immediateTerminalLossAvoided": false,
+          "closureThreatsDetected": 0,
+          "closureThreatPenalty": 0
+        },
+        "elapsedMs": 463.35630000000015,
+        "completedSimulations": 500,
+        "stoppedByTimeLimit": false,
+        "metricEvaluationCalls": 216,
+        "metricTotalElapsedMs": 3.7816999999979544,
+        "metricMeanElapsedUs": 17.5078703703609
+      },
+      "actionChangedInsideTree": false,
+      "finalActionChanged": false,
+      "changeOrigin": "none",
+      "evaluationBreakdown": {
+        "baseline": {
+          "territory": 20,
+          "mobility": -30,
+          "trappedPieces": -16,
+          "expansion": 2,
+          "contestedRegionSupport": 0,
+          "total": -24
+        },
+        "candidate": {
+          "territory": 20,
+          "mobility": -30,
+          "trappedPieces": -16,
+          "expansion": 2,
+          "contestedRegionSupport": 0,
+          "total": -24
+        }
+      }
+    },
+    {
+      "fixture": "human-e09743f2-turn-38",
+      "type": "closure-inevitable",
+      "source": "data/entrenamiento/mcts/analisis_derrota_humana_g_e09743f2/turn_38.fixture.json",
+      "stateFingerprint": "97bd5c1b8746aea10b85d435261c8d78363fb03ab15ea1a15041572a6e40afb4",
+      "baseline": {
+        "initialMCTSAction": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 0,
+            "y": 5
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 5
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "dir": "top"
+          }
+        },
+        "finalActionAfterTacticalVerification": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 0,
+            "y": 5
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 5
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "dir": "top"
+          }
+        },
+        "actionChangedByTacticalVerification": false,
+        "score": -1,
+        "result": {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 5
+              },
+              "pos": {
+                "x": 0,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          },
+          "originalAction": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 5
+              },
+              "pos": {
+                "x": 0,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 56,
+          "value": -1,
+          "rootVisits": 500,
+          "children": [
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 56,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 55,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 6
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 5
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 56,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 6
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 5
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 56,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 6
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 55,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 6
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 56,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 55,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 1,
+                  "y": 6
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 6
+                },
+                "dir": "left"
+              },
+              "visits": 55,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "dir": "bottom"
+              },
+              "visits": 56,
+              "value": -1
+            }
+          ],
+          "rootLegalActions": 9,
+          "rootExpandedChildren": 9,
+          "maxDepthReached": 3,
+          "averageSelectedDepth": 1.468,
+          "tacticalCandidatesChecked": 2,
+          "tacticalSelectionChanged": false,
+          "originalMCTSActionScore": -1000000,
+          "verifiedActionScore": -1000000,
+          "worstOpponentReplyScore": -1000000,
+          "verificationTimeMs": 9.535599999999931,
+          "immediateTerminalLossAvoided": false,
+          "closureThreatsDetected": 0,
+          "closureThreatPenalty": 0
+        },
+        "elapsedMs": 170.79660000000013,
+        "completedSimulations": 500,
+        "stoppedByTimeLimit": false,
+        "metricEvaluationCalls": 0,
+        "metricTotalElapsedMs": 0,
+        "metricMeanElapsedUs": 0
+      },
+      "candidate": {
+        "initialMCTSAction": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 0,
+            "y": 5
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 5
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "dir": "top"
+          }
+        },
+        "finalActionAfterTacticalVerification": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 0,
+            "y": 5
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 5
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "dir": "top"
+          }
+        },
+        "actionChangedByTacticalVerification": false,
+        "score": -1,
+        "result": {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 5
+              },
+              "pos": {
+                "x": 0,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          },
+          "originalAction": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 6
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 5
+              },
+              "pos": {
+                "x": 0,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 56,
+          "value": -1,
+          "rootVisits": 500,
+          "children": [
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 56,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 55,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 6
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 5
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 56,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 6
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 5
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 56,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 6
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 55,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 6
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 56,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 55,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 1,
+                  "y": 6
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 6
+                },
+                "dir": "left"
+              },
+              "visits": 55,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "dir": "bottom"
+              },
+              "visits": 56,
+              "value": -1
+            }
+          ],
+          "rootLegalActions": 9,
+          "rootExpandedChildren": 9,
+          "maxDepthReached": 3,
+          "averageSelectedDepth": 1.468,
+          "tacticalCandidatesChecked": 2,
+          "tacticalSelectionChanged": false,
+          "originalMCTSActionScore": -1000000,
+          "verifiedActionScore": -1000000,
+          "worstOpponentReplyScore": -1000000,
+          "verificationTimeMs": 10.571299999999837,
+          "immediateTerminalLossAvoided": false,
+          "closureThreatsDetected": 0,
+          "closureThreatPenalty": 0
+        },
+        "elapsedMs": 178.9748000000002,
+        "completedSimulations": 500,
+        "stoppedByTimeLimit": false,
+        "metricEvaluationCalls": 82,
+        "metricTotalElapsedMs": 1.3455000000008113,
+        "metricMeanElapsedUs": 16.408536585375746
+      },
+      "actionChangedInsideTree": false,
+      "finalActionChanged": false,
+      "changeOrigin": "none",
+      "evaluationBreakdown": {
+        "baseline": {
+          "territory": 50,
+          "mobility": -22,
+          "trappedPieces": -16,
+          "expansion": 5,
+          "contestedRegionSupport": 0,
+          "total": 17
+        },
+        "candidate": {
+          "territory": 50,
+          "mobility": -22,
+          "trappedPieces": -16,
+          "expansion": 5,
+          "contestedRegionSupport": -15,
+          "total": 2
+        }
+      }
+    },
+    {
+      "fixture": "directed-21-heuristic-R-3238526996-turn-40-7401577bec4a",
+      "type": "historical-harmful-intervention",
+      "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-21-heuristic-R-3238526996-turn-40-7401577bec4a.json",
+      "stateFingerprint": "538c968f302d8a7807f8d564e6c648c2eb33af32c2c2739a061a01bbec793b8a",
+      "baseline": {
+        "initialMCTSAction": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 0
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "dir": "bottom"
+          }
+        },
+        "finalActionAfterTacticalVerification": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 0
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "dir": "bottom"
+          }
+        },
+        "actionChangedByTacticalVerification": false,
+        "score": -0.136986301369863,
+        "result": {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 0
+              },
+              "pos": {
+                "x": 3,
+                "y": 0
+              },
+              "dir": "bottom"
+            }
+          },
+          "originalAction": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 0
+              },
+              "pos": {
+                "x": 3,
+                "y": 0
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 73,
+          "value": -0.136986301369863,
+          "rootVisits": 500,
+          "children": [
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 73,
+              "value": -0.136986301369863
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 6,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 53,
+              "value": -0.22641509433962265
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 6,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 12,
+              "value": -0.75
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 6,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 14,
+              "value": -0.7142857142857143
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "dir": "right"
+              },
+              "visits": 22,
+              "value": -0.5
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "dir": "top"
+              },
+              "visits": 16,
+              "value": -0.625
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 4
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 8,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 12,
+              "value": -0.75
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 24,
+              "value": -0.4583333333333333
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 4
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 16,
+              "value": -0.625
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 17,
+              "value": -0.5882352941176471
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 24,
+              "value": -0.4583333333333333
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 5
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 25,
+              "value": -0.44
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 5
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 11,
+              "value": -0.8181818181818182
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 1
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 21,
+              "value": -0.5238095238095238
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 1
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 12,
+              "value": -0.75
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 0
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 16,
+              "value": -0.625
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 3
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 2,
+                    "y": 3
+                  },
+                  "pos": {
+                    "x": 2,
+                    "y": 3
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 20,
+              "value": -0.55
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 3
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 2,
+                    "y": 3
+                  },
+                  "pos": {
+                    "x": 2,
+                    "y": 3
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 10,
+              "value": -0.9
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 0
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 8,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 5
+                },
+                "dir": "top"
+              },
+              "visits": 12,
+              "value": -0.75
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 5
+                },
+                "dir": "right"
+              },
+              "visits": 8,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 0
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 30,
+              "value": -0.36666666666666664
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 0
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 17,
+              "value": -0.5882352941176471
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 4
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 8,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 1,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 3
+                },
+                "dir": "right"
+              },
+              "visits": 11,
+              "value": -0.8181818181818182
+            }
+          ],
+          "rootLegalActions": 26,
+          "rootExpandedChildren": 26,
+          "maxDepthReached": 4,
+          "averageSelectedDepth": 1.538,
+          "tacticalCandidatesChecked": 2,
+          "tacticalSelectionChanged": false,
+          "originalMCTSActionScore": -67,
+          "verifiedActionScore": -67,
+          "worstOpponentReplyScore": -67,
+          "verificationTimeMs": 30.213700000000244,
+          "immediateTerminalLossAvoided": false,
+          "closureThreatsDetected": 0,
+          "closureThreatPenalty": 0
+        },
+        "elapsedMs": 1013.7144000000003,
+        "completedSimulations": 500,
+        "stoppedByTimeLimit": false,
+        "metricEvaluationCalls": 0,
+        "metricTotalElapsedMs": 0,
+        "metricMeanElapsedUs": 0
+      },
+      "candidate": {
+        "initialMCTSAction": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 0
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "dir": "bottom"
+          }
+        },
+        "finalActionAfterTacticalVerification": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 0
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "dir": "bottom"
+          }
+        },
+        "actionChangedByTacticalVerification": false,
+        "score": -0.136986301369863,
+        "result": {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 0
+              },
+              "pos": {
+                "x": 3,
+                "y": 0
+              },
+              "dir": "bottom"
+            }
+          },
+          "originalAction": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 0
+              },
+              "pos": {
+                "x": 3,
+                "y": 0
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 73,
+          "value": -0.136986301369863,
+          "rootVisits": 500,
+          "children": [
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 73,
+              "value": -0.136986301369863
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 6,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 53,
+              "value": -0.22641509433962265
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 6,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 12,
+              "value": -0.75
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 6,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 6,
+                    "y": 5
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 14,
+              "value": -0.7142857142857143
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "dir": "right"
+              },
+              "visits": 22,
+              "value": -0.5
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "dir": "top"
+              },
+              "visits": 16,
+              "value": -0.625
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 4
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 8,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 12,
+              "value": -0.75
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 24,
+              "value": -0.4583333333333333
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 4
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 16,
+              "value": -0.625
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 17,
+              "value": -0.5882352941176471
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 24,
+              "value": -0.4583333333333333
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 5
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 25,
+              "value": -0.44
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 5
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 5
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 5
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 11,
+              "value": -0.8181818181818182
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 1
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 21,
+              "value": -0.5238095238095238
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 1
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 12,
+              "value": -0.75
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 0
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 16,
+              "value": -0.625
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 3
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 2,
+                    "y": 3
+                  },
+                  "pos": {
+                    "x": 2,
+                    "y": 3
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 20,
+              "value": -0.55
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 3
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 2,
+                    "y": 3
+                  },
+                  "pos": {
+                    "x": 2,
+                    "y": 3
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 10,
+              "value": -0.9
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 0
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 8,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 5
+                },
+                "dir": "top"
+              },
+              "visits": 12,
+              "value": -0.75
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 5
+                },
+                "dir": "right"
+              },
+              "visits": 8,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 0
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 30,
+              "value": -0.36666666666666664
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 0
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 17,
+              "value": -0.5882352941176471
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 4
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 8,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 1,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 3
+                },
+                "dir": "right"
+              },
+              "visits": 11,
+              "value": -0.8181818181818182
+            }
+          ],
+          "rootLegalActions": 26,
+          "rootExpandedChildren": 26,
+          "maxDepthReached": 4,
+          "averageSelectedDepth": 1.538,
+          "tacticalCandidatesChecked": 2,
+          "tacticalSelectionChanged": false,
+          "originalMCTSActionScore": -60,
+          "verifiedActionScore": -60,
+          "worstOpponentReplyScore": -60,
+          "verificationTimeMs": 25.6534000000006,
+          "immediateTerminalLossAvoided": false,
+          "closureThreatsDetected": 0,
+          "closureThreatPenalty": 0
+        },
+        "elapsedMs": 1039.422,
+        "completedSimulations": 500,
+        "stoppedByTimeLimit": false,
+        "metricEvaluationCalls": 186,
+        "metricTotalElapsedMs": 2.8843999999935477,
+        "metricMeanElapsedUs": 15.50752688168574
+      },
+      "actionChangedInsideTree": false,
+      "finalActionChanged": false,
+      "changeOrigin": "none",
+      "evaluationBreakdown": {
+        "baseline": {
+          "territory": 10,
+          "mobility": -18,
+          "trappedPieces": -8,
+          "expansion": 1,
+          "contestedRegionSupport": 0,
+          "total": -15
+        },
+        "candidate": {
+          "territory": 10,
+          "mobility": -18,
+          "trappedPieces": -8,
+          "expansion": 1,
+          "contestedRegionSupport": 0,
+          "total": -15
+        }
+      }
+    },
+    {
+      "fixture": "human-e09743f2-turn-28",
+      "type": "negative-control",
+      "source": "data/entrenamiento/mcts/evaluacion_closure_threat_verification/controls/turn_28.fixture.json",
+      "stateFingerprint": "0ee9a1defa8770d37455680c6dcf9a68c149846286b48df59954aaacd3797d31",
+      "baseline": {
+        "initialMCTSAction": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "pos": {
+            "x": 3,
+            "y": 2
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 3,
+              "y": 2
+            },
+            "dir": "left"
+          }
+        },
+        "finalActionAfterTacticalVerification": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "pos": {
+            "x": 3,
+            "y": 2
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 3,
+              "y": 2
+            },
+            "dir": "left"
+          }
+        },
+        "actionChangedByTacticalVerification": false,
+        "score": -0.38095238095238093,
+        "result": {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 3
+            },
+            "pos": {
+              "x": 3,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 2
+              },
+              "pos": {
+                "x": 3,
+                "y": 2
+              },
+              "dir": "left"
+            }
+          },
+          "originalAction": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 3
+            },
+            "pos": {
+              "x": 3,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 2
+              },
+              "pos": {
+                "x": 3,
+                "y": 2
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 21,
+          "value": -0.38095238095238093,
+          "rootVisits": 250,
+          "children": [
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 3
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 3
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 12,
+              "value": -0.6666666666666666
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 3
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 7,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 21,
+              "value": -0.38095238095238093
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 16,
+              "value": -0.5
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 3
+                },
+                "dir": "top"
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 3
+                },
+                "dir": "left"
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 8,
+              "value": -0.875
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 1
+                },
+                "dir": "top"
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 1
+                },
+                "dir": "bottom"
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 2
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            }
+          ],
+          "rootLegalActions": 35,
+          "rootExpandedChildren": 31,
+          "maxDepthReached": 4,
+          "averageSelectedDepth": 1.184,
+          "tacticalCandidatesChecked": 2,
+          "tacticalSelectionChanged": false,
+          "originalMCTSActionScore": -23,
+          "verifiedActionScore": -23,
+          "worstOpponentReplyScore": -23,
+          "verificationTimeMs": 39.19300000000021,
+          "immediateTerminalLossAvoided": false,
+          "closureThreatsDetected": 0,
+          "closureThreatPenalty": 0
+        },
+        "elapsedMs": 1054.0110999999997,
+        "completedSimulations": 250,
+        "stoppedByTimeLimit": false,
+        "metricEvaluationCalls": 0,
+        "metricTotalElapsedMs": 0,
+        "metricMeanElapsedUs": 0
+      },
+      "candidate": {
+        "initialMCTSAction": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "pos": {
+            "x": 3,
+            "y": 2
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 3,
+              "y": 2
+            },
+            "dir": "left"
+          }
+        },
+        "finalActionAfterTacticalVerification": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "pos": {
+            "x": 3,
+            "y": 2
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 3,
+              "y": 2
+            },
+            "dir": "left"
+          }
+        },
+        "actionChangedByTacticalVerification": false,
+        "score": -0.38095238095238093,
+        "result": {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 3
+            },
+            "pos": {
+              "x": 3,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 2
+              },
+              "pos": {
+                "x": 3,
+                "y": 2
+              },
+              "dir": "left"
+            }
+          },
+          "originalAction": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 3
+            },
+            "pos": {
+              "x": 3,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 2
+              },
+              "pos": {
+                "x": 3,
+                "y": 2
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 21,
+          "value": -0.38095238095238093,
+          "rootVisits": 250,
+          "children": [
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 3
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 3
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 12,
+              "value": -0.6666666666666666
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 3
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 3
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 4
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 7,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 3,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 21,
+              "value": -0.38095238095238093
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 16,
+              "value": -0.5
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "dir": "bottom"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 1
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "pos": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 3
+                },
+                "dir": "top"
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 4,
+                  "y": 3
+                },
+                "dir": "left"
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 4,
+                  "y": 3
+                },
+                "pos": {
+                  "x": 5,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 8,
+              "value": -0.875
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 1
+                },
+                "dir": "top"
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "wall",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 1
+                },
+                "dir": "bottom"
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "dir": "left"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 1,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 1,
+                    "y": 6
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 9,
+              "value": -0.7777777777777778
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 1,
+                  "y": 5
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 6
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 6
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "dir": "right"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            },
+            {
+              "action": {
+                "type": "move",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 2
+                },
+                "followUp": {
+                  "type": "wall",
+                  "from": {
+                    "x": 0,
+                    "y": 2
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 2
+                  },
+                  "dir": "top"
+                }
+              },
+              "visits": 6,
+              "value": -1
+            }
+          ],
+          "rootLegalActions": 35,
+          "rootExpandedChildren": 31,
+          "maxDepthReached": 4,
+          "averageSelectedDepth": 1.184,
+          "tacticalCandidatesChecked": 2,
+          "tacticalSelectionChanged": false,
+          "originalMCTSActionScore": -23,
+          "verifiedActionScore": -23,
+          "worstOpponentReplyScore": -23,
+          "verificationTimeMs": 37.73809999999958,
+          "immediateTerminalLossAvoided": false,
+          "closureThreatsDetected": 0,
+          "closureThreatPenalty": 0
+        },
+        "elapsedMs": 1050.8093999999992,
+        "completedSimulations": 250,
+        "stoppedByTimeLimit": false,
+        "metricEvaluationCalls": 116,
+        "metricTotalElapsedMs": 1.9638999999961015,
+        "metricMeanElapsedUs": 16.930172413759497
+      },
+      "actionChangedInsideTree": false,
+      "finalActionChanged": false,
+      "changeOrigin": "none",
+      "evaluationBreakdown": {
+        "baseline": {
+          "territory": 10,
+          "mobility": -16,
+          "trappedPieces": -8,
+          "expansion": 1,
+          "contestedRegionSupport": 0,
+          "total": -13
+        },
+        "candidate": {
+          "territory": 10,
+          "mobility": -16,
+          "trappedPieces": -8,
+          "expansion": 1,
+          "contestedRegionSupport": 0,
+          "total": -13
+        }
+      }
+    }
+  ]
+}
