@@ -9,7 +9,8 @@ contiene resultados, semillas, territorios ni trazas ficticias.
 2. Sustituya `null` en `experienceGroup` por `none`, `basic` o `experienced`.
 3. Sustituya `null` en `previousWallGoGames` por un entero no negativo.
 4. Complete `notes` solo si es necesario, sin nombres ni información personal.
-5. Registre el participante con el comando indicado en `commands.md`.
+5. Registre el participante con el comando indicado en `commands.md`, pasando primero la raíz
+   `data/human-experiment/final-2026` y después la ruta de la plantilla.
 6. Realice exactamente una partida de práctica, que no se registra.
 7. Inicie la aplicación con `VITE_GIT_COMMIT` igual al commit completo del código utilizado.
 8. Juegue las dos partidas en el orden de colores asignado.
@@ -17,7 +18,8 @@ contiene resultados, semillas, territorios ni trazas ficticias.
    `traces/game-1.json` o `traces/game-2.json`.
 10. Anote la comprobación manual en `checklist.md`. Si hubo incidencias, añada sus códigos a la
     plantilla de partida antes de registrarla.
-11. Registre cada partida y valide el directorio completo.
+11. Registre cada partida pasando primero la misma raíz explícita, y valide el directorio
+    completo. Los comandos nunca deben crear un `registry.json` dentro de `participants/Pxx/`.
 
 Los CSV auxiliares de pantalla pueden guardarse en `auxiliary/game-1/` y `auxiliary/game-2/`.
 Nunca sustituya la traza JSON reproducible por el CSV ligero.

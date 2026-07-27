@@ -63,6 +63,17 @@ semilla, resultado, territorios, turnos y configuración de la traza. Se rechaza
 incoherencias, hashes incorrectos y configuraciones distintas de la final. Las escrituras del
 registro son atómicas.
 
+Los comandos de registro reciben siempre la raíz explícita del experimento. No se infiere la raíz
+desde la carpeta que contiene la plantilla:
+
+```powershell
+npm run human-experiment:register-participant -- <experiment-directory> <participant.json>
+npm run human-experiment:register-game -- <experiment-directory> <game.json> <trace.json>
+```
+
+`<experiment-directory>/registry.json` debe existir previamente y su `experimentId` debe coincidir
+con el de la entrada. Los comandos no crean registros secundarios junto a las plantillas.
+
 La exportación produce `participants.csv`, `games.csv`, `summary.json` y `manifest.json`. El
 manifiesto contiene hashes SHA-256, commits, conteos y el resultado de validación.
 
