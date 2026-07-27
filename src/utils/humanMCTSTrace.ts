@@ -81,6 +81,9 @@ export interface HumanMCTSTraceV1 {
   metadata: {
     gameId: string
     createdAt: string
+    startedAt?: string
+    finishedAt?: string
+    durationMs?: number
     projectVersion?: string
     projectCommit?: string
     boardSize: number
@@ -230,7 +233,30 @@ export function recordHumanMCTSDecision(
   decision: TurnDecisionTrace,
   mctsColor: Player,
 ): void {
-  if (target) appendHumanMCTSDecision(target, decision, mctsColor)
+  if (target) {
+    appendHumanMCTSDecision(target, decision, mctsColor)
+    if (decision.stateAfter.result?.finished && target.metadata.startedAt)
+      markHumanMCTSTraceFinished(target)
+  }
+}
+
+export function markHumanMCTSTraceStarted(
+  target: HumanMCTSTraceV1,
+  startedAt = new Date().toISOString(),
+): void {
+  if (!target.metadata.startedAt) target.metadata.startedAt = startedAt
+}
+
+export function markHumanMCTSTraceFinished(
+  target: HumanMCTSTraceV1,
+  finishedAt = new Date().toISOString(),
+): void {
+  if (!target.metadata.startedAt) throw new Error('Cannot finish a trace before it starts')
+  if (target.metadata.finishedAt) return
+  const durationMs = Date.parse(finishedAt) - Date.parse(target.metadata.startedAt)
+  if (!Number.isFinite(durationMs) || durationMs < 0) throw new Error('Invalid trace timestamps')
+  target.metadata.finishedAt = finishedAt
+  target.metadata.durationMs = durationMs
 }
 
 export function finalizeHumanMCTSTrace(

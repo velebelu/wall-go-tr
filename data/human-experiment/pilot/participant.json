@@ -1,0 +1,10 @@
+{
+  "schema": "HumanExperimentParticipantV1",
+  "experimentId": "WGTR-PILOT-2026",
+  "participantId": "PILOT-001",
+  "experienceGroup": "basic",
+  "previousWallGoGames": 2,
+  "practiceGames": 1,
+  "colorOrder": ["R", "B"],
+  "notes": "Participante ficticio; no incluir en el experimento definitivo."
+}

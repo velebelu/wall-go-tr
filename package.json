@@ -34,6 +34,10 @@
     "confirm:human-mcts-turn-10": "node --import ./scripts/run-ts-node-esm.mjs src/training/confirmHumanMCTSTurn10.ts",
     "evaluate:human-challenge-mcts": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateHumanChallengeMCTSPilot.ts",
     "confirm:human-challenge-mcts": "node --import ./scripts/run-ts-node-esm.mjs src/training/confirmFinalHumanChallengeMCTS.ts",
+    "human-experiment:register-participant": "node --import ./scripts/run-ts-node-esm.mjs src/training/registerHumanExperimentParticipant.ts",
+    "human-experiment:register-game": "node --import ./scripts/run-ts-node-esm.mjs src/training/registerHumanExperimentGame.ts",
+    "human-experiment:validate": "node --import ./scripts/run-ts-node-esm.mjs src/training/validateHumanExperiment.ts",
+    "human-experiment:export": "node --import ./scripts/run-ts-node-esm.mjs src/training/exportHumanExperiment.ts",
     "training:analyze-q3-heuristic-traces": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeHeuristicTracesForQ3.ts",
     "training:analyze-q3-representation": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeQ3Representation.ts",
     "prepare": "husky"

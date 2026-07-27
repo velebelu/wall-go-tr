@@ -36,6 +36,7 @@ import {
   createHumanMCTSTrace,
   downloadPreparedHumanMCTSTrace,
   finalizeHumanMCTSTrace,
+  markHumanMCTSTraceStarted,
   prepareHumanMCTSTraceFile,
   recordHumanMCTSDecision,
   type HumanMCTSTraceV1,
@@ -211,6 +212,7 @@ export default function Game({
       setMctsTraceComplete(false)
       const mcts = new MCTSAgent({ profile: 'human-challenge' })
       fullMctsTraceRef.current = createHumanMCTSTrace({
+        projectCommit: import.meta.env.VITE_GIT_COMMIT,
         humanColor: aiSide === 'R' ? 'B' : 'R',
         mctsColor: aiSide,
         seed: mcts.getBaseSeed(),
@@ -333,6 +335,9 @@ export default function Game({
     if ((phase === 'placing' || phase === 'playing') && !turnManagerStartedRef.current) {
       setAiError(null)
       const manager = turnManagerRef.current
+      if (gameMode === 'mcts-final' && fullMctsTraceRef.current) {
+        markHumanMCTSTraceStarted(fullMctsTraceRef.current)
+      }
       void manager
         .startLoop()
         .then(() => {
