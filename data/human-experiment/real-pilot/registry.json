@@ -1,0 +1,149 @@
+{
+  "schema": "HumanExperimentRegistryV1",
+  "experimentId": "WGTR-REAL-PILOT-2026",
+  "participants": [
+    {
+      "schema": "HumanExperimentParticipantV1",
+      "experimentId": "WGTR-REAL-PILOT-2026",
+      "participantId": "REAL-PILOT-001",
+      "experienceGroup": "none",
+      "previousWallGoGames": 0,
+      "practiceGames": 1,
+      "colorOrder": [
+        "R",
+        "B"
+      ],
+      "notes": "Piloto jugable real separado; participante excluido de la muestra definitiva."
+    }
+  ],
+  "games": [
+    {
+      "schema": "HumanExperimentGameV1",
+      "experimentId": "WGTR-REAL-PILOT-2026",
+      "participantId": "REAL-PILOT-001",
+      "gameId": "WGTR-2026-REAL-PILOT-001-G1-9eabc088-2c76-422b-976e-6aad6192a785",
+      "gameNumber": 1,
+      "humanColor": "R",
+      "aiColor": "B",
+      "winner": "ai",
+      "humanTerritory": 22,
+      "aiTerritory": 26,
+      "territoryDiffHuman": -4,
+      "turnCount": 31,
+      "startedAt": "2026-07-27T09:34:13.645Z",
+      "finishedAt": "2026-07-27T09:36:37.628Z",
+      "durationMs": 143983,
+      "terminalReason": "game-result",
+      "traceId": "trace-ae291d88-25bc-48b5-88fe-30fbf4ce094c",
+      "tracePath": "traces/game-1.json",
+      "traceSha256": "8f9bd6d7cbc7e50918ccc904b8a75aa94e049d7e8522fe86cd4ad6c19e4a18d5",
+      "seed": 188768943,
+      "effectiveConfig": {
+        "mcts": {
+          "simulations": 250,
+          "explorationConstant": 1.4142135623730951,
+          "maxDepth": 60,
+          "rolloutPolicy": "mixed",
+          "heuristicProbability": 0.8,
+          "expansionPolicy": "heuristic",
+          "progressiveWidening": true,
+          "wideningConstant": 2,
+          "wideningExponent": 0.5,
+          "qPriorWeight": 0,
+          "tacticalVerification": true,
+          "tacticalCandidateCount": 2
+        },
+        "budget": {
+          "enable750": false,
+          "base": 250,
+          "lowConfidence": 500,
+          "highUncertainty": 500,
+          "maxDecisionMs": 5000,
+          "maxVisitGap": 3,
+          "maxValueGap": 0.04,
+          "maxSelectedVisitShare": 0.12,
+          "highUncertaintyVisitGap": 1,
+          "highUncertaintyValueGap": 0.015,
+          "highUncertaintySelectedVisitShare": 0.08
+        },
+        "endgame": {
+          "enabled": false,
+          "maxLegalActions": 8,
+          "maxConnectedRegions": 3,
+          "maxMobilePieces": 2,
+          "maxDepth": 8,
+          "maxNodes": 40000,
+          "maxTimeMs": 1500
+        }
+      },
+      "effectiveConfigSha256": "7d137f48f941045742aacbeeadffcd8db036477e355a2f8c61aace3af4e7fca8",
+      "sourceCommit": "60d45a283e4b6f91af32f307a2bb613ffad76970",
+      "recordedAt": "2026-07-27T10:05:57.820Z",
+      "incidents": []
+    },
+    {
+      "schema": "HumanExperimentGameV1",
+      "experimentId": "WGTR-REAL-PILOT-2026",
+      "participantId": "REAL-PILOT-001",
+      "gameId": "WGTR-2026-REAL-PILOT-001-G2-c90a844d-b021-49ac-b8cd-18375aa63457",
+      "gameNumber": 2,
+      "humanColor": "B",
+      "aiColor": "R",
+      "winner": "human",
+      "humanTerritory": 37,
+      "aiTerritory": 7,
+      "territoryDiffHuman": 30,
+      "turnCount": 42,
+      "startedAt": "2026-07-27T09:53:50.331Z",
+      "finishedAt": "2026-07-27T09:57:15.793Z",
+      "durationMs": 205462,
+      "terminalReason": "game-result",
+      "traceId": "trace-7724988b-b2d3-43d1-93cb-ed1f8d973a18",
+      "tracePath": "traces/game-2.json",
+      "traceSha256": "f9dfce6199a9ba074add23f0b1513d02dcb88f968a2769be054488af28814589",
+      "seed": 2074940550,
+      "effectiveConfig": {
+        "mcts": {
+          "simulations": 250,
+          "explorationConstant": 1.4142135623730951,
+          "maxDepth": 60,
+          "rolloutPolicy": "mixed",
+          "heuristicProbability": 0.8,
+          "expansionPolicy": "heuristic",
+          "progressiveWidening": true,
+          "wideningConstant": 2,
+          "wideningExponent": 0.5,
+          "qPriorWeight": 0,
+          "tacticalVerification": true,
+          "tacticalCandidateCount": 2
+        },
+        "budget": {
+          "enable750": false,
+          "base": 250,
+          "lowConfidence": 500,
+          "highUncertainty": 500,
+          "maxDecisionMs": 5000,
+          "maxVisitGap": 3,
+          "maxValueGap": 0.04,
+          "maxSelectedVisitShare": 0.12,
+          "highUncertaintyVisitGap": 1,
+          "highUncertaintyValueGap": 0.015,
+          "highUncertaintySelectedVisitShare": 0.08
+        },
+        "endgame": {
+          "enabled": false,
+          "maxLegalActions": 8,
+          "maxConnectedRegions": 3,
+          "maxMobilePieces": 2,
+          "maxDepth": 8,
+          "maxNodes": 40000,
+          "maxTimeMs": 1500
+        }
+      },
+      "effectiveConfigSha256": "7d137f48f941045742aacbeeadffcd8db036477e355a2f8c61aace3af4e7fca8",
+      "sourceCommit": "60d45a283e4b6f91af32f307a2bb613ffad76970",
+      "recordedAt": "2026-07-27T10:06:01.953Z",
+      "incidents": []
+    }
+  ]
+}
