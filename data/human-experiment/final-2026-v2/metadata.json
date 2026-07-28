@@ -10,8 +10,8 @@
     "reason": "Rejected after the paired pilot: only 9 interventions, one fallback, and wide confidence intervals made the signal ambiguous."
   },
   "codeFreeze": {
-    "status": "awaiting-implementation-commit",
-    "implementationCommit": null,
-    "note": "This will reference the parent commit that freezes rules and playable AI. It is documentation only: each game records and validates the clean runtime HEAD automatically through VITE_GIT_COMMIT."
-  }
+  "status": "frozen",
+  "implementationCommit": "3de74fbcba34a2eed940467f3253df364ce9f22d",
+  "note": "This references the parent commit that freezes rules and playable AI. Each game records and validates the clean runtime HEAD automatically through VITE_GIT_COMMIT."
+}
 }
