@@ -5,10 +5,15 @@ import GameModeMenu from './components/ui/GameModeMenu'
 import RuleDialog from './components/ui/RuleDialog'
 import SeoHelmet from './components/SeoHelmet'
 import type { AiLevel, GameMode, AiSide } from './lib/types'
+import { makeNonTerminalWallOnlyTurnFixture } from './fixtures/wallOnlyTurn'
 
 export default function App() {
+  const wallOnlyFixtureEnabled =
+    import.meta.env.DEV &&
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('fixture') === 'wall-only-turn'
   const [showRule, setShowRule] = useState(false)
-  const [mode, setMode] = useState<GameMode | null>(null)
+  const [mode, setMode] = useState<GameMode | null>(wallOnlyFixtureEnabled ? 'pvp' : null)
   const [aiSide, setAiSide] = useState<AiSide>('B')
   const [aiLevel, setAiLevel] = useState<AiLevel>('middle')
   const [dark, setDark] = useState(() => {
@@ -53,6 +58,9 @@ export default function App() {
           setShowRule={setShowRule}
           dark={dark}
           setDark={setDark}
+          developmentFixture={
+            wallOnlyFixtureEnabled ? makeNonTerminalWallOnlyTurnFixture('B') : undefined
+          }
         />
       )}
       <Footer />

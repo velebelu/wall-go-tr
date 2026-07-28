@@ -37,6 +37,33 @@ export function makeWallOnlyTurnFixture(turn: Player = 'B'): GameSnapshot {
   return state
 }
 
+export function makeNonTerminalWallOnlyTurnFixture(turn: Player = 'B'): GameSnapshot {
+  const state = makeInitialState()
+  state.board = createEmptyBoard()
+  state.phase = 'playing'
+  state.turn = turn
+  state.stonesPlaced = { R: 4, B: 4 }
+
+  for (const [x, y] of [
+    [0, 0],
+    [1, 0],
+    [0, 1],
+    [1, 1],
+  ]) {
+    state.board[y][x].stone = 'B'
+  }
+  for (const [x, y] of [
+    [2, 0],
+    [2, 1],
+    [0, 2],
+    [1, 2],
+  ]) {
+    state.board[y][x].stone = 'R'
+  }
+
+  return state
+}
+
 export function makeNoActionFixture(turn: Player = 'B'): GameSnapshot {
   const state = makeWallOnlyTurnFixture(turn)
   for (const [x, y, field] of [

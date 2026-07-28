@@ -1,6 +1,10 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { act } from '@testing-library/react'
-import { makeNoActionFixture, makeWallOnlyTurnFixture } from '@/fixtures/wallOnlyTurn'
+import {
+  makeNoActionFixture,
+  makeNonTerminalWallOnlyTurnFixture,
+  makeWallOnlyTurnFixture,
+} from '@/fixtures/wallOnlyTurn'
 import { choosePlayableMCTSAction } from '@/agents/mctsWorkerDecision'
 import { FINAL_MCTS_CONFIG } from '@/agents/mctsConfig'
 import { applyFullAction } from '@/engine/gameSimulator'
@@ -8,10 +12,11 @@ import { snapshotFromState } from '@/store/gameState'
 import { useGame } from '@/store'
 import { getLegalActions } from './ai'
 import { checkGameEnd } from './game'
+import { getTerritoryMap } from './territory'
 
 describe('wall-only turns', () => {
   beforeEach(() => {
-    const state = makeWallOnlyTurnFixture()
+    const state = makeNonTerminalWallOnlyTurnFixture()
     useGame.setState({
       ...state,
       _history: [snapshotFromState(state)],
@@ -21,13 +26,20 @@ describe('wall-only turns', () => {
     })
   })
 
-  it('generates walls without movement before the territorial terminal check', () => {
-    const state = makeWallOnlyTurnFixture('B')
+  it('generates walls for an immobile piece in a non-terminal disputed position', () => {
+    const state = makeNonTerminalWallOnlyTurnFixture('B')
     const legal = getLegalActions(state)
 
     expect(legal.filter((action) => action.type === 'move')).toHaveLength(0)
-    expect(legal.some((action) => action.type === 'wall')).toBe(true)
-    expect(checkGameEnd(state.board, state.players).finished).toBe(true)
+    expect(
+      legal.some((action) => action.type === 'wall' && action.from?.x === 0 && action.from.y === 0),
+    ).toBe(true)
+    expect(checkGameEnd(state.board, state.players).finished).toBe(false)
+    expect(
+      getTerritoryMap(state.board)
+        .flat()
+        .some((owner) => owner === null),
+    ).toBe(true)
   })
 
   it('lets the human select and place a wall without moving', () => {
@@ -38,7 +50,7 @@ describe('wall-only turns', () => {
   })
 
   it('lets MCTS select a legal wall action', () => {
-    const state = makeWallOnlyTurnFixture('B')
+    const state = makeNonTerminalWallOnlyTurnFixture('B')
     const action = choosePlayableMCTSAction({
       gameState: state,
       config: { ...FINAL_MCTS_CONFIG, simulations: 4, tacticalVerification: false },
@@ -48,8 +60,9 @@ describe('wall-only turns', () => {
     expect(getLegalActions(state)).toContainEqual(action)
   })
 
-  it('applies the legal wall and then finishes the secured position', () => {
+  it('preserves the original terminal fixture behavior', () => {
     const state = makeWallOnlyTurnFixture('B')
+    expect(checkGameEnd(state.board, state.players).finished).toBe(true)
     const action = getLegalActions(state).find((candidate) => candidate.type === 'wall')!
     const next = applyFullAction(state, action).state
     expect(next.phase).toBe('finished')
@@ -63,7 +76,7 @@ describe('wall-only turns', () => {
   })
 
   it('uses the same legal wall list for UI selection and agents', () => {
-    const state = makeWallOnlyTurnFixture('B')
+    const state = makeNonTerminalWallOnlyTurnFixture('B')
     const agentWalls = getLegalActions(state)
       .filter((action) => action.type === 'wall' && action.from?.x === 0 && action.from.y === 0)
       .map((action) => `wall:${action.pos.x},${action.pos.y}:${action.dir}`)

@@ -45,4 +45,17 @@ describe('HumanAgent complete decisions', () => {
       pos: { x: 1, y: 0 },
     })
   })
+
+  it('resolves a wall directly when the selected stone did not move', async () => {
+    const agent = new HumanAgent()
+    const pending = agent.getAction()
+    agent.beginSelection({ x: 0, y: 0 })
+    agent.submitWall({ x: 0, y: 0 }, 'right')
+    await expect(pending).resolves.toEqual({
+      type: 'wall',
+      from: { x: 0, y: 0 },
+      pos: { x: 0, y: 0 },
+      dir: 'right',
+    })
+  })
 })

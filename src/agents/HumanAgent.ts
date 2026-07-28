@@ -33,14 +33,21 @@ export class HumanAgent implements PlayerAgent {
   }
 
   submitWall(pos: Pos, dir: WallDir): void {
-    if (!this.waiting || !this.actionResolver || !this.selectedFrom || !this.movedTo) return
-    const action: PlayerAction = {
-      type: 'move',
-      from: { ...this.selectedFrom },
-      pos: { ...this.movedTo },
-      followUp: { type: 'wall', pos: { ...pos }, dir },
-    }
-    this.partiallyAppliedActions.add(action)
+    if (!this.waiting || !this.actionResolver || !this.selectedFrom) return
+    const action: PlayerAction = this.movedTo
+      ? {
+          type: 'move',
+          from: { ...this.selectedFrom },
+          pos: { ...this.movedTo },
+          followUp: { type: 'wall', pos: { ...pos }, dir },
+        }
+      : {
+          type: 'wall',
+          from: { ...this.selectedFrom },
+          pos: { ...pos },
+          dir,
+        }
+    if (this.movedTo) this.partiallyAppliedActions.add(action)
     this.lastDecisionDurationMs =
       this.selectionStartedAt === undefined
         ? undefined

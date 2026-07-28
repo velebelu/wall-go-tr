@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { playerColorClass } from '@/lib/color'
-import type { Phase, Player, Pos, WallDir } from '@/lib/types'
+import { BOARD_SIZE, type Phase, type Player, type Pos, type WallDir } from '@/lib/types'
 import WallButton from './WallButton'
 import { useRef, useEffect } from 'react'
 import { getPosKey } from '@/utils/region'
@@ -38,6 +38,7 @@ export default function Cell({
   territoryOwner,
 }: CellProps) {
   const posKey = getPosKey({ x, y })
+  const coordinate = `${String.fromCharCode(65 + x)}${BOARD_SIZE - y}`
   // --- 棋子移動動畫 ---
   const stoneRef = useRef<HTMLButtonElement>(null)
   const prevPosRef = useRef<{ x: number; y: number } | null>(null)
@@ -166,6 +167,8 @@ export default function Cell({
           onClick={() =>
             phase === 'playing' && cell.stone === turn && selectStone && selectStone({ x, y })
           }
+          aria-label={`${cell.stone === 'B' ? 'Blue' : 'Red'} stone at ${coordinate}`}
+          aria-pressed={isSel}
         />
       )}
 

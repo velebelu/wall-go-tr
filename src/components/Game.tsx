@@ -1,4 +1,10 @@
-import { PLAYER_LIST, type AiLevel, type GameMode, type PlayerAction } from '@/lib/types'
+import {
+  PLAYER_LIST,
+  type AiLevel,
+  type GameMode,
+  type GameSnapshot,
+  type PlayerAction,
+} from '@/lib/types'
 import GameButton from './ui/GameButton'
 import Navbar from './ui/Navbar'
 import Board from './Board/Board'
@@ -53,6 +59,7 @@ export default function Game({
   setShowRule,
   dark,
   setDark,
+  developmentFixture,
 }: {
   gameMode: GameMode
   aiSide: 'R' | 'B'
@@ -61,6 +68,7 @@ export default function Game({
   setShowRule: (b: boolean) => void
   dark: boolean
   setDark: (d: boolean | ((d: boolean) => boolean)) => void
+  developmentFixture?: GameSnapshot
 }) {
   // Estado del juego y flujo de agentes.
   const {
@@ -225,7 +233,7 @@ export default function Game({
       agents = createHumanVsMCTSAgents(aiSide, mcts, human)
     } else if (gameMode === 'mcts-fast') {
       agents = createHumanVsMCTSAgents(aiSide, new MCTSAgent({ profile: 'fast' }), human)
-    } else {
+    } else if (gameMode === 'ai') {
       const aiMap = {
         practice: new RandomAgent(),
         heuristic: new HeuristicAgent(),
@@ -234,12 +242,9 @@ export default function Game({
         hard: new MinimaxAgent(6),
       }
       const ai = aiMap[aiLevel]
-      agents =
-        gameMode === 'ai'
-          ? aiSide === 'R'
-            ? { R: ai, B: human }
-            : { R: human, B: ai }
-          : { R: human, B: human }
+      agents = aiSide === 'R' ? { R: ai, B: human } : { R: human, B: ai }
+    } else {
+      agents = { R: human, B: human }
     }
     turnManagerRef.current = new TurnManager({
       agents,
@@ -296,7 +301,18 @@ export default function Game({
 
   useEffect(() => {
     if (!gameMode) return
-    setPhase('placing')
+    if (developmentFixture) {
+      const fixture = snapshotFromState(developmentFixture)
+      useGame.setState({
+        ...fixture,
+        _history: [snapshotFromState(fixture)],
+        _future: [],
+        canUndo: false,
+        canRedo: false,
+      })
+    } else {
+      setPhase('placing')
+    }
     setupTurnManager()
     return () => {
       turnManagerRef.current?.stop()
@@ -307,7 +323,7 @@ export default function Game({
       finalizedFullMctsTraceRef.current = null
       preparedFullTraceRef.current = null
     }
-  }, [gameMode, aiSide, setPhase, setupTurnManager])
+  }, [gameMode, aiSide, developmentFixture, setPhase, setupTurnManager])
 
   useEffect(() => {
     if (gameMode !== 'heuristic-training') {
@@ -630,6 +646,14 @@ export default function Game({
           </>
         )}
       </h1>
+      {developmentFixture && (
+        <p
+          className="rounded bg-amber-100 px-3 py-2 text-sm text-amber-950"
+          data-testid="development-fixture"
+        >
+          Development fixture: blue A7 cannot move; select it and build its right wall.
+        </p>
+      )}
       <div className="flex gap-4 animate-fade-in items-center">
         {(phase === 'placing'
           ? PLAYER_LIST.map((p) => [p, 0])
