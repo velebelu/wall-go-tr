@@ -1,8 +1,11 @@
-import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
-import { discoverHumanMCTSTraces } from './humanExperimentDownloadDiscovery'
+import {
+  discoverHumanMCTSTraces,
+  usualDownloadDirectories,
+} from './humanExperimentDownloadDiscovery'
 
 const temporaryDirectories: string[] = []
 const trace = {
@@ -62,5 +65,16 @@ describe('trace download discovery', () => {
     await writeFile(file, JSON.stringify(trace))
     const result = await discoverHumanMCTSTraces({ explicitTracePath: file })
     expect(result.candidates.map((candidate) => candidate.path)).toEqual([file])
+  })
+
+  it('honors HUMAN_EXPERIMENT_DOWNLOAD_DIR with a path containing spaces', async () => {
+    const root = await directory()
+    const downloads = resolve(root, 'ARCHIVOS ERIC', 'Descargas')
+    await mkdir(downloads, { recursive: true })
+    expect(
+      await usualDownloadDirectories({
+        HUMAN_EXPERIMENT_DOWNLOAD_DIR: downloads,
+      }),
+    ).toContain(downloads)
   })
 })

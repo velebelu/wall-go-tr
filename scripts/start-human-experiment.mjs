@@ -26,6 +26,20 @@ export function resolveDevCommand(platform = process.platform, environment = pro
   return { command: 'npm', args: ['run', 'dev'] }
 }
 
+export function resolveWatcherCommand(platform = process.platform, environment = process.env) {
+  const args = [
+    '--import',
+    './scripts/run-ts-node-esm.mjs',
+    'src/training/watchHumanExperiment.ts',
+  ]
+  if (platform === 'win32') {
+    const command = environment.ComSpec || environment.COMSPEC
+    if (!command) throw new Error('Unable to start watcher: ComSpec is not available on Windows')
+    return { command, args: ['/d', '/s', '/c', `node ${args.join(' ')}`] }
+  }
+  return { command: 'node', args }
+}
+
 export function startHumanExperimentServer({
   run = execFileSync,
   spawnProcess = spawn,
@@ -35,22 +49,38 @@ export function startHumanExperimentServer({
   const commit = getGitCommit(run)
   console.log(`Human experiment commit:\n${commit}`)
   const devCommand = resolveDevCommand(platform, environment)
+  const childEnvironment = { ...environment, VITE_GIT_COMMIT: commit }
   const child = spawnProcess(devCommand.command, devCommand.args, {
     stdio: 'inherit',
-    env: { ...environment, VITE_GIT_COMMIT: commit },
+    env: childEnvironment,
   })
+  const watcherCommand = resolveWatcherCommand(platform, environment)
+  const watcher = spawnProcess(watcherCommand.command, watcherCommand.args, {
+    stdio: 'inherit',
+    env: childEnvironment,
+  })
+  const children = [child, watcher]
+  let stopping = false
+  const stopAll = (signal = 'SIGTERM') => {
+    if (stopping) return
+    stopping = true
+    for (const running of children) if (!running.killed) running.kill(signal)
+  }
   const forward = (signal) => {
-    if (!child.killed) child.kill(signal)
+    stopAll(signal)
   }
   process.once('SIGINT', forward)
   process.once('SIGTERM', forward)
-  child.once('exit', (code, signal) => {
+  const onExit = (code, signal) => {
+    stopAll(signal || 'SIGTERM')
     process.removeListener('SIGINT', forward)
     process.removeListener('SIGTERM', forward)
     if (signal) process.kill(process.pid, signal)
     else process.exitCode = code ?? 1
-  })
-  return { child, commit }
+  }
+  child.once('exit', onExit)
+  watcher.once('exit', onExit)
+  return { child, watcher, commit, close: stopAll }
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1])

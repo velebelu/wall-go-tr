@@ -142,6 +142,7 @@ describe('human experiment start script', () => {
       ['/d', '/s', '/c', 'npm run dev'],
       expect.objectContaining({ env: expect.objectContaining({ VITE_GIT_COMMIT: commit }) }),
     )
+    expect(spawnProcess).toHaveBeenCalledTimes(2)
     child.emit('exit', 0, null)
   })
 
@@ -194,5 +195,6 @@ describe('human experiment start script', () => {
     })
     interrupt?.('SIGINT')
     expect(child.kill).toHaveBeenCalledWith('SIGINT')
+    expect(child.kill).toHaveBeenCalledTimes(2)
   })
 })

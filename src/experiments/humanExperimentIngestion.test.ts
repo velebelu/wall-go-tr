@@ -125,6 +125,33 @@ async function fixture() {
   return { root, participantDirectory, downloads }
 }
 
+async function p02Fixture() {
+  const paths = await fixture()
+  const registry = JSON.parse(
+    await readFile(resolve(paths.root, 'registry.json'), 'utf8'),
+  ) as HumanExperimentRegistry
+  registry.participants[0].participantId = 'P02'
+  registry.participants[0].colorOrder = ['B', 'R']
+  await writeFile(resolve(paths.root, 'registry.json'), JSON.stringify(registry))
+  const oldDirectory = paths.participantDirectory
+  const participantDirectory = resolve(paths.root, 'participants', 'P02')
+  await mkdir(resolve(participantDirectory, 'traces'), { recursive: true })
+  for (const gameNumber of [1, 2]) {
+    await writeFile(
+      resolve(participantDirectory, `game-${gameNumber}.json`),
+      JSON.stringify({
+        schema: 'HumanExperimentGameInputV1',
+        experimentId: registry.experimentId,
+        participantId: 'P02',
+        gameNumber,
+        incidents: [],
+      }),
+    )
+  }
+  await rm(oldDirectory, { recursive: true })
+  return { ...paths, participantDirectory }
+}
+
 async function writeTrace(directory: string, trace = syntheticTrace(), name = 'trace.json') {
   const path = resolve(directory, name)
   await mkdir(directory, { recursive: true })
@@ -157,6 +184,36 @@ describe('latest trace ingestion', () => {
       await readFile(resolve(paths.root, 'registry.json'), 'utf8'),
     ) as HumanExperimentRegistry
     expect(registry.games).toHaveLength(1)
+  })
+
+  it('imports P02 game 2 correctly after its first game in an isolated fixture', async () => {
+    const paths = await p02Fixture()
+    const firstTrace = syntheticTrace()
+    firstTrace.metadata.humanColor = 'B'
+    firstTrace.metadata.mctsColor = 'R'
+    await writeTrace(paths.downloads, firstTrace, 'traza_humano_mcts_p02_g1.json')
+    await ingestLatestHumanExperimentTrace({
+      experimentDirectory: paths.root,
+      participantId: 'P02',
+      gameNumber: 1,
+      explicitTracePath: resolve(paths.downloads, 'traza_humano_mcts_p02_g1.json'),
+      expectedCommit: COMMIT,
+    })
+    await writeTrace(paths.downloads, syntheticTrace(), 'traza_humano_mcts_p02_g2.json')
+    const result = await ingestLatestHumanExperimentTrace({
+      experimentDirectory: paths.root,
+      participantId: 'P02',
+      gameNumber: 2,
+      explicitTracePath: resolve(paths.downloads, 'traza_humano_mcts_p02_g2.json'),
+      expectedCommit: COMMIT,
+    })
+    expect(result).toMatchObject({
+      participantId: 'P02',
+      gameNumber: 2,
+      humanColor: 'R',
+      aiColor: 'B',
+      gameCount: 2,
+    })
   })
 
   it.each([

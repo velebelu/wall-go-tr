@@ -12,15 +12,21 @@ export async function usualDownloadDirectories(
   environment: NodeJS.ProcessEnv = process.env,
 ): Promise<string[]> {
   const profile = environment.USERPROFILE
-  if (!profile) return []
   const candidates = [
-    resolve(profile, 'Downloads'),
-    resolve(profile, 'Descargas'),
-    resolve(profile, 'OneDrive', 'Downloads'),
-    resolve(profile, 'OneDrive', 'Descargas'),
+    environment.HUMAN_EXPERIMENT_DOWNLOAD_DIR,
+    'Z:\\ARCHIVOS ERIC\\Descargas',
+    ...(profile
+      ? [
+          resolve(profile, 'Downloads'),
+          resolve(profile, 'Descargas'),
+          resolve(profile, 'OneDrive', 'Downloads'),
+          resolve(profile, 'OneDrive', 'Descargas'),
+        ]
+      : []),
   ]
   const existing: string[] = []
   for (const directory of candidates) {
+    if (!directory) continue
     try {
       if ((await stat(directory)).isDirectory()) existing.push(directory)
     } catch {

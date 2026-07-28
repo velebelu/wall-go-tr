@@ -1,1 +1,13 @@
-{"schema":"HumanExperimentParticipantV1","experimentId":"WGTR-HUMAN-FINAL-2026","participantId":"P02","experienceGroup":null,"previousWallGoGames":null,"practiceGames":1,"colorOrder":["B","R"],"notes":""}
+{
+  "schema": "HumanExperimentParticipantV1",
+  "experimentId": "WGTR-HUMAN-FINAL-2026",
+  "participantId": "P02",
+  "experienceGroup": "none",
+  "previousWallGoGames": 0,
+  "practiceGames": 1,
+  "colorOrder": [
+    "B",
+    "R"
+  ],
+  "notes": ""
+}
