@@ -7,6 +7,7 @@ function handlers(): GameActionHandlers {
     placeStone: vi.fn(),
     selectStone: vi.fn(),
     moveTo: vi.fn(),
+    finishMove: vi.fn(),
     buildWall: vi.fn(),
   }
 }
@@ -29,8 +30,24 @@ describe('applyAgentActionToGame', () => {
     expect(target.selectStone).toHaveBeenCalledWith({ x: 1, y: 1 })
     expect(target.moveTo).toHaveBeenCalledOnce()
     expect(target.moveTo).toHaveBeenCalledWith({ x: 2, y: 1 })
+    expect(target.finishMove).toHaveBeenCalledOnce()
     expect(target.placeStone).not.toHaveBeenCalled()
     expect(target.buildWall).not.toHaveBeenCalled()
+  })
+
+  it('does not finish a move before its wall follow-up', () => {
+    const target = handlers()
+    applyAgentActionToGame(
+      {
+        type: 'move',
+        from: { x: 1, y: 1 },
+        pos: { x: 2, y: 1 },
+        followUp: { type: 'wall', pos: { x: 2, y: 1 }, dir: 'bottom' },
+      },
+      target,
+    )
+    expect(target.moveTo).toHaveBeenCalledOnce()
+    expect(target.finishMove).not.toHaveBeenCalled()
   })
 
   it('aplica wall y llama una sola vez a selección y construcción', () => {

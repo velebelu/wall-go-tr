@@ -68,6 +68,7 @@ export interface State extends GameSnapshot {
   placeStone: (pos: Pos) => void
   selectStone: (pos: Pos) => void
   moveTo: (to: Pos) => void
+  finishMove: () => void
   buildWall: (pos: Pos, dir: WallDir) => void
   resetGame: () => void
   undo: () => void

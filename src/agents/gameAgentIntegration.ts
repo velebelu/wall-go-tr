@@ -4,6 +4,7 @@ export interface GameActionHandlers {
   placeStone: (pos: Pos) => void
   selectStone: (pos: Pos) => void
   moveTo: (pos: Pos) => void
+  finishMove: () => void
   buildWall: (pos: Pos, direction: WallDir) => void
 }
 
@@ -27,6 +28,7 @@ export function applyAgentActionToGame(action: PlayerAction, handlers: GameActio
         handlers.selectStone(action.from)
       }
       handlers.moveTo(action.pos)
+      if (!action.followUp) handlers.finishMove()
       return
     case 'wall':
       assertPosition(action.pos, 'pos')

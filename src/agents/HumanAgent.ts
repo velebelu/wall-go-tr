@@ -21,14 +21,14 @@ export class HumanAgent implements PlayerAgent {
   }
 
   beginSelection(from: Pos): void {
-    if (!this.waiting) return
+    if (!this.waiting || this.movedTo) return
     this.selectedFrom = { ...from }
     this.movedTo = undefined
     this.selectionStartedAt = performance.now()
   }
 
   submitMove(to: Pos): void {
-    if (!this.waiting || !this.selectedFrom) return
+    if (!this.waiting || !this.selectedFrom || this.movedTo) return
     this.movedTo = { ...to }
   }
 

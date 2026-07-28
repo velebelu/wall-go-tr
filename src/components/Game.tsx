@@ -78,9 +78,11 @@ export default function Game({
     result,
     selected,
     legal,
+    stepsTaken,
     placeStone,
     selectStone,
     moveTo,
+    finishMove,
     buildWall,
     setPhase,
     resetGame,
@@ -189,7 +191,7 @@ export default function Game({
         getGameState: () => snapshotFromState(useGame.getState()),
         applyAction: async (action: PlayerAction) => {
           const prevState = snapshotFromState(useGame.getState())
-          applyAgentActionToGame(action, { placeStone, selectStone, moveTo, buildWall })
+          applyAgentActionToGame(action, { placeStone, selectStone, moveTo, finishMove, buildWall })
 
           if (learningAgentRef.current && prevState.turn === 'R') {
             const nextState = snapshotFromState(useGame.getState())
@@ -252,11 +254,19 @@ export default function Game({
       applyAction: async (action: PlayerAction) => {
         if (human.consumePartiallyAppliedAction(action)) {
           if (action.followUp) {
-            applyAgentActionToGame(action.followUp, { placeStone, selectStone, moveTo, buildWall })
+            applyAgentActionToGame(action.followUp, {
+              placeStone,
+              selectStone,
+              moveTo,
+              finishMove,
+              buildWall,
+            })
+          } else {
+            finishMove()
           }
           return
         }
-        applyAgentActionToGame(action, { placeStone, selectStone, moveTo, buildWall })
+        applyAgentActionToGame(action, { placeStone, selectStone, moveTo, finishMove, buildWall })
       },
       isGameOver: (state) => state.phase === 'finished' || !!state.result,
       turnTimeLimit,
@@ -272,7 +282,7 @@ export default function Game({
       },
     })
     turnManagerStartedRef.current = false
-  }, [gameMode, aiSide, aiLevel, buildWall, moveTo, placeStone, selectStone])
+  }, [gameMode, aiSide, aiLevel, buildWall, finishMove, moveTo, placeStone, selectStone])
 
   useEffect(() => {
     if (!gameMode) {
@@ -651,7 +661,9 @@ export default function Game({
           className="rounded bg-amber-100 px-3 py-2 text-sm text-amber-950"
           data-testid="development-fixture"
         >
-          Development fixture: blue A7 cannot move; select it and build its right wall.
+          {board[3]?.[3]?.stone === 'B'
+            ? 'Development fixture: select blue D4, move once, then finish or build one wall.'
+            : 'Development fixture: blue A7 cannot move; select it and build its right wall.'}
         </p>
       )}
       <div className="flex gap-4 animate-fade-in items-center">
@@ -708,7 +720,7 @@ export default function Game({
           legal={legal}
           placeStone={isHumanTurn ? (pos) => handlePlayerAction({ type: 'place', pos }) : undefined}
           selectStone={
-            isHumanTurn && phase === 'playing'
+            isHumanTurn && phase === 'playing' && stepsTaken === 0
               ? (pos) => {
                   humanAgentRef.current?.beginSelection(pos)
                   selectStone(pos)
@@ -716,7 +728,7 @@ export default function Game({
               : undefined
           }
           moveTo={
-            isHumanTurn && phase === 'playing'
+            isHumanTurn && phase === 'playing' && stepsTaken === 0
               ? (pos) => {
                   moveTo(pos)
                   humanAgentRef.current?.submitMove(pos)
@@ -730,6 +742,14 @@ export default function Game({
           }
         />
       </div>
+      {isHumanTurn && phase === 'playing' && stepsTaken > 0 && (
+        <GameButton
+          onClick={() => humanAgentRef.current?.submitMoveWithoutWall()}
+          ariaLabel="Finish turn without wall"
+        >
+          Finish turn without wall
+        </GameButton>
+      )}
       <div className="w-full flex justify-center mt-3 animate-fade-in">
         <GameButton onClick={() => setShowRule(true)} text ariaLabel={t('menu.rule', 'Game Rules')}>
           {t('menu.rule', 'Game Rules')}

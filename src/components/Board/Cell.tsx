@@ -185,6 +185,7 @@ export default function Cell({
         <button
           className="absolute inset-0 bg-emerald-400/20 hover:bg-emerald-400/60 cursor-pointer transition-all duration-200 animate-pulse rounded-lg"
           onClick={() => moveTo({ x, y })}
+          aria-label={`Move to ${coordinate}`}
         />
       )}
 

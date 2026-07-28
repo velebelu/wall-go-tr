@@ -3,7 +3,6 @@ import { create } from 'zustand'
 import { PLAYER_LIST, type Pos, type WallDir, type State } from '@/lib/types'
 import { makeInitialState, snapshotFromState, restoreSnapshot } from './gameState'
 import { placingTurnIndex, advanceTurn } from './actions'
-import { isLegalMove } from '@/utils/move'
 import { checkGameEnd } from '@/utils/game'
 import { isHumanTurn } from '@/utils/player'
 import { getLegalActions } from '@/utils/ai'
@@ -134,6 +133,7 @@ export const useGame = create<State>((_set, get) => {
       set((state) => {
         const { selected, board, legal, stepsTaken, phase } = state
         if (phase !== 'playing') return state
+        if (stepsTaken > 0) return state
         if (!selected) return state
         if (!legal.has(`${to.x},${to.y}`)) return state
         const piece = board[selected.y][selected.x].stone
@@ -145,16 +145,7 @@ export const useGame = create<State>((_set, get) => {
         const dist = Math.abs(to.x - selected.x) + Math.abs(to.y - selected.y)
         const newSteps = stepsTaken + dist
         const nextLegal = new Set<string>()
-        if (newSteps < 2) {
-          for (let yy = 0; yy < next.board.length; yy++) {
-            for (let xx = 0; xx < next.board.length; xx++) {
-              if (isLegalMove(to, { x: xx, y: yy }, next.board, 2 - newSteps)) {
-                nextLegal.add(`${xx},${yy}`)
-              }
-            }
-          }
-        }
-        legalSelectionsForStone(next, to, nextLegal)
+        legalWallsForStone(next, to, nextLegal)
         next.selected = to
         next.legal = nextLegal
         next.stepsTaken = newSteps
@@ -164,6 +155,38 @@ export const useGame = create<State>((_set, get) => {
         return {
           ...next,
           _history: newHistory,
+          _future: [],
+        }
+      })
+    },
+    finishMove() {
+      set((state) => {
+        if (state.phase !== 'playing' || !state.selected || state.stepsTaken === 0) return state
+        const next = snapshotFromState(state)
+        const end = checkGameEnd(next.board, PLAYERS)
+        if (end.finished) {
+          next.phase = 'finished'
+          next.result = end
+        } else {
+          const advanced = advanceTurn(next.board, next.turn, PLAYERS)
+          if (advanced.skipReason === 'allBlocked') {
+            const blockedEnd = checkGameEnd(next.board, PLAYERS)
+            next.phase = 'finished'
+            next.result = blockedEnd.finished
+              ? blockedEnd
+              : { ...blockedEnd, finished: true, tie: true }
+            next.skipReason = undefined
+          } else {
+            next.turn = advanced.turn
+            next.skipReason = advanced.skipReason
+          }
+        }
+        next.selected = undefined
+        next.legal = new Set<string>()
+        next.stepsTaken = 0
+        return {
+          ...next,
+          _history: [...state._history, snapshotFromState(next)],
           _future: [],
         }
       })
@@ -277,6 +300,24 @@ function legalSelectionsForStone(
     if (action.type === 'move' && action.from?.x === from.x && action.from.y === from.y) {
       legal.add(`${action.pos.x},${action.pos.y}`)
     } else if (
+      action.type === 'wall' &&
+      action.from?.x === from.x &&
+      action.from.y === from.y &&
+      action.dir
+    ) {
+      legal.add(`wall:${action.pos.x},${action.pos.y}:${action.dir}`)
+    }
+  }
+  return legal
+}
+
+function legalWallsForStone(
+  state: import('@/lib/types').GameSnapshot,
+  from: Pos,
+  legal: Set<string> = new Set(),
+): Set<string> {
+  for (const action of getLegalActions(state)) {
+    if (
       action.type === 'wall' &&
       action.from?.x === from.x &&
       action.from.y === from.y &&
