@@ -1,0 +1,129 @@
+{
+  "schema": "SecuredTerritoryPolicyEvaluationV1",
+  "generatedAt": "2026-07-28T16:54:34.159Z",
+  "gamesPerColor": 1,
+  "simulations": 20,
+  "maxTurns": 100,
+  "criteriaDocument": "docs/secured-territory-policy-evaluation.md",
+  "matchups": {
+    "baseline-vs-random": {
+      "games": 2,
+      "wins": 2,
+      "losses": 0,
+      "draws": 0,
+      "scoreRate": 1,
+      "winRateWilson95": [
+        0.34238022750665303,
+        1
+      ],
+      "territoryMean": 27.5,
+      "opponentTerritoryMean": 14,
+      "cappedGames": 0
+    },
+    "candidate-vs-random": {
+      "games": 2,
+      "wins": 2,
+      "losses": 0,
+      "draws": 0,
+      "scoreRate": 1,
+      "winRateWilson95": [
+        0.34238022750665303,
+        1
+      ],
+      "territoryMean": 35.5,
+      "opponentTerritoryMean": 5,
+      "cappedGames": 0
+    },
+    "baseline-vs-heuristic": {
+      "games": 2,
+      "wins": 2,
+      "losses": 0,
+      "draws": 0,
+      "scoreRate": 1,
+      "winRateWilson95": [
+        0.34238022750665303,
+        1
+      ],
+      "territoryMean": 28,
+      "opponentTerritoryMean": 10.5,
+      "cappedGames": 0
+    },
+    "candidate-vs-heuristic": {
+      "games": 2,
+      "wins": 1,
+      "losses": 0,
+      "draws": 1,
+      "scoreRate": 0.75,
+      "winRateWilson95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "territoryMean": 27,
+      "opponentTerritoryMean": 17,
+      "cappedGames": 0
+    },
+    "baseline-vs-mcts": {
+      "games": 2,
+      "wins": 1,
+      "losses": 1,
+      "draws": 0,
+      "scoreRate": 0.5,
+      "winRateWilson95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "territoryMean": 17,
+      "opponentTerritoryMean": 17,
+      "cappedGames": 0
+    },
+    "candidate-vs-mcts": {
+      "games": 2,
+      "wins": 1,
+      "losses": 1,
+      "draws": 0,
+      "scoreRate": 0.5,
+      "winRateWilson95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "territoryMean": 20.5,
+      "opponentTerritoryMean": 21.5,
+      "cappedGames": 0
+    },
+    "candidate-vs-baseline": {
+      "games": 2,
+      "wins": 1,
+      "losses": 1,
+      "draws": 0,
+      "scoreRate": 0.5,
+      "winRateWilson95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "territoryMean": 23,
+      "opponentTerritoryMean": 23.5,
+      "cappedGames": 0
+    }
+  },
+  "interventions": {
+    "interventions": 9,
+    "beneficial": 2,
+    "harmful": 1,
+    "neutral": 6,
+    "inconclusive": 0,
+    "fallbacks": 1,
+    "illegalActions": 0
+  },
+  "meanDecisionMs": {
+    "candidate": 237.77474156626502,
+    "baseline": 221.24206727272752,
+    "mcts": 222.97547790697692,
+    "heuristic": 0.25201190476192487,
+    "random": 0.13334230769239114
+  },
+  "decision": {
+    "accepted": false,
+    "recommendation": "keep-final-policy-disabled",
+    "ambiguous": true
+  }
+}

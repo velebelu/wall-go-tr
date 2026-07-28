@@ -41,6 +41,7 @@
     "human-experiment:start": "node scripts/start-human-experiment.mjs",
     "human-experiment:setup-participant": "node --import ./scripts/run-ts-node-esm.mjs src/training/setupHumanExperimentParticipant.ts",
     "human-experiment:ingest-latest": "node --import ./scripts/run-ts-node-esm.mjs src/training/ingestLatestHumanExperimentTrace.ts",
+    "evaluate:secured-territory-policy": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateSecuredTerritoryPolicy.ts",
     "training:analyze-q3-heuristic-traces": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeHeuristicTracesForQ3.ts",
     "training:analyze-q3-representation": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeQ3Representation.ts",
     "prepare": "husky"

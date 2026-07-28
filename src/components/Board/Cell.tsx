@@ -35,8 +35,6 @@ export default function Cell({
   placeStone,
   moveTo,
   buildWall,
-  board,
-  boardSize,
   territoryOwner,
 }: CellProps) {
   const posKey = getPosKey({ x, y })
@@ -194,28 +192,28 @@ export default function Cell({
           const wallDirs = [
             {
               dir: 'top',
-              show: y > 0 && !cell.wallTop,
+              show: legal.has(`wall:${x},${y}:top`),
               btnClass:
                 'absolute left-1/2 -translate-x-1/2 -top-[10%] w-[60%] h-[14%] min-h-[16px] max-h-[32px] min-w-[40px] max-w-[120px] flex items-center justify-center',
               divClass: 'h-[60%] w-full min-h-[4px] max-h-[12px] rounded',
             },
             {
               dir: 'left',
-              show: x > 0 && !cell.wallLeft,
+              show: legal.has(`wall:${x},${y}:left`),
               btnClass:
                 'absolute top-1/2 -translate-y-1/2 -left-[10%] h-[60%] w-[14%] min-h-[40px] max-h-[120px] min-w-[16px] max-w-[32px] flex items-center justify-center',
               divClass: 'w-[60%] h-full min-w-[4px] max-w-[12px] rounded',
             },
             {
               dir: 'right',
-              show: x < boardSize - 1 && !board[y][x + 1].wallLeft,
+              show: legal.has(`wall:${x},${y}:right`),
               btnClass:
                 'absolute top-1/2 -translate-y-1/2 -right-[10%] h-[60%] w-[14%] min-h-[40px] max-h-[120px] min-w-[16px] max-w-[32px] flex items-center justify-center',
               divClass: 'w-[60%] h-full min-w-[4px] max-w-[12px] rounded',
             },
             {
               dir: 'bottom',
-              show: y < boardSize - 1 && !board[y + 1][x].wallTop,
+              show: legal.has(`wall:${x},${y}:bottom`),
               btnClass:
                 'absolute left-1/2 -translate-x-1/2 -bottom-[10%] w-[60%] h-[14%] min-h-[16px] max-h-[32px] min-w-[40px] max-w-[120px] flex items-center justify-center',
               divClass: 'h-[60%] w-full min-h-[4px] max-h-[12px] rounded',

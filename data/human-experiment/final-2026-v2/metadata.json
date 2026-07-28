@@ -1,0 +1,17 @@
+{
+  "schema": "HumanExperimentMetadataV1",
+  "experimentId": "WGTR-HUMAN-FINAL-2026-V2",
+  "supersedes": "WGTR-HUMAN-FINAL-2026",
+  "archivedExperimentDirectory": "data/human-experiment/invalidated-2026-pre-wall-fix",
+  "createdAt": "2026-07-28",
+  "gameCount": 0,
+  "aiPolicy": {
+    "securedTerritoryPolicy": false,
+    "reason": "Rejected after the paired pilot: only 9 interventions, one fallback, and wide confidence intervals made the signal ambiguous."
+  },
+  "codeFreeze": {
+    "status": "awaiting-implementation-commit",
+    "implementationCommit": null,
+    "note": "This will reference the parent commit that freezes rules and playable AI. It is documentation only: each game records and validates the clean runtime HEAD automatically through VITE_GIT_COMMIT."
+  }
+}

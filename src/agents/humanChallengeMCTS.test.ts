@@ -97,6 +97,7 @@ describe('FINAL_HUMAN_CHALLENGE_MCTS_CONFIG', () => {
     expect(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.endgame.enabled).toBe(false)
     expect(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.budget.enable750).toBe(false)
     expect(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.budget.highUncertainty).toBe(500)
+    expect(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG).not.toHaveProperty('securedTerritoryPolicy')
   })
 
   it('abandona limpiamente el solucionador al alcanzar su límite', () => {

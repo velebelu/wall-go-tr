@@ -1,4 +1,5 @@
 import { setupHumanExperimentParticipant } from '@/experiments/humanExperimentParticipantSetup'
+import { CURRENT_HUMAN_EXPERIMENT_DIRECTORY } from '@/experiments/humanExperimentConfig'
 
 const [participantId, experienceGroup, previousGamesText, notes] = process.argv.slice(2)
 if (!participantId || !experienceGroup || previousGamesText === undefined)
@@ -6,7 +7,7 @@ if (!participantId || !experienceGroup || previousGamesText === undefined)
     'Usage: setupHumanExperimentParticipant <participantId> <experienceGroup> <previousWallGoGames> [notes]',
   )
 const result = await setupHumanExperimentParticipant({
-  experimentDirectory: 'data/human-experiment/final-2026',
+  experimentDirectory: CURRENT_HUMAN_EXPERIMENT_DIRECTORY,
   participantId,
   experienceGroup,
   previousWallGoGames: Number(previousGamesText),

@@ -131,7 +131,7 @@ describe('human experiment start script', () => {
     const spawnProcess = vi.fn(() => child)
     const commit = 'a'.repeat(40)
     const result = module.startHumanExperimentServer({
-      run: () => `${commit}\n`,
+      run: (_command: string, args: string[]) => (args[0] === 'rev-parse' ? `${commit}\n` : ''),
       spawnProcess,
       platform: 'win32',
       environment: { PATH: 'test', ComSpec: 'C:\\Windows\\System32\\cmd.exe' },
@@ -155,6 +155,18 @@ describe('human experiment start script', () => {
         throw new Error('git unavailable')
       }),
     ).toThrow('git unavailable')
+  })
+
+  it('refuses to start an experiment from a dirty worktree', async () => {
+    // @ts-expect-error The runtime script intentionally has no declaration file.
+    const module = await import('../../scripts/start-human-experiment.mjs')
+    expect(() =>
+      module.startHumanExperimentServer({
+        run: (_command: string, args: string[]) =>
+          args[0] === 'rev-parse' ? 'a'.repeat(40) : ' M src/example.ts',
+        spawnProcess: vi.fn(),
+      }),
+    ).toThrow('cambios sin commit')
   })
 
   it('resolves the Vite command for Windows, Linux, and macOS', async () => {
@@ -190,7 +202,7 @@ describe('human experiment start script', () => {
     child.killed = false
     child.kill = vi.fn()
     module.startHumanExperimentServer({
-      run: () => 'a'.repeat(40),
+      run: (_command: string, args: string[]) => (args[0] === 'rev-parse' ? 'a'.repeat(40) : ''),
       spawnProcess: () => child,
     })
     interrupt?.('SIGINT')

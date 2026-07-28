@@ -61,6 +61,7 @@ function syntheticTrace(): HumanMCTSTraceV1 {
   const trace = createHumanMCTSTrace({
     gameId: 'controlled-test',
     createdAt: '2026-01-01T00:00:00.000Z',
+    experimentId: 'WGTR-HUMAN-FINAL-2026',
     projectCommit: COMMIT,
     humanColor: 'R',
     mctsColor: 'B',
@@ -259,6 +260,37 @@ describe('latest trace ingestion', () => {
         participantId: 'P01',
         gameNumber: 1,
         downloadDirectories: [paths.downloads],
+        expectedCommit: COMMIT,
+      }),
+    ).rejects.toThrow('No compatible trace')
+  })
+
+  it('rejects a trace from the archived experiment when ingesting into v2', async () => {
+    const paths = await fixture()
+    const registryPath = resolve(paths.root, 'registry.json')
+    const registry = JSON.parse(await readFile(registryPath, 'utf8')) as HumanExperimentRegistry
+    registry.experimentId = 'WGTR-HUMAN-FINAL-2026-V2'
+    registry.participants[0].experimentId = registry.experimentId
+    await writeFile(registryPath, JSON.stringify(registry))
+    await writeFile(
+      resolve(paths.participantDirectory, 'game-1.json'),
+      JSON.stringify({
+        schema: 'HumanExperimentGameInputV1',
+        experimentId: registry.experimentId,
+        participantId: 'P01',
+        gameNumber: 1,
+        incidents: [],
+      }),
+    )
+    const trace = syntheticTrace()
+    trace.metadata.experimentId = 'WGTR-HUMAN-FINAL-2026'
+    const source = await writeTrace(paths.downloads, trace, 'traza_humano_mcts_archived.json')
+    await expect(
+      ingestLatestHumanExperimentTrace({
+        experimentDirectory: paths.root,
+        participantId: 'P01',
+        gameNumber: 1,
+        explicitTracePath: source,
         expectedCommit: COMMIT,
       }),
     ).rejects.toThrow('No compatible trace')

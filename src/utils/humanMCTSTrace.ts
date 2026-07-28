@@ -84,6 +84,7 @@ export interface HumanMCTSTraceV1 {
     startedAt?: string
     finishedAt?: string
     durationMs?: number
+    experimentId?: string
     projectVersion?: string
     projectCommit?: string
     boardSize: number
@@ -167,6 +168,7 @@ export function parseHumanMCTSTrace(json: string): HumanMCTSTraceV1 {
 export function createHumanMCTSTrace(params: {
   gameId?: string
   createdAt?: string
+  experimentId?: string
   projectVersion?: string
   projectCommit?: string
   humanColor: Player
@@ -182,6 +184,7 @@ export function createHumanMCTSTrace(params: {
     metadata: {
       gameId: params.gameId ?? 'pending',
       createdAt: params.createdAt ?? new Date().toISOString(),
+      experimentId: params.experimentId,
       projectVersion: params.projectVersion,
       projectCommit: params.projectCommit,
       boardSize: params.initialState.board.length,

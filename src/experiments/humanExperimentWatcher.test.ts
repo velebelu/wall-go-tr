@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -165,5 +165,63 @@ describe('human experiment watcher', () => {
     await writeFile(resolve(paths.downloads, 'traza_humano_mcts_late.json'), '{}')
     await watcher.scanOnce()
     expect(ingest).not.toHaveBeenCalled()
+  })
+
+  it('runs the complete watcher and real ingestion flow only inside temporary directories', async () => {
+    const paths = await fixture()
+    const experimentId = 'WGTR-HUMAN-FINAL-2026-V2'
+    const participantDirectory = resolve(paths.root, 'participants', 'P01')
+    await mkdir(resolve(participantDirectory, 'traces'), { recursive: true })
+    const isolatedRegistry = registry()
+    isolatedRegistry.experimentId = experimentId
+    isolatedRegistry.participants = [{ ...isolatedRegistry.participants[0], experimentId }]
+    await writeFile(resolve(paths.root, 'registry.json'), JSON.stringify(isolatedRegistry))
+    await writeFile(
+      resolve(participantDirectory, 'game-1.json'),
+      JSON.stringify({
+        schema: 'HumanExperimentGameInputV1',
+        experimentId,
+        participantId: 'P01',
+        gameNumber: 1,
+        incidents: [],
+      }),
+    )
+
+    const archivedTracePath = resolve(
+      'data',
+      'human-experiment',
+      'invalidated-2026-pre-wall-fix',
+      'participants',
+      'P01',
+      'traces',
+      'game-1.json',
+    )
+    const trace = JSON.parse(await readFile(archivedTracePath, 'utf8')) as {
+      metadata: { experimentId?: string; projectCommit: string }
+    }
+    trace.metadata.experimentId = experimentId
+    const logger = { log: vi.fn(), error: vi.fn() }
+    const watcher = new HumanExperimentWatcher({
+      experimentDirectory: paths.root,
+      downloadDirectory: paths.downloads,
+      expectedCommit: trace.metadata.projectCommit,
+      pollIntervalMs: 60_000,
+      stabilityIntervalMs: 1,
+      logger,
+    })
+    await watcher.start()
+    await writeFile(
+      resolve(paths.downloads, 'traza_humano_mcts_temporary_integration.json'),
+      JSON.stringify(trace),
+    )
+    await watcher.scanOnce()
+    watcher.close()
+
+    const updated = JSON.parse(
+      await readFile(resolve(paths.root, 'registry.json'), 'utf8'),
+    ) as HumanExperimentRegistry
+    expect(updated.games).toHaveLength(1)
+    expect(updated.games[0]).toMatchObject({ participantId: 'P01', gameNumber: 1 })
+    expect(logger.error).not.toHaveBeenCalled()
   })
 })

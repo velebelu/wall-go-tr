@@ -6,6 +6,7 @@ import { placingTurnIndex, advanceTurn } from './actions'
 import { isLegalMove } from '@/utils/move'
 import { checkGameEnd } from '@/utils/game'
 import { isHumanTurn } from '@/utils/player'
+import { getLegalActions } from '@/utils/ai'
 
 // This store uses a functional set pattern for all mutating actions.
 // Each mutation pushes a deep copy of the current state to history BEFORE mutation.
@@ -119,14 +120,7 @@ export const useGame = create<State>((_set, get) => {
         if (phase !== 'playing') return state
         if (stepsTaken > 0) return state
         if (board[pos.y][pos.x].stone !== turn) return state
-        const legal = new Set<string>()
-        for (let yy = 0; yy < board.length; yy++) {
-          for (let xx = 0; xx < board.length; xx++) {
-            if (isLegalMove(pos, { x: xx, y: yy }, board)) {
-              legal.add(`${xx},${yy}`)
-            }
-          }
-        }
+        const legal = legalSelectionsForStone(snapshotFromState(state), pos)
         return {
           ...state,
           selected: pos,
@@ -160,6 +154,7 @@ export const useGame = create<State>((_set, get) => {
             }
           }
         }
+        legalSelectionsForStone(next, to, nextLegal)
         next.selected = to
         next.legal = nextLegal
         next.stepsTaken = newSteps
@@ -175,21 +170,10 @@ export const useGame = create<State>((_set, get) => {
     },
     buildWall(pos: Pos, dir: WallDir) {
       set((state) => {
-        const { board, turn, selected, phase } = state
+        const { turn, selected, phase } = state
         if (phase !== 'playing') return state
         if (!selected || selected.x !== pos.x || selected.y !== pos.y) return state
-        // Check if wall can be built before mutating
-        if (dir === 'top') {
-          if (pos.y === 0 || board[pos.y][pos.x].wallTop !== null) return state
-        } else if (dir === 'left') {
-          if (pos.x === 0 || board[pos.y][pos.x].wallLeft !== null) return state
-        } else if (dir === 'right') {
-          if (pos.x + 1 >= board.length || board[pos.y][pos.x + 1].wallLeft !== null) return state
-        } else if (dir === 'bottom') {
-          if (pos.y + 1 >= board.length || board[pos.y + 1][pos.x].wallTop !== null) return state
-        } else {
-          return state
-        }
+        if (!state.legal.has(`wall:${pos.x},${pos.y}:${dir}`)) return state
         // Mutate a deep copy of state
         const next = snapshotFromState(state)
         const cell = next.board[pos.y][pos.x]
@@ -283,3 +267,23 @@ export const useGame = create<State>((_set, get) => {
     },
   }
 })
+
+function legalSelectionsForStone(
+  state: import('@/lib/types').GameSnapshot,
+  from: Pos,
+  legal: Set<string> = new Set(),
+): Set<string> {
+  for (const action of getLegalActions(state)) {
+    if (action.type === 'move' && action.from?.x === from.x && action.from.y === from.y) {
+      legal.add(`${action.pos.x},${action.pos.y}`)
+    } else if (
+      action.type === 'wall' &&
+      action.from?.x === from.x &&
+      action.from.y === from.y &&
+      action.dir
+    ) {
+      legal.add(`wall:${action.pos.x},${action.pos.y}:${action.dir}`)
+    }
+  }
+  return legal
+}

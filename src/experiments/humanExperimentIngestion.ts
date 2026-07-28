@@ -161,6 +161,7 @@ async function candidateIsValid(params: {
 }): Promise<boolean> {
   const trace = params.candidate.trace
   if (!trace.final || trace.decisions.length === 0) return false
+  if (trace.metadata.experimentId !== params.registry.experimentId) return false
   if (trace.metadata.projectCommit !== params.expectedCommit) return false
   if (
     canonicalStringify(trace.metadata.finalHumanChallengeConfig) !==

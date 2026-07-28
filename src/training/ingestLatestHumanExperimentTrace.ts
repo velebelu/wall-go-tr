@@ -1,4 +1,5 @@
 import { ingestLatestHumanExperimentTrace } from '@/experiments/humanExperimentIngestion'
+import { CURRENT_HUMAN_EXPERIMENT_DIRECTORY } from '@/experiments/humanExperimentConfig'
 
 const [participantId, gameNumberText, explicitTracePath] = process.argv.slice(2)
 if (!participantId || !gameNumberText)
@@ -6,7 +7,7 @@ if (!participantId || !gameNumberText)
     'Usage: ingestLatestHumanExperimentTrace <participantId> <gameNumber> [explicitTracePath]',
   )
 const result = await ingestLatestHumanExperimentTrace({
-  experimentDirectory: 'data/human-experiment/final-2026',
+  experimentDirectory: CURRENT_HUMAN_EXPERIMENT_DIRECTORY,
   participantId,
   gameNumber: Number(gameNumberText),
   explicitTracePath,

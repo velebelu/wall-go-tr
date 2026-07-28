@@ -9,6 +9,7 @@ import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import { getLegalActions } from '@/utils/ai'
 import { floodRegions } from '@/utils/region'
 import { getTerritoryMap } from '@/utils/territory'
+import { chooseSecuredTerritoryCandidate } from './securedTerritoryPolicy'
 
 export interface HumanChallengeConfig {
   mcts: Readonly<MCTSConfig>
@@ -219,15 +220,36 @@ export interface HumanChallengeDecision {
   endgameNodes: number
   endgameMs: number
   endgameChangedAction: boolean
+  securedTerritoryIntervention: boolean
+  securedTerritoryChangedAction: boolean
+  securedTerritoryRemovedMovements: number
+  securedTerritoryFallback: boolean
 }
 
-export function chooseHumanChallengeMCTSDecision(params: {
+export interface HumanChallengeDecisionParams {
   gameState: GameSnapshot
   seed: number
   config?: Readonly<HumanChallengeConfig>
   endgameEnabled?: boolean
   now?: () => number
-}): HumanChallengeDecision {
+}
+
+export function chooseHumanChallengeMCTSDecision(
+  params: HumanChallengeDecisionParams,
+): HumanChallengeDecision {
+  return chooseHumanChallengeMCTSDecisionInternal(params, false)
+}
+
+export function chooseHumanChallengeMCTSDecisionExperimentalSecuredTerritory(
+  params: HumanChallengeDecisionParams,
+): HumanChallengeDecision {
+  return chooseHumanChallengeMCTSDecisionInternal(params, true)
+}
+
+function chooseHumanChallengeMCTSDecisionInternal(
+  params: HumanChallengeDecisionParams,
+  securedTerritoryPolicyEnabled: boolean,
+): HumanChallengeDecision {
   const config = params.config ?? FINAL_HUMAN_CHALLENGE_MCTS_CONFIG
   const now = params.now ?? (() => performance.now())
   const startedAt = now()
@@ -274,7 +296,21 @@ export function chooseHumanChallengeMCTSDecision(params: {
   const solver = detection.active
     ? solveSmallEndgame(params.gameState, params.gameState.turn, config.endgame, now)
     : { completed: false, nodes: 0, elapsedMs: 0 }
-  const action = solver.completed && solver.action ? solver.action : staged.result.action
+  const prePolicyAction = solver.completed && solver.action ? solver.action : staged.result.action
+  const policy = securedTerritoryPolicyEnabled
+    ? chooseSecuredTerritoryCandidate({
+        state: params.gameState,
+        selected: prePolicyAction,
+        candidates: staged.result.children,
+      })
+    : {
+        action: prePolicyAction,
+        intervention: false,
+        changed: false,
+        removedMovements: 0,
+        usedFallback: false,
+      }
+  const action = policy.action
   return {
     action,
     mcts: staged.result,
@@ -294,5 +330,9 @@ export function chooseHumanChallengeMCTSDecision(params: {
       solver.completed &&
       solver.action !== undefined &&
       JSON.stringify(solver.action) !== JSON.stringify(staged.result.action),
+    securedTerritoryIntervention: policy.intervention,
+    securedTerritoryChangedAction: policy.changed,
+    securedTerritoryRemovedMovements: policy.removedMovements,
+    securedTerritoryFallback: policy.usedFallback,
   }
 }

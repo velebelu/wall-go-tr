@@ -43,6 +43,7 @@ import {
   type PreparedHumanMCTSTraceFile,
 } from '@/utils/humanMCTSTrace'
 import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
+import { CURRENT_HUMAN_EXPERIMENT_ID } from '@/experiments/humanExperimentConfig'
 
 export default function Game({
   gameMode,
@@ -212,6 +213,7 @@ export default function Game({
       setMctsTraceComplete(false)
       const mcts = new MCTSAgent({ profile: 'human-challenge' })
       fullMctsTraceRef.current = createHumanMCTSTrace({
+        experimentId: CURRENT_HUMAN_EXPERIMENT_ID,
         projectCommit: import.meta.env.VITE_GIT_COMMIT,
         humanColor: aiSide === 'R' ? 'B' : 'R',
         mctsColor: aiSide,

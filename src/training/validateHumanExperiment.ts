@@ -3,9 +3,9 @@ import { dirname, resolve } from 'node:path'
 import { readRegistry } from '@/experiments/humanExperimentExport'
 import { canonicalStringify } from '@/experiments/humanExperimentCanonical'
 import { deriveGameFromTrace, validateRegistry } from '@/experiments/humanExperimentValidation'
+import { CURRENT_HUMAN_EXPERIMENT_DIRECTORY } from '@/experiments/humanExperimentConfig'
 
-const experimentDirectory = process.argv[2]
-if (!experimentDirectory) throw new Error('Usage: validateHumanExperiment <experiment-directory>')
+const experimentDirectory = process.argv[2] ?? CURRENT_HUMAN_EXPERIMENT_DIRECTORY
 const registry = await readRegistry(resolve(experimentDirectory, 'registry.json'))
 validateRegistry(registry)
 await Promise.all(

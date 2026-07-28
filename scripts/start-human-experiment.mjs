@@ -17,6 +17,16 @@ export function getGitCommit(run = execFileSync) {
   }
 }
 
+export function assertCleanWorktree(run = execFileSync) {
+  const status = String(
+    run('git', ['status', '--porcelain', '--untracked-files=normal'], { encoding: 'utf8' }),
+  ).trim()
+  if (status)
+    throw new Error(
+      'El experimento humano está congelado: hay cambios sin commit. Revise y cree el commit final antes de recoger partidas.',
+    )
+}
+
 export function resolveDevCommand(platform = process.platform, environment = process.env) {
   if (platform === 'win32') {
     const command = environment.ComSpec || environment.COMSPEC
@@ -27,11 +37,7 @@ export function resolveDevCommand(platform = process.platform, environment = pro
 }
 
 export function resolveWatcherCommand(platform = process.platform, environment = process.env) {
-  const args = [
-    '--import',
-    './scripts/run-ts-node-esm.mjs',
-    'src/training/watchHumanExperiment.ts',
-  ]
+  const args = ['--import', './scripts/run-ts-node-esm.mjs', 'src/training/watchHumanExperiment.ts']
   if (platform === 'win32') {
     const command = environment.ComSpec || environment.COMSPEC
     if (!command) throw new Error('Unable to start watcher: ComSpec is not available on Windows')
@@ -47,6 +53,7 @@ export function startHumanExperimentServer({
   environment = process.env,
 } = {}) {
   const commit = getGitCommit(run)
+  assertCleanWorktree(run)
   console.log(`Human experiment commit:\n${commit}`)
   const devCommand = resolveDevCommand(platform, environment)
   const childEnvironment = { ...environment, VITE_GIT_COMMIT: commit }

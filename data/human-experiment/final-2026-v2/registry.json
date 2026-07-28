@@ -1,0 +1,46 @@
+{
+  "schema": "HumanExperimentRegistryV1",
+  "experimentId": "WGTR-HUMAN-FINAL-2026-V2",
+  "participants": [
+    {
+      "schema": "HumanExperimentParticipantV1",
+      "experimentId": "WGTR-HUMAN-FINAL-2026-V2",
+      "participantId": "P01",
+      "experienceGroup": "none",
+      "previousWallGoGames": 0,
+      "practiceGames": 1,
+      "colorOrder": [
+        "R",
+        "B"
+      ],
+      "notes": ""
+    },
+    {
+      "schema": "HumanExperimentParticipantV1",
+      "experimentId": "WGTR-HUMAN-FINAL-2026-V2",
+      "participantId": "P02",
+      "experienceGroup": "none",
+      "previousWallGoGames": 0,
+      "practiceGames": 1,
+      "colorOrder": [
+        "B",
+        "R"
+      ],
+      "notes": ""
+    },
+    {
+      "schema": "HumanExperimentParticipantV1",
+      "experimentId": "WGTR-HUMAN-FINAL-2026-V2",
+      "participantId": "P03",
+      "experienceGroup": "none",
+      "previousWallGoGames": 0,
+      "practiceGames": 1,
+      "colorOrder": [
+        "R",
+        "B"
+      ],
+      "notes": ""
+    }
+  ],
+  "games": []
+}

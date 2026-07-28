@@ -1,9 +1,8 @@
 import { resolve } from 'node:path'
 import { HumanExperimentWatcher } from '@/experiments/humanExperimentWatcher'
+import { CURRENT_HUMAN_EXPERIMENT_DIRECTORY } from '@/experiments/humanExperimentConfig'
 
-const experimentDirectory = resolve(
-  process.env.HUMAN_EXPERIMENT_DIR ?? 'data/human-experiment/final-2026',
-)
+const experimentDirectory = resolve(CURRENT_HUMAN_EXPERIMENT_DIRECTORY)
 const downloadDirectory =
   process.env.HUMAN_EXPERIMENT_DOWNLOAD_DIR ?? 'Z:\\ARCHIVOS ERIC\\Descargas'
 const expectedCommit = process.env.VITE_GIT_COMMIT
