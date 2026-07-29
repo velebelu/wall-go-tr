@@ -3,6 +3,9 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+export const CURRENT_EXPERIMENT_ID = 'WGTR-HUMAN-FINAL-2026-V3'
+export const CURRENT_EXPERIMENT_DIRECTORY = 'data/human-experiment/final-2026-v3'
+
 export function validateFullCommit(value) {
   const commit = String(value).trim()
   if (!/^[0-9a-f]{40}$/i.test(commit)) throw new Error(`Invalid Git commit: ${commit || '<empty>'}`)
@@ -61,6 +64,13 @@ export function startHumanExperimentServer({
   const sessionEnvironment = resolveSessionEnvironment(argv, {
     ...environment,
     RUNTIME_GIT_COMMIT: commit,
+    RUNTIME_PARENT_COMMIT: validateFullCommit(
+      run('git', ['rev-parse', 'HEAD^'], { encoding: 'utf8' }),
+    ),
+    COMMIT_EXISTS: (candidate) => {
+      run('git', ['cat-file', '-e', `${candidate}^{commit}`], { stdio: 'ignore' })
+      return true
+    },
   })
   const devCommand = resolveDevCommand(platform, environment)
   const childEnvironment = {
@@ -113,9 +123,25 @@ export function resolveSessionEnvironment(argv, environment = process.env, read 
       throw new Error('Uso: npm run human-experiment:start -- official P01 <1|2>')
     const gameNumber = Number(gameNumberOrAiColor)
     if (gameNumber !== 1 && gameNumber !== 2) throw new Error('gameNumber must be 1 or 2')
-    const directory =
-      environment.HUMAN_EXPERIMENT_DIRECTORY ?? 'data/human-experiment/final-2026-v2'
+    if (
+      environment.HUMAN_EXPERIMENT_DIRECTORY &&
+      environment.HUMAN_EXPERIMENT_DIRECTORY.replace(/\\/g, '/') !== CURRENT_EXPERIMENT_DIRECTORY
+    )
+      throw new Error('Official sessions only accept the current V3 experiment directory')
+    const directory = CURRENT_EXPERIMENT_DIRECTORY
     const registry = JSON.parse(read(resolve(directory, 'registry.json'), 'utf8'))
+    const metadata = JSON.parse(read(resolve(directory, 'metadata.json'), 'utf8'))
+    if (
+      registry.experimentId !== CURRENT_EXPERIMENT_ID ||
+      metadata.experimentId !== CURRENT_EXPERIMENT_ID
+    )
+      throw new Error('Official sessions only accept WGTR-HUMAN-FINAL-2026-V3')
+    validateOfficialCodeFreeze(
+      metadata,
+      environment.RUNTIME_GIT_COMMIT,
+      environment.RUNTIME_PARENT_COMMIT,
+      environment.COMMIT_EXISTS,
+    )
     const participant = registry.participants.find((row) => row.participantId === participantId)
     if (!participant) throw new Error(`Participant is not registered: ${participantId}`)
     if (
@@ -144,14 +170,14 @@ export function resolveSessionEnvironment(argv, environment = process.env, read 
   if (sessionType === 'practice') {
     if (!participantId || gameNumberOrAiColor)
       throw new Error('Uso: npm run human-experiment:start -- practice P01')
-    const directory =
-      environment.HUMAN_EXPERIMENT_DIRECTORY ?? 'data/human-experiment/final-2026-v2'
-    const registry = JSON.parse(read(resolve(directory, 'registry.json'), 'utf8'))
+    const registry = JSON.parse(
+      read(resolve(CURRENT_EXPERIMENT_DIRECTORY, 'registry.json'), 'utf8'),
+    )
     const participant = registry.participants.find((row) => row.participantId === participantId)
     if (!participant) throw new Error(`Participant is not registered: ${participantId}`)
     const humanColor = participant.colorOrder[0]
     return {
-      VITE_EXPERIMENT_ID: registry.experimentId,
+      VITE_EXPERIMENT_ID: CURRENT_EXPERIMENT_ID,
       VITE_PARTICIPANT_ID: participantId,
       VITE_SESSION_TYPE: 'practice',
       VITE_SESSION_ID: crypto.randomUUID(),
@@ -172,6 +198,34 @@ export function resolveSessionEnvironment(argv, environment = process.env, read 
     }
   }
   throw new Error('Debe indicar el contexto: official P01 <1|2>, practice P01 o diagnostic <R|B>')
+}
+
+export function validateOfficialCodeFreeze(
+  metadata,
+  runtimeCommit,
+  runtimeParentCommit,
+  commitExists = () => true,
+) {
+  const freeze = metadata?.codeFreeze
+  if (metadata?.aiPolicy?.securedTerritoryPolicy !== false)
+    throw new Error('securedTerritoryPolicy must remain disabled')
+  if (
+    !/^[0-9a-f]{40}$/i.test(freeze?.implementationCommit ?? '') ||
+    !/^[0-9a-f]{40}$/i.test(freeze?.experimentPreparationCommit ?? '')
+  )
+    throw new Error('V3 code freeze still contains a provisional commit')
+  if (runtimeCommit && !/^[0-9a-f]{40}$/i.test(runtimeCommit))
+    throw new Error('Runtime commit must be a full commit')
+  if (runtimeParentCommit && runtimeParentCommit !== freeze.experimentPreparationCommit)
+    throw new Error('Runtime parent does not match V3 experimentPreparationCommit')
+  for (const commit of [freeze.implementationCommit, freeze.experimentPreparationCommit]) {
+    try {
+      if (!commitExists(commit)) throw new Error('not found')
+    } catch {
+      throw new Error(`Frozen commit does not exist: ${commit}`)
+    }
+  }
+  return freeze
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1])

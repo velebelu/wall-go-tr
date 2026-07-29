@@ -134,7 +134,13 @@ describe('human experiment start script', () => {
       run: (_command: string, args: string[]) => (args[0] === 'rev-parse' ? `${commit}\n` : ''),
       spawnProcess,
       platform: 'win32',
-      environment: { PATH: 'test', ComSpec: 'C:\\Windows\\System32\\cmd.exe' },
+      environment: {
+        PATH: 'test',
+        ComSpec: 'C:\\Windows\\System32\\cmd.exe',
+        VITE_SECURED_TERRITORY_POLICY: 'true',
+        SECURED_TERRITORY_POLICY: 'true',
+      },
+      argv: ['diagnostic', 'B'],
     })
     expect(result.commit).toBe(commit)
     expect(spawnProcess).toHaveBeenCalledWith(
@@ -142,8 +148,53 @@ describe('human experiment start script', () => {
       ['/d', '/s', '/c', 'npm run dev'],
       expect.objectContaining({ env: expect.objectContaining({ VITE_GIT_COMMIT: commit }) }),
     )
-    expect(spawnProcess).toHaveBeenCalledTimes(2)
+    expect(spawnProcess).toHaveBeenCalledTimes(1)
+    const spawnCall = spawnProcess.mock.calls[0] as unknown as [
+      string,
+      string[],
+      { env: Record<string, string | undefined> },
+    ]
+    const spawnedEnvironment = spawnCall[2].env
+    expect(spawnedEnvironment.VITE_SECURED_TERRITORY_POLICY).toBeUndefined()
+    expect(spawnedEnvironment.SECURED_TERRITORY_POLICY).toBeUndefined()
     child.emit('exit', 0, null)
+  })
+
+  it('validates full existing code-freeze commits and the official runtime commit', async () => {
+    // @ts-expect-error The runtime script intentionally has no declaration file.
+    const module = await import('../../scripts/start-human-experiment.mjs')
+    const implementationCommit = 'a'.repeat(40)
+    const experimentPreparationCommit = 'b'.repeat(40)
+    const metadata = {
+      aiPolicy: { securedTerritoryPolicy: false },
+      codeFreeze: { implementationCommit, experimentPreparationCommit },
+    }
+    expect(
+      module.validateOfficialCodeFreeze(
+        metadata,
+        'c'.repeat(40),
+        experimentPreparationCommit,
+        (commit: string) => [implementationCommit, experimentPreparationCommit].includes(commit),
+      ),
+    ).toBe(metadata.codeFreeze)
+    expect(() =>
+      module.validateOfficialCodeFreeze(metadata, 'c'.repeat(40), 'd'.repeat(40), () => true),
+    ).toThrow('does not match')
+    expect(() =>
+      module.validateOfficialCodeFreeze(
+        metadata,
+        'c'.repeat(40),
+        experimentPreparationCommit,
+        () => false,
+      ),
+    ).toThrow('does not exist')
+    expect(() =>
+      module.validateOfficialCodeFreeze(
+        { ...metadata, aiPolicy: { securedTerritoryPolicy: true } },
+        'c'.repeat(40),
+        experimentPreparationCommit,
+      ),
+    ).toThrow('must remain disabled')
   })
 
   it('rejects invalid hashes and unavailable Git', async () => {
@@ -204,9 +255,10 @@ describe('human experiment start script', () => {
     module.startHumanExperimentServer({
       run: (_command: string, args: string[]) => (args[0] === 'rev-parse' ? 'a'.repeat(40) : ''),
       spawnProcess: () => child,
+      argv: ['diagnostic', 'B'],
     })
     interrupt?.('SIGINT')
     expect(child.kill).toHaveBeenCalledWith('SIGINT')
-    expect(child.kill).toHaveBeenCalledTimes(2)
+    expect(child.kill).toHaveBeenCalledTimes(1)
   })
 })

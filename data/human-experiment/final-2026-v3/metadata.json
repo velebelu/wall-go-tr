@@ -1,0 +1,30 @@
+{
+  "schema": "HumanExperimentMetadataV2",
+  "experimentId": "WGTR-HUMAN-FINAL-2026-V3",
+  "supersedes": "WGTR-HUMAN-FINAL-2026-V2",
+  "archivedExperimentDirectory": "data/human-experiment/invalidated-2026-v2-pre-traceability",
+  "createdAt": "2026-07-29",
+  "gameCount": 0,
+  "aiPolicy": {
+    "securedTerritoryPolicy": false,
+    "status": "rejected",
+    "accepted": false,
+    "reason": "negative-counterfactual-effect",
+    "independentInterventions": 4,
+    "beneficial": 1,
+    "harmful": 3,
+    "meanTerritoryEffect": -1.55,
+    "bootstrap95": [
+      -2.9,
+      -0.3
+    ],
+    "independentInterventionsPer100Decisions": 0.24,
+    "conclusion": "The redundant behaviour exists, but the filter frequently removes strategically superior actions."
+  },
+  "codeFreeze": {
+    "status": "prepared",
+    "implementationCommit": "PENDING_IMPLEMENTATION_COMMIT",
+    "experimentPreparationCommit": "PENDING_EXPERIMENT_PREPARATION_COMMIT",
+    "relation": "implementationCommit freezes functional and traceability code; experimentPreparationCommit is the parent of the final metadata-binding commit used as the clean runtime HEAD."
+  }
+}
