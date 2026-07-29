@@ -1,0 +1,25 @@
+{
+  "schema": "TacticalSaturationAuditConfigurationV1",
+  "historicalStates": 13,
+  "syntheticNormalStates": 6,
+  "seedsPerState": 8,
+  "decisions": 152,
+  "budget": 500,
+  "variants": [
+    "A-current-2",
+    "B-current-2-plus-raw",
+    "C-exact-cap-3",
+    "C-exact-cap-4",
+    "C-exact-cap-6",
+    "C-exact-cap-8",
+    "D-saturated-cap-3",
+    "D-saturated-cap-4",
+    "D-saturated-cap-6",
+    "D-saturated-cap-8",
+    "E-deterministic-representative"
+  ],
+  "exactTolerance": 1e-12,
+  "qPriorWeight": 0,
+  "officialTacticalCandidateCount": 2,
+  "productionConfigurationChanged": false
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "StrategicTempoCounterfactualConfigurationV1",
+  "pilotRepetitionsPerStateAndAction": 3,
+  "pairedSeeds": true,
+  "continuationOpponent": "heuristic",
+  "continuationAiPolicy": "FINAL_HUMAN_CHALLENGE_MCTS_CONFIG",
+  "qPriorWeight": 0,
+  "persistentVariant": "value-0.025-visits-0.15",
+  "variants": [
+    "exact-value",
+    "value-0.01",
+    "value-0.025",
+    "value-0.05",
+    "value-0.025-visits-0.15",
+    "saturated-equal"
+  ],
+  "maxContinuationTurns": 100,
+  "bootstrapSamples": 10000,
+  "competitiveEvaluationPrecondition": "counterfactual variant must be beneficial without high intervention frequency",
+  "competitiveEvaluationExecuted": false,
+  "competitiveEvaluationReason": "No tested variant met the precondition."
+}

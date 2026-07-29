@@ -1,0 +1,34 @@
+{
+  "schema": "StrategicTempoFinalDecisionV1",
+  "status": "closed",
+  "accepted": false,
+  "decision": "no-change",
+  "reason": "isolated-non-generalizable-cases",
+  "officialAIChanged": false,
+  "rejectedApproaches": [
+    "securedTerritoryPolicy",
+    "strategicProgressScore",
+    "progressTiebreak",
+    "persistentTempoPolicy",
+    "adaptiveTacticalCandidateExpansion"
+  ],
+  "confirmedRedundantCases": [
+    "2eac0bd16e43",
+    "d8c69cdbde8d",
+    "f197c3b937e4"
+  ],
+  "references": {
+    "overview": "README.md",
+    "initialDiagnostic": "diagnostic-report.json",
+    "counterfactualMethodology": "counterfactual/METHODOLOGY.md",
+    "counterfactualAggregate": "counterfactual/aggregate-report.json",
+    "rootSelectionMethodology": "root-selection-audit/METHODOLOGY.md",
+    "rootSelectionAggregate": "root-selection-audit/aggregate-results.json",
+    "tacticalSaturationMethodology": "tactical-saturation-audit/METHODOLOGY.md",
+    "tacticalSaturationAggregate": "tactical-saturation-audit/aggregate-results.json",
+    "finalConclusion": "FINAL-CONCLUSION.md"
+  },
+  "competitiveEvaluationExecuted": false,
+  "competitiveEvaluationReason": "No diagnostic variant passed the fixture, control, and order-stability prerequisites.",
+  "finalRecommendation": "Keep the frozen official MCTS configuration unchanged."
+}

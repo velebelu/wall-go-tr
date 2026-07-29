@@ -1,0 +1,20 @@
+{
+  "schema": "StrategicTempoRootSelectionAuditConfigurationV1",
+  "targets": ["2eac0bd16e43", "d8c69cdbde8d", "f197c3b937e4"],
+  "budgets": [25, 50, 100, 150, 250, 500, 750, 1000],
+  "budgetSeedsPerBudget": 5,
+  "seedSweepSize": 32,
+  "orderModes": [
+    "current",
+    "reverse",
+    "seeded-random",
+    "moves-first",
+    "walls-first",
+    "coordinate",
+    "type",
+    "rotate-1",
+    "rotate-7"
+  ],
+  "officialConfigurationChanged": false,
+  "qPriorWeight": 0
+}

@@ -1,0 +1,3649 @@
+{
+  "schema": "StrategicTempoCounterfactualPilotV1",
+  "repetitions": 3,
+  "fixtures": [
+    {
+      "fixture": "024456fb924d.fixture.json",
+      "gameId": "diagnostic-14",
+      "turnIndex": 39,
+      "player": "B",
+      "previousClassification": "ambiguous",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 0
+              },
+              "pos": {
+                "x": 1,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 1
+            },
+            "pos": {
+              "x": 0,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 3
+              },
+              "pos": {
+                "x": 0,
+                "y": 3
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 6,
+              "y": 3
+            },
+            "pos": {
+              "x": 6,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 1
+              },
+              "pos": {
+                "x": 6,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 0
+              },
+              "pos": {
+                "x": 1,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": false,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 27,
+          "opponentTerritoryMean": 15,
+          "territoryDifferenceMean": 12,
+          "territoryDifferenceMedian": 11,
+          "turnsMean": 4.666666666666667,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 599.8379722222231,
+          "maxDecisionMs": 963.9022000000004,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 27.333333333333332,
+          "opponentTerritoryMean": 14.333333333333334,
+          "territoryDifferenceMean": 13,
+          "territoryDifferenceMedian": 14,
+          "turnsMean": 4.666666666666667,
+          "suspiciousInternalMoves": 4,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 591.0596777777778,
+          "maxDecisionMs": 825.5167000000001,
+          "pairedEffects": [
+            3,
+            -3,
+            3
+          ],
+          "meanEffect": 1,
+          "bootstrap95": [
+            -3,
+            3
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 23.666666666666668,
+          "opponentTerritoryMean": 13.666666666666666,
+          "territoryDifferenceMean": 10,
+          "territoryDifferenceMedian": 10,
+          "turnsMean": 10,
+          "suspiciousInternalMoves": 8,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 1079.0085923809522,
+          "maxDecisionMs": 1751.5967,
+          "pairedEffects": [
+            -5,
+            0,
+            -1
+          ],
+          "meanEffect": -2,
+          "bootstrap95": [
+            -5,
+            0
+          ],
+          "effectClassification": "harmful"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 27,
+          "opponentTerritoryMean": 15,
+          "territoryDifferenceMean": 12,
+          "territoryDifferenceMedian": 11,
+          "turnsMean": 4.666666666666667,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 599.8379722222231,
+          "maxDecisionMs": 963.9022000000004,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "draws": 0,
+        "winRate": 1,
+        "ownTerritoryMean": 25,
+        "opponentTerritoryMean": 15,
+        "territoryDifferenceMean": 10,
+        "territoryDifferenceMedian": 9,
+        "turnsMean": 9.333333333333334,
+        "suspiciousInternalMoves": 3,
+        "tiebreakActivations": 11,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 411.6744683333331,
+        "maxDecisionMs": 1003.4796999999999,
+        "pairedEffects": [
+          -2,
+          -6,
+          2
+        ],
+        "meanEffect": -2,
+        "bootstrap95": [
+          -6,
+          2
+        ],
+        "effectClassification": "inconclusive"
+      }
+    },
+    {
+      "fixture": "06eb43800ede.fixture.json",
+      "gameId": "diagnostic-2",
+      "turnIndex": 33,
+      "player": "B",
+      "previousClassification": "ambiguous",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "left"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 1
+              },
+              "pos": {
+                "x": 4,
+                "y": 1
+              },
+              "dir": "left"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 2,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 5
+            },
+            "dir": "right"
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 2
+              },
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "right"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 2,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 5
+            },
+            "dir": "right"
+          }
+        }
+      ],
+      "conservativeChanged": true,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 29,
+          "opponentTerritoryMean": 17,
+          "territoryDifferenceMean": 12,
+          "territoryDifferenceMedian": 12,
+          "turnsMean": 11,
+          "suspiciousInternalMoves": 9,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 844.1083009523817,
+          "maxDecisionMs": 1777.162400000001,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 25.666666666666668,
+          "opponentTerritoryMean": 15.333333333333334,
+          "territoryDifferenceMean": 10.333333333333334,
+          "territoryDifferenceMedian": 11,
+          "turnsMean": 13,
+          "suspiciousInternalMoves": 15,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 908.1771633333343,
+          "maxDecisionMs": 1916.0437000000093,
+          "pairedEffects": [
+            -4,
+            1,
+            -2
+          ],
+          "meanEffect": -1.6666666666666667,
+          "bootstrap95": [
+            -4,
+            1
+          ],
+          "effectClassification": "harmful"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 27.333333333333332,
+          "opponentTerritoryMean": 17,
+          "territoryDifferenceMean": 10.333333333333334,
+          "territoryDifferenceMedian": 11,
+          "turnsMean": 11.666666666666666,
+          "suspiciousInternalMoves": 12,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 872.6309555555539,
+          "maxDecisionMs": 1678.865300000005,
+          "pairedEffects": [
+            0,
+            -4,
+            -1
+          ],
+          "meanEffect": -1.6666666666666667,
+          "bootstrap95": [
+            -4,
+            0
+          ],
+          "effectClassification": "harmful"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 25.666666666666668,
+          "opponentTerritoryMean": 15.333333333333334,
+          "territoryDifferenceMean": 10.333333333333334,
+          "territoryDifferenceMedian": 11,
+          "turnsMean": 13,
+          "suspiciousInternalMoves": 15,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 908.1771633333343,
+          "maxDecisionMs": 1916.0437000000093,
+          "pairedEffects": [
+            -4,
+            1,
+            -2
+          ],
+          "meanEffect": -1.6666666666666667,
+          "bootstrap95": [
+            -4,
+            1
+          ],
+          "effectClassification": "harmful"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "draws": 0,
+        "winRate": 1,
+        "ownTerritoryMean": 23.666666666666668,
+        "opponentTerritoryMean": 16,
+        "territoryDifferenceMean": 7.666666666666667,
+        "territoryDifferenceMedian": 7,
+        "turnsMean": 12.666666666666666,
+        "suspiciousInternalMoves": 8,
+        "tiebreakActivations": 16,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 1396.6557487301554,
+        "maxDecisionMs": 2403.309199999989,
+        "pairedEffects": [
+          -4,
+          -2,
+          -7
+        ],
+        "meanEffect": -4.333333333333333,
+        "bootstrap95": [
+          -7,
+          -2
+        ],
+        "effectClassification": "harmful"
+      }
+    },
+    {
+      "fixture": "2eac0bd16e43.fixture.json",
+      "gameId": "diagnostic-6",
+      "turnIndex": 41,
+      "player": "B",
+      "previousClassification": "future-wall-preparation",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 3,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 1
+              },
+              "pos": {
+                "x": 3,
+                "y": 1
+              },
+              "dir": "right"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 2
+              },
+              "pos": {
+                "x": 4,
+                "y": 2
+              },
+              "dir": "right"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 6,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 1
+              },
+              "pos": {
+                "x": 5,
+                "y": 1
+              },
+              "dir": "right"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 3,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 1
+              },
+              "pos": {
+                "x": 3,
+                "y": 1
+              },
+              "dir": "right"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": false,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 0,
+          "losses": 3,
+          "draws": 0,
+          "winRate": 0,
+          "ownTerritoryMean": 9.666666666666666,
+          "opponentTerritoryMean": 27.333333333333332,
+          "territoryDifferenceMean": -17.666666666666668,
+          "territoryDifferenceMedian": -18,
+          "turnsMean": 9.666666666666666,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 347.39763571428676,
+          "maxDecisionMs": 650.0092000000004,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 0,
+          "losses": 3,
+          "draws": 0,
+          "winRate": 0,
+          "ownTerritoryMean": 10.666666666666666,
+          "opponentTerritoryMean": 20.333333333333332,
+          "territoryDifferenceMean": -9.666666666666666,
+          "territoryDifferenceMedian": -7,
+          "turnsMean": 14,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 505.43840634920775,
+          "maxDecisionMs": 954.0042000000103,
+          "pairedEffects": [
+            13,
+            9,
+            2
+          ],
+          "meanEffect": 8,
+          "bootstrap95": [
+            2,
+            13
+          ],
+          "effectClassification": "beneficial"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 0,
+          "losses": 3,
+          "draws": 0,
+          "winRate": 0,
+          "ownTerritoryMean": 7.333333333333333,
+          "opponentTerritoryMean": 26,
+          "territoryDifferenceMean": -18.666666666666668,
+          "territoryDifferenceMedian": -20,
+          "turnsMean": 13.333333333333334,
+          "suspiciousInternalMoves": 2,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 421.6575652777756,
+          "maxDecisionMs": 980.8986999999906,
+          "pairedEffects": [
+            3,
+            -4,
+            -2
+          ],
+          "meanEffect": -1,
+          "bootstrap95": [
+            -4,
+            3
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 0,
+          "losses": 3,
+          "draws": 0,
+          "winRate": 0,
+          "ownTerritoryMean": 9.666666666666666,
+          "opponentTerritoryMean": 27.333333333333332,
+          "territoryDifferenceMean": -17.666666666666668,
+          "territoryDifferenceMedian": -18,
+          "turnsMean": 9.666666666666666,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 347.39763571428676,
+          "maxDecisionMs": 650.0092000000004,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 0,
+        "losses": 3,
+        "draws": 0,
+        "winRate": 0,
+        "ownTerritoryMean": 13,
+        "opponentTerritoryMean": 25.333333333333332,
+        "territoryDifferenceMean": -12.333333333333334,
+        "territoryDifferenceMedian": -12,
+        "turnsMean": 9.666666666666666,
+        "suspiciousInternalMoves": 0,
+        "tiebreakActivations": 7,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 397.2936933333326,
+        "maxDecisionMs": 854.6003000000055,
+        "pairedEffects": [
+          7,
+          1,
+          8
+        ],
+        "meanEffect": 5.333333333333333,
+        "bootstrap95": [
+          1,
+          8
+        ],
+        "effectClassification": "beneficial"
+      }
+    },
+    {
+      "fixture": "3c6e0e435838.fixture.json",
+      "gameId": "diagnostic-6",
+      "turnIndex": 33,
+      "player": "B",
+      "previousClassification": "mobility-improving",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 6,
+              "y": 3
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 2
+              },
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "right"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 6
+            },
+            "pos": {
+              "x": 4,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 6
+              },
+              "pos": {
+                "x": 4,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 1
+              },
+              "pos": {
+                "x": 4,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 1
+              },
+              "pos": {
+                "x": 4,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": true,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
+          "draws": 0,
+          "winRate": 0.3333333333333333,
+          "ownTerritoryMean": 14.333333333333334,
+          "opponentTerritoryMean": 17.666666666666668,
+          "territoryDifferenceMean": -3.3333333333333335,
+          "territoryDifferenceMedian": -4,
+          "turnsMean": 21.666666666666668,
+          "suspiciousInternalMoves": 6,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 830.8272129953372,
+          "maxDecisionMs": 1890.7646999999997,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 0,
+          "losses": 3,
+          "draws": 0,
+          "winRate": 0,
+          "ownTerritoryMean": 14.333333333333334,
+          "opponentTerritoryMean": 23,
+          "territoryDifferenceMean": -8.666666666666666,
+          "territoryDifferenceMedian": -7,
+          "turnsMean": 16,
+          "suspiciousInternalMoves": 10,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 956.78699107143,
+          "maxDecisionMs": 2168.9616000000096,
+          "pairedEffects": [
+            -3,
+            -3,
+            -10
+          ],
+          "meanEffect": -5.333333333333333,
+          "bootstrap95": [
+            -10,
+            -3
+          ],
+          "effectClassification": "harmful"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
+          "draws": 0,
+          "winRate": 0.3333333333333333,
+          "ownTerritoryMean": 11,
+          "opponentTerritoryMean": 19.333333333333332,
+          "territoryDifferenceMean": -8.333333333333334,
+          "territoryDifferenceMedian": -8,
+          "turnsMean": 23.333333333333332,
+          "suspiciousInternalMoves": 8,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 798.9583492063463,
+          "maxDecisionMs": 2061.7912999999826,
+          "pairedEffects": [
+            13,
+            -4,
+            -24
+          ],
+          "meanEffect": -5,
+          "bootstrap95": [
+            -24,
+            13
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
+          "draws": 0,
+          "winRate": 0.3333333333333333,
+          "ownTerritoryMean": 11,
+          "opponentTerritoryMean": 19.333333333333332,
+          "territoryDifferenceMean": -8.333333333333334,
+          "territoryDifferenceMedian": -8,
+          "turnsMean": 23.333333333333332,
+          "suspiciousInternalMoves": 8,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 798.9583492063463,
+          "maxDecisionMs": 2061.7912999999826,
+          "pairedEffects": [
+            13,
+            -4,
+            -24
+          ],
+          "meanEffect": -5,
+          "bootstrap95": [
+            -24,
+            13
+          ],
+          "effectClassification": "inconclusive"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 0,
+        "losses": 3,
+        "draws": 0,
+        "winRate": 0,
+        "ownTerritoryMean": 13.666666666666666,
+        "opponentTerritoryMean": 21,
+        "territoryDifferenceMean": -7.333333333333333,
+        "territoryDifferenceMedian": -9,
+        "turnsMean": 21.666666666666668,
+        "suspiciousInternalMoves": 9,
+        "tiebreakActivations": 12,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 805.8220740740736,
+        "maxDecisionMs": 2097.4066999999923,
+        "pairedEffects": [
+          7,
+          -5,
+          -14
+        ],
+        "meanEffect": -4,
+        "bootstrap95": [
+          -14,
+          7
+        ],
+        "effectClassification": "inconclusive"
+      }
+    },
+    {
+      "fixture": "8238614515c3.fixture.json",
+      "gameId": "diagnostic-2",
+      "turnIndex": 35,
+      "player": "B",
+      "previousClassification": "strategic-repositioning",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 2
+              },
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 2,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 5
+            },
+            "dir": "right"
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 2
+              },
+              "pos": {
+                "x": 4,
+                "y": 2
+              },
+              "dir": "left"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 2,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 5
+            },
+            "dir": "right"
+          }
+        }
+      ],
+      "conservativeChanged": true,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 27.333333333333332,
+          "opponentTerritoryMean": 14.666666666666666,
+          "territoryDifferenceMean": 12.666666666666666,
+          "territoryDifferenceMedian": 12,
+          "turnsMean": 9.333333333333334,
+          "suspiciousInternalMoves": 6,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 681.6488472222287,
+          "maxDecisionMs": 1485.9217000000062,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 27.333333333333332,
+          "opponentTerritoryMean": 14.333333333333334,
+          "territoryDifferenceMean": 13,
+          "territoryDifferenceMedian": 12,
+          "turnsMean": 9.666666666666666,
+          "suspiciousInternalMoves": 11,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 771.8165805555682,
+          "maxDecisionMs": 1726.7899000000325,
+          "pairedEffects": [
+            0,
+            1,
+            0
+          ],
+          "meanEffect": 0.3333333333333333,
+          "bootstrap95": [
+            0,
+            1
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 29,
+          "opponentTerritoryMean": 17.333333333333332,
+          "territoryDifferenceMean": 11.666666666666666,
+          "territoryDifferenceMedian": 11,
+          "turnsMean": 7,
+          "suspiciousInternalMoves": 5,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 728.6117722222244,
+          "maxDecisionMs": 1519.1926000000094,
+          "pairedEffects": [
+            -1,
+            -3,
+            1
+          ],
+          "meanEffect": -1,
+          "bootstrap95": [
+            -3,
+            1
+          ],
+          "effectClassification": "harmful"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 27.333333333333332,
+          "opponentTerritoryMean": 14.333333333333334,
+          "territoryDifferenceMean": 13,
+          "territoryDifferenceMedian": 12,
+          "turnsMean": 9.666666666666666,
+          "suspiciousInternalMoves": 11,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 771.8165805555682,
+          "maxDecisionMs": 1726.7899000000325,
+          "pairedEffects": [
+            0,
+            1,
+            0
+          ],
+          "meanEffect": 0.3333333333333333,
+          "bootstrap95": [
+            0,
+            1
+          ],
+          "effectClassification": "inconclusive"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "draws": 0,
+        "winRate": 1,
+        "ownTerritoryMean": 24,
+        "opponentTerritoryMean": 12.333333333333334,
+        "territoryDifferenceMean": 11.666666666666666,
+        "territoryDifferenceMedian": 10,
+        "turnsMean": 11.666666666666666,
+        "suspiciousInternalMoves": 6,
+        "tiebreakActivations": 17,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 1062.6408716666608,
+        "maxDecisionMs": 2073.207999999984,
+        "pairedEffects": [
+          -2,
+          -1,
+          0
+        ],
+        "meanEffect": -1,
+        "bootstrap95": [
+          -2,
+          0
+        ],
+        "effectClassification": "harmful"
+      }
+    },
+    {
+      "fixture": "8a62f8f826fc.fixture.json",
+      "gameId": "diagnostic-6",
+      "turnIndex": 31,
+      "player": "B",
+      "previousClassification": "mobility-improving",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 2
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 1
+              },
+              "pos": {
+                "x": 5,
+                "y": 1
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 6
+            },
+            "pos": {
+              "x": 4,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 6
+              },
+              "pos": {
+                "x": 4,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 0
+            },
+            "pos": {
+              "x": 2,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 0
+              },
+              "pos": {
+                "x": 2,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 2
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 1
+              },
+              "pos": {
+                "x": 5,
+                "y": 1
+              },
+              "dir": "top"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": false,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 2,
+          "losses": 1,
+          "draws": 0,
+          "winRate": 0.6666666666666666,
+          "ownTerritoryMean": 16,
+          "opponentTerritoryMean": 17,
+          "territoryDifferenceMean": -1,
+          "territoryDifferenceMedian": 1,
+          "turnsMean": 25,
+          "suspiciousInternalMoves": 9,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 934.7498670634918,
+          "maxDecisionMs": 2331.7587999999523,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 0,
+          "losses": 3,
+          "draws": 0,
+          "winRate": 0,
+          "ownTerritoryMean": 15.333333333333334,
+          "opponentTerritoryMean": 25.666666666666668,
+          "territoryDifferenceMean": -10.333333333333334,
+          "territoryDifferenceMedian": -9,
+          "turnsMean": 15,
+          "suspiciousInternalMoves": 10,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 1343.3385777777853,
+          "maxDecisionMs": 2570.8666000000085,
+          "pairedEffects": [
+            4,
+            -17,
+            -15
+          ],
+          "meanEffect": -9.333333333333334,
+          "bootstrap95": [
+            -17,
+            4
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 1,
+          "losses": 1,
+          "draws": 1,
+          "winRate": 0.3333333333333333,
+          "ownTerritoryMean": 11.666666666666666,
+          "opponentTerritoryMean": 16.333333333333332,
+          "territoryDifferenceMean": -4.666666666666667,
+          "territoryDifferenceMedian": 0,
+          "turnsMean": 28.666666666666668,
+          "suspiciousInternalMoves": 13,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 916.3960529887145,
+          "maxDecisionMs": 2606.8515999999945,
+          "pairedEffects": [
+            -5,
+            -1,
+            -5
+          ],
+          "meanEffect": -3.6666666666666665,
+          "bootstrap95": [
+            -5,
+            -1
+          ],
+          "effectClassification": "harmful"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 2,
+          "losses": 1,
+          "draws": 0,
+          "winRate": 0.6666666666666666,
+          "ownTerritoryMean": 16,
+          "opponentTerritoryMean": 17,
+          "territoryDifferenceMean": -1,
+          "territoryDifferenceMedian": 1,
+          "turnsMean": 25,
+          "suspiciousInternalMoves": 9,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 934.7498670634918,
+          "maxDecisionMs": 2331.7587999999523,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 0,
+        "losses": 3,
+        "draws": 0,
+        "winRate": 0,
+        "ownTerritoryMean": 12.333333333333334,
+        "opponentTerritoryMean": 20,
+        "territoryDifferenceMean": -7.666666666666667,
+        "territoryDifferenceMedian": -8,
+        "turnsMean": 24.333333333333332,
+        "suspiciousInternalMoves": 7,
+        "tiebreakActivations": 12,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 891.7408991880324,
+        "maxDecisionMs": 2459.8607000000193,
+        "pairedEffects": [
+          6,
+          -9,
+          -17
+        ],
+        "meanEffect": -6.666666666666667,
+        "bootstrap95": [
+          -17,
+          6
+        ],
+        "effectClassification": "inconclusive"
+      }
+    },
+    {
+      "fixture": "94fe8f8cbf50.fixture.json",
+      "gameId": "diagnostic-27",
+      "turnIndex": 46,
+      "player": "R",
+      "previousClassification": "future-wall-preparation",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 3
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 3
+            },
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 2
+              },
+              "pos": {
+                "x": 1,
+                "y": 2
+              },
+              "dir": "left"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 3
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 2
+              },
+              "pos": {
+                "x": 0,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 3
+            },
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 2
+              },
+              "pos": {
+                "x": 1,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 3
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 2
+              },
+              "pos": {
+                "x": 0,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": true,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 28.666666666666668,
+          "opponentTerritoryMean": 10,
+          "territoryDifferenceMean": 18.666666666666668,
+          "territoryDifferenceMedian": 17,
+          "turnsMean": 6.666666666666667,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 444.28424444444767,
+          "maxDecisionMs": 694.5138000000152,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 27.333333333333332,
+          "opponentTerritoryMean": 11,
+          "territoryDifferenceMean": 16.333333333333332,
+          "territoryDifferenceMedian": 16,
+          "turnsMean": 7.333333333333333,
+          "suspiciousInternalMoves": 1,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 455.13374999999843,
+          "maxDecisionMs": 786.6113999999943,
+          "pairedEffects": [
+            -1,
+            -5,
+            -1
+          ],
+          "meanEffect": -2.3333333333333335,
+          "bootstrap95": [
+            -5,
+            -1
+          ],
+          "effectClassification": "harmful"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 27.333333333333332,
+          "opponentTerritoryMean": 9.666666666666666,
+          "territoryDifferenceMean": 17.666666666666668,
+          "territoryDifferenceMedian": 18,
+          "turnsMean": 7,
+          "suspiciousInternalMoves": 1,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 508.8798194444341,
+          "maxDecisionMs": 753.8602000000537,
+          "pairedEffects": [
+            4,
+            -2,
+            -5
+          ],
+          "meanEffect": -1,
+          "bootstrap95": [
+            -5,
+            4
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 27.333333333333332,
+          "opponentTerritoryMean": 11,
+          "territoryDifferenceMean": 16.333333333333332,
+          "territoryDifferenceMedian": 16,
+          "turnsMean": 7.333333333333333,
+          "suspiciousInternalMoves": 1,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 455.13374999999843,
+          "maxDecisionMs": 786.6113999999943,
+          "pairedEffects": [
+            -1,
+            -5,
+            -1
+          ],
+          "meanEffect": -2.3333333333333335,
+          "bootstrap95": [
+            -5,
+            -1
+          ],
+          "effectClassification": "harmful"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "draws": 0,
+        "winRate": 1,
+        "ownTerritoryMean": 27,
+        "opponentTerritoryMean": 9.666666666666666,
+        "territoryDifferenceMean": 17.333333333333332,
+        "territoryDifferenceMedian": 18,
+        "turnsMean": 6.666666666666667,
+        "suspiciousInternalMoves": 0,
+        "tiebreakActivations": 7,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 581.9995666666687,
+        "maxDecisionMs": 961.9321000000346,
+        "pairedEffects": [
+          4,
+          -5,
+          -3
+        ],
+        "meanEffect": -1.3333333333333333,
+        "bootstrap95": [
+          -5,
+          4
+        ],
+        "effectClassification": "inconclusive"
+      }
+    },
+    {
+      "fixture": "bddb6dd1b3cb.fixture.json",
+      "gameId": "diagnostic-13",
+      "turnIndex": 46,
+      "player": "R",
+      "previousClassification": "future-wall-preparation",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 0
+          },
+          "pos": {
+            "x": 2,
+            "y": 0
+          },
+          "dir": "left"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 0
+            },
+            "pos": {
+              "x": 2,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 0
+              },
+              "pos": {
+                "x": 2,
+                "y": 0
+              },
+              "dir": "left"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 5
+            },
+            "pos": {
+              "x": 6,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 5
+              },
+              "pos": {
+                "x": 6,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 0
+            },
+            "pos": {
+              "x": 2,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 0
+              },
+              "pos": {
+                "x": 2,
+                "y": 0
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 5
+            },
+            "pos": {
+              "x": 6,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 5
+              },
+              "pos": {
+                "x": 6,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": true,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 31,
+          "opponentTerritoryMean": 10,
+          "territoryDifferenceMean": 21,
+          "territoryDifferenceMedian": 22,
+          "turnsMean": 3.6666666666666665,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 167.52368888889518,
+          "maxDecisionMs": 353.47489999997197,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 31.333333333333332,
+          "opponentTerritoryMean": 11,
+          "territoryDifferenceMean": 20.333333333333332,
+          "territoryDifferenceMedian": 22,
+          "turnsMean": 3.3333333333333335,
+          "suspiciousInternalMoves": 1,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 219.27774444444935,
+          "maxDecisionMs": 514.4664000000339,
+          "pairedEffects": [
+            7,
+            -7,
+            -2
+          ],
+          "meanEffect": -0.6666666666666666,
+          "bootstrap95": [
+            -7,
+            7
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 30.333333333333332,
+          "opponentTerritoryMean": 11,
+          "territoryDifferenceMean": 19.333333333333332,
+          "territoryDifferenceMedian": 21,
+          "turnsMean": 3.3333333333333335,
+          "suspiciousInternalMoves": 1,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 208.03539999998694,
+          "maxDecisionMs": 430.7862999999779,
+          "pairedEffects": [
+            -3,
+            -1,
+            -1
+          ],
+          "meanEffect": -1.6666666666666667,
+          "bootstrap95": [
+            -3,
+            -1
+          ],
+          "effectClassification": "harmful"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 31.333333333333332,
+          "opponentTerritoryMean": 11,
+          "territoryDifferenceMean": 20.333333333333332,
+          "territoryDifferenceMedian": 22,
+          "turnsMean": 3.3333333333333335,
+          "suspiciousInternalMoves": 1,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 219.27774444444935,
+          "maxDecisionMs": 514.4664000000339,
+          "pairedEffects": [
+            7,
+            -7,
+            -2
+          ],
+          "meanEffect": -0.6666666666666666,
+          "bootstrap95": [
+            -7,
+            7
+          ],
+          "effectClassification": "inconclusive"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "draws": 0,
+        "winRate": 1,
+        "ownTerritoryMean": 29.333333333333332,
+        "opponentTerritoryMean": 11.333333333333334,
+        "territoryDifferenceMean": 18,
+        "territoryDifferenceMedian": 16,
+        "turnsMean": 3.6666666666666665,
+        "suspiciousInternalMoves": 2,
+        "tiebreakActivations": 5,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 284.7297611111232,
+        "maxDecisionMs": 633.9784000000218,
+        "pairedEffects": [
+          -1,
+          -6,
+          -2
+        ],
+        "meanEffect": -3,
+        "bootstrap95": [
+          -6,
+          -1
+        ],
+        "effectClassification": "harmful"
+      }
+    },
+    {
+      "fixture": "c93e45301297.fixture.json",
+      "gameId": "diagnostic-2",
+      "turnIndex": 39,
+      "player": "B",
+      "previousClassification": "mobility-improving",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 2
+            },
+            "pos": {
+              "x": 4,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 2
+              },
+              "pos": {
+                "x": 4,
+                "y": 2
+              },
+              "dir": "left"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 4
+            },
+            "pos": {
+              "x": 2,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 5
+              },
+              "pos": {
+                "x": 2,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 2
+            },
+            "pos": {
+              "x": 3,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 2
+              },
+              "pos": {
+                "x": 3,
+                "y": 2
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 4
+            },
+            "pos": {
+              "x": 2,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 5
+              },
+              "pos": {
+                "x": 2,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": true,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 28.333333333333332,
+          "opponentTerritoryMean": 19,
+          "territoryDifferenceMean": 9.333333333333334,
+          "territoryDifferenceMedian": 8,
+          "turnsMean": 2.6666666666666665,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 450.1044499999941,
+          "maxDecisionMs": 503.7923999999766,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 26.666666666666668,
+          "opponentTerritoryMean": 18.333333333333332,
+          "territoryDifferenceMean": 8.333333333333334,
+          "territoryDifferenceMedian": 8,
+          "turnsMean": 4.666666666666667,
+          "suspiciousInternalMoves": 4,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 429.7241777777704,
+          "maxDecisionMs": 549.9539999999688,
+          "pairedEffects": [
+            4,
+            -3,
+            -4
+          ],
+          "meanEffect": -1,
+          "bootstrap95": [
+            -4,
+            4
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 25,
+          "opponentTerritoryMean": 19.666666666666668,
+          "territoryDifferenceMean": 5.333333333333333,
+          "territoryDifferenceMedian": 6,
+          "turnsMean": 3.6666666666666665,
+          "suspiciousInternalMoves": 2,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 445.2461333333437,
+          "maxDecisionMs": 512.584199999983,
+          "pairedEffects": [
+            -2,
+            -4,
+            -6
+          ],
+          "meanEffect": -4,
+          "bootstrap95": [
+            -6,
+            -2
+          ],
+          "effectClassification": "harmful"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 26.666666666666668,
+          "opponentTerritoryMean": 18.333333333333332,
+          "territoryDifferenceMean": 8.333333333333334,
+          "territoryDifferenceMedian": 8,
+          "turnsMean": 4.666666666666667,
+          "suspiciousInternalMoves": 4,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 429.7241777777704,
+          "maxDecisionMs": 549.9539999999688,
+          "pairedEffects": [
+            4,
+            -3,
+            -4
+          ],
+          "meanEffect": -1,
+          "bootstrap95": [
+            -4,
+            4
+          ],
+          "effectClassification": "inconclusive"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "draws": 0,
+        "winRate": 1,
+        "ownTerritoryMean": 28.333333333333332,
+        "opponentTerritoryMean": 17.666666666666668,
+        "territoryDifferenceMean": 10.666666666666666,
+        "territoryDifferenceMedian": 12,
+        "turnsMean": 2,
+        "suspiciousInternalMoves": 0,
+        "tiebreakActivations": 2,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 851.6777333333545,
+        "maxDecisionMs": 904.1914000000106,
+        "pairedEffects": [
+          4,
+          0,
+          0
+        ],
+        "meanEffect": 1.3333333333333333,
+        "bootstrap95": [
+          0,
+          4
+        ],
+        "effectClassification": "inconclusive"
+      }
+    },
+    {
+      "fixture": "d8c69cdbde8d.fixture.json",
+      "gameId": "diagnostic-16",
+      "turnIndex": 43,
+      "player": "B",
+      "previousClassification": "ambiguous",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 6,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 1
+              },
+              "pos": {
+                "x": 6,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 3,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 5
+              },
+              "pos": {
+                "x": 3,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 4
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 6,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 1
+              },
+              "pos": {
+                "x": 6,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": false,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 20.333333333333332,
+          "opponentTerritoryMean": 19,
+          "territoryDifferenceMean": 1.3333333333333333,
+          "territoryDifferenceMedian": 1,
+          "turnsMean": 6,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 430.2038619047574,
+          "maxDecisionMs": 1166.830799999996,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 20,
+          "opponentTerritoryMean": 16.333333333333332,
+          "territoryDifferenceMean": 3.6666666666666665,
+          "territoryDifferenceMedian": 3,
+          "turnsMean": 10.333333333333334,
+          "suspiciousInternalMoves": 2,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 530.346603703698,
+          "maxDecisionMs": 1001.2359999999753,
+          "pairedEffects": [
+            2,
+            3,
+            2
+          ],
+          "meanEffect": 2.3333333333333335,
+          "bootstrap95": [
+            2,
+            3
+          ],
+          "effectClassification": "beneficial"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 22,
+          "opponentTerritoryMean": 20.333333333333332,
+          "territoryDifferenceMean": 1.6666666666666667,
+          "territoryDifferenceMedian": 1,
+          "turnsMean": 3.3333333333333335,
+          "suspiciousInternalMoves": 1,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 155.46640833332881,
+          "maxDecisionMs": 892.460999999952,
+          "pairedEffects": [
+            0,
+            1,
+            0
+          ],
+          "meanEffect": 0.3333333333333333,
+          "bootstrap95": [
+            0,
+            1
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 20.333333333333332,
+          "opponentTerritoryMean": 19,
+          "territoryDifferenceMean": 1.3333333333333333,
+          "territoryDifferenceMedian": 1,
+          "turnsMean": 6,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 430.2038619047574,
+          "maxDecisionMs": 1166.830799999996,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "draws": 0,
+        "winRate": 1,
+        "ownTerritoryMean": 20.666666666666668,
+        "opponentTerritoryMean": 18.666666666666668,
+        "territoryDifferenceMean": 2,
+        "territoryDifferenceMedian": 2,
+        "turnsMean": 6,
+        "suspiciousInternalMoves": 0,
+        "tiebreakActivations": 1,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 421.82327142857304,
+        "maxDecisionMs": 1187.4685000000172,
+        "pairedEffects": [
+          0,
+          0,
+          2
+        ],
+        "meanEffect": 0.6666666666666666,
+        "bootstrap95": [
+          0,
+          2
+        ],
+        "effectClassification": "inconclusive"
+      }
+    },
+    {
+      "fixture": "e28286aceb33.fixture.json",
+      "gameId": "diagnostic-6",
+      "turnIndex": 25,
+      "player": "B",
+      "previousClassification": "future-wall-preparation",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 0
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 0
+              },
+              "pos": {
+                "x": 3,
+                "y": 0
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 2
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 1
+              },
+              "pos": {
+                "x": 4,
+                "y": 1
+              },
+              "dir": "left"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 6
+            },
+            "pos": {
+              "x": 6,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 6
+              },
+              "pos": {
+                "x": 6,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 0
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 0
+              },
+              "pos": {
+                "x": 3,
+                "y": 0
+              },
+              "dir": "bottom"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": false,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
+          "draws": 0,
+          "winRate": 0.3333333333333333,
+          "ownTerritoryMean": 11,
+          "opponentTerritoryMean": 20.666666666666668,
+          "territoryDifferenceMean": -9.666666666666666,
+          "territoryDifferenceMedian": -14,
+          "turnsMean": 28.333333333333332,
+          "suspiciousInternalMoves": 14,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 1149.6395073610959,
+          "maxDecisionMs": 2992.343899999978,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 0,
+          "losses": 2,
+          "draws": 1,
+          "winRate": 0,
+          "ownTerritoryMean": 10,
+          "opponentTerritoryMean": 19.666666666666668,
+          "territoryDifferenceMean": -9.666666666666666,
+          "territoryDifferenceMedian": -11,
+          "turnsMean": 29.333333333333332,
+          "suspiciousInternalMoves": 13,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 1063.5503941880381,
+          "maxDecisionMs": 2905.147400000016,
+          "pairedEffects": [
+            -1,
+            -13,
+            14
+          ],
+          "meanEffect": 0,
+          "bootstrap95": [
+            -13,
+            14
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 2,
+          "losses": 1,
+          "draws": 0,
+          "winRate": 0.6666666666666666,
+          "ownTerritoryMean": 24,
+          "opponentTerritoryMean": 19.333333333333332,
+          "territoryDifferenceMean": 4.666666666666667,
+          "territoryDifferenceMedian": 1,
+          "turnsMean": 18.333333333333332,
+          "suspiciousInternalMoves": 10,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 1274.306104166672,
+          "maxDecisionMs": 2581.305400000012,
+          "pairedEffects": [
+            16,
+            -1,
+            28
+          ],
+          "meanEffect": 14.333333333333334,
+          "bootstrap95": [
+            -1,
+            28
+          ],
+          "effectClassification": "beneficial"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
+          "draws": 0,
+          "winRate": 0.3333333333333333,
+          "ownTerritoryMean": 11,
+          "opponentTerritoryMean": 20.666666666666668,
+          "territoryDifferenceMean": -9.666666666666666,
+          "territoryDifferenceMedian": -14,
+          "turnsMean": 28.333333333333332,
+          "suspiciousInternalMoves": 14,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 1149.6395073610959,
+          "maxDecisionMs": 2992.343899999978,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 0,
+        "losses": 3,
+        "draws": 0,
+        "winRate": 0,
+        "ownTerritoryMean": 12.666666666666666,
+        "opponentTerritoryMean": 28,
+        "territoryDifferenceMean": -15.333333333333334,
+        "territoryDifferenceMedian": -15,
+        "turnsMean": 22.333333333333332,
+        "suspiciousInternalMoves": 13,
+        "tiebreakActivations": 11,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 1672.6425155840418,
+        "maxDecisionMs": 3059.6353000000236,
+        "pairedEffects": [
+          -1,
+          -17,
+          1
+        ],
+        "meanEffect": -5.666666666666667,
+        "bootstrap95": [
+          -17,
+          1
+        ],
+        "effectClassification": "harmful"
+      }
+    },
+    {
+      "fixture": "ea0610abb2c1.fixture.json",
+      "gameId": "diagnostic-30",
+      "turnIndex": 51,
+      "player": "B",
+      "previousClassification": "ambiguous",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 2
+              },
+              "pos": {
+                "x": 1,
+                "y": 2
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 4,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 5
+              },
+              "pos": {
+                "x": 4,
+                "y": 5
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 3
+            },
+            "pos": {
+              "x": 3,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 3
+              },
+              "pos": {
+                "x": 3,
+                "y": 3
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 4,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 5
+              },
+              "pos": {
+                "x": 4,
+                "y": 5
+              },
+              "dir": "bottom"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": true,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 21.333333333333332,
+          "opponentTerritoryMean": 9.333333333333334,
+          "territoryDifferenceMean": 12,
+          "territoryDifferenceMedian": 12,
+          "turnsMean": 2.6666666666666665,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 101.41699999997702,
+          "maxDecisionMs": 109.46779999998398,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 20.666666666666668,
+          "opponentTerritoryMean": 9.333333333333334,
+          "territoryDifferenceMean": 11.333333333333334,
+          "territoryDifferenceMedian": 12,
+          "turnsMean": 2.3333333333333335,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 136.45799999998417,
+          "maxDecisionMs": 146.04870000004303,
+          "pairedEffects": [
+            0,
+            -2,
+            0
+          ],
+          "meanEffect": -0.6666666666666666,
+          "bootstrap95": [
+            -2,
+            0
+          ],
+          "effectClassification": "inconclusive"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 19,
+          "opponentTerritoryMean": 10.333333333333334,
+          "territoryDifferenceMean": 8.666666666666666,
+          "territoryDifferenceMedian": 9,
+          "turnsMean": 2,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 97.22339999993953,
+          "maxDecisionMs": 109.4195999999065,
+          "pairedEffects": [
+            -3,
+            -3,
+            -4
+          ],
+          "meanEffect": -3.3333333333333335,
+          "bootstrap95": [
+            -4,
+            -3
+          ],
+          "effectClassification": "harmful"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 20.666666666666668,
+          "opponentTerritoryMean": 9.333333333333334,
+          "territoryDifferenceMean": 11.333333333333334,
+          "territoryDifferenceMedian": 12,
+          "turnsMean": 2.3333333333333335,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 136.45799999998417,
+          "maxDecisionMs": 146.04870000004303,
+          "pairedEffects": [
+            0,
+            -2,
+            0
+          ],
+          "meanEffect": -0.6666666666666666,
+          "bootstrap95": [
+            -2,
+            0
+          ],
+          "effectClassification": "inconclusive"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "draws": 0,
+        "winRate": 1,
+        "ownTerritoryMean": 21.666666666666668,
+        "opponentTerritoryMean": 8.666666666666666,
+        "territoryDifferenceMean": 13,
+        "territoryDifferenceMedian": 13,
+        "turnsMean": 2,
+        "suspiciousInternalMoves": 0,
+        "tiebreakActivations": 2,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 162.64323333328744,
+        "maxDecisionMs": 178.983899999992,
+        "pairedEffects": [
+          2,
+          1,
+          0
+        ],
+        "meanEffect": 1,
+        "bootstrap95": [
+          0,
+          2
+        ],
+        "effectClassification": "beneficial"
+      }
+    },
+    {
+      "fixture": "f197c3b937e4.fixture.json",
+      "gameId": "diagnostic-4",
+      "turnIndex": 43,
+      "player": "B",
+      "previousClassification": "mobility-improving",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 1,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 3
+          },
+          "pos": {
+            "x": 1,
+            "y": 3
+          },
+          "dir": "top"
+        }
+      },
+      "actions": [
+        {
+          "label": "original",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "pos": {
+                "x": 1,
+                "y": 3
+              },
+              "dir": "top"
+            }
+          }
+        },
+        {
+          "label": "immediate-progress",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 1
+              },
+              "pos": {
+                "x": 4,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "visit-control",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "pos": {
+                "x": 1,
+                "y": 3
+              },
+              "dir": "bottom"
+            }
+          }
+        },
+        {
+          "label": "conservative-tiebreak",
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 1
+              },
+              "pos": {
+                "x": 4,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          }
+        }
+      ],
+      "conservativeChanged": true,
+      "singleIntervention": {
+        "original": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 30.333333333333332,
+          "opponentTerritoryMean": 15.333333333333334,
+          "territoryDifferenceMean": 15,
+          "territoryDifferenceMedian": 15,
+          "turnsMean": 2.3333333333333335,
+          "suspiciousInternalMoves": 2,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 209.20109999998627,
+          "maxDecisionMs": 314.9462000000058,
+          "pairedEffects": [],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "immediate-progress": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 32,
+          "opponentTerritoryMean": 15,
+          "territoryDifferenceMean": 17,
+          "territoryDifferenceMedian": 17,
+          "turnsMean": 0,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 0,
+          "maxDecisionMs": 0,
+          "pairedEffects": [
+            2,
+            2,
+            2
+          ],
+          "meanEffect": 2,
+          "bootstrap95": [
+            2,
+            2
+          ],
+          "effectClassification": "beneficial"
+        },
+        "visit-control": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 30.333333333333332,
+          "opponentTerritoryMean": 15.333333333333334,
+          "territoryDifferenceMean": 15,
+          "territoryDifferenceMedian": 15,
+          "turnsMean": 2.3333333333333335,
+          "suspiciousInternalMoves": 2,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 208.38266666664276,
+          "maxDecisionMs": 315.2295999999624,
+          "pairedEffects": [
+            0,
+            0,
+            0
+          ],
+          "meanEffect": 0,
+          "bootstrap95": [
+            0,
+            0
+          ],
+          "effectClassification": "neutral"
+        },
+        "conservative-tiebreak": {
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 1,
+          "ownTerritoryMean": 32,
+          "opponentTerritoryMean": 15,
+          "territoryDifferenceMean": 17,
+          "territoryDifferenceMedian": 17,
+          "turnsMean": 0,
+          "suspiciousInternalMoves": 0,
+          "tiebreakActivations": 0,
+          "illegalActions": 0,
+          "fallbacks": 0,
+          "meanDecisionMs": 0,
+          "maxDecisionMs": 0,
+          "pairedEffects": [
+            2,
+            2,
+            2
+          ],
+          "meanEffect": 2,
+          "bootstrap95": [
+            2,
+            2
+          ],
+          "effectClassification": "beneficial"
+        }
+      },
+      "persistentPolicy": {
+        "games": 3,
+        "wins": 3,
+        "losses": 0,
+        "draws": 0,
+        "winRate": 1,
+        "ownTerritoryMean": 32,
+        "opponentTerritoryMean": 15,
+        "territoryDifferenceMean": 17,
+        "territoryDifferenceMedian": 17,
+        "turnsMean": 0,
+        "suspiciousInternalMoves": 0,
+        "tiebreakActivations": 0,
+        "illegalActions": 0,
+        "fallbacks": 0,
+        "meanDecisionMs": 0,
+        "maxDecisionMs": 0,
+        "pairedEffects": [
+          2,
+          2,
+          2
+        ],
+        "meanEffect": 2,
+        "bootstrap95": [
+          2,
+          2
+        ],
+        "effectClassification": "beneficial"
+      }
+    }
+  ],
+  "thresholdSummary": {
+    "exact-value": {
+      "fixtures": 13,
+      "eligibleIn": 9,
+      "interventions": 7,
+      "interventionFrequency": 0.5384615384615384
+    },
+    "value-0.01": {
+      "fixtures": 13,
+      "eligibleIn": 9,
+      "interventions": 7,
+      "interventionFrequency": 0.5384615384615384
+    },
+    "value-0.025": {
+      "fixtures": 13,
+      "eligibleIn": 10,
+      "interventions": 8,
+      "interventionFrequency": 0.6153846153846154
+    },
+    "value-0.05": {
+      "fixtures": 13,
+      "eligibleIn": 13,
+      "interventions": 9,
+      "interventionFrequency": 0.6923076923076923
+    },
+    "value-0.025-visits-0.15": {
+      "fixtures": 13,
+      "eligibleIn": 10,
+      "interventions": 8,
+      "interventionFrequency": 0.6153846153846154
+    },
+    "saturated-equal": {
+      "fixtures": 13,
+      "eligibleIn": 8,
+      "interventions": 7,
+      "interventionFrequency": 0.5384615384615384
+    }
+  },
+  "aggregate": {
+    "fixtures": 13,
+    "repetitions": 3,
+    "meanEffect": -0.5641025641025641,
+    "medianEffect": 0,
+    "bootstrap95": [
+      -2.58974358974359,
+      1.358974358974359
+    ],
+    "classifications": {
+      "beneficial": 3,
+      "harmful": 3,
+      "neutral": 0,
+      "inconclusive": 7
+    }
+  },
+  "recommendation": "reject-tested-tiebreak-family",
+  "competitiveEvaluationExecuted": false,
+  "persistentAggregate": {
+    "meanEffect": -1.358974358974359,
+    "medianEffect": 0,
+    "bootstrap95": [
+      -3.2051282051282053,
+      0.3076923076923077
+    ],
+    "activations": 103,
+    "aiDecisions": 189,
+    "interventionFrequency": 0.544973544973545
+  }
+}

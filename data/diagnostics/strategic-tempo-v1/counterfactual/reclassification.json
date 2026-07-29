@@ -1,0 +1,221 @@
+[
+  {
+    "id": "06eb43800ede",
+    "evaluated": true,
+    "previous": "ambiguous",
+    "revised": "ambiguous",
+    "evidence": "harmful",
+    "meanEffect": -1.6666666666666667,
+    "bootstrap95": [
+      -4,
+      1
+    ]
+  },
+  {
+    "id": "8238614515c3",
+    "evaluated": true,
+    "previous": "strategic-repositioning",
+    "revised": "ambiguous",
+    "evidence": "inconclusive",
+    "meanEffect": 0.3333333333333333,
+    "bootstrap95": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "c93e45301297",
+    "evaluated": true,
+    "previous": "mobility-improving",
+    "revised": "ambiguous",
+    "evidence": "inconclusive",
+    "meanEffect": -1,
+    "bootstrap95": [
+      -4,
+      4
+    ]
+  },
+  {
+    "id": "f197c3b937e4",
+    "evaluated": true,
+    "previous": "mobility-improving",
+    "revised": "redundant",
+    "evidence": "beneficial",
+    "meanEffect": 2,
+    "bootstrap95": [
+      2,
+      2
+    ]
+  },
+  {
+    "id": "e28286aceb33",
+    "evaluated": true,
+    "previous": "future-wall-preparation",
+    "revised": "ambiguous",
+    "evidence": "inconclusive",
+    "meanEffect": 0,
+    "bootstrap95": [
+      -13,
+      14
+    ]
+  },
+  {
+    "id": "8a62f8f826fc",
+    "evaluated": true,
+    "previous": "mobility-improving",
+    "revised": "ambiguous",
+    "evidence": "inconclusive",
+    "meanEffect": -9.333333333333334,
+    "bootstrap95": [
+      -17,
+      4
+    ]
+  },
+  {
+    "id": "3c6e0e435838",
+    "evaluated": true,
+    "previous": "mobility-improving",
+    "revised": "mobility-improving",
+    "evidence": "harmful",
+    "meanEffect": -5.333333333333333,
+    "bootstrap95": [
+      -10,
+      -3
+    ]
+  },
+  {
+    "id": "86009b589a1c",
+    "evaluated": false,
+    "previous": "mobility-improving",
+    "revised": "mobility-improving",
+    "evidence": "not-counterfactually-evaluated"
+  },
+  {
+    "id": "580edb7f3870",
+    "evaluated": false,
+    "previous": "mobility-improving",
+    "revised": "mobility-improving",
+    "evidence": "not-counterfactually-evaluated"
+  },
+  {
+    "id": "2eac0bd16e43",
+    "evaluated": true,
+    "previous": "future-wall-preparation",
+    "revised": "redundant",
+    "evidence": "beneficial",
+    "meanEffect": 8,
+    "bootstrap95": [
+      2,
+      13
+    ]
+  },
+  {
+    "id": "bddb6dd1b3cb",
+    "evaluated": true,
+    "previous": "future-wall-preparation",
+    "revised": "ambiguous",
+    "evidence": "inconclusive",
+    "meanEffect": -0.6666666666666666,
+    "bootstrap95": [
+      -7,
+      7
+    ]
+  },
+  {
+    "id": "024456fb924d",
+    "evaluated": true,
+    "previous": "ambiguous",
+    "revised": "ambiguous",
+    "evidence": "inconclusive",
+    "meanEffect": 1,
+    "bootstrap95": [
+      -3,
+      3
+    ]
+  },
+  {
+    "id": "fb65cc24eb0e",
+    "evaluated": false,
+    "previous": "mobility-improving",
+    "revised": "mobility-improving",
+    "evidence": "not-counterfactually-evaluated"
+  },
+  {
+    "id": "d8c69cdbde8d",
+    "evaluated": true,
+    "previous": "ambiguous",
+    "revised": "redundant",
+    "evidence": "beneficial",
+    "meanEffect": 2.3333333333333335,
+    "bootstrap95": [
+      2,
+      3
+    ]
+  },
+  {
+    "id": "bc34595e4099",
+    "evaluated": false,
+    "previous": "mobility-improving",
+    "revised": "mobility-improving",
+    "evidence": "not-counterfactually-evaluated"
+  },
+  {
+    "id": "00c725feb22e",
+    "evaluated": false,
+    "previous": "mobility-improving",
+    "revised": "mobility-improving",
+    "evidence": "not-counterfactually-evaluated"
+  },
+  {
+    "id": "94fe8f8cbf50",
+    "evaluated": true,
+    "previous": "future-wall-preparation",
+    "revised": "future-wall-preparation",
+    "evidence": "harmful",
+    "meanEffect": -2.3333333333333335,
+    "bootstrap95": [
+      -5,
+      -1
+    ]
+  },
+  {
+    "id": "412e4a780401",
+    "evaluated": false,
+    "previous": "mobility-improving",
+    "revised": "mobility-improving",
+    "evidence": "not-counterfactually-evaluated"
+  },
+  {
+    "id": "993e180ec568",
+    "evaluated": false,
+    "previous": "mobility-improving",
+    "revised": "mobility-improving",
+    "evidence": "not-counterfactually-evaluated"
+  },
+  {
+    "id": "a9bac6bb3c8c",
+    "evaluated": false,
+    "previous": "future-wall-preparation",
+    "revised": "future-wall-preparation",
+    "evidence": "not-counterfactually-evaluated"
+  },
+  {
+    "id": "ea0610abb2c1",
+    "evaluated": true,
+    "previous": "ambiguous",
+    "revised": "ambiguous",
+    "evidence": "inconclusive",
+    "meanEffect": -0.6666666666666666,
+    "bootstrap95": [
+      -2,
+      0
+    ]
+  },
+  {
+    "id": "6ee0b5f62f3d",
+    "evaluated": false,
+    "previous": "mobility-improving",
+    "revised": "mobility-improving",
+    "evidence": "not-counterfactually-evaluated"
+  }
+]
