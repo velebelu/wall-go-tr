@@ -162,7 +162,19 @@ async function candidateIsValid(params: {
   const trace = params.candidate.trace
   if (!trace.final || trace.decisions.length === 0) return false
   if (trace.metadata.experimentId !== params.registry.experimentId) return false
+  if (trace.metadata.participantId !== params.participantId) return false
+  if (trace.metadata.gameNumber !== params.gameNumber) return false
+  if (trace.metadata.sessionType !== 'official') return false
+  if (!trace.metadata.sessionId) return false
   if (trace.metadata.projectCommit !== params.expectedCommit) return false
+  if (trace.metadata.runtimeCommit !== params.expectedCommit) return false
+  const participant = params.registry.participants.find(
+    (entry) => entry.participantId === params.participantId,
+  )
+  if (!participant) return false
+  const expectedHumanColor = participant.colorOrder[params.gameNumber - 1]
+  if (trace.metadata.humanColor !== expectedHumanColor) return false
+  if (trace.metadata.mctsColor === expectedHumanColor) return false
   if (
     canonicalStringify(trace.metadata.finalHumanChallengeConfig) !==
     canonicalStringify(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG)

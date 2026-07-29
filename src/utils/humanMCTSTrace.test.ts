@@ -13,6 +13,7 @@ import {
   downloadPreparedHumanMCTSTrace,
   extractHumanMCTSDecisionFixture,
   finalizeHumanMCTSTrace,
+  markHumanMCTSTurnForReview,
   parseHumanMCTSTrace,
   prepareHumanMCTSTraceFile,
   recordHumanMCTSDecision,
@@ -288,5 +289,12 @@ describe('HumanMCTSTraceV1', () => {
       tacticalVerification: true,
       tacticalCandidateCount: 2,
     })
+  })
+
+  it('records connected components and review marks', () => {
+    const { trace } = completeSyntheticTrace()
+    markHumanMCTSTurnForReview(trace, 0, 'review', '2026-07-29T00:00:00.000Z')
+    expect(trace.decisions[0].review?.note).toBe('review')
+    expect(trace.decisions[0].metricsBefore.connectedComponents.length).toBeGreaterThan(0)
   })
 })

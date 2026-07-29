@@ -1,5 +1,5 @@
-import { readdir, stat } from 'node:fs/promises'
-import { resolve } from 'node:path'
+import { copyFile, mkdir, readdir, stat } from 'node:fs/promises'
+import { basename, resolve } from 'node:path'
 import { readRegistry } from './humanExperimentExport'
 import { ingestLatestHumanExperimentTrace, type IngestionSummary } from './humanExperimentIngestion'
 import type { HumanExperimentRegistry } from './humanExperimentTypes'
@@ -79,6 +79,7 @@ export class HumanExperimentWatcher {
     stabilityIntervalMs?: number
     logger?: Pick<Console, 'log' | 'error'>
     ingest?: typeof ingestLatestHumanExperimentTrace
+    quarantineDirectory?: string
   }
   private known = new Map<string, string>()
   private processed = new Set<string>()
@@ -153,11 +154,17 @@ export class HumanExperimentWatcher {
       this.params.logger?.log(formatIngestionResult(result))
       await this.showNextPending()
     } catch (error) {
-      if (!this.closed)
+      if (!this.closed) {
+        const quarantine = resolve(
+          this.params.quarantineDirectory ?? resolve(this.params.experimentDirectory, 'quarantine'),
+        )
+        await mkdir(quarantine, { recursive: true })
+        await copyFile(path, resolve(quarantine, `${Date.now()}-${basename(path)}`))
         this.params.logger?.error(
           `Traza rechazada (${path}): ${errorMessage(error)}\n` +
             'El vigilante continúa activo; corrija la partida y descargue una traza nueva.',
         )
+      }
     }
   }
 

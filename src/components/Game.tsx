@@ -43,6 +43,7 @@ import {
   downloadPreparedHumanMCTSTrace,
   finalizeHumanMCTSTrace,
   markHumanMCTSTraceStarted,
+  markHumanMCTSTurnForReview,
   prepareHumanMCTSTraceFile,
   recordHumanMCTSDecision,
   type HumanMCTSTraceV1,
@@ -50,6 +51,7 @@ import {
 } from '@/utils/humanMCTSTrace'
 import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
 import { CURRENT_HUMAN_EXPERIMENT_ID } from '@/experiments/humanExperimentConfig'
+import { sessionContextFromEnvironment } from '@/experiments/humanExperimentSession'
 
 export default function Game({
   gameMode,
@@ -109,6 +111,7 @@ export default function Game({
   const [timeLeft, setTimeLeft] = useState(90_000)
   const turnTimeLimit = 90_000
   const [turnStart, setTurnStart] = useState<number | null>(null)
+  const [markedTurns, setMarkedTurns] = useState<number[]>([])
 
   // Integración del bucle principal de agentes.
   const turnManagerRef = useRef<TurnManager | null>(null)
@@ -222,11 +225,29 @@ export default function Game({
       setMctsTraceSaveResult(null)
       setMctsTraceComplete(false)
       const mcts = new MCTSAgent({ profile: 'human-challenge' })
+      const session = import.meta.env.VITE_SESSION_TYPE
+        ? sessionContextFromEnvironment(import.meta.env)
+        : {
+            experimentId: CURRENT_HUMAN_EXPERIMENT_ID,
+            sessionType: 'diagnostic' as const,
+            sessionId: crypto.randomUUID(),
+            runtimeCommit: '0000000000000000000000000000000000000000',
+            humanColor: (aiSide === 'R' ? 'B' : 'R') as 'R' | 'B',
+            aiColor: aiSide,
+          }
+      if (session.aiColor !== aiSide)
+        throw new Error(
+          `La sesión asigna la IA a ${session.aiColor}, pero se intentó iniciar como ${aiSide}`,
+        )
       fullMctsTraceRef.current = createHumanMCTSTrace({
-        experimentId: CURRENT_HUMAN_EXPERIMENT_ID,
-        projectCommit: import.meta.env.VITE_GIT_COMMIT,
-        humanColor: aiSide === 'R' ? 'B' : 'R',
-        mctsColor: aiSide,
+        experimentId: session.experimentId ?? CURRENT_HUMAN_EXPERIMENT_ID,
+        participantId: session.participantId,
+        gameNumber: session.gameNumber,
+        sessionType: session.sessionType,
+        sessionId: session.sessionId,
+        projectCommit: session.runtimeCommit,
+        humanColor: session.humanColor,
+        mctsColor: session.aiColor,
         seed: mcts.getBaseSeed(),
         mctsConfig: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.mcts,
         finalHumanChallengeConfig: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG,
@@ -568,6 +589,44 @@ export default function Game({
           className="w-full max-w-xl rounded-xl border border-indigo-200 bg-indigo-50 p-2 text-center text-indigo-800 dark:border-indigo-800 dark:bg-indigo-950 dark:text-indigo-200"
         >
           La IA está pensando…
+        </div>
+      )}
+      {gameMode === 'mcts-final' && fullMctsTraceRef.current && (
+        <div className="w-full max-w-xl rounded-xl border border-zinc-300 bg-white/80 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-900/80">
+          <div>
+            Sesión: {fullMctsTraceRef.current.metadata.sessionId} · Turno:{' '}
+            {fullMctsTraceRef.current.decisions.length} · Jugador activo: {turn}
+          </div>
+          {fullMctsTraceRef.current.metadata.gameId !== 'pending' && (
+            <div>Trace ID: {fullMctsTraceRef.current.metadata.gameId}</div>
+          )}
+          {fullMctsTraceRef.current.decisions[fullMctsTraceRef.current.decisions.length - 1] && (
+            <div>
+              Última acción:{' '}
+              {JSON.stringify(
+                fullMctsTraceRef.current.decisions[fullMctsTraceRef.current.decisions.length - 1]!
+                  .action,
+              )}
+              <button
+                type="button"
+                className="ml-2 underline"
+                onClick={() => {
+                  const trace = fullMctsTraceRef.current
+                  const decision = trace?.decisions[(trace?.decisions.length ?? 0) - 1]
+                  if (!trace || !decision) return
+                  markHumanMCTSTurnForReview(trace, decision.turnIndex)
+                  setMarkedTurns((current) =>
+                    current.includes(decision.turnIndex)
+                      ? current
+                      : [...current, decision.turnIndex],
+                  )
+                }}
+              >
+                Marcar turno para revisión
+              </button>
+            </div>
+          )}
+          {markedTurns.length > 0 && <div>Turnos marcados: {markedTurns.join(', ')}</div>}
         </div>
       )}
       {gameMode === 'mcts-final' && phase === 'finished' && (

@@ -10,6 +10,7 @@ import { getTerritoryMap } from '@/utils/territory'
 import type { HumanChallengeConfig } from '@/agents/humanChallengeMCTS'
 
 export const HUMAN_MCTS_TRACE_SCHEMA = 'HumanMCTSTraceV1' as const
+export type HumanMCTSSessionType = 'practice' | 'official' | 'diagnostic'
 
 export interface SerializableGameSnapshot extends Omit<GameSnapshot, 'legal'> {
   legal: string[]
@@ -26,6 +27,12 @@ export interface TracePositionMetrics {
       lowPieces: number
     }
   >
+  connectedComponents: Array<{
+    size: number
+    redStones: number
+    blueStones: number
+    owner: Player | null
+  }>
 }
 
 export interface HumanMCTSDecisionDiagnosticsV1 {
@@ -73,6 +80,7 @@ export interface HumanMCTSTraceDecisionV1 {
   endedGame: boolean
   decisionMs: number
   mcts?: HumanMCTSDecisionDiagnosticsV1
+  review?: { marked: true; markedAt: string; note?: string }
 }
 
 export interface HumanMCTSTraceV1 {
@@ -85,8 +93,13 @@ export interface HumanMCTSTraceV1 {
     finishedAt?: string
     durationMs?: number
     experimentId?: string
+    participantId?: string
+    gameNumber?: 1 | 2
+    sessionType?: HumanMCTSSessionType
+    sessionId?: string
     projectVersion?: string
     projectCommit?: string
+    runtimeCommit?: string
     boardSize: number
     humanColor: Player
     mctsColor: Player
@@ -169,6 +182,10 @@ export function createHumanMCTSTrace(params: {
   gameId?: string
   createdAt?: string
   experimentId?: string
+  participantId?: string
+  gameNumber?: 1 | 2
+  sessionType?: HumanMCTSSessionType
+  sessionId?: string
   projectVersion?: string
   projectCommit?: string
   humanColor: Player
@@ -185,8 +202,13 @@ export function createHumanMCTSTrace(params: {
       gameId: params.gameId ?? 'pending',
       createdAt: params.createdAt ?? new Date().toISOString(),
       experimentId: params.experimentId,
+      participantId: params.participantId,
+      gameNumber: params.gameNumber,
+      sessionType: params.sessionType,
+      sessionId: params.sessionId ?? globalThis.crypto.randomUUID(),
       projectVersion: params.projectVersion,
       projectCommit: params.projectCommit,
+      runtimeCommit: params.projectCommit,
       boardSize: params.initialState.board.length,
       humanColor: params.humanColor,
       mctsColor: params.mctsColor,
@@ -199,6 +221,17 @@ export function createHumanMCTSTrace(params: {
     },
     decisions: [],
   }
+}
+
+export function markHumanMCTSTurnForReview(
+  target: HumanMCTSTraceV1,
+  turnIndex: number,
+  note?: string,
+  markedAt = new Date().toISOString(),
+): void {
+  const decision = target.decisions.find((row) => row.turnIndex === turnIndex)
+  if (!decision) throw new Error(`Trace has no turn ${turnIndex}`)
+  decision.review = { marked: true, markedAt, ...(note ? { note } : {}) }
 }
 
 export function appendHumanMCTSDecision(
@@ -413,6 +446,17 @@ function positionMetrics(state: GameSnapshot): TracePositionMetrics {
       R: calculatePlayerMobilityQ3(state, 'R'),
       B: calculatePlayerMobilityQ3(state, 'B'),
     },
+    connectedComponents: floodRegions(state.board).map((region) => ({
+      size: region.cells.length,
+      redStones: region.borderingCounts.R,
+      blueStones: region.borderingCounts.B,
+      owner:
+        region.borderingCounts.R > 0 && region.borderingCounts.B === 0
+          ? 'R'
+          : region.borderingCounts.B > 0 && region.borderingCounts.R === 0
+            ? 'B'
+            : null,
+    })),
   }
 }
 

@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -142,6 +142,7 @@ describe('human experiment watcher', () => {
     await writeFile(resolve(paths.downloads, 'traza_humano_mcts_bad.json'), '{}')
     await watcher.scanOnce()
     expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('No compatible trace found'))
+    expect(await readdir(resolve(paths.root, 'quarantine'))).toHaveLength(1)
     await writeFile(resolve(paths.downloads, 'traza_humano_mcts_good.json'), '{}')
     await watcher.scanOnce()
     expect(ingest).toHaveBeenCalledTimes(2)
@@ -197,9 +198,22 @@ describe('human experiment watcher', () => {
       'game-1.json',
     )
     const trace = JSON.parse(await readFile(archivedTracePath, 'utf8')) as {
-      metadata: { experimentId?: string; projectCommit: string }
+      metadata: {
+        experimentId?: string
+        participantId?: string
+        gameNumber?: number
+        sessionType?: string
+        sessionId?: string
+        projectCommit: string
+        runtimeCommit?: string
+      }
     }
     trace.metadata.experimentId = experimentId
+    trace.metadata.participantId = 'P01'
+    trace.metadata.gameNumber = 1
+    trace.metadata.sessionType = 'official'
+    trace.metadata.sessionId = 'watcher-integration'
+    trace.metadata.runtimeCommit = trace.metadata.projectCommit
     const logger = { log: vi.fn(), error: vi.fn() }
     const watcher = new HumanExperimentWatcher({
       experimentDirectory: paths.root,

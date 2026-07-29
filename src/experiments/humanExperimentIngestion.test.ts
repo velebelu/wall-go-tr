@@ -62,6 +62,10 @@ function syntheticTrace(): HumanMCTSTraceV1 {
     gameId: 'controlled-test',
     createdAt: '2026-01-01T00:00:00.000Z',
     experimentId: 'WGTR-HUMAN-FINAL-2026',
+    participantId: 'P01',
+    gameNumber: 1,
+    sessionType: 'official',
+    sessionId: 'official-P01-1',
     projectCommit: COMMIT,
     humanColor: 'R',
     mctsColor: 'B',
@@ -190,6 +194,7 @@ describe('latest trace ingestion', () => {
   it('imports P02 game 2 correctly after its first game in an isolated fixture', async () => {
     const paths = await p02Fixture()
     const firstTrace = syntheticTrace()
+    firstTrace.metadata.participantId = 'P02'
     firstTrace.metadata.humanColor = 'B'
     firstTrace.metadata.mctsColor = 'R'
     await writeTrace(paths.downloads, firstTrace, 'traza_humano_mcts_p02_g1.json')
@@ -200,7 +205,11 @@ describe('latest trace ingestion', () => {
       explicitTracePath: resolve(paths.downloads, 'traza_humano_mcts_p02_g1.json'),
       expectedCommit: COMMIT,
     })
-    await writeTrace(paths.downloads, syntheticTrace(), 'traza_humano_mcts_p02_g2.json')
+    const secondTrace = syntheticTrace()
+    secondTrace.metadata.participantId = 'P02'
+    secondTrace.metadata.gameNumber = 2
+    secondTrace.metadata.sessionId = 'official-P02-2'
+    await writeTrace(paths.downloads, secondTrace, 'traza_humano_mcts_p02_g2.json')
     const result = await ingestLatestHumanExperimentTrace({
       experimentDirectory: paths.root,
       participantId: 'P02',
@@ -235,6 +244,18 @@ describe('latest trace ingestion', () => {
       'wrong config',
       (trace: HumanMCTSTraceV1) => {
         trace.metadata.finalHumanChallengeConfig!.budget.base++
+      },
+    ],
+    [
+      'practice session',
+      (trace: HumanMCTSTraceV1) => {
+        trace.metadata.sessionType = 'practice'
+      },
+    ],
+    [
+      'missing participant attribution',
+      (trace: HumanMCTSTraceV1) => {
+        delete trace.metadata.participantId
       },
     ],
     [
