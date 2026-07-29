@@ -23,8 +23,8 @@
   },
   "codeFreeze": {
     "status": "frozen",
-    "implementationCommit": "8a3e866635f4af9b9fbef28f4c40d5ebff6b4e0c",
-    "experimentPreparationCommit": "526a210087eed3cbb36491b9469fa62e93f47d75",
-    "relation": "implementationCommit freezes functional and traceability code; experimentPreparationCommit is the parent of the final metadata-binding commit used as the clean runtime HEAD."
+    "implementationCommit": "d24414802111390f0d4cffc5cb87b0de56932904",
+    "experimentPreparationCommit": "d24414802111390f0d4cffc5cb87b0de56932904",
+    "relation": "Both fields identify the definitive functional implementation; the code-freeze binding is its immediate child commit and modifies only this metadata file."
   }
 }
