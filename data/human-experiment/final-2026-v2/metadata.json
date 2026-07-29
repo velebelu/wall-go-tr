@@ -11,7 +11,7 @@
   },
   "codeFreeze": {
   "status": "frozen",
-  "implementationCommit": "0409c697efcf8d0861ca4952dab718c64a79131e",
+  "implementationCommit": "d4f2d958cab88012553f372a6f6a3a16abb2e0cb",
   "note": "This references the parent commit that freezes rules and playable AI. Each game records and validates the clean runtime HEAD automatically through VITE_GIT_COMMIT."
 }
 }
