@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { FINAL_MCTS_CONFIG } from './MCTSAgent'
 import {
   FINAL_HUMAN_CHALLENGE_MCTS_CONFIG,
+  SECURED_TERRITORY_POLICY_STATUS,
   detectSmallEndgame,
   measureHumanChallengeConfidence,
   solveSmallEndgame,
@@ -98,6 +99,11 @@ describe('FINAL_HUMAN_CHALLENGE_MCTS_CONFIG', () => {
     expect(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.budget.enable750).toBe(false)
     expect(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.budget.highUncertainty).toBe(500)
     expect(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG).not.toHaveProperty('securedTerritoryPolicy')
+    expect(SECURED_TERRITORY_POLICY_STATUS).toEqual({
+      status: 'rejected',
+      accepted: false,
+      reason: 'negative-counterfactual-effect',
+    })
   })
 
   it('abandona limpiamente el solucionador al alcanzar su límite', () => {

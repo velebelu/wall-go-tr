@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest'
+import { readFileSync } from 'node:fs'
 import { makeWallOnlyTurnFixture } from '@/fixtures/wallOnlyTurn'
 import { createEmptyBoard, makeInitialState } from '@/store/gameState'
 import { getLegalActions } from '@/utils/ai'
+import { countTerritoryQ3, calculatePlayerMobilityQ3 } from './learningPolicyQ3'
 import {
   analyzeSecuredTerritory,
   chooseSecuredTerritoryCandidate,
   filterSecuredTerritoryMovements,
+  isClearlyUselessSecuredMovement,
 } from './securedTerritoryPolicy'
 
 function playing() {
@@ -17,7 +20,68 @@ function playing() {
   return state
 }
 
+function securedButNonTerminal(player: 'R' | 'B' = 'B') {
+  const state = playing()
+  state.turn = player
+  const opponent = player === 'R' ? 'B' : 'R'
+  for (const [x, y] of [
+    [0, 0],
+    [0, 1],
+    [1, 1],
+  ])
+    state.board[y][x].stone = player
+  state.board[0][2].wallLeft = player
+  state.board[1][2].wallLeft = player
+  state.board[2][0].wallTop = player
+  state.board[2][1].wallTop = player
+  state.board[4][4].stone = player
+  for (const [x, y] of [
+    [4, 5],
+    [5, 4],
+    [5, 5],
+    [6, 6],
+  ])
+    state.board[y][x].stone = opponent
+  return state
+}
+
+function swapColors(state: ReturnType<typeof securedButNonTerminal>) {
+  const swap = (value: 'R' | 'B' | null) =>
+    value === 'R' ? ('B' as const) : value === 'B' ? ('R' as const) : null
+  return {
+    ...structuredClone(state),
+    board: state.board.map((row) =>
+      row.map((cell) => ({
+        stone: swap(cell.stone),
+        wallTop: swap(cell.wallTop),
+        wallLeft: swap(cell.wallLeft),
+      })),
+    ),
+    turn: swap(state.turn)!,
+    stonesPlaced: { R: state.stonesPlaced.B, B: state.stonesPlaced.R },
+    legal: new Set<string>(),
+  }
+}
+
 describe('secured territory policy', () => {
+  it('records the definitive negative-counterfactual rejection', () => {
+    const report = JSON.parse(
+      readFileSync(
+        'data/diagnostics/secured-territory-behaviour/counterfactual-report.json',
+        'utf8',
+      ),
+    )
+    expect(report.decision).toEqual({
+      status: 'rejected',
+      accepted: false,
+      reason: 'negative-counterfactual-effect',
+    })
+    expect(report.uniqueInterventions).toBe(4)
+    expect(report.classifications).toMatchObject({ beneficial: 1, harmful: 3 })
+    expect(report.meanTerritoryEffect).toBe(-1.55)
+    expect(report.bootstrapMeanTerritoryEffect95).toEqual([-2.9, -0.3])
+  })
+
   it('marks stones in a completely closed own-only region with traceable evidence', () => {
     const state = makeWallOnlyTurnFixture('B')
     const analysis = analyzeSecuredTerritory(state, 'B')
@@ -89,6 +153,58 @@ describe('secured territory policy', () => {
     }
     expect(chooseSecuredTerritoryCandidate(input).action).toEqual(
       chooseSecuredTerritoryCandidate(input).action,
+    )
+  })
+
+  it.each(['R', 'B'] as const)(
+    'rejects only a demonstrably redundant internal move for %s',
+    (player) => {
+      const state = securedButNonTerminal(player)
+      const redundant = getLegalActions(state).find(
+        (action) => action.type === 'move' && isClearlyUselessSecuredMovement(state, action),
+      )
+      expect(redundant).toBeDefined()
+    },
+  )
+
+  it('keeps a movement by the frontier stone outside the secured component', () => {
+    const state = securedButNonTerminal()
+    const strategic = getLegalActions(state).find(
+      (action) =>
+        action.type === 'move' &&
+        action.from?.x === 4 &&
+        action.from.y === 4 &&
+        !isClearlyUselessSecuredMovement(state, action),
+    )
+    expect(strategic).toBeDefined()
+  })
+
+  it('never removes wall-only actions or leaves an empty candidate set', () => {
+    const state = securedButNonTerminal()
+    const legal = getLegalActions(state)
+    const filtered = filterSecuredTerritoryMovements(state, legal)
+    expect(filtered.actions.length).toBeGreaterThan(0)
+    expect(
+      legal
+        .filter((action) => action.type === 'wall')
+        .every((wall) => filtered.actions.includes(wall)),
+    ).toBe(true)
+    expect(filtered.usedFallback).toBe(false)
+  })
+
+  it('is invariant under an exact R/B color exchange', () => {
+    const blue = securedButNonTerminal('B')
+    const red = swapColors(blue)
+    const blueActions = getLegalActions(blue)
+    const redActions = getLegalActions(red)
+    expect(redActions).toEqual(blueActions)
+    expect(countTerritoryQ3(red)).toEqual({
+      R: countTerritoryQ3(blue).B,
+      B: countTerritoryQ3(blue).R,
+    })
+    expect(calculatePlayerMobilityQ3(red, 'R')).toEqual(calculatePlayerMobilityQ3(blue, 'B'))
+    expect(redActions.map((action) => isClearlyUselessSecuredMovement(red, action))).toEqual(
+      blueActions.map((action) => isClearlyUselessSecuredMovement(blue, action)),
     )
   })
 })

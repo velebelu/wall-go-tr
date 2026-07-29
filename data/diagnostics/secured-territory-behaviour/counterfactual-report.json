@@ -1,0 +1,622 @@
+{
+  "schema": "SecuredTerritoryDiagnosticEvaluationV1",
+  "continuationsPerIntervention": 5,
+  "reviewedTurns": 34,
+  "preservedStrategicTurns": 29,
+  "equivalentInterventionsDiscarded": 1,
+  "uniqueInterventions": 4,
+  "byColor": {
+    "R": 0,
+    "B": 4
+  },
+  "classifications": {
+    "beneficial": 1,
+    "harmful": 3,
+    "neutral": 0,
+    "inconclusive": 0
+  },
+  "meanTerritoryEffect": -1.55,
+  "medianTerritoryEffect": -2,
+  "bootstrapMeanTerritoryEffect95": [
+    -2.9,
+    -0.3
+  ],
+  "fallbackCount": 0,
+  "illegalActions": 0,
+  "rows": [
+    {
+      "sessionId": "secured-territory-14-1589654177",
+      "turnIndex": 39,
+      "independenceGroup": "1e5b0dc23ea931d550f6a470371e7266861a2ad812f593eea780fefeb84706e1",
+      "aiColor": "B",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "alternativeAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "policyChangedAction": true,
+      "policyFallback": false,
+      "strategicClassification": "clearly-redundant",
+      "continuations": [
+        {
+          "seed": 3864999877,
+          "original": {
+            "aiTerritory": 22,
+            "opponentTerritory": 15,
+            "outcome": "win",
+            "turns": 9,
+            "elapsedMs": 2043.3342999999995
+          },
+          "alternative": {
+            "aiTerritory": 26,
+            "opponentTerritory": 14,
+            "outcome": "win",
+            "turns": 6,
+            "elapsedMs": 3208.362800000001
+          },
+          "territoryEffect": 4
+        },
+        {
+          "seed": 1401598394,
+          "original": {
+            "aiTerritory": 27,
+            "opponentTerritory": 16,
+            "outcome": "win",
+            "turns": 6,
+            "elapsedMs": 1362.1922000000004
+          },
+          "alternative": {
+            "aiTerritory": 22,
+            "opponentTerritory": 13,
+            "outcome": "win",
+            "turns": 11,
+            "elapsedMs": 4703.7343
+          },
+          "territoryEffect": -5
+        },
+        {
+          "seed": 3233164207,
+          "original": {
+            "aiTerritory": 27,
+            "opponentTerritory": 18,
+            "outcome": "win",
+            "turns": 4,
+            "elapsedMs": 1519.3106000000007
+          },
+          "alternative": {
+            "aiTerritory": 17,
+            "opponentTerritory": 13,
+            "outcome": "win",
+            "turns": 17,
+            "elapsedMs": 5987.8691
+          },
+          "territoryEffect": -10
+        },
+        {
+          "seed": 769762724,
+          "original": {
+            "aiTerritory": 27,
+            "opponentTerritory": 16,
+            "outcome": "win",
+            "turns": 4,
+            "elapsedMs": 1294.4388
+          },
+          "alternative": {
+            "aiTerritory": 22,
+            "opponentTerritory": 14,
+            "outcome": "win",
+            "turns": 11,
+            "elapsedMs": 4793.562000000002
+          },
+          "territoryEffect": -5
+        },
+        {
+          "seed": 2601328537,
+          "original": {
+            "aiTerritory": 26,
+            "opponentTerritory": 19,
+            "outcome": "win",
+            "turns": 4,
+            "elapsedMs": 1479.0701000000008
+          },
+          "alternative": {
+            "aiTerritory": 25,
+            "opponentTerritory": 13,
+            "outcome": "win",
+            "turns": 12,
+            "elapsedMs": 6585.282900000002
+          },
+          "territoryEffect": -1
+        }
+      ],
+      "meanTerritoryEffect": -3.4,
+      "medianTerritoryEffect": -5,
+      "classification": "harmful"
+    },
+    {
+      "sessionId": "secured-territory-16-1589656171",
+      "turnIndex": 43,
+      "independenceGroup": "74a4087463e407d0389e141e896b716534aa18a02c3814681df85d77bb390fd1",
+      "aiColor": "B",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "alternativeAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 5
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 4
+          },
+          "pos": {
+            "x": 1,
+            "y": 4
+          },
+          "dir": "top"
+        }
+      },
+      "policyChangedAction": true,
+      "policyFallback": false,
+      "strategicClassification": "clearly-redundant",
+      "continuations": [
+        {
+          "seed": 1597843059,
+          "original": {
+            "aiTerritory": 23,
+            "opponentTerritory": 22,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 459.54379999999946
+          },
+          "alternative": {
+            "aiTerritory": 23,
+            "opponentTerritory": 22,
+            "outcome": "win",
+            "turns": 1,
+            "elapsedMs": 0.19900000000052387
+          },
+          "territoryEffect": 0
+        },
+        {
+          "seed": 3429408872,
+          "original": {
+            "aiTerritory": 22,
+            "opponentTerritory": 15,
+            "outcome": "win",
+            "turns": 9,
+            "elapsedMs": 2004.9336999999941
+          },
+          "alternative": {
+            "aiTerritory": 19,
+            "opponentTerritory": 14,
+            "outcome": "win",
+            "turns": 10,
+            "elapsedMs": 1314.988400000002
+          },
+          "territoryEffect": -3
+        },
+        {
+          "seed": 966007389,
+          "original": {
+            "aiTerritory": 24,
+            "opponentTerritory": 21,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 494.2086000000054
+          },
+          "alternative": {
+            "aiTerritory": 23,
+            "opponentTerritory": 22,
+            "outcome": "win",
+            "turns": 1,
+            "elapsedMs": 0.19779999999445863
+          },
+          "territoryEffect": -1
+        },
+        {
+          "seed": 2797573202,
+          "original": {
+            "aiTerritory": 26,
+            "opponentTerritory": 18,
+            "outcome": "win",
+            "turns": 5,
+            "elapsedMs": 1455.8255000000063
+          },
+          "alternative": {
+            "aiTerritory": 23,
+            "opponentTerritory": 17,
+            "outcome": "win",
+            "turns": 9,
+            "elapsedMs": 2167.053200000002
+          },
+          "territoryEffect": -3
+        },
+        {
+          "seed": 334171719,
+          "original": {
+            "aiTerritory": 20,
+            "opponentTerritory": 14,
+            "outcome": "win",
+            "turns": 10,
+            "elapsedMs": 2996.6218999999983
+          },
+          "alternative": {
+            "aiTerritory": 22,
+            "opponentTerritory": 14,
+            "outcome": "win",
+            "turns": 9,
+            "elapsedMs": 1734.9753000000055
+          },
+          "territoryEffect": 2
+        }
+      ],
+      "meanTerritoryEffect": -1,
+      "medianTerritoryEffect": -1,
+      "classification": "harmful"
+    },
+    {
+      "sessionId": "secured-territory-2-1589642213",
+      "turnIndex": 33,
+      "independenceGroup": "8502438224cfb5a06bbbcaffd8723acfe923538d931e641600a832f73223513c",
+      "aiColor": "B",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "left"
+        }
+      },
+      "alternativeAction": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "dir": "left"
+      },
+      "policyChangedAction": true,
+      "policyFallback": false,
+      "strategicClassification": "clearly-redundant",
+      "continuations": [
+        {
+          "seed": 823275187,
+          "original": {
+            "aiTerritory": 27,
+            "opponentTerritory": 19,
+            "outcome": "win",
+            "turns": 11,
+            "elapsedMs": 4109.229800000001
+          },
+          "alternative": {
+            "aiTerritory": 26,
+            "opponentTerritory": 19,
+            "outcome": "win",
+            "turns": 11,
+            "elapsedMs": 3692.158500000005
+          },
+          "territoryEffect": -1
+        },
+        {
+          "seed": 2654841000,
+          "original": {
+            "aiTerritory": 26,
+            "opponentTerritory": 17,
+            "outcome": "win",
+            "turns": 13,
+            "elapsedMs": 7371.296100000007
+          },
+          "alternative": {
+            "aiTerritory": 28,
+            "opponentTerritory": 16,
+            "outcome": "win",
+            "turns": 13,
+            "elapsedMs": 6722.578400000013
+          },
+          "territoryEffect": 2
+        },
+        {
+          "seed": 191439517,
+          "original": {
+            "aiTerritory": 30,
+            "opponentTerritory": 19,
+            "outcome": "win",
+            "turns": 4,
+            "elapsedMs": 2386.2214999999997
+          },
+          "alternative": {
+            "aiTerritory": 30,
+            "opponentTerritory": 18,
+            "outcome": "win",
+            "turns": 6,
+            "elapsedMs": 2948.626900000003
+          },
+          "territoryEffect": 0
+        },
+        {
+          "seed": 2023005330,
+          "original": {
+            "aiTerritory": 25,
+            "opponentTerritory": 11,
+            "outcome": "win",
+            "turns": 18,
+            "elapsedMs": 7632.26920000001
+          },
+          "alternative": {
+            "aiTerritory": 27,
+            "opponentTerritory": 15,
+            "outcome": "win",
+            "turns": 11,
+            "elapsedMs": 5632.743900000001
+          },
+          "territoryEffect": 2
+        },
+        {
+          "seed": 3854571143,
+          "original": {
+            "aiTerritory": 27,
+            "opponentTerritory": 13,
+            "outcome": "win",
+            "turns": 15,
+            "elapsedMs": 6277.397499999992
+          },
+          "alternative": {
+            "aiTerritory": 25,
+            "opponentTerritory": 16,
+            "outcome": "win",
+            "turns": 13,
+            "elapsedMs": 5953.212400000004
+          },
+          "territoryEffect": -2
+        }
+      ],
+      "meanTerritoryEffect": 0.2,
+      "medianTerritoryEffect": 0,
+      "classification": "beneficial"
+    },
+    {
+      "sessionId": "secured-territory-30-1589670129",
+      "turnIndex": 51,
+      "independenceGroup": "51142e7a8f865d5b028e92e5c57bbd146c5a27f57fa3872f77effd919a3a0d0c",
+      "aiColor": "B",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "alternativeAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 3
+        },
+        "pos": {
+          "x": 3,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 3
+          },
+          "pos": {
+            "x": 3,
+            "y": 3
+          },
+          "dir": "top"
+        }
+      },
+      "policyChangedAction": true,
+      "policyFallback": false,
+      "strategicClassification": "clearly-redundant",
+      "continuations": [
+        {
+          "seed": 1358506689,
+          "original": {
+            "aiTerritory": 21,
+            "opponentTerritory": 10,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 89.7549999999901
+          },
+          "alternative": {
+            "aiTerritory": 19,
+            "opponentTerritory": 10,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 91.78239999999641
+          },
+          "territoryEffect": -2
+        },
+        {
+          "seed": 3190072502,
+          "original": {
+            "aiTerritory": 21,
+            "opponentTerritory": 10,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 92.31879999999364
+          },
+          "alternative": {
+            "aiTerritory": 19,
+            "opponentTerritory": 10,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 121.07860000000801
+          },
+          "territoryEffect": -2
+        },
+        {
+          "seed": 726671019,
+          "original": {
+            "aiTerritory": 21,
+            "opponentTerritory": 11,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 146.25419999999576
+          },
+          "alternative": {
+            "aiTerritory": 19,
+            "opponentTerritory": 11,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 108.96349999999802
+          },
+          "territoryEffect": -2
+        },
+        {
+          "seed": 2558236832,
+          "original": {
+            "aiTerritory": 21,
+            "opponentTerritory": 10,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 89.26699999999255
+          },
+          "alternative": {
+            "aiTerritory": 19,
+            "opponentTerritory": 10,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 89.4378999999899
+          },
+          "territoryEffect": -2
+        },
+        {
+          "seed": 94835349,
+          "original": {
+            "aiTerritory": 21,
+            "opponentTerritory": 10,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 91.16489999998885
+          },
+          "alternative": {
+            "aiTerritory": 19,
+            "opponentTerritory": 10,
+            "outcome": "win",
+            "turns": 2,
+            "elapsedMs": 90.22179999999935
+          },
+          "territoryEffect": -2
+        }
+      ],
+      "meanTerritoryEffect": -2,
+      "medianTerritoryEffect": -2,
+      "classification": "harmful"
+    }
+  ],
+  "decision": {
+    "status": "rejected",
+    "accepted": false,
+    "reason": "negative-counterfactual-effect"
+  }
+}

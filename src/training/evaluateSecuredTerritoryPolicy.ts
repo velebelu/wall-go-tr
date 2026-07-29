@@ -243,31 +243,41 @@ function territory(state: GameSnapshot): Record<Player, number> {
 }
 
 function buildReport(rows: MatchResult[]) {
+  const summarize = (subset: MatchResult[]) => {
+    const wins = subset.filter(({ candidateOutcome }) => candidateOutcome === 'win').length
+    const losses = subset.filter(({ candidateOutcome }) => candidateOutcome === 'loss').length
+    const draws = subset.length - wins - losses
+    return {
+      games: subset.length,
+      wins,
+      losses,
+      draws,
+      scoreRate: subset.length ? (wins + draws * 0.5) / subset.length : 0,
+      territoryMean: subset.length
+        ? subset.reduce((sum, row) => sum + (row.candidateTerritory ?? 0), 0) / subset.length
+        : 0,
+      opponentTerritoryMean: subset.length
+        ? subset.reduce((sum, row) => sum + (row.opponentTerritory ?? 0), 0) / subset.length
+        : 0,
+    }
+  }
   const matchups = Object.fromEntries(
     rows
       .map(({ matchup }) => matchup)
       .filter((matchup, index, values) => values.indexOf(matchup) === index)
       .map((matchup) => {
         const subset = rows.filter((row) => row.matchup === matchup)
-        const wins = subset.filter(({ candidateOutcome }) => candidateOutcome === 'win').length
-        const losses = subset.filter(({ candidateOutcome }) => candidateOutcome === 'loss').length
-        const draws = subset.length - wins - losses
-        const scoreRate = (wins + draws * 0.5) / subset.length
-        const territoryMean =
-          subset.reduce((sum, row) => sum + (row.candidateTerritory ?? 0), 0) / subset.length
+        const summary = summarize(subset)
         return [
           matchup,
           {
-            games: subset.length,
-            wins,
-            losses,
-            draws,
-            scoreRate,
-            winRateWilson95: wilson(wins, subset.length),
-            territoryMean,
-            opponentTerritoryMean:
-              subset.reduce((sum, row) => sum + (row.opponentTerritory ?? 0), 0) / subset.length,
+            ...summary,
+            winRateWilson95: wilson(summary.wins, subset.length),
             cappedGames: subset.filter(({ capped }) => capped).length,
+            byColor: {
+              R: summarize(subset.filter(({ candidateColor }) => candidateColor === 'R')),
+              B: summarize(subset.filter(({ candidateColor }) => candidateColor === 'B')),
+            },
           },
         ]
       }),
@@ -303,6 +313,7 @@ function buildReport(rows: MatchResult[]) {
     candidate: matchups[`candidate-vs-${opponent}`],
     baseline: matchups[`baseline-vs-${opponent}`],
   }))
+  const ambiguous = totals.interventions < 10
   const accepted =
     direct.scoreRate >= 0.45 &&
     direct.territoryMean - direct.opponentTerritoryMean >= -1.5 &&
@@ -314,7 +325,7 @@ function buildReport(rows: MatchResult[]) {
     totals.illegalActions === 0 &&
     totals.fallbacks === 0 &&
     totals.harmful <= totals.beneficial &&
-    totals.interventions > 0
+    !ambiguous
   return {
     schema: 'SecuredTerritoryPolicyEvaluationV1',
     generatedAt: new Date().toISOString(),
@@ -328,7 +339,7 @@ function buildReport(rows: MatchResult[]) {
     decision: {
       accepted,
       recommendation: accepted ? 'enable-final-policy' : 'keep-final-policy-disabled',
-      ambiguous: totals.interventions < 10,
+      ambiguous,
     },
   }
 }

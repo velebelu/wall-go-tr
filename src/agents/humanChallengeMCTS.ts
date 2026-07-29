@@ -66,6 +66,11 @@ export const FINAL_HUMAN_CHALLENGE_MCTS_CONFIG: Readonly<HumanChallengeConfig> =
 // Alias histórico: la configuración congelada es la única fuente de verdad.
 export const MODERATE_HUMAN_CHALLENGE_MCTS_CONFIG = FINAL_HUMAN_CHALLENGE_MCTS_CONFIG
 export const FINAL_HUMAN_CHALLENGE_MCTS_CONFIG_CANDIDATE = FINAL_HUMAN_CHALLENGE_MCTS_CONFIG
+export const SECURED_TERRITORY_POLICY_STATUS = Object.freeze({
+  status: 'rejected',
+  accepted: false,
+  reason: 'negative-counterfactual-effect',
+} as const)
 
 export interface ConfidenceMetrics {
   visitGap: number

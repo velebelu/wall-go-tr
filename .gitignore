@@ -27,3 +27,12 @@ dist-ssr
 coverage
 
 /REDACTADO TR.pdf
+
+# Corpus diagnóstico completo: se conserva localmente; Git sólo guarda informes,
+# manifest y los cuatro fixtures independientes seleccionados.
+data/diagnostics/secured-territory-behaviour/trace-*.json
+!data/diagnostics/secured-territory-behaviour/fixtures/
+!data/diagnostics/secured-territory-behaviour/fixtures/trace-2-turn-33.fixture.json
+!data/diagnostics/secured-territory-behaviour/fixtures/trace-14-turn-39.fixture.json
+!data/diagnostics/secured-territory-behaviour/fixtures/trace-16-turn-43.fixture.json
+!data/diagnostics/secured-territory-behaviour/fixtures/trace-30-turn-51.fixture.json
