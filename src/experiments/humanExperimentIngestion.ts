@@ -1,4 +1,4 @@
-import { copyFile, mkdir, rm } from 'node:fs/promises'
+import { copyFile, mkdir, readFile, rm } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
 import { resolve } from 'node:path'
 import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
@@ -8,6 +8,10 @@ import { readRegistry } from './humanExperimentExport'
 import { registerGameFromFiles } from './humanExperimentRegistration'
 import type { HumanExperimentGameInput, HumanExperimentRegistry } from './humanExperimentTypes'
 import { deriveGameFromTrace, validateRegistry } from './humanExperimentValidation'
+import {
+  CURRENT_HUMAN_EXPERIMENT_ID,
+  type HumanExperimentCodeFreezeTraceability,
+} from './humanExperimentConfig'
 
 export interface IngestionSummary {
   participantId: string
@@ -45,6 +49,7 @@ export async function ingestLatestHumanExperimentTrace(params: {
   explicitTracePath?: string
   downloadDirectories?: string[]
   expectedCommit?: string
+  expectedCodeFreeze?: HumanExperimentCodeFreezeTraceability
   hooks?: { afterCopy?: () => Promise<void> | void }
 }): Promise<IngestionSummary> {
   if (!/^P0[1-8]$/.test(params.participantId)) throw new Error('participantId must be P01-P08')
@@ -64,6 +69,11 @@ export async function ingestLatestHumanExperimentTrace(params: {
   if (gameNumber === 2 && !existingGames.some((game) => game.gameNumber === 1))
     throw new Error('Game 1 must be registered before game 2')
   const expectedCommit = params.expectedCommit ?? currentGitCommit()
+  const expectedCodeFreeze =
+    params.expectedCodeFreeze ??
+    (registry.experimentId === CURRENT_HUMAN_EXPERIMENT_ID
+      ? await currentCodeFreeze(root, expectedCommit)
+      : undefined)
   const gameJsonPath = resolve(
     root,
     'participants',
@@ -85,6 +95,7 @@ export async function ingestLatestHumanExperimentTrace(params: {
       registry,
       input,
       expectedCommit,
+      expectedCodeFreeze,
       root,
       participantId: params.participantId,
       gameNumber,
@@ -155,6 +166,7 @@ async function candidateIsValid(params: {
   registry: HumanExperimentRegistry
   input: HumanExperimentGameInput
   expectedCommit: string
+  expectedCodeFreeze?: HumanExperimentCodeFreezeTraceability
   root: string
   participantId: string
   gameNumber: 1 | 2
@@ -168,6 +180,14 @@ async function candidateIsValid(params: {
   if (!trace.metadata.sessionId) return false
   if (trace.metadata.projectCommit !== params.expectedCommit) return false
   if (trace.metadata.runtimeCommit !== params.expectedCommit) return false
+  if (
+    params.expectedCodeFreeze &&
+    (trace.metadata.implementationCommit !== params.expectedCodeFreeze.implementationCommit ||
+      trace.metadata.experimentPreparationCommit !==
+        params.expectedCodeFreeze.experimentPreparationCommit ||
+      trace.metadata.codeFreezeBindingCommit !== params.expectedCodeFreeze.codeFreezeBindingCommit)
+  )
+    return false
   const participant = params.registry.participants.find(
     (entry) => entry.participantId === params.participantId,
   )
@@ -197,6 +217,38 @@ async function candidateIsValid(params: {
   } catch {
     return false
   }
+}
+
+async function currentCodeFreeze(
+  root: string,
+  runtimeCommit: string,
+  run = execFileSync,
+): Promise<HumanExperimentCodeFreezeTraceability> {
+  const metadata = JSON.parse(await readFile(resolve(root, 'metadata.json'), 'utf8'))
+  const implementationCommit = fullCommit(metadata?.codeFreeze?.implementationCommit)
+  const experimentPreparationCommit = fullCommit(metadata?.codeFreeze?.experimentPreparationCommit)
+  const ancestry = String(
+    run(
+      'git',
+      ['rev-list', '--ancestry-path', '--reverse', `${implementationCommit}..${runtimeCommit}`],
+      { encoding: 'utf8' },
+    ),
+  )
+    .split(/\r?\n/)
+    .map((value) => value.trim())
+    .filter(Boolean)
+  return {
+    implementationCommit,
+    experimentPreparationCommit,
+    codeFreezeBindingCommit: fullCommit(ancestry[0]),
+  }
+}
+
+function fullCommit(value: unknown): string {
+  const commit = String(value ?? '').trim()
+  if (!/^[0-9a-f]{40}$/i.test(commit))
+    throw new Error(`Invalid frozen Git commit: ${commit || '<empty>'}`)
+  return commit
 }
 
 async function gameInput(path: string): Promise<HumanExperimentGameInput> {

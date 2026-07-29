@@ -297,4 +297,25 @@ describe('HumanMCTSTraceV1', () => {
     expect(trace.decisions[0].review?.note).toBe('review')
     expect(trace.decisions[0].metricsBefore.connectedComponents.length).toBeGreaterThan(0)
   })
+
+  it('records immutable freeze commits independently from the runtime commit', () => {
+    const trace = createHumanMCTSTrace({
+      humanColor: 'R',
+      mctsColor: 'B',
+      seed: 1,
+      mctsConfig: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.mcts,
+      initialState: makeInitialState(),
+      projectCommit: 'a'.repeat(40),
+      implementationCommit: 'b'.repeat(40),
+      experimentPreparationCommit: 'c'.repeat(40),
+      codeFreezeBindingCommit: 'd'.repeat(40),
+    })
+    expect(trace.metadata).toMatchObject({
+      projectCommit: 'a'.repeat(40),
+      runtimeCommit: 'a'.repeat(40),
+      implementationCommit: 'b'.repeat(40),
+      experimentPreparationCommit: 'c'.repeat(40),
+      codeFreezeBindingCommit: 'd'.repeat(40),
+    })
+  })
 })

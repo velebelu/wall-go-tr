@@ -206,6 +206,9 @@ describe('human experiment watcher', () => {
         sessionId?: string
         projectCommit: string
         runtimeCommit?: string
+        implementationCommit?: string
+        experimentPreparationCommit?: string
+        codeFreezeBindingCommit?: string
       }
     }
     trace.metadata.experimentId = experimentId
@@ -214,6 +217,9 @@ describe('human experiment watcher', () => {
     trace.metadata.sessionType = 'official'
     trace.metadata.sessionId = 'watcher-integration'
     trace.metadata.runtimeCommit = trace.metadata.projectCommit
+    trace.metadata.implementationCommit = '8a3e866635f4af9b9fbef28f4c40d5ebff6b4e0c'
+    trace.metadata.experimentPreparationCommit = '526a210087eed3cbb36491b9469fa62e93f47d75'
+    trace.metadata.codeFreezeBindingCommit = '0f3caea4d1ea1ebf500c2475959ae301d51dbeb6'
     const logger = { log: vi.fn(), error: vi.fn() }
     const watcher = new HumanExperimentWatcher({
       experimentDirectory: paths.root,

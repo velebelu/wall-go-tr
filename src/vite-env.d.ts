@@ -9,4 +9,7 @@ interface ImportMetaEnv {
   readonly VITE_SESSION_ID?: string
   readonly VITE_HUMAN_COLOR?: string
   readonly VITE_AI_COLOR?: string
+  readonly VITE_IMPLEMENTATION_COMMIT?: string
+  readonly VITE_EXPERIMENT_PREPARATION_COMMIT?: string
+  readonly VITE_CODE_FREEZE_BINDING_COMMIT?: string
 }

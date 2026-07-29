@@ -5,6 +5,17 @@ import { fileURLToPath } from 'node:url'
 
 export const CURRENT_EXPERIMENT_ID = 'WGTR-HUMAN-FINAL-2026-V3'
 export const CURRENT_EXPERIMENT_DIRECTORY = 'data/human-experiment/final-2026-v3'
+export const CODE_FREEZE_METADATA_PATH =
+  'data/human-experiment/final-2026-v3/metadata.json'
+
+const OPERATIONAL_EXPERIMENT_PATHS = [
+  /^data\/human-experiment\/final-2026-v3\/registry\.json$/,
+  /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/participant\.json$/,
+  /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/game-[12]\.json$/,
+  /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/traces\/[^/]+$/,
+  /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/auxiliary\/game-[12]\/[^/]+$/,
+  /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/checklist\.md$/,
+]
 
 export function validateFullCommit(value) {
   const commit = String(value).trim()
@@ -57,21 +68,57 @@ export function startHumanExperimentServer({
   platform = process.platform,
   environment = process.env,
   argv = process.argv.slice(2),
+  read = readFileSync,
 } = {}) {
   const commit = getGitCommit(run)
   assertCleanWorktree(run)
   console.log(`Human experiment commit:\n${commit}`)
-  const sessionEnvironment = resolveSessionEnvironment(argv, {
-    ...environment,
-    RUNTIME_GIT_COMMIT: commit,
-    RUNTIME_PARENT_COMMIT: validateFullCommit(
-      run('git', ['rev-parse', 'HEAD^'], { encoding: 'utf8' }),
-    ),
-    COMMIT_EXISTS: (candidate) => {
-      run('git', ['cat-file', '-e', `${candidate}^{commit}`], { stdio: 'ignore' })
-      return true
+  const sessionEnvironment = resolveSessionEnvironment(
+    argv,
+    {
+      ...environment,
+      RUNTIME_GIT_COMMIT: commit,
+      COMMIT_EXISTS: (candidate) => {
+        run('git', ['cat-file', '-e', `${candidate}^{commit}`], { stdio: 'ignore' })
+        return true
+      },
+      COMMIT_IS_ANCESTOR: (ancestor, descendant) => {
+        run('git', ['merge-base', '--is-ancestor', ancestor, descendant], { stdio: 'ignore' })
+        return true
+      },
+      ANCESTRY_PATH: (ancestor, descendant) =>
+        String(
+          run('git', ['rev-list', '--ancestry-path', '--reverse', `${ancestor}..${descendant}`], {
+            encoding: 'utf8',
+          }),
+        )
+          .split(/\r?\n/)
+          .map((value) => value.trim())
+          .filter(Boolean),
+      COMMIT_PARENTS: (candidate) =>
+        String(run('git', ['show', '-s', '--format=%P', candidate], { encoding: 'utf8' }))
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean),
+      CHANGED_PATHS_IN_COMMIT: (candidate) =>
+        String(
+          run('git', ['diff-tree', '--no-commit-id', '--name-only', '-r', candidate], {
+            encoding: 'utf8',
+          }),
+        )
+          .split(/\r?\n/)
+          .map((path) => path.trim())
+          .filter(Boolean),
+      FILE_AT_COMMIT: (candidate, path) =>
+        String(run('git', ['show', `${candidate}:${path}`], { encoding: 'utf8' })),
+      CHANGED_PATHS_SINCE_BINDING: (binding, runtime) =>
+        String(run('git', ['diff', '--name-only', `${binding}..${runtime}`], { encoding: 'utf8' }))
+          .split(/\r?\n/)
+          .map((path) => path.trim())
+          .filter(Boolean),
     },
-  })
+    read,
+  )
   const devCommand = resolveDevCommand(platform, environment)
   const childEnvironment = {
     ...environment,
@@ -136,12 +183,15 @@ export function resolveSessionEnvironment(argv, environment = process.env, read 
       metadata.experimentId !== CURRENT_EXPERIMENT_ID
     )
       throw new Error('Official sessions only accept WGTR-HUMAN-FINAL-2026-V3')
-    validateOfficialCodeFreeze(
-      metadata,
-      environment.RUNTIME_GIT_COMMIT,
-      environment.RUNTIME_PARENT_COMMIT,
-      environment.COMMIT_EXISTS,
-    )
+    const validatedFreeze = validateOfficialCodeFreeze(metadata, environment.RUNTIME_GIT_COMMIT, {
+      commitExists: environment.COMMIT_EXISTS,
+      isAncestor: environment.COMMIT_IS_ANCESTOR,
+      ancestryPath: environment.ANCESTRY_PATH,
+      commitParents: environment.COMMIT_PARENTS,
+      changedPathsInCommit: environment.CHANGED_PATHS_IN_COMMIT,
+      fileAtCommit: environment.FILE_AT_COMMIT,
+      changedPaths: environment.CHANGED_PATHS_SINCE_BINDING,
+    })
     const participant = registry.participants.find((row) => row.participantId === participantId)
     if (!participant) throw new Error(`Participant is not registered: ${participantId}`)
     if (
@@ -165,6 +215,9 @@ export function resolveSessionEnvironment(argv, environment = process.env, read 
       VITE_SESSION_ID: crypto.randomUUID(),
       VITE_HUMAN_COLOR: humanColor,
       VITE_AI_COLOR: aiColor,
+      VITE_IMPLEMENTATION_COMMIT: validatedFreeze.implementationCommit,
+      VITE_EXPERIMENT_PREPARATION_COMMIT: validatedFreeze.experimentPreparationCommit,
+      VITE_CODE_FREEZE_BINDING_COMMIT: validatedFreeze.codeFreezeBindingCommit,
     }
   }
   if (sessionType === 'practice') {
@@ -200,32 +253,70 @@ export function resolveSessionEnvironment(argv, environment = process.env, read 
   throw new Error('Debe indicar el contexto: official P01 <1|2>, practice P01 o diagnostic <R|B>')
 }
 
-export function validateOfficialCodeFreeze(
-  metadata,
-  runtimeCommit,
-  runtimeParentCommit,
-  commitExists = () => true,
-) {
+export function validateOfficialCodeFreeze(metadata, runtimeCommit, git = {}) {
   const freeze = metadata?.codeFreeze
   if (metadata?.aiPolicy?.securedTerritoryPolicy !== false)
     throw new Error('securedTerritoryPolicy must remain disabled')
-  if (
-    !/^[0-9a-f]{40}$/i.test(freeze?.implementationCommit ?? '') ||
-    !/^[0-9a-f]{40}$/i.test(freeze?.experimentPreparationCommit ?? '')
-  )
-    throw new Error('V3 code freeze still contains a provisional commit')
-  if (runtimeCommit && !/^[0-9a-f]{40}$/i.test(runtimeCommit))
-    throw new Error('Runtime commit must be a full commit')
-  if (runtimeParentCommit && runtimeParentCommit !== freeze.experimentPreparationCommit)
-    throw new Error('Runtime parent does not match V3 experimentPreparationCommit')
-  for (const commit of [freeze.implementationCommit, freeze.experimentPreparationCommit]) {
+  if (freeze?.status !== 'frozen') throw new Error('V3 metadata is not frozen')
+  const implementation = validateFullCommit(freeze?.implementationCommit)
+  const preparation = validateFullCommit(freeze?.experimentPreparationCommit)
+  if (implementation !== preparation)
+    throw new Error('V3 implementationCommit and experimentPreparationCommit must match')
+  const runtime = validateFullCommit(runtimeCommit)
+  const commitExists = git.commitExists ?? (() => true)
+  for (const commit of [implementation, preparation, runtime]) {
     try {
       if (!commitExists(commit)) throw new Error('not found')
     } catch {
       throw new Error(`Frozen commit does not exist: ${commit}`)
     }
   }
-  return freeze
+  try {
+    if (!(git.isAncestor ?? (() => true))(implementation, runtime))
+      throw new Error('not ancestor')
+  } catch {
+    throw new Error('Runtime commit does not descend from the V3 implementation commit')
+  }
+  const ancestry = (git.ancestryPath ?? (() => []))(implementation, runtime).map(validateFullCommit)
+  const binding = ancestry[0]
+  if (!binding) throw new Error('V3 code-freeze binding commit is missing')
+  const parents = (git.commitParents ?? (() => [implementation]))(binding).map(validateFullCommit)
+  if (parents.length !== 1 || parents[0] !== implementation)
+    throw new Error('V3 code-freeze binding must be the immediate child of the implementation')
+  const bindingPaths = (git.changedPathsInCommit ?? (() => [CODE_FREEZE_METADATA_PATH]))(binding)
+    .map(normalizeGitPath)
+    .sort()
+  if (
+    bindingPaths.length !== 1 ||
+    bindingPaths[0] !== CODE_FREEZE_METADATA_PATH
+  )
+    throw new Error('V3 code-freeze binding must modify only metadata.json')
+  if (git.fileAtCommit) {
+    let boundMetadata
+    try {
+      boundMetadata = JSON.parse(git.fileAtCommit(binding, CODE_FREEZE_METADATA_PATH))
+    } catch {
+      throw new Error('Unable to read V3 metadata from the code-freeze binding commit')
+    }
+    if (JSON.stringify(boundMetadata?.codeFreeze) !== JSON.stringify(freeze))
+      throw new Error('Runtime metadata does not match the code-freeze binding commit')
+  }
+  const changedPaths = (git.changedPaths ?? (() => []))(binding, runtime)
+  const forbidden = changedPaths
+    .map(normalizeGitPath)
+    .filter((path) => !isAllowedOperationalExperimentPath(path))
+  if (forbidden.length)
+    throw new Error(`Functional files changed after the V3 code freeze: ${forbidden.join(', ')}`)
+  return { ...freeze, codeFreezeBindingCommit: binding }
+}
+
+export function isAllowedOperationalExperimentPath(path) {
+  const normalized = normalizeGitPath(path)
+  return OPERATIONAL_EXPERIMENT_PATHS.some((pattern) => pattern.test(normalized))
+}
+
+function normalizeGitPath(path) {
+  return String(path).replace(/\\/g, '/').replace(/^\.\//, '')
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1])

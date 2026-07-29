@@ -100,6 +100,9 @@ export interface HumanMCTSTraceV1 {
     projectVersion?: string
     projectCommit?: string
     runtimeCommit?: string
+    implementationCommit?: string
+    experimentPreparationCommit?: string
+    codeFreezeBindingCommit?: string
     boardSize: number
     humanColor: Player
     mctsColor: Player
@@ -188,6 +191,9 @@ export function createHumanMCTSTrace(params: {
   sessionId?: string
   projectVersion?: string
   projectCommit?: string
+  implementationCommit?: string
+  experimentPreparationCommit?: string
+  codeFreezeBindingCommit?: string
   humanColor: Player
   mctsColor: Player
   seed: number
@@ -209,6 +215,9 @@ export function createHumanMCTSTrace(params: {
       projectVersion: params.projectVersion,
       projectCommit: params.projectCommit,
       runtimeCommit: params.projectCommit,
+      implementationCommit: params.implementationCommit,
+      experimentPreparationCommit: params.experimentPreparationCommit,
+      codeFreezeBindingCommit: params.codeFreezeBindingCommit,
       boardSize: params.initialState.board.length,
       humanColor: params.humanColor,
       mctsColor: params.mctsColor,

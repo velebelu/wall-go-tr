@@ -9,6 +9,9 @@ export interface HumanExperimentSessionContext {
   aiColor: Player
   sessionType: HumanMCTSSessionType
   runtimeCommit: string
+  implementationCommit?: string
+  experimentPreparationCommit?: string
+  codeFreezeBindingCommit?: string
   sessionId: string
 }
 
@@ -39,8 +42,26 @@ export function sessionContextFromEnvironment(
     const gameNumber = Number(required(environment.VITE_GAME_NUMBER, 'VITE_GAME_NUMBER'))
     if (gameNumber !== 1 && gameNumber !== 2) throw new Error('VITE_GAME_NUMBER must be 1 or 2')
     context.gameNumber = gameNumber
+    context.implementationCommit = fullCommit(
+      environment.VITE_IMPLEMENTATION_COMMIT,
+      'VITE_IMPLEMENTATION_COMMIT',
+    )
+    context.experimentPreparationCommit = fullCommit(
+      environment.VITE_EXPERIMENT_PREPARATION_COMMIT,
+      'VITE_EXPERIMENT_PREPARATION_COMMIT',
+    )
+    context.codeFreezeBindingCommit = fullCommit(
+      environment.VITE_CODE_FREEZE_BINDING_COMMIT,
+      'VITE_CODE_FREEZE_BINDING_COMMIT',
+    )
   }
   return context
+}
+
+function fullCommit(value: string | boolean | undefined, name: string): string {
+  const commit = required(value, name)
+  if (!/^[0-9a-f]{40}$/i.test(commit)) throw new Error(`${name} must be a full commit`)
+  return commit
 }
 
 function player(value: string | boolean | undefined, name: string): Player {

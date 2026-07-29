@@ -10,6 +10,9 @@ const base = {
   VITE_HUMAN_COLOR: 'B',
   VITE_AI_COLOR: 'R',
   VITE_GIT_COMMIT: 'a'.repeat(40),
+  VITE_IMPLEMENTATION_COMMIT: 'b'.repeat(40),
+  VITE_EXPERIMENT_PREPARATION_COMMIT: 'c'.repeat(40),
+  VITE_CODE_FREEZE_BINDING_COMMIT: 'd'.repeat(40),
 }
 
 describe('human experiment session context', () => {
@@ -20,6 +23,9 @@ describe('human experiment session context', () => {
       humanColor: 'B',
       aiColor: 'R',
       sessionType: 'official',
+      implementationCommit: 'b'.repeat(40),
+      experimentPreparationCommit: 'c'.repeat(40),
+      codeFreezeBindingCommit: 'd'.repeat(40),
     })
   })
 

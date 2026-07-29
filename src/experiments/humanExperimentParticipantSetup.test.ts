@@ -160,41 +160,240 @@ describe('human experiment start script', () => {
     child.emit('exit', 0, null)
   })
 
-  it('validates full existing code-freeze commits and the official runtime commit', async () => {
+  it('accepts the binding commit and later commits with only operational data changes', async () => {
     // @ts-expect-error The runtime script intentionally has no declaration file.
     const module = await import('../../scripts/start-human-experiment.mjs')
-    const implementationCommit = 'a'.repeat(40)
-    const experimentPreparationCommit = 'b'.repeat(40)
+    const implementation = 'a'.repeat(40)
+    const binding = 'b'.repeat(40)
     const metadata = {
       aiPolicy: { securedTerritoryPolicy: false },
-      codeFreeze: { implementationCommit, experimentPreparationCommit },
+      codeFreeze: {
+        status: 'frozen',
+        implementationCommit: implementation,
+        experimentPreparationCommit: implementation,
+      },
     }
-    expect(
-      module.validateOfficialCodeFreeze(
-        metadata,
-        'c'.repeat(40),
-        experimentPreparationCommit,
-        (commit: string) => [implementationCommit, experimentPreparationCommit].includes(commit),
-      ),
-    ).toBe(metadata.codeFreeze)
+    const git = {
+      commitExists: () => true,
+      isAncestor: () => true,
+      ancestryPath: () => [binding],
+      commitParents: () => [implementation],
+      changedPathsInCommit: () => [module.CODE_FREEZE_METADATA_PATH],
+      fileAtCommit: () => JSON.stringify(metadata),
+      changedPaths: () => [],
+    }
+    expect(module.validateOfficialCodeFreeze(metadata, binding, git)).toEqual({
+      ...metadata.codeFreeze,
+      codeFreezeBindingCommit: binding,
+    })
+    for (const path of [
+      'data/human-experiment/final-2026-v3/registry.json',
+      'data/human-experiment/final-2026-v3/participants/P01/participant.json',
+    ]) {
+      expect(() =>
+        module.validateOfficialCodeFreeze(metadata, 'e'.repeat(40), {
+          ...git,
+          changedPaths: () => [path],
+        }),
+      ).not.toThrow()
+    }
+  })
+
+  it('accepts every explicitly allowed operational path and rejects nearby paths', async () => {
+    // @ts-expect-error The runtime script intentionally has no declaration file.
+    const module = await import('../../scripts/start-human-experiment.mjs')
+    for (const path of [
+      'data/human-experiment/final-2026-v3/registry.json',
+      'data/human-experiment/final-2026-v3/participants/P08/participant.json',
+      'data/human-experiment/final-2026-v3/participants/P01/game-1.json',
+      'data/human-experiment/final-2026-v3/participants/P01/game-2.json',
+      'data/human-experiment/final-2026-v3/participants/P01/traces/game-1.json',
+      'data/human-experiment/final-2026-v3/participants/P01/auxiliary/game-2/notes.json',
+      'data/human-experiment/final-2026-v3/participants/P01/checklist.md',
+    ])
+      expect(module.isAllowedOperationalExperimentPath(path)).toBe(true)
+    for (const path of [
+      'data/human-experiment/final-2026-v3/metadata.json',
+      'data/human-experiment/final-2026-v3/README.md',
+      'data/human-experiment/final-2026-v3/commands.md',
+      'data/human-experiment/final-2026-v3/participants/P09/participant.json',
+      'data/other/registry.json',
+    ])
+      expect(module.isAllowedOperationalExperimentPath(path)).toBe(false)
+  })
+
+  it('derives a non-circular binding and requires it to change only metadata', async () => {
+    // @ts-expect-error The runtime script intentionally has no declaration file.
+    const module = await import('../../scripts/start-human-experiment.mjs')
+    const implementation = 'a'.repeat(40)
+    const binding = 'b'.repeat(40)
+    const metadata = {
+      aiPolicy: { securedTerritoryPolicy: false },
+      codeFreeze: {
+        status: 'frozen',
+        implementationCommit: implementation,
+        experimentPreparationCommit: implementation,
+      },
+    }
+    const git = {
+      commitExists: () => true,
+      isAncestor: () => true,
+      ancestryPath: () => [binding],
+      commitParents: () => [implementation],
+      changedPathsInCommit: () => [module.CODE_FREEZE_METADATA_PATH, 'src/components/Game.tsx'],
+      changedPaths: () => [],
+    }
+    expect(() => module.validateOfficialCodeFreeze(metadata, binding, git)).toThrow(
+      'must modify only metadata.json',
+    )
     expect(() =>
-      module.validateOfficialCodeFreeze(metadata, 'c'.repeat(40), 'd'.repeat(40), () => true),
+      module.validateOfficialCodeFreeze(metadata, binding, {
+        ...git,
+        changedPathsInCommit: () => [module.CODE_FREEZE_METADATA_PATH],
+        fileAtCommit: () =>
+          JSON.stringify({
+            ...metadata,
+            codeFreeze: { ...metadata.codeFreeze, status: 'draft' },
+          }),
+      }),
     ).toThrow('does not match')
+  })
+
+  it('reproduces ee39b9b and reaches both official process spawns without starting them', async () => {
+    // @ts-expect-error The runtime script intentionally has no declaration file.
+    const module = await import('../../scripts/start-human-experiment.mjs')
+    const runtime = 'ee39b9b888bc0d31a7ce8ef08b9d64f9bb1c1da6'
+    const implementation = 'a'.repeat(40)
+    const binding = 'b'.repeat(40)
+    const children: Array<EventEmitter & { killed: boolean; kill: ReturnType<typeof vi.fn> }> = []
+    const spawnProcess = vi.fn(() => {
+      const child = new EventEmitter() as EventEmitter & {
+        killed: boolean
+        kill: ReturnType<typeof vi.fn>
+      }
+      child.killed = false
+      child.kill = vi.fn()
+      children.push(child)
+      return child
+    })
+    const metadata = {
+      experimentId: module.CURRENT_EXPERIMENT_ID,
+      aiPolicy: { securedTerritoryPolicy: false },
+      codeFreeze: {
+        status: 'frozen',
+        implementationCommit: implementation,
+        experimentPreparationCommit: implementation,
+      },
+    }
+    const registry = {
+      experimentId: module.CURRENT_EXPERIMENT_ID,
+      participants: [{ participantId: 'P01', colorOrder: ['R', 'B'] }],
+      games: [],
+    }
+    const result = module.startHumanExperimentServer({
+      run: (_command: string, args: string[]) => {
+        if (args[0] === 'rev-parse') return runtime
+        if (args[0] === 'status') return ''
+        if (args[0] === 'rev-list') return `${binding}\n${runtime}`
+        if (args[0] === 'show' && args[1] === '-s') return implementation
+        if (args[0] === 'show') return JSON.stringify(metadata)
+        if (args[0] === 'diff-tree') return module.CODE_FREEZE_METADATA_PATH
+        if (args[0] === 'diff')
+          return [
+            'data/human-experiment/final-2026-v3/registry.json',
+            'data/human-experiment/final-2026-v3/participants/P01/participant.json',
+          ].join('\n')
+        return ''
+      },
+      read: (path: string) =>
+        path.endsWith('metadata.json') ? JSON.stringify(metadata) : JSON.stringify(registry),
+      spawnProcess,
+      platform: 'linux',
+      environment: {},
+      argv: ['official', 'P01', '1'],
+    })
+    expect(result.commit).toBe(runtime)
+    expect(spawnProcess).toHaveBeenCalledTimes(2)
+    expect(result.watcher).toBe(children[1])
+    result.close()
+  })
+
+  it.each([
+    'src/components/Game.tsx',
+    'scripts/start-human-experiment.mjs',
+    'data/human-experiment/final-2026-v3/metadata.json',
+  ])('rejects post-freeze functional change %s', async (path) => {
+    // @ts-expect-error The runtime script intentionally has no declaration file.
+    const module = await import('../../scripts/start-human-experiment.mjs')
+    const implementation = 'a'.repeat(40)
+    const binding = 'b'.repeat(40)
+    const metadata = {
+      aiPolicy: { securedTerritoryPolicy: false },
+      codeFreeze: {
+        status: 'frozen',
+        implementationCommit: implementation,
+        experimentPreparationCommit: implementation,
+      },
+    }
     expect(() =>
-      module.validateOfficialCodeFreeze(
-        metadata,
-        'c'.repeat(40),
-        experimentPreparationCommit,
-        () => false,
-      ),
+      module.validateOfficialCodeFreeze(metadata, 'e'.repeat(40), {
+        commitExists: () => true,
+        isAncestor: () => true,
+        ancestryPath: () => [binding],
+        commitParents: () => [implementation],
+        changedPathsInCommit: () => [module.CODE_FREEZE_METADATA_PATH],
+        changedPaths: () => [path],
+      }),
+    ).toThrow('Functional files changed')
+  })
+
+  it('rejects non-descendants, dirty trees, and missing or incorrect frozen hashes', async () => {
+    // @ts-expect-error The runtime script intentionally has no declaration file.
+    const module = await import('../../scripts/start-human-experiment.mjs')
+    const implementation = 'a'.repeat(40)
+    const binding = 'b'.repeat(40)
+    const metadata = {
+      aiPolicy: { securedTerritoryPolicy: false },
+      codeFreeze: {
+        status: 'frozen',
+        implementationCommit: implementation,
+        experimentPreparationCommit: implementation,
+      },
+    }
+    expect(() =>
+      module.validateOfficialCodeFreeze(metadata, 'e'.repeat(40), {
+        commitExists: () => true,
+        isAncestor: () => false,
+        ancestryPath: () => [binding],
+        commitParents: () => [implementation],
+        changedPathsInCommit: () => [module.CODE_FREEZE_METADATA_PATH],
+        changedPaths: () => [],
+      }),
+    ).toThrow('does not descend')
+    expect(() =>
+      module.validateOfficialCodeFreeze(metadata, 'e'.repeat(40), {
+        commitExists: () => false,
+        isAncestor: () => true,
+        ancestryPath: () => [binding],
+        commitParents: () => [implementation],
+        changedPathsInCommit: () => [module.CODE_FREEZE_METADATA_PATH],
+        changedPaths: () => [],
+      }),
     ).toThrow('does not exist')
     expect(() =>
       module.validateOfficialCodeFreeze(
-        { ...metadata, aiPolicy: { securedTerritoryPolicy: true } },
-        'c'.repeat(40),
-        experimentPreparationCommit,
+        {
+          ...metadata,
+          codeFreeze: { ...metadata.codeFreeze, implementationCommit: 'f'.repeat(40) },
+        },
+        'e'.repeat(40),
       ),
-    ).toThrow('must remain disabled')
+    ).toThrow('must match')
+    expect(() =>
+      module.assertCleanWorktree((_command: string, args: string[]) =>
+        args[0] === 'status' ? ' M registry.json' : '',
+      ),
+    ).toThrow('cambios sin commit')
   })
 
   it('rejects invalid hashes and unavailable Git', async () => {
