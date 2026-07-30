@@ -1,0 +1,14 @@
+{
+  "status": "quarantined",
+  "validity": "invalid-trace-mismatch",
+  "registration": "rejected",
+  "repeatRequired": true,
+  "gameId": "g_6254dc20",
+  "participantId": "P01",
+  "intendedGameNumber": 1,
+  "runtimeCommit": "299246b327a211f002cf2fc4d8fa5b82a1b8f453",
+  "traceSha256": "5bdcf52057a1f9b3724f49b36ab5a32ff025554fe88bbb2241e8e87499115d33",
+  "startedAt": "2026-07-30T08:44:26.079Z",
+  "finishedAt": "2026-07-30T08:45:53.606Z",
+  "reason": "first replay divergence at turn 1, state-after"
+}

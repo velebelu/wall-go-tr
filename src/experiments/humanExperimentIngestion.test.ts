@@ -286,7 +286,23 @@ describe('latest trace ingestion', () => {
         downloadDirectories: [paths.downloads],
         expectedCommit: COMMIT,
       }),
-    ).rejects.toThrow('No compatible trace')
+    ).rejects.toThrow()
+  })
+
+  it('preserves the exact replay divergence reason for an explicit trace', async () => {
+    const paths = await fixture()
+    const trace = syntheticTrace()
+    trace.decisions[0].stateAfter.board[0][0].stone = 'B'
+    const source = await writeTrace(paths.downloads, trace)
+    await expect(
+      ingestLatestHumanExperimentTrace({
+        experimentDirectory: paths.root,
+        participantId: 'P01',
+        gameNumber: 1,
+        explicitTracePath: source,
+        expectedCommit: COMMIT,
+      }),
+    ).rejects.toThrow('Trace replay failed at turn 0: state-after')
   })
 
   it('rejects a trace from the archived experiment when ingesting into v2', async () => {
@@ -317,7 +333,7 @@ describe('latest trace ingestion', () => {
         explicitTracePath: source,
         expectedCommit: COMMIT,
       }),
-    ).rejects.toThrow('No compatible trace')
+    ).rejects.toThrow('Trace experimentId does not match the registry')
   })
 
   it('rejects an unregistered participant and game 2 before game 1', async () => {
@@ -383,7 +399,7 @@ describe('latest trace ingestion', () => {
         explicitTracePath: source,
         expectedCommit: COMMIT,
       }),
-    ).rejects.toThrow('No compatible trace')
+    ).rejects.toThrow('Pilot traces cannot be ingested')
   })
 
   it('rolls back the copied destination when ingestion fails', async () => {

@@ -1,6 +1,6 @@
 import { calculatePlayerMobilityQ3 } from '@/agents/learningPolicyQ3'
 import type { TurnDecisionTrace } from '@/agents/TurnManager'
-import { applyFullAction } from '@/engine/gameSimulator'
+import { applyRecordedPlayerAction } from '@/experiments/atomicPlayerTransition'
 import type { MCTSConfig, MCTSResult } from '@/engine/mcts/types'
 import type { GameSnapshot, Player, PlayerAction } from '@/lib/types'
 import { snapshotFromState } from '@/store/gameState'
@@ -81,6 +81,7 @@ export interface HumanMCTSTraceDecisionV1 {
   decisionMs: number
   mcts?: HumanMCTSDecisionDiagnosticsV1
   review?: { marked: true; markedAt: string; note?: string }
+  transition?: NonNullable<TurnDecisionTrace['transition']>
 }
 
 export interface HumanMCTSTraceV1 {
@@ -149,6 +150,29 @@ export interface PreparedHumanMCTSTraceFile {
   fileName: string
   bytes: number
   json: string
+}
+
+export function prepareHumanMCTSTraceDiagnosticFile(
+  trace: HumanMCTSTraceV1,
+  error: string,
+): PreparedHumanMCTSTraceFile {
+  const json = `${JSON.stringify(
+    {
+      schema: 'HumanMCTSTraceDiagnosticV1',
+      schemaVersion: 1,
+      official: false,
+      registrationAllowed: false,
+      error,
+      trace: structuredClone(trace),
+    },
+    null,
+    2,
+  )}\n`
+  return {
+    fileName: `diagnostico_no_oficial_${trace.metadata.gameId}.json`,
+    bytes: new TextEncoder().encode(json).length,
+    json,
+  }
 }
 
 export function serializeGameSnapshot(state: GameSnapshot): SerializableGameSnapshot {
@@ -267,6 +291,7 @@ export function appendHumanMCTSDecision(
     endedGame:
       decision.stateAfter.phase === 'finished' || decision.stateAfter.result?.finished === true,
     decisionMs: Number(decision.decisionMs.toFixed(4)),
+    ...(decision.transition ? { transition: structuredClone(decision.transition) } : {}),
     ...(actor === 'mcts' && diagnostics
       ? { mcts: toMCTSDiagnostics(diagnostics, decision.action, target.metadata.mctsConfig) }
       : {}),
@@ -343,7 +368,7 @@ export function replayHumanMCTSTrace(trace: HumanMCTSTraceV1): ReplayResult {
         },
       }
     }
-    state = applyFullAction(state, replayAction).state
+    state = applyRecordedPlayerAction(state, replayAction)
     const after = serializeGameSnapshot(state)
     if (!deepEqual(after, decision.stateAfter)) {
       return divergence(decision.turnIndex, 'state-after', decision.stateAfter, after)
@@ -382,11 +407,50 @@ export function extractHumanMCTSDecisionFixture(
 
 export function prepareHumanMCTSTraceFile(trace: HumanMCTSTraceV1): PreparedHumanMCTSTraceFile {
   if (!trace.final) throw new Error('Cannot prepare a download for an unfinished trace')
+  validateHumanMCTSTraceForDownload(trace)
   const json = serializeHumanMCTSTrace(trace)
   return {
     fileName: `traza_humano_mcts_${trace.metadata.gameId}.json`,
     bytes: new TextEncoder().encode(json).length,
     json,
+  }
+}
+
+export function validateHumanMCTSTraceForDownload(trace: HumanMCTSTraceV1): void {
+  if (trace.schema !== HUMAN_MCTS_TRACE_SCHEMA || trace.schemaVersion !== 1)
+    throw new Error('Cannot download trace: unsupported schema')
+  if (!trace.metadata || !trace.final || trace.decisions.length === 0)
+    throw new Error('Cannot download trace: incomplete trace')
+  for (const [index, decision] of trace.decisions.entries()) {
+    if (decision.turnIndex !== index)
+      throw new Error(`Cannot download trace: non-sequential turn index at ${index}`)
+    const expected = applyRecordedPlayerAction(
+      deserializeGameSnapshot(decision.stateBefore),
+      recordedActionForReplay(decision.action),
+    )
+    if (!deepEqual(serializeGameSnapshot(expected), decision.stateAfter))
+      throw new Error(`Cannot download trace: transition mismatch at turn ${decision.turnIndex}`)
+  }
+  if (trace.final.totalTurns !== trace.decisions.length)
+    throw new Error('Cannot download trace: final turn count mismatch')
+  const replay = replayHumanMCTSTrace(trace)
+  if (!replay.ok)
+    throw new Error(`Cannot download trace: ${replay.divergence?.message ?? 'full replay failed'}`)
+  if (trace.metadata.sessionType === 'official') {
+    for (const [field, value] of Object.entries({
+      experimentId: trace.metadata.experimentId,
+      participantId: trace.metadata.participantId,
+      gameNumber: trace.metadata.gameNumber,
+      sessionId: trace.metadata.sessionId,
+      runtimeCommit: trace.metadata.runtimeCommit,
+      implementationCommit: trace.metadata.implementationCommit,
+      experimentPreparationCommit: trace.metadata.experimentPreparationCommit,
+      codeFreezeBindingCommit: trace.metadata.codeFreezeBindingCommit,
+      finalHumanChallengeConfig: trace.metadata.finalHumanChallengeConfig,
+    })) {
+      if (value === undefined || value === null || value === '')
+        throw new Error(`Cannot download official trace: missing ${field}`)
+    }
   }
 }
 
@@ -489,6 +553,14 @@ function deepEqual(left: unknown, right: unknown): boolean {
 }
 
 function samePlayableAction(left: PlayerAction, right: PlayerAction): boolean {
+  if (
+    left.type === 'move' &&
+    right.type === 'move' &&
+    !right.followUp &&
+    deepEqual(left.from, right.from) &&
+    deepEqual(left.pos, right.pos)
+  )
+    return true
   return deepEqual(normalizePlayableAction(left), normalizePlayableAction(right))
 }
 

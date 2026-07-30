@@ -160,6 +160,9 @@ export async function runHeuristicTraining(
           if (action.from) useGame.getState().selectStone(action.from)
           useGame.getState().buildWall(action.pos, action.dir)
         }
+        if (action.followUp?.type === 'wall' && action.followUp.dir) {
+          useGame.getState().buildWall(action.followUp.pos, action.followUp.dir)
+        }
 
         const nextState = snapshotFromState(useGame.getState())
         const territory = getTerritoryCounts(nextState.board)
@@ -180,6 +183,7 @@ export async function runHeuristicTraining(
             territory.B,
           ),
         )
+        return nextState
       },
       isGameOver: (state) => state.phase === 'finished' || !!state.result || state.stepsTaken > 200,
       turnTimeLimit: 4_000,

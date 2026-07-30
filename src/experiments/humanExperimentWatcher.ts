@@ -3,6 +3,7 @@ import { basename, resolve } from 'node:path'
 import { readRegistry } from './humanExperimentExport'
 import { ingestLatestHumanExperimentTrace, type IngestionSummary } from './humanExperimentIngestion'
 import type { HumanExperimentRegistry } from './humanExperimentTypes'
+import { readStableFile } from './humanExperimentDownloadDiscovery'
 
 const TRACE_FILE = /^traza_humano_mcts_.*\.json$/i
 
@@ -83,6 +84,7 @@ export class HumanExperimentWatcher {
   }
   private known = new Map<string, string>()
   private processed = new Set<string>()
+  private processedContent = new Set<string>()
   private timer: NodeJS.Timeout | undefined
   private scanning = false
   private closed = false
@@ -134,7 +136,15 @@ export class HumanExperimentWatcher {
   private async processFile(path: string, versionKey: string): Promise<void> {
     this.processed.add(versionKey)
     try {
-      await this.waitUntilStable(path)
+      const stable = await readStableFile(path, {
+        stableObservations: 3,
+        intervalMs: this.params.stabilityIntervalMs ?? 750,
+      })
+      this.known.set(path, stable.signature)
+      const finalVersionKey = `${path}\0${stable.signature}`
+      this.processed.add(finalVersionKey)
+      if (this.processedContent.has(stable.contentSha256)) return
+      this.processedContent.add(stable.contentSha256)
       if (this.closed) return
       const registry = await readRegistry(resolve(this.params.experimentDirectory, 'registry.json'))
       const pending = nextPendingHumanExperimentGame(registry)
@@ -176,18 +186,6 @@ export class HumanExperimentWatcher {
     )
   }
 
-  private async waitUntilStable(path: string): Promise<void> {
-    const interval = this.params.stabilityIntervalMs ?? 750
-    let previous = signature(await stat(path))
-    for (;;) {
-      await delay(interval)
-      if (this.closed) return
-      const current = signature(await stat(path))
-      if (current === previous) return
-      previous = current
-    }
-  }
-
   private async fileVersions(): Promise<FileVersion[]> {
     const names = await readdir(this.params.downloadDirectory)
     const files: FileVersion[] = []
@@ -207,10 +205,6 @@ export class HumanExperimentWatcher {
 
 function signature(value: { size: number; mtimeMs: number }): string {
   return `${value.size}:${value.mtimeMs}`
-}
-
-function delay(milliseconds: number): Promise<void> {
-  return new Promise((done) => setTimeout(done, milliseconds))
 }
 
 function errorMessage(error: unknown): string {

@@ -10,6 +10,7 @@ export class HumanAgent implements PlayerAgent {
   private selectionStartedAt?: number
   private lastDecisionDurationMs?: number
   private readonly partiallyAppliedActions = new WeakSet<PlayerAction>()
+  private readonly selectionOnlyActions = new WeakSet<PlayerAction>()
 
   // Called by UI to submit player action
   submitAction(action: PlayerAction) {
@@ -48,6 +49,7 @@ export class HumanAgent implements PlayerAgent {
           dir,
         }
     if (this.movedTo) this.partiallyAppliedActions.add(action)
+    else this.selectionOnlyActions.add(action)
     this.lastDecisionDurationMs =
       this.selectionStartedAt === undefined
         ? undefined
@@ -70,10 +72,16 @@ export class HumanAgent implements PlayerAgent {
     this.resolve(action)
   }
 
-  consumePartiallyAppliedAction(action: PlayerAction): boolean {
-    if (!this.partiallyAppliedActions.has(action)) return false
-    this.partiallyAppliedActions.delete(action)
-    return true
+  consumeStateChangeKind(action: PlayerAction): 'selection' | 'move' | false {
+    if (this.partiallyAppliedActions.has(action)) {
+      this.partiallyAppliedActions.delete(action)
+      return 'move'
+    }
+    if (this.selectionOnlyActions.has(action)) {
+      this.selectionOnlyActions.delete(action)
+      return 'selection'
+    }
+    return false
   }
 
   getDecisionDurationMs(): number | undefined {

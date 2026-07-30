@@ -16,6 +16,7 @@ import {
   markHumanMCTSTurnForReview,
   parseHumanMCTSTrace,
   prepareHumanMCTSTraceFile,
+  prepareHumanMCTSTraceDiagnosticFile,
   recordHumanMCTSDecision,
   replayHumanMCTSTrace,
   serializeHumanMCTSTrace,
@@ -239,6 +240,32 @@ describe('HumanMCTSTraceV1', () => {
       ok: false,
       divergence: { turnIndex: 0, kind: 'state-after' },
     })
+  })
+
+  it('bloquea la preparaciÃ³n de descarga cuando una transiciÃ³n no reproduce', () => {
+    const { trace } = completeSyntheticTrace()
+    trace.decisions[0].stateAfter.board[0][0].stone = 'R'
+    expect(() => prepareHumanMCTSTraceFile(trace)).toThrow('transition mismatch at turn 0')
+  })
+
+  it('etiqueta el artefacto alternativo como diagnÃ³stico no oficial', () => {
+    const { trace } = completeSyntheticTrace()
+    const prepared = prepareHumanMCTSTraceDiagnosticFile(trace, 'transition mismatch')
+    const diagnostic = JSON.parse(prepared.json)
+    expect(prepared.fileName).toMatch(/^diagnostico_no_oficial_/)
+    expect(diagnostic).toMatchObject({
+      schema: 'HumanMCTSTraceDiagnosticV1',
+      official: false,
+      registrationAllowed: false,
+      error: 'transition mismatch',
+    })
+  })
+
+  it('mantiene el replay exacto tras serialize, parse y preparaciÃ³n de descarga', () => {
+    const { trace } = completeSyntheticTrace()
+    const parsed = parseHumanMCTSTrace(serializeHumanMCTSTrace(trace))
+    expect(replayHumanMCTSTrace(parsed)).toEqual({ ok: true, decisionsReplayed: 1 })
+    expect(prepareHumanMCTSTraceFile(parsed).json).toBe(serializeHumanMCTSTrace(parsed))
   })
 
   it('extrae un fixture compacto y profundamente independiente', () => {

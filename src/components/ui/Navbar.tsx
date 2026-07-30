@@ -13,6 +13,7 @@ export default function Navbar({
   phase,
   dark,
   setDark,
+  historyDisabled = false,
 }: {
   onUndo: () => void
   onRedo: () => void
@@ -22,6 +23,7 @@ export default function Navbar({
   phase: Phase
   dark: boolean
   setDark: (d: boolean | ((d: boolean) => boolean)) => void
+  historyDisabled?: boolean
 }) {
   const { t } = useTranslation()
   return (
@@ -29,14 +31,14 @@ export default function Navbar({
       <div className="flex gap-2 items-center">
         <GameButton
           onClick={onUndo}
-          disabled={!canUndo || phase === 'finished'}
+          disabled={historyDisabled || !canUndo || phase === 'finished'}
           ariaLabel={t('nav.undoAria', 'Undo')}
         >
           ↶ {t('nav.undo', 'Undo')}
         </GameButton>
         <GameButton
           onClick={onRedo}
-          disabled={!canRedo || phase === 'finished'}
+          disabled={historyDisabled || !canRedo || phase === 'finished'}
           ariaLabel={t('nav.redoAria', 'Redo')}
         >
           ↷ {t('nav.redo', 'Redo')}

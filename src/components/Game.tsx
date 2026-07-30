@@ -44,6 +44,7 @@ import {
   finalizeHumanMCTSTrace,
   markHumanMCTSTraceStarted,
   markHumanMCTSTurnForReview,
+  prepareHumanMCTSTraceDiagnosticFile,
   prepareHumanMCTSTraceFile,
   recordHumanMCTSDecision,
   type HumanMCTSTraceV1,
@@ -99,6 +100,8 @@ export default function Game({
   const { t } = useTranslation()
   const [showConfirm, setShowConfirm] = useState(false)
   const [aiError, setAiError] = useState<string | null>(null)
+  const officialSession = import.meta.env.VITE_SESSION_TYPE === 'official'
+  const officialSessionInvalidRef = useRef(false)
   const [mctsTraceSaveResult, setMctsTraceSaveResult] = useState<MCTSGameTraceSaveResult | null>(
     null,
   )
@@ -107,6 +110,7 @@ export default function Game({
     fileName: string
     bytes: number
     error?: string
+    diagnostic?: boolean
   } | null>(null)
   const [timeLeft, setTimeLeft] = useState(90_000)
   const turnTimeLimit = 90_000
@@ -138,6 +142,7 @@ export default function Game({
     finalizedFullMctsTraceRef.current = null
     preparedFullTraceRef.current = null
     savedRef.current = false
+    officialSessionInvalidRef.current = false
     setFullTraceDownload(null)
 
     if (gameMode === 'heuristic-training') {
@@ -192,14 +197,23 @@ export default function Game({
       turnManagerRef.current = new TurnManager({
         agents,
         getGameState: () => snapshotFromState(useGame.getState()),
-        applyAction: async (action: PlayerAction) => {
+        applyAction: async (action: PlayerAction, transition) => {
           const prevState = snapshotFromState(useGame.getState())
-          applyAgentActionToGame(action, { placeStone, selectStone, moveTo, finishMove, buildWall })
+          assertUnchangedState(prevState, transition.stateBefore)
+          applyCompleteAgentAction(action, {
+            placeStone,
+            selectStone,
+            moveTo,
+            finishMove,
+            buildWall,
+          })
+          const committed = snapshotFromState(useGame.getState())
+          assertCommittedState(committed, transition.stateAfter)
 
           if (learningAgentRef.current && prevState.turn === 'R') {
-            const nextState = snapshotFromState(useGame.getState())
-            learningAgentRef.current.recordTransition(prevState, action, nextState)
+            learningAgentRef.current.recordTransition(prevState, action, committed)
           }
+          return committed
         },
         isGameOver: (state) =>
           state.phase === 'finished' || !!state.result || state.stepsTaken > 200,
@@ -275,8 +289,11 @@ export default function Game({
     turnManagerRef.current = new TurnManager({
       agents,
       getGameState: () => snapshotFromState(useGame.getState()),
-      applyAction: async (action: PlayerAction) => {
-        if (human.consumePartiallyAppliedAction(action)) {
+      applyAction: async (action: PlayerAction, transition) => {
+        const partiallyApplied = transition.stateChangeWhileDeciding === 'move'
+        if (!transition.stateChangeWhileDeciding)
+          assertUnchangedState(snapshotFromState(useGame.getState()), transition.stateBefore)
+        if (partiallyApplied) {
           if (action.followUp) {
             applyAgentActionToGame(action.followUp, {
               placeStone,
@@ -288,11 +305,21 @@ export default function Game({
           } else {
             finishMove()
           }
-          return
+        } else {
+          applyCompleteAgentAction(action, {
+            placeStone,
+            selectStone,
+            moveTo,
+            finishMove,
+            buildWall,
+          })
         }
-        applyAgentActionToGame(action, { placeStone, selectStone, moveTo, finishMove, buildWall })
+        const committed = snapshotFromState(useGame.getState())
+        assertCommittedState(committed, transition.stateAfter)
+        return committed
       },
       isGameOver: (state) => state.phase === 'finished' || !!state.result,
+      allowStateChangeWhileDeciding: (action) => human.consumeStateChangeKind(action),
       turnTimeLimit,
       onTurnStart: (state) => {
         if (state.phase !== 'playing') return
@@ -400,11 +427,12 @@ export default function Game({
         .catch((error: unknown) => {
           const message = error instanceof Error ? error.message : t('game.ai_error', 'Error de IA')
           console.error('[Game] Error de IA:', error)
+          if (officialSession) officialSessionInvalidRef.current = true
           setAiError(message)
         })
       turnManagerStartedRef.current = true
     }
-  }, [phase, t, gameMode])
+  }, [phase, t, gameMode, officialSession])
 
   const handlePlayerAction = useCallback((action: PlayerAction) => {
     humanAgentRef.current?.submitAction(action)
@@ -524,12 +552,11 @@ export default function Game({
       observaciones: 'Guardado automático para recogida de datos TR',
     }
 
-    const saved = saveFinishedGameArtifacts(payload, gameMode, mctsTraceRef.current)
-    if (saved.traceResult.status !== 'not_applicable') {
-      setMctsTraceSaveResult(saved.traceResult)
-    }
+    let fullTraceValid = true
     if (gameMode === 'mcts-final' && fullMctsTraceRef.current) {
       try {
+        if (officialSessionInvalidRef.current)
+          throw new Error('Official trace download blocked: the session was invalidated.')
         const trace = fullMctsTraceRef.current
         finalizeHumanMCTSTrace(trace, id, snapshotFromState(useGame.getState()))
         finalizedFullMctsTraceRef.current = trace
@@ -537,12 +564,25 @@ export default function Game({
         preparedFullTraceRef.current = prepared
         setFullTraceDownload({ fileName: prepared.fileName, bytes: prepared.bytes })
       } catch (error) {
-        preparedFullTraceRef.current = null
+        fullTraceValid = false
+        const message = error instanceof Error ? error.message : String(error)
+        finalizedFullMctsTraceRef.current = fullMctsTraceRef.current
+        preparedFullTraceRef.current = prepareHumanMCTSTraceDiagnosticFile(
+          fullMctsTraceRef.current,
+          message,
+        )
         setFullTraceDownload({
-          fileName: `traza_humano_mcts_${id}.json`,
-          bytes: 0,
-          error: error instanceof Error ? error.message : String(error),
+          fileName: preparedFullTraceRef.current.fileName,
+          bytes: preparedFullTraceRef.current.bytes,
+          error: message,
+          diagnostic: true,
         })
+      }
+    }
+    if (gameMode !== 'mcts-final' || fullTraceValid) {
+      const saved = saveFinishedGameArtifacts(payload, gameMode, mctsTraceRef.current)
+      if (saved.traceResult.status !== 'not_applicable') {
+        setMctsTraceSaveResult(saved.traceResult)
       }
     }
     savedRef.current = true
@@ -560,12 +600,23 @@ export default function Game({
     >
       <TurnTimer timeLeft={timeLeft} timeLimit={turnTimeLimit} turn={turn} phase={phase} />
       <Navbar
-        onUndo={undo}
-        onRedo={redo}
+        onUndo={officialSession ? () => undefined : undo}
+        onRedo={officialSession ? () => undefined : redo}
         canUndo={canUndo}
         canRedo={canRedo}
+        historyDisabled={officialSession}
         phase={phase}
         onHome={() => {
+          if (officialSession) {
+            turnManagerRef.current?.stop()
+            if (phase !== 'finished') officialSessionInvalidRef.current = true
+            setAiError(
+              phase === 'finished'
+                ? 'Official session closed: close this tab instead of starting another game.'
+                : 'Official session cancelled: leaving the game is not permitted.',
+            )
+            return
+          }
           const inProgress =
             phase !== 'finished' && board.some((row) => row.some((c) => c.stone !== null))
           if (inProgress) setShowConfirm(true)
@@ -684,7 +735,9 @@ export default function Game({
                   }
                 }}
               >
-                Descargar JSON reproducible
+                {fullTraceDownload?.diagnostic
+                  ? 'Descargar diagnÃ³stico no oficial'
+                  : 'Descargar JSON reproducible'}
               </button>
             )}
           </div>
@@ -750,6 +803,7 @@ export default function Game({
         ))}
         {phase === 'finished' && (
           <GameButton
+            disabled={officialSession}
             onClick={() => {
               setGameMode(null)
               resetGame()
@@ -780,9 +834,17 @@ export default function Game({
           turn={turn}
           selected={selected ?? null}
           legal={legal}
-          placeStone={isHumanTurn ? (pos) => handlePlayerAction({ type: 'place', pos }) : undefined}
+          placeStone={
+            isHumanTurn && !isAIThinking && !officialSessionInvalidRef.current
+              ? (pos) => handlePlayerAction({ type: 'place', pos })
+              : undefined
+          }
           selectStone={
-            isHumanTurn && phase === 'playing' && stepsTaken === 0
+            isHumanTurn &&
+            !isAIThinking &&
+            !officialSessionInvalidRef.current &&
+            phase === 'playing' &&
+            stepsTaken === 0
               ? (pos) => {
                   humanAgentRef.current?.beginSelection(pos)
                   selectStone(pos)
@@ -790,7 +852,11 @@ export default function Game({
               : undefined
           }
           moveTo={
-            isHumanTurn && phase === 'playing' && stepsTaken === 0
+            isHumanTurn &&
+            !isAIThinking &&
+            !officialSessionInvalidRef.current &&
+            phase === 'playing' &&
+            stepsTaken === 0
               ? (pos) => {
                   moveTo(pos)
                   humanAgentRef.current?.submitMove(pos)
@@ -798,20 +864,27 @@ export default function Game({
               : undefined
           }
           buildWall={
-            isHumanTurn && phase === 'playing'
+            isHumanTurn &&
+            !isAIThinking &&
+            !officialSessionInvalidRef.current &&
+            phase === 'playing'
               ? (pos, dir) => humanAgentRef.current?.submitWall(pos, dir)
               : undefined
           }
         />
       </div>
-      {isHumanTurn && phase === 'playing' && stepsTaken > 0 && (
-        <GameButton
-          onClick={() => humanAgentRef.current?.submitMoveWithoutWall()}
-          ariaLabel="Finish turn without wall"
-        >
-          Finish turn without wall
-        </GameButton>
-      )}
+      {isHumanTurn &&
+        !isAIThinking &&
+        !officialSessionInvalidRef.current &&
+        phase === 'playing' &&
+        stepsTaken > 0 && (
+          <GameButton
+            onClick={() => humanAgentRef.current?.submitMoveWithoutWall()}
+            ariaLabel="Finish turn without wall"
+          >
+            Finish turn without wall
+          </GameButton>
+        )}
       <div className="w-full flex justify-center mt-3 animate-fade-in">
         <GameButton onClick={() => setShowRule(true)} text ariaLabel={t('menu.rule', 'Game Rules')}>
           {t('menu.rule', 'Game Rules')}
@@ -835,4 +908,34 @@ export default function Game({
       />
     </div>
   )
+}
+
+function sameGameSnapshot(left: GameSnapshot, right: GameSnapshot): boolean {
+  const serializable = (state: GameSnapshot) => {
+    const snapshot = snapshotFromState(state)
+    return { ...snapshot, legal: [...snapshot.legal].sort() }
+  }
+  return JSON.stringify(serializable(left)) === JSON.stringify(serializable(right))
+}
+
+function assertUnchangedState(current: GameSnapshot, expected: GameSnapshot): void {
+  if (!sameGameSnapshot(current, expected))
+    throw new Error(
+      'Official session stopped: the game state changed while the agent was deciding.',
+    )
+}
+
+function assertCommittedState(current: GameSnapshot, expected: GameSnapshot): void {
+  if (!sameGameSnapshot(current, expected))
+    throw new Error(
+      'Official session stopped: the committed state does not match the engine transition.',
+    )
+}
+
+function applyCompleteAgentAction(
+  action: PlayerAction,
+  handlers: Parameters<typeof applyAgentActionToGame>[1],
+): void {
+  applyAgentActionToGame(action, handlers)
+  if (action.followUp) applyAgentActionToGame(action.followUp, handlers)
 }

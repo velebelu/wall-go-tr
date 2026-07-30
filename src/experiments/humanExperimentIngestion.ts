@@ -89,8 +89,8 @@ export async function ingestLatestHumanExperimentTrace(params: {
   )
   await ensureDestinationAbsent(destination)
   const input = await gameInput(gameJsonPath)
-  const accepted = async (candidate: TraceCandidate) =>
-    candidateIsValid({
+  const accepted = async (candidate: TraceCandidate) => {
+    await validateCandidate({
       candidate,
       registry,
       input,
@@ -100,6 +100,8 @@ export async function ingestLatestHumanExperimentTrace(params: {
       participantId: params.participantId,
       gameNumber,
     })
+    return true
+  }
   const discovery = await discoverHumanMCTSTraces({
     directories: params.downloadDirectories,
     explicitTracePath: params.explicitTracePath,
@@ -161,7 +163,7 @@ export async function ingestLatestHumanExperimentTrace(params: {
   }
 }
 
-async function candidateIsValid(params: {
+async function validateCandidate(params: {
   candidate: TraceCandidate
   registry: HumanExperimentRegistry
   input: HumanExperimentGameInput
@@ -170,16 +172,24 @@ async function candidateIsValid(params: {
   root: string
   participantId: string
   gameNumber: 1 | 2
-}): Promise<boolean> {
+}): Promise<void> {
   const trace = params.candidate.trace
-  if (!trace.final || trace.decisions.length === 0) return false
-  if (trace.metadata.experimentId !== params.registry.experimentId) return false
-  if (trace.metadata.participantId !== params.participantId) return false
-  if (trace.metadata.gameNumber !== params.gameNumber) return false
-  if (trace.metadata.sessionType !== 'official') return false
-  if (!trace.metadata.sessionId) return false
-  if (trace.metadata.projectCommit !== params.expectedCommit) return false
-  if (trace.metadata.runtimeCommit !== params.expectedCommit) return false
+  if (!trace.final || trace.decisions.length === 0) throw new Error('Trace is not finalized')
+  if (trace.metadata.experimentId !== params.registry.experimentId)
+    throw new Error('Trace experimentId does not match the registry')
+  if (trace.metadata.participantId !== params.participantId)
+    throw new Error('Trace participantId does not match the pending participant')
+  if (trace.metadata.gameNumber !== params.gameNumber)
+    throw new Error('Trace gameNumber does not match the pending game')
+  if (trace.metadata.sessionType !== 'official')
+    throw new Error(
+      `Trace sessionType must be official, received ${trace.metadata.sessionType ?? '<none>'}`,
+    )
+  if (!trace.metadata.sessionId) throw new Error('Trace sessionId is missing')
+  if (trace.metadata.projectCommit !== params.expectedCommit)
+    throw new Error('Trace projectCommit does not match the expected runtime')
+  if (trace.metadata.runtimeCommit !== params.expectedCommit)
+    throw new Error('Trace runtimeCommit does not match the expected runtime')
   if (
     params.expectedCodeFreeze &&
     (trace.metadata.implementationCommit !== params.expectedCodeFreeze.implementationCommit ||
@@ -187,36 +197,34 @@ async function candidateIsValid(params: {
         params.expectedCodeFreeze.experimentPreparationCommit ||
       trace.metadata.codeFreezeBindingCommit !== params.expectedCodeFreeze.codeFreezeBindingCommit)
   )
-    return false
+    throw new Error('Trace code-freeze commits do not match the expected runtime')
   const participant = params.registry.participants.find(
     (entry) => entry.participantId === params.participantId,
   )
-  if (!participant) return false
+  if (!participant) throw new Error('Participant is not registered')
   const expectedHumanColor = participant.colorOrder[params.gameNumber - 1]
-  if (trace.metadata.humanColor !== expectedHumanColor) return false
-  if (trace.metadata.mctsColor === expectedHumanColor) return false
+  if (trace.metadata.humanColor !== expectedHumanColor)
+    throw new Error('Trace human color does not match the assigned order')
+  if (trace.metadata.mctsColor === expectedHumanColor)
+    throw new Error('Trace MCTS color must be opposite to the human color')
   if (
     canonicalStringify(trace.metadata.finalHumanChallengeConfig) !==
     canonicalStringify(FINAL_HUMAN_CHALLENGE_MCTS_CONFIG)
   )
-    return false
+    throw new Error('Trace configuration is not FINAL_HUMAN_CHALLENGE_MCTS_CONFIG')
   if (params.candidate.path.replace(/\\/g, '/').includes('/data/human-experiment/pilot/'))
-    return false
+    throw new Error('Pilot traces cannot be ingested into the official experiment')
   if (params.candidate.path.replace(/\\/g, '/').includes('/data/human-experiment/real-pilot/'))
-    return false
+    throw new Error('Real-pilot traces cannot be ingested into the official experiment')
   const traceHash = await sha256Canonical(trace)
-  if (params.registry.games.some((game) => game.traceSha256 === traceHash)) return false
-  try {
-    await deriveGameFromTrace({
-      registry: params.registry,
-      input: params.input,
-      traceJson: JSON.stringify(trace),
-      tracePath: `participants/${params.participantId}/traces/game-${params.gameNumber}.json`,
-    })
-    return true
-  } catch {
-    return false
-  }
+  if (params.registry.games.some((game) => game.traceSha256 === traceHash))
+    throw new Error('Trace content is already registered')
+  await deriveGameFromTrace({
+    registry: params.registry,
+    input: params.input,
+    traceJson: JSON.stringify(trace),
+    tracePath: `participants/${params.participantId}/traces/game-${params.gameNumber}.json`,
+  })
 }
 
 async function currentCodeFreeze(

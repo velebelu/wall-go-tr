@@ -77,7 +77,12 @@ export async function deriveGameFromTrace(params: {
   const trace = parseHumanMCTSTrace(params.traceJson)
   if (!trace.final) fail('Trace is not finalized')
   const replay = replayHumanMCTSTrace(trace)
-  if (!replay.ok) fail(`Trace replay failed: ${replay.divergence?.message ?? 'unknown divergence'}`)
+  if (!replay.ok)
+    fail(
+      replay.divergence
+        ? `Trace replay failed at turn ${replay.divergence.turnIndex}: ${replay.divergence.kind}`
+        : 'Trace replay failed: unknown divergence',
+    )
   const input = params.input
   const participant = params.registry.participants.find(
     (row) => row.participantId === input.participantId,

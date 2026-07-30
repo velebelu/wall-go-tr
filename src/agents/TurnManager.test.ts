@@ -4,7 +4,8 @@ import { render, waitFor } from '@testing-library/react'
 import { makeInitialState } from '@/store/gameState'
 import type { PlayerAction } from '@/lib/types'
 import type { PlayerAgent } from './PlayerAgent'
-import { TurnManager } from './TurnManager'
+import { TurnManager, type TurnDecisionTrace } from './TurnManager'
+import { applyFullAction } from '@/engine/gameSimulator'
 
 const action: PlayerAction = { type: 'place', pos: { x: 0, y: 0 } }
 
@@ -13,7 +14,10 @@ function makePendingManager(agent: PlayerAgent, applyAction: (action: PlayerActi
   return new TurnManager({
     agents: { R: agent, B: agent },
     getGameState: () => state,
-    applyAction,
+    applyAction: (nextAction, transition) => {
+      applyAction(nextAction)
+      return transition.stateAfter
+    },
     isGameOver: () => false,
     turnTimeLimit: 60_000,
   })
@@ -59,8 +63,9 @@ describe('TurnManager lifecycle', () => {
     const manager = new TurnManager({
       agents: { R: { getAction }, B: { getAction } },
       getGameState: () => state,
-      applyAction: () => {
+      applyAction: (_nextAction, transition) => {
         applied++
+        return transition.stateAfter
       },
       isGameOver: () => applied === 1,
     })
@@ -99,8 +104,9 @@ describe('TurnManager lifecycle', () => {
         B: { getAction: async () => action },
       },
       getGameState: () => replacementState,
-      applyAction: () => {
+      applyAction: (_nextAction, transition) => {
         replacementApplied++
+        return transition.stateAfter
       },
       isGameOver: () => replacementApplied === 1,
     })
@@ -130,5 +136,110 @@ describe('TurnManager lifecycle', () => {
     await loop
 
     expect(applyAction).not.toHaveBeenCalled()
+  })
+})
+
+describe('TurnManager atomic transitions', () => {
+  it('commits and records the same local engine transition when state is unchanged', async () => {
+    let state = makeInitialState()
+    let recorded: TurnDecisionTrace | undefined
+    const manager = new TurnManager({
+      agents: { R: { getAction: async () => action }, B: { getAction: async () => action } },
+      getGameState: () => state,
+      applyAction: (_nextAction, transition) => {
+        state = structuredClone(transition.stateAfter)
+        state.legal = new Set(transition.stateAfter.legal)
+        return state
+      },
+      isGameOver: () => recorded !== undefined,
+      onDecision: (decision) => {
+        recorded = decision
+      },
+    })
+
+    await manager.startLoop()
+    expect(recorded).toMatchObject({ stateAfter: state })
+    expect(state).toEqual(applyFullAction(makeInitialState(), action).state)
+  })
+
+  it.each(['undo', 'redo', 'reset'])(
+    'rejects a %s-like state replacement while an agent is awaiting',
+    async () => {
+      let state = applyFullAction(makeInitialState(), action).state
+      let resolveAction!: (value: PlayerAction) => void
+      const manager = new TurnManager({
+        agents: {
+          R: { getAction: async () => action },
+          B: { getAction: () => new Promise((resolve) => (resolveAction = resolve)) },
+        },
+        getGameState: () => state,
+        applyAction: vi.fn((_nextAction, transition) => transition.stateAfter),
+        isGameOver: () => false,
+      })
+      const loop = manager.startLoop()
+      await Promise.resolve()
+      state = makeInitialState()
+      resolveAction({ type: 'place', pos: { x: 1, y: 0 } })
+
+      await expect(loop).rejects.toThrow('game state changed while the agent was deciding')
+    },
+  )
+
+  it('reproduces and rejects the P01-1 interleaving before applying the MCTS action', async () => {
+    let state = applyFullAction(makeInitialState(), { type: 'place', pos: { x: 3, y: 1 } }).state
+    let resolveAction!: (value: PlayerAction) => void
+    const applyAction = vi.fn()
+    const onDecision = vi.fn()
+    const manager = new TurnManager({
+      agents: {
+        R: { getAction: async () => action },
+        B: { getAction: () => new Promise((resolve) => (resolveAction = resolve)) },
+      },
+      getGameState: () => state,
+      applyAction,
+      isGameOver: () => false,
+      onDecision,
+    })
+    const loop = manager.startLoop()
+    await Promise.resolve()
+    state = applyFullAction(makeInitialState(), { type: 'place', pos: { x: 4, y: 4 } }).state
+    resolveAction({ type: 'place', pos: { x: 4, y: 4 } })
+
+    await expect(loop).rejects.toThrow('game state changed while the agent was deciding')
+    expect(applyAction).not.toHaveBeenCalled()
+    expect(onDecision).not.toHaveBeenCalled()
+  })
+
+  it('rejects a commit adapter that turns the selected action into a no-op', async () => {
+    const state = makeInitialState()
+    const manager = new TurnManager({
+      agents: { R: { getAction: async () => action }, B: { getAction: async () => action } },
+      getGameState: () => state,
+      applyAction: () => state,
+      isGameOver: () => false,
+    })
+    await expect(manager.startLoop()).rejects.toThrow('committed state does not match')
+  })
+
+  it('keeps deep immutable snapshots after the store is mutated later', async () => {
+    let state = makeInitialState()
+    let recorded: TurnDecisionTrace | undefined
+    const manager = new TurnManager({
+      agents: { R: { getAction: async () => action }, B: { getAction: async () => action } },
+      getGameState: () => state,
+      applyAction: (_nextAction, transition) => {
+        state = transition.stateAfter
+        return state
+      },
+      isGameOver: () => recorded !== undefined,
+      onDecision: (decision) => {
+        recorded = decision
+      },
+    })
+    await manager.startLoop()
+    state.board[0][0].stone = 'B'
+    expect(recorded).toBeDefined()
+    expect(recorded!.stateBefore.board[0][0].stone).toBe(null)
+    expect(recorded!.stateAfter.board[0][0].stone).toBe('R')
   })
 })

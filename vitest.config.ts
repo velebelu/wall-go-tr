@@ -12,6 +12,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     pool: 'threads',
+    maxWorkers: 2,
     setupFiles: [],
     coverage: {
       reporter: ['text', 'html'],

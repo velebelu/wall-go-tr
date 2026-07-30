@@ -243,8 +243,10 @@ describe('MCTSAgent final', () => {
         },
       },
       getGameState: () => snapshotFromState(useGame.getState()),
-      applyAction: (action) => {
+      applyAction: (action, transition) => {
         applyAgentActionToGame(action, useGame.getState())
+        if (action.followUp) applyAgentActionToGame(action.followUp, useGame.getState())
+        return transition.stateAfter
       },
       isGameOver: () => trace !== undefined,
       onDecision: (decisionTrace) => {

@@ -139,11 +139,11 @@ describe('human experiment watcher', () => {
       ingest,
     })
     await watcher.start()
-    await writeFile(resolve(paths.downloads, 'traza_humano_mcts_bad.json'), '{}')
+    await writeFile(resolve(paths.downloads, 'traza_humano_mcts_bad.json'), '{"bad":true}')
     await watcher.scanOnce()
     expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('No compatible trace found'))
     expect(await readdir(resolve(paths.root, 'quarantine'))).toHaveLength(1)
-    await writeFile(resolve(paths.downloads, 'traza_humano_mcts_good.json'), '{}')
+    await writeFile(resolve(paths.downloads, 'traza_humano_mcts_good.json'), '{"good":true}')
     await watcher.scanOnce()
     expect(ingest).toHaveBeenCalledTimes(2)
     watcher.close()
@@ -166,6 +166,32 @@ describe('human experiment watcher', () => {
     await writeFile(resolve(paths.downloads, 'traza_humano_mcts_late.json'), '{}')
     await watcher.scanOnce()
     expect(ingest).not.toHaveBeenCalled()
+  })
+
+  it('deduplicates a second filesystem event and a second path with identical content', async () => {
+    const paths = await fixture()
+    const ingest = vi.fn(async () => result())
+    const watcher = new HumanExperimentWatcher({
+      experimentDirectory: paths.root,
+      downloadDirectory: paths.downloads,
+      expectedCommit: COMMIT,
+      pollIntervalMs: 60_000,
+      stabilityIntervalMs: 1,
+      logger: { log: vi.fn(), error: vi.fn() },
+      ingest,
+    })
+    await watcher.start()
+    const contents = '{"same":"content"}'
+    const first = resolve(paths.downloads, 'traza_humano_mcts_first.json')
+    await writeFile(first, contents)
+    await watcher.scanOnce()
+    await writeFile(first, contents)
+    await watcher.scanOnce()
+    await writeFile(resolve(paths.downloads, 'traza_humano_mcts_copy.json'), contents)
+    await watcher.scanOnce()
+
+    expect(ingest).toHaveBeenCalledTimes(1)
+    watcher.close()
   })
 
   it('runs the complete watcher and real ingestion flow only inside temporary directories', async () => {
