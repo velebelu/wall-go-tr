@@ -6,6 +6,8 @@ import { fileURLToPath } from 'node:url'
 export const CURRENT_EXPERIMENT_ID = 'WGTR-HUMAN-FINAL-2026-V3'
 export const CURRENT_EXPERIMENT_DIRECTORY = 'data/human-experiment/final-2026-v3'
 export const CODE_FREEZE_METADATA_PATH = 'data/human-experiment/final-2026-v3/metadata.json'
+export const V3_ARCHIVED_ERROR =
+  'WGTR-HUMAN-FINAL-2026-V3 is archived and closed permanently to new official sessions.'
 
 const OPERATIONAL_EXPERIMENT_PATHS = [
   /^data\/human-experiment\/final-2026-v3\/metadata\.json$/,
@@ -122,6 +124,7 @@ export function startHumanExperimentServer({
   argv = process.argv.slice(2),
   read = readFileSync,
 } = {}) {
+  if (argv[0] === 'official') throw new Error(V3_ARCHIVED_ERROR)
   const commit = getGitCommit(run)
   recoverPendingIngestionTransaction(run)
   assertCleanWorktree(run)
@@ -219,59 +222,7 @@ export function startHumanExperimentServer({
 export function resolveSessionEnvironment(argv, environment = process.env, read = readFileSync) {
   const [sessionType, participantId, gameNumberOrAiColor] = argv
   if (sessionType === 'official') {
-    if (!participantId || !gameNumberOrAiColor)
-      throw new Error('Uso: npm run human-experiment:start -- official P01 <1|2>')
-    const gameNumber = Number(gameNumberOrAiColor)
-    if (gameNumber !== 1 && gameNumber !== 2) throw new Error('gameNumber must be 1 or 2')
-    if (
-      environment.HUMAN_EXPERIMENT_DIRECTORY &&
-      environment.HUMAN_EXPERIMENT_DIRECTORY.replace(/\\/g, '/') !== CURRENT_EXPERIMENT_DIRECTORY
-    )
-      throw new Error('Official sessions only accept the current V3 experiment directory')
-    const directory = CURRENT_EXPERIMENT_DIRECTORY
-    const registry = JSON.parse(read(resolve(directory, 'registry.json'), 'utf8'))
-    const metadata = JSON.parse(read(resolve(directory, 'metadata.json'), 'utf8'))
-    if (
-      registry.experimentId !== CURRENT_EXPERIMENT_ID ||
-      metadata.experimentId !== CURRENT_EXPERIMENT_ID
-    )
-      throw new Error('Official sessions only accept WGTR-HUMAN-FINAL-2026-V3')
-    const validatedFreeze = validateOfficialCodeFreeze(metadata, environment.RUNTIME_GIT_COMMIT, {
-      commitExists: environment.COMMIT_EXISTS,
-      isAncestor: environment.COMMIT_IS_ANCESTOR,
-      ancestryPath: environment.ANCESTRY_PATH,
-      commitParents: environment.COMMIT_PARENTS,
-      changedPathsInCommit: environment.CHANGED_PATHS_IN_COMMIT,
-      fileAtCommit: environment.FILE_AT_COMMIT,
-      changedPaths: environment.CHANGED_PATHS_SINCE_BINDING,
-    })
-    const participant = registry.participants.find((row) => row.participantId === participantId)
-    if (!participant) throw new Error(`Participant is not registered: ${participantId}`)
-    if (
-      registry.games.some(
-        (row) => row.participantId === participantId && row.gameNumber === gameNumber,
-      )
-    )
-      throw new Error(`Game ${gameNumber} is already registered for ${participantId}`)
-    if (
-      gameNumber === 2 &&
-      !registry.games.some((row) => row.participantId === participantId && row.gameNumber === 1)
-    )
-      throw new Error('Game 1 must be registered before game 2')
-    const humanColor = participant.colorOrder[gameNumber - 1]
-    const aiColor = humanColor === 'R' ? 'B' : 'R'
-    return {
-      VITE_EXPERIMENT_ID: registry.experimentId,
-      VITE_PARTICIPANT_ID: participantId,
-      VITE_GAME_NUMBER: String(gameNumber),
-      VITE_SESSION_TYPE: 'official',
-      VITE_SESSION_ID: crypto.randomUUID(),
-      VITE_HUMAN_COLOR: humanColor,
-      VITE_AI_COLOR: aiColor,
-      VITE_IMPLEMENTATION_COMMIT: validatedFreeze.implementationCommit,
-      VITE_EXPERIMENT_PREPARATION_COMMIT: validatedFreeze.experimentPreparationCommit,
-      VITE_CODE_FREEZE_BINDING_COMMIT: validatedFreeze.codeFreezeBindingCommit,
-    }
+    throw new Error(V3_ARCHIVED_ERROR)
   }
   if (sessionType === 'practice') {
     if (!participantId || gameNumberOrAiColor)

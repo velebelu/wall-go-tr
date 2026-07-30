@@ -102,13 +102,13 @@ manifiesto contiene hashes SHA-256, commits, conteos y el resultado de validaci�
 
 Son dos cosas distintas y conviene no confundirlas:
 
-|                        | `final-2026-v3/quarantine/`         | `invalid-sessions-v3/`                  |
-| ---------------------- | ----------------------------------- | --------------------------------------- |
-| Quién escribe          | El vigilante, automáticamente       | El operador, de forma manual y auditada |
-| Contenido              | Copia bruta de la traza rechazada   | Manifiesto curado de la sesión          |
-| Versionado en Git      | No (ignorado)                       | Sí                                      |
-| Lo comprueba `validate-v3` | No                              | Sí                                      |
-| Ciclo de vida          | Efímero, se puede borrar            | Permanente, forma parte del TR          |
+|                            | `final-2026-v3/quarantine/`       | `invalid-sessions-v3/`                  |
+| -------------------------- | --------------------------------- | --------------------------------------- |
+| Quién escribe              | El vigilante, automáticamente     | El operador, de forma manual y auditada |
+| Contenido                  | Copia bruta de la traza rechazada | Manifiesto curado de la sesión          |
+| Versionado en Git          | No (ignorado)                     | Sí                                      |
+| Lo comprueba `validate-v3` | No                                | Sí                                      |
+| Ciclo de vida              | Efímero, se puede borrar          | Permanente, forma parte del TR          |
 
 El recorrido normal es: el vigilante rechaza una traza, guarda una copia en `quarantine/`, el
 operador la examina y, si la sesión se declara inválida, escribe el manifiesto correspondiente en
@@ -132,6 +132,33 @@ cuarentena y conservación de los datos— sí admite correcciones auditadas, si
 las condiciones experimentales. Las rutas concretas que pueden cambiar tras el congelado están
 enumeradas una a una en `OPERATIONAL_EXPERIMENT_PATHS`, dentro de
 `scripts/start-human-experiment.mjs`, y el lanzador aborta si se modifica cualquier otra.
+
+## Cierre y validación histórica de V3
+
+V3 está cerrada permanentemente para nuevas sesiones oficiales. El cambio diagnóstico posterior
+en `Game.tsx` no se declara retroactivamente compatible con su code freeze. Por eso se separan:
+
+- `human-experiment:validate-v3-archive`, que comprueba los artefactos conservados y que el binding
+  histórico fue el hijo inmediato, metadata-only, de la implementación V3;
+- `human-experiment:start -- official ...`, que rechaza cualquier nueva sesión V3 antes de iniciar
+  Vite o el watcher.
+
+P01-1 conserva su validez técnica, contenido, hash y trazabilidad originales. No se combinará con
+una segunda partida ejecutada bajo otro runtime y queda excluida del futuro análisis emparejado.
+El intento P01-2 con sesión `d4eab366-bb21-43c8-b7bc-b84b615d06c4` se documenta sin inventar
+snapshots, acción fallida, commits ni hashes que el runtime no persistió.
+
+## Diagnóstico de divergencias motor/store
+
+Ante una divergencia, el runtime clona sincrónicamente el estado anterior, la acción rechazada,
+el estado esperado, el committed, la metadata y las decisiones confirmadas. Inicia después una
+única descarga no oficial sin esperarla y lanza inmediatamente el mismo error de transición.
+Un fallo de descarga sólo se registra en consola.
+
+Los paquetes `HumanExperimentTransitionMismatchV1` declaran `official: false` y
+`registrationAllowed: false`. El watcher los separa antes de la ingesta, conserva el paquete y
+la traza parcial en cuarentena y prepara un manifiesto inválido. Ni el registro, ni
+`metadata.gameCount`, ni los slots de partidas oficiales se modifican.
 
 ## Análisis y limitaciones
 

@@ -200,6 +200,76 @@ describe('validateHumanExperimentV3State', () => {
     expect(() => validateHumanExperimentV3State(state)).not.toThrow()
   })
 
+  it('accepts an artifact-free mismatch record without invented hashes', () => {
+    const state = validState()
+    register(state, 'P01')
+    state.invalidSessions.push({
+      schema: 'HumanExperimentInvalidSessionEvidenceV1',
+      experimentId: 'WGTR-HUMAN-FINAL-2026-V3',
+      sessionId: 'd4eab366-bb21-43c8-b7bc-b84b615d06c4',
+      participantId: 'P01',
+      intendedGameNumber: 2,
+      date: '2026-07-30',
+      displayedTurnApproximation: 5,
+      displayedActivePlayer: 'R',
+      error: 'committed-state-mismatch',
+      persistentTrace: 'absent',
+      recoverableArtifactHash: 'absent',
+      registration: 'rejected',
+      repeatRequired: true,
+      validity: 'invalid',
+      reason: 'No diagnostic snapshots were persisted by the historical runtime.',
+    })
+    expect(() => validateHumanExperimentV3State(state)).not.toThrow()
+  })
+
+  it('rejects invented hashes in an artifact-free mismatch record', () => {
+    const state = validState()
+    register(state, 'P01')
+    state.invalidSessions.push({
+      schema: 'HumanExperimentInvalidSessionEvidenceV1',
+      experimentId: 'WGTR-HUMAN-FINAL-2026-V3',
+      sessionId: 'd4eab366-bb21-43c8-b7bc-b84b615d06c4',
+      participantId: 'P01',
+      intendedGameNumber: 2,
+      date: '2026-07-30',
+      displayedTurnApproximation: 5,
+      displayedActivePlayer: 'R',
+      error: 'committed-state-mismatch',
+      persistentTrace: 'absent',
+      recoverableArtifactHash: 'absent',
+      registration: 'rejected',
+      repeatRequired: true,
+      validity: 'invalid',
+      reason: 'No diagnostic snapshots were persisted by the historical runtime.',
+      traceSha256: '0'.repeat(64),
+    })
+    expectInvalid(state, 'must not invent')
+  })
+
+  it('accepts a persisted transition mismatch only outside the official sample', () => {
+    const state = validState()
+    register(state, 'P01')
+    state.invalidSessions.push({
+      schema: 'HumanExperimentInvalidSessionManifestV1',
+      status: 'quarantined',
+      validity: 'invalid-transition-mismatch',
+      registration: 'rejected',
+      repeatRequired: true,
+      experimentId: 'WGTR-HUMAN-FINAL-2026-V3',
+      sessionId: 'future-session',
+      participantId: 'P01',
+      intendedGameNumber: 2,
+      runtimeCommit: 'a'.repeat(40),
+      diagnosticSha256: 'b'.repeat(64),
+      partialTraceSha256: 'c'.repeat(64),
+      packageSha256: 'd'.repeat(64),
+      manifestPayloadSha256: 'e'.repeat(64),
+      reason: 'committed state mismatch',
+    })
+    expect(() => validateHumanExperimentV3State(state)).not.toThrow()
+  })
+
   it('rejects an invalid session introduced into the official sample', () => {
     const state = validState()
     register(state, 'P01')

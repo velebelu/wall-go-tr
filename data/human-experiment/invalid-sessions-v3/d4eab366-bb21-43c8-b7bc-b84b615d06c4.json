@@ -1,0 +1,17 @@
+{
+  "schema": "HumanExperimentInvalidSessionEvidenceV1",
+  "experimentId": "WGTR-HUMAN-FINAL-2026-V3",
+  "sessionId": "d4eab366-bb21-43c8-b7bc-b84b615d06c4",
+  "participantId": "P01",
+  "intendedGameNumber": 2,
+  "date": "2026-07-30",
+  "displayedTurnApproximation": 5,
+  "displayedActivePlayer": "R",
+  "error": "committed-state-mismatch",
+  "persistentTrace": "absent",
+  "recoverableArtifactHash": "absent",
+  "registration": "rejected",
+  "repeatRequired": true,
+  "validity": "invalid",
+  "reason": "The committed store state did not match the engine transition; the historical runtime persisted neither the rejected transition snapshots nor a diagnostic trace."
+}

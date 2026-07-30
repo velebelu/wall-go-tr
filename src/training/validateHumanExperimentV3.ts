@@ -39,6 +39,7 @@ interface V3Metadata {
 }
 
 interface InvalidSessionManifest {
+  schema?: string
   status?: string
   validity?: string
   registration?: string
@@ -49,6 +50,18 @@ interface InvalidSessionManifest {
   runtimeCommit?: string
   traceSha256?: string
   reason?: string
+  sessionId?: string
+  experimentId?: string
+  date?: string
+  displayedTurnApproximation?: number
+  displayedActivePlayer?: string
+  error?: string
+  persistentTrace?: string
+  recoverableArtifactHash?: string
+  diagnosticSha256?: string
+  partialTraceSha256?: string
+  packageSha256?: string
+  manifestPayloadSha256?: string
 }
 
 export interface HumanExperimentV3State {
@@ -105,6 +118,7 @@ export function validateHumanExperimentV3State(state: HumanExperimentV3State): v
 
 export async function validateHumanExperimentV3Directory(
   root = resolve(CURRENT_HUMAN_EXPERIMENT_DIRECTORY),
+  options: { bindingMode?: 'current-runtime' | 'archive' } = {},
 ): Promise<HumanExperimentV3State> {
   const registry = await readRegistry(resolve(root, 'registry.json'))
   const metadata = JSON.parse(await readFile(resolve(root, 'metadata.json'), 'utf8')) as V3Metadata
@@ -154,8 +168,55 @@ export async function validateHumanExperimentV3Directory(
     invalidSessions,
   }
   validateHumanExperimentV3State(state)
-  await validateCurrentBinding(metadata)
+  if (options.bindingMode === 'archive') await validateArchivedBinding(metadata)
+  else await validateCurrentBinding(metadata)
   return state
+}
+
+export async function validateArchivedBinding(metadata: V3Metadata): Promise<void> {
+  const implementation = String(metadata.codeFreeze?.implementationCommit ?? '')
+  const preparation = String(metadata.codeFreeze?.experimentPreparationCommit ?? '')
+  if (!FULL_COMMIT.test(implementation) || !FULL_COMMIT.test(preparation))
+    fail('Invalid archived V3 implementation commits')
+  if (implementation !== preparation)
+    fail('Archived V3 implementationCommit and experimentPreparationCommit must match')
+  const ancestry = lines(
+    String(
+      execFileSync('git', ['rev-list', '--ancestry-path', '--reverse', `${implementation}..HEAD`], {
+        encoding: 'utf8',
+      }),
+    ),
+  )
+  const binding = ancestry[0]
+  if (!binding) fail('Archived V3 binding commit is missing')
+  const parents = lines(
+    String(execFileSync('git', ['show', '-s', '--format=%P', binding], { encoding: 'utf8' })),
+  )
+  if (parents.length !== 1 || parents[0] !== implementation)
+    fail('Archived V3 binding is not the immediate child of its implementation')
+  const changed = lines(
+    String(
+      execFileSync('git', ['diff-tree', '--no-commit-id', '--name-only', '-r', binding], {
+        encoding: 'utf8',
+      }),
+    ),
+  )
+  if (
+    changed.length !== 1 ||
+    changed[0].replace(/\\/g, '/') !== 'data/human-experiment/final-2026-v3/metadata.json'
+  )
+    fail('Archived V3 binding must modify only metadata.json')
+  const boundMetadata = JSON.parse(
+    String(
+      execFileSync(
+        'git',
+        ['show', `${binding}:data/human-experiment/final-2026-v3/metadata.json`],
+        { encoding: 'utf8' },
+      ),
+    ),
+  ) as V3Metadata
+  if (canonicalStringify(boundMetadata.codeFreeze) !== canonicalStringify(metadata.codeFreeze))
+    fail('Archived V3 metadata does not match its historical binding')
 }
 
 async function validateCurrentBinding(metadata: V3Metadata): Promise<void> {
@@ -259,6 +320,14 @@ function validateTraceInventory(
 function validateInvalidSessions(state: HumanExperimentV3State): void {
   const ids = new Set<string>()
   for (const manifest of state.invalidSessions) {
+    if (manifest.schema === 'HumanExperimentInvalidSessionManifestV1') {
+      validatePersistedTransitionMismatch(state, manifest, ids)
+      continue
+    }
+    if (manifest.schema === 'HumanExperimentInvalidSessionEvidenceV1') {
+      validateInvalidSessionWithoutArtifacts(state, manifest, ids)
+      continue
+    }
     if (
       manifest.status !== 'quarantined' ||
       manifest.validity !== 'invalid-trace-mismatch' ||
@@ -283,6 +352,91 @@ function validateInvalidSessions(state: HumanExperimentV3State): void {
     if (state.registry.games.some((game) => game.traceSha256 === manifest.traceSha256))
       fail('Invalid session trace was registered as official')
   }
+}
+
+function validatePersistedTransitionMismatch(
+  state: HumanExperimentV3State,
+  manifest: InvalidSessionManifest,
+  ids: Set<string>,
+): void {
+  if (
+    manifest.status !== 'quarantined' ||
+    manifest.validity !== 'invalid-transition-mismatch' ||
+    manifest.registration !== 'rejected' ||
+    manifest.repeatRequired !== true ||
+    !manifest.reason
+  )
+    fail('Invalid persisted transition-mismatch manifest')
+  if (!manifest.sessionId || ids.has(manifest.sessionId))
+    fail('Duplicate or missing invalid-session sessionId')
+  ids.add(manifest.sessionId)
+  if (!EXPECTED_PARTICIPANTS.includes(manifest.participantId ?? ''))
+    fail('Invalid-session participant is unknown')
+  if (manifest.intendedGameNumber !== 1 && manifest.intendedGameNumber !== 2)
+    fail('Invalid-session game number')
+  if (!FULL_COMMIT.test(manifest.runtimeCommit ?? '')) fail('Invalid-session runtime commit')
+  for (const hash of [
+    manifest.diagnosticSha256,
+    manifest.partialTraceSha256,
+    manifest.packageSha256,
+    manifest.manifestPayloadSha256,
+  ])
+    if (hash !== undefined && !/^[0-9a-f]{64}$/i.test(hash))
+      fail('Invalid transition diagnostic SHA-256')
+  if (!manifest.diagnosticSha256 || !manifest.packageSha256 || !manifest.manifestPayloadSha256)
+    fail('Persisted transition diagnostic hashes are incomplete')
+  if (
+    state.registry.games.some(
+      (game) =>
+        game.traceSha256 === manifest.partialTraceSha256 ||
+        (game.participantId === manifest.participantId &&
+          game.gameNumber === manifest.intendedGameNumber),
+    )
+  )
+    fail('Invalid transition session was introduced into the official sample')
+}
+
+function validateInvalidSessionWithoutArtifacts(
+  state: HumanExperimentV3State,
+  manifest: InvalidSessionManifest,
+  ids: Set<string>,
+): void {
+  if (
+    manifest.experimentId !== CURRENT_HUMAN_EXPERIMENT_ID ||
+    manifest.validity !== 'invalid' ||
+    manifest.registration !== 'rejected' ||
+    manifest.repeatRequired !== true ||
+    manifest.error !== 'committed-state-mismatch' ||
+    manifest.persistentTrace !== 'absent' ||
+    manifest.recoverableArtifactHash !== 'absent' ||
+    !manifest.reason
+  )
+    fail('Invalid artifact-free session manifest')
+  if (!manifest.sessionId || ids.has(manifest.sessionId))
+    fail('Duplicate or missing invalid-session sessionId')
+  ids.add(manifest.sessionId)
+  if (!EXPECTED_PARTICIPANTS.includes(manifest.participantId ?? ''))
+    fail('Invalid-session participant is unknown')
+  if (manifest.intendedGameNumber !== 1 && manifest.intendedGameNumber !== 2)
+    fail('Invalid-session game number')
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(manifest.date ?? '')) fail('Invalid-session date')
+  if (
+    !Number.isInteger(manifest.displayedTurnApproximation) ||
+    (manifest.displayedTurnApproximation ?? -1) < 0
+  )
+    fail('Invalid-session displayed turn')
+  if (manifest.displayedActivePlayer !== 'R' && manifest.displayedActivePlayer !== 'B')
+    fail('Invalid-session active player')
+  if (manifest.traceSha256 !== undefined || manifest.runtimeCommit !== undefined)
+    fail('Artifact-free invalid session must not invent trace or runtime hashes')
+  if (
+    state.registry.games.some(
+      (game) =>
+        game.participantId === manifest.participantId &&
+        game.gameNumber === manifest.intendedGameNumber,
+    )
+  )
+    fail('Invalid session occupied its intended official game')
 }
 
 function fail(message: string): never {
