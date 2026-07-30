@@ -4,7 +4,7 @@
   "supersedes": "WGTR-HUMAN-FINAL-2026-V2",
   "archivedExperimentDirectory": "data/human-experiment/invalidated-2026-v2-pre-traceability",
   "createdAt": "2026-07-29",
-  "gameCount": 0,
+  "gameCount": 1,
   "aiPolicy": {
     "securedTerritoryPolicy": false,
     "status": "rejected",
