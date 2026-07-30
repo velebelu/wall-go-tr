@@ -1,0 +1,80 @@
+{
+  "schema": "TerritorialCutVulnerabilityDeterminismCheckV1",
+  "rows": [
+    {
+      "fixtureId": "human-e09743f2-turn-36",
+      "expected": {
+        "maxLoss": 1,
+        "uniqueLegalWallsChecked": 32,
+        "worstWallKeys": [
+          "1,0|2,0",
+          "5,3|5,4"
+        ]
+      },
+      "actual": {
+        "maxLoss": 1,
+        "uniqueLegalWallsChecked": 32,
+        "worstWallKeys": [
+          "1,0|2,0",
+          "5,3|5,4"
+        ]
+      },
+      "reproducible": true
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-38",
+      "expected": {
+        "maxLoss": 31,
+        "uniqueLegalWallsChecked": 23,
+        "worstWallKeys": [
+          "0,4|1,4"
+        ]
+      },
+      "actual": {
+        "maxLoss": 31,
+        "uniqueLegalWallsChecked": 23,
+        "worstWallKeys": [
+          "0,4|1,4"
+        ]
+      },
+      "reproducible": true
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-28",
+      "expected": {
+        "maxLoss": 1,
+        "uniqueLegalWallsChecked": 36,
+        "worstWallKeys": [
+          "5,3|5,4"
+        ]
+      },
+      "actual": {
+        "maxLoss": 1,
+        "uniqueLegalWallsChecked": 36,
+        "worstWallKeys": [
+          "5,3|5,4"
+        ]
+      },
+      "reproducible": true
+    },
+    {
+      "fixtureId": "directed-12-baseline-B-3238526987-turn-43-0b09c63d113d",
+      "expected": {
+        "maxLoss": 3,
+        "uniqueLegalWallsChecked": 16,
+        "worstWallKeys": [
+          "3,6|4,6"
+        ]
+      },
+      "actual": {
+        "maxLoss": 3,
+        "uniqueLegalWallsChecked": 16,
+        "worstWallKeys": [
+          "3,6|4,6"
+        ]
+      },
+      "reproducible": true
+    }
+  ],
+  "reproducible": true
+}

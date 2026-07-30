@@ -1,0 +1,245 @@
+{
+  "fixtureId": "2_turn_6_mcts_3",
+  "turnIndex": 6,
+  "player": "R",
+  "candidates": [
+    {
+      "key": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":1},\"dir\":\"right\"}}",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "sources": [
+        "final-played",
+        "recorded-root-2",
+        "high-budget-modal-1000"
+      ]
+    },
+    {
+      "key": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":3},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":3},\"dir\":\"left\"}}",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 3
+          },
+          "dir": "left"
+        }
+      },
+      "sources": [
+        "original-pre-tactical",
+        "recorded-root-1"
+      ]
+    },
+    {
+      "key": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":2},\"dir\":\"top\"}}",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      },
+      "sources": [
+        "high-budget-modal-500"
+      ]
+    }
+  ],
+  "stability": [
+    {
+      "budget": 50,
+      "seeds": 20,
+      "uniqueActions": 9,
+      "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":1},\"dir\":\"right\"}}",
+      "modalFrequency": 0.3,
+      "averageVisits": 6.5,
+      "averageValue": 0.4257,
+      "averageElapsedMs": 840.4012
+    },
+    {
+      "budget": 100,
+      "seeds": 20,
+      "uniqueActions": 11,
+      "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":5,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":5,\"y\":2},\"dir\":\"top\"}}",
+      "modalFrequency": 0.25,
+      "averageVisits": 12.6,
+      "averageValue": 0.3248,
+      "averageElapsedMs": 1479.7713
+    },
+    {
+      "budget": 250,
+      "seeds": 20,
+      "uniqueActions": 12,
+      "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":2,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":2,\"y\":1},\"dir\":\"bottom\"}}",
+      "modalFrequency": 0.1,
+      "averageVisits": 19,
+      "averageValue": 0.3684,
+      "averageElapsedMs": 3411.7683
+    },
+    {
+      "budget": 500,
+      "seeds": 20,
+      "uniqueActions": 15,
+      "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":2},\"dir\":\"top\"}}",
+      "modalFrequency": 0.2,
+      "averageVisits": 29.25,
+      "averageValue": 0.3559,
+      "averageElapsedMs": 6663.7753
+    },
+    {
+      "budget": 1000,
+      "seeds": 20,
+      "uniqueActions": 14,
+      "modalActionKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":1},\"dir\":\"right\"}}",
+      "modalFrequency": 0.15,
+      "averageVisits": 50.3333,
+      "averageValue": 0.3766,
+      "averageElapsedMs": 13120.8423
+    }
+  ],
+  "aggregates": [
+    {
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":1},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":1},\"dir\":\"right\"}}",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "games": 2,
+      "wins": 0,
+      "losses": 2,
+      "ties": 0,
+      "winRate": 0,
+      "winRateCI95": {
+        "low": 0,
+        "high": 65.762
+      },
+      "averageTerritory": 15.5,
+      "averageTerritoryDiff": -4.5,
+      "averageDurationMs": 64337.7631
+    },
+    {
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":3},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":3},\"dir\":\"left\"}}",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 3
+          },
+          "dir": "left"
+        }
+      },
+      "games": 2,
+      "wins": 0,
+      "losses": 2,
+      "ties": 0,
+      "winRate": 0,
+      "winRateCI95": {
+        "low": 0,
+        "high": 65.762
+      },
+      "averageTerritory": 16,
+      "averageTerritoryDiff": -5.5,
+      "averageDurationMs": 66481.504
+    },
+    {
+      "candidateKey": "{\"type\":\"move\",\"from\":{\"x\":3,\"y\":2},\"pos\":{\"x\":4,\"y\":2},\"followUp\":{\"type\":\"wall\",\"pos\":{\"x\":4,\"y\":2},\"dir\":\"top\"}}",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      },
+      "games": 2,
+      "wins": 1,
+      "losses": 1,
+      "ties": 0,
+      "winRate": 0.5,
+      "winRateCI95": {
+        "low": 9.4531,
+        "high": 90.5469
+      },
+      "averageTerritory": 22,
+      "averageTerritoryDiff": 4,
+      "averageDurationMs": 65568.0828
+    }
+  ],
+  "classifications": [
+    "budget-sensitive",
+    "seed-sensitive"
+  ]
+}

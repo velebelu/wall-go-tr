@@ -1,0 +1,20 @@
+{
+  "schema": "ClosureHarmfulGroupedPatternsV1",
+  "patterns": [
+    {
+      "id": "game-level-attribution-confounding",
+      "cases": [
+        "case-1",
+        "case-2",
+        "case-3",
+        "case-4",
+        "case-5",
+        "case-6",
+        "case-7"
+      ],
+      "count": 7,
+      "finding": "Every detector change in a paired game with a negative final delta was labelled harmful; individual causal harm was not measured."
+    }
+  ],
+  "detectorPattern": null
+}

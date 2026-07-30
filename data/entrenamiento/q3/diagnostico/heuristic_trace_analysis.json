@@ -1,0 +1,807 @@
+{
+  "createdAt": "2026-07-11T11:13:28.325Z",
+  "inputFiles": [
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_001.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_002.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_003.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_004.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_005.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_006.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_007.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_008.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_009.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_010.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_011.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_012.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_013.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_014.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_015.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_016.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_017.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_018.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_019.json",
+    "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas\\training_game_020.json"
+  ],
+  "outputFiles": {
+    "json": "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\q3\\diagnostico\\heuristic_trace_analysis.json",
+    "collisionsCsv": "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\q3\\diagnostico\\heuristic_trace_collisions.csv"
+  },
+  "config": {
+    "inputDir": "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\heuristicas",
+    "outputDir": "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\q3\\diagnostico",
+    "mode": "dry-run",
+    "generatedQTable": false,
+    "reusedKeyFunctions": [
+      "getLearningStateKey",
+      "getLearningActionKey"
+    ],
+    "inferredPolicies": {
+      "R": "offensive",
+      "B": "defensive",
+      "source": "src/training/TrainingRunner.ts assigns R=HeuristicAgent(offensive), B=HeuristicAgent(defensive)",
+      "explicitlyStoredInTrace": false
+    }
+  },
+  "validation": {
+    "gamesRead": 20,
+    "validGames": 20,
+    "rejectedGames": 0,
+    "rejections": []
+  },
+  "globalMetrics": {
+    "totalGames": 20,
+    "wins": {
+      "R": 5,
+      "B": 14,
+      "tie": 1
+    },
+    "totalActions": 1596,
+    "actionsByPlayer": {
+      "R": 810,
+      "B": 786
+    },
+    "actionsByType": {
+      "place": 80,
+      "move": 748,
+      "wall": 768
+    },
+    "actionsByOutcomeForActor": {
+      "wins": 749,
+      "losses": 762,
+      "draws": 85
+    }
+  },
+  "collisionMetrics": {
+    "uniqueLegacyStateKeys": 1524,
+    "uniqueCompactStateKeys": 10,
+    "uniqueLegacyStateActionPairs": 1543,
+    "uniqueCompactStateActionPairs": 820,
+    "stateCollapsePercentage": 99.3438,
+    "stateActionCollapsePercentage": 46.8568,
+    "maxLegacyStatesPerCompactState": 381,
+    "compactStateCollisionGroupSizeDistribution": {
+      "1": 1,
+      "4": 1,
+      "13": 1,
+      "15": 1,
+      "120": 1,
+      "137": 1,
+      "227": 1,
+      "254": 1,
+      "372": 1,
+      "381": 1
+    },
+    "topCompactStateCollisions": [
+      {
+        "compactStateKey": "playing|R|4|4|0",
+        "legacyStateCount": 381,
+        "occurrences": 391
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "legacyStateCount": 372,
+        "occurrences": 377
+      },
+      {
+        "compactStateKey": "playing|R|4|4|2",
+        "legacyStateCount": 254,
+        "occurrences": 259
+      },
+      {
+        "compactStateKey": "playing|B|4|4|2",
+        "legacyStateCount": 227,
+        "occurrences": 227
+      },
+      {
+        "compactStateKey": "playing|B|4|4|1",
+        "legacyStateCount": 137,
+        "occurrences": 142
+      },
+      {
+        "compactStateKey": "playing|R|4|4|1",
+        "legacyStateCount": 120,
+        "occurrences": 120
+      },
+      {
+        "compactStateKey": "placing|R|3|4|0",
+        "legacyStateCount": 15,
+        "occurrences": 20
+      },
+      {
+        "compactStateKey": "placing|B|3|3|0",
+        "legacyStateCount": 13,
+        "occurrences": 20
+      },
+      {
+        "compactStateKey": "placing|B|3|2|0",
+        "legacyStateCount": 4,
+        "occurrences": 20
+      },
+      {
+        "compactStateKey": "placing|R|2|2|0",
+        "legacyStateCount": 1,
+        "occurrences": 20
+      }
+    ],
+    "topStateActionCollisions": [
+      {
+        "compactStateKey": "playing|R|4|4|0",
+        "compactActionKey": "move|1|1|2|2",
+        "legacyStateCount": 11,
+        "legacyStateActionCount": 11,
+        "players": "R",
+        "actionTypes": "move",
+        "occurrences": 11,
+        "wins": 3,
+        "losses": 8,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|5|1|4|1",
+        "legacyStateCount": 10,
+        "legacyStateActionCount": 10,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 10,
+        "wins": 7,
+        "losses": 3,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "placing|B|3|3|0",
+        "compactActionKey": "place|3|3",
+        "legacyStateCount": 9,
+        "legacyStateActionCount": 9,
+        "players": "B",
+        "actionTypes": "place",
+        "occurrences": 12,
+        "wins": 9,
+        "losses": 2,
+        "draws": 1
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|1|5|1|4",
+        "legacyStateCount": 8,
+        "legacyStateActionCount": 8,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 8,
+        "wins": 7,
+        "losses": 1,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|1",
+        "compactActionKey": "wall|4|1|bottom",
+        "legacyStateCount": 8,
+        "legacyStateActionCount": 8,
+        "players": "B",
+        "actionTypes": "wall",
+        "occurrences": 8,
+        "wins": 5,
+        "losses": 3,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|2",
+        "compactActionKey": "wall|4|3|bottom",
+        "legacyStateCount": 8,
+        "legacyStateActionCount": 8,
+        "players": "B",
+        "actionTypes": "wall",
+        "occurrences": 8,
+        "wins": 6,
+        "losses": 2,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|R|4|4|2",
+        "compactActionKey": "wall|3|4|top",
+        "legacyStateCount": 7,
+        "legacyStateActionCount": 7,
+        "players": "R",
+        "actionTypes": "wall",
+        "occurrences": 8,
+        "wins": 2,
+        "losses": 6,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "placing|R|3|4|0",
+        "compactActionKey": "place|3|3",
+        "legacyStateCount": 6,
+        "legacyStateActionCount": 6,
+        "players": "R",
+        "actionTypes": "place",
+        "occurrences": 8,
+        "wins": 3,
+        "losses": 5,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|2|1|3|2",
+        "legacyStateCount": 6,
+        "legacyStateActionCount": 6,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 6,
+        "wins": 4,
+        "losses": 1,
+        "draws": 1
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|2|3|1|2",
+        "legacyStateCount": 6,
+        "legacyStateActionCount": 6,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 6,
+        "wins": 4,
+        "losses": 2,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|5|1|5|2",
+        "legacyStateCount": 6,
+        "legacyStateActionCount": 6,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 6,
+        "wins": 4,
+        "losses": 1,
+        "draws": 1
+      },
+      {
+        "compactStateKey": "playing|R|4|4|2",
+        "compactActionKey": "wall|2|2|bottom",
+        "legacyStateCount": 6,
+        "legacyStateActionCount": 6,
+        "players": "R",
+        "actionTypes": "wall",
+        "occurrences": 6,
+        "wins": 2,
+        "losses": 4,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|R|4|4|2",
+        "compactActionKey": "wall|2|2|left",
+        "legacyStateCount": 6,
+        "legacyStateActionCount": 6,
+        "players": "R",
+        "actionTypes": "wall",
+        "occurrences": 6,
+        "wins": 1,
+        "losses": 5,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|R|4|4|2",
+        "compactActionKey": "wall|5|1|left",
+        "legacyStateCount": 6,
+        "legacyStateActionCount": 6,
+        "players": "R",
+        "actionTypes": "wall",
+        "occurrences": 6,
+        "wins": 3,
+        "losses": 3,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|3|1|2|1",
+        "legacyStateCount": 5,
+        "legacyStateActionCount": 5,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 6,
+        "wins": 5,
+        "losses": 1,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|0|2|1|1",
+        "legacyStateCount": 5,
+        "legacyStateActionCount": 5,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 5,
+        "wins": 3,
+        "losses": 2,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|1|2|2|3",
+        "legacyStateCount": 5,
+        "legacyStateActionCount": 5,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 5,
+        "wins": 4,
+        "losses": 1,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|1|3|0|2",
+        "legacyStateCount": 5,
+        "legacyStateActionCount": 5,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 5,
+        "wins": 2,
+        "losses": 3,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|3|2|4|3",
+        "legacyStateCount": 5,
+        "legacyStateActionCount": 5,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 5,
+        "wins": 4,
+        "losses": 1,
+        "draws": 0
+      },
+      {
+        "compactStateKey": "playing|B|4|4|0",
+        "compactActionKey": "move|3|5|4|6",
+        "legacyStateCount": 5,
+        "legacyStateActionCount": 5,
+        "players": "B",
+        "actionTypes": "move",
+        "occurrences": 5,
+        "wins": 4,
+        "losses": 1,
+        "draws": 0
+      }
+    ],
+    "compactActionCollisions": [
+      {
+        "compactActionKey": "place|3|3",
+        "legacyActionCount": 1,
+        "legacyContextCount": 15,
+        "occurrences": 20,
+        "actionTypes": [
+          "place"
+        ]
+      },
+      {
+        "compactActionKey": "wall|5|1|left",
+        "legacyActionCount": 1,
+        "legacyContextCount": 13,
+        "occurrences": 13,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|1|3|top",
+        "legacyActionCount": 1,
+        "legacyContextCount": 12,
+        "occurrences": 12,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|3|5|left",
+        "legacyActionCount": 1,
+        "legacyContextCount": 12,
+        "occurrences": 12,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|2|3|right",
+        "legacyActionCount": 1,
+        "legacyContextCount": 11,
+        "occurrences": 13,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "move|1|1|2|2",
+        "legacyActionCount": 1,
+        "legacyContextCount": 11,
+        "occurrences": 11,
+        "actionTypes": [
+          "move"
+        ]
+      },
+      {
+        "compactActionKey": "wall|4|1|bottom",
+        "legacyActionCount": 1,
+        "legacyContextCount": 11,
+        "occurrences": 11,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|4|3|bottom",
+        "legacyActionCount": 1,
+        "legacyContextCount": 11,
+        "occurrences": 11,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|5|4|bottom",
+        "legacyActionCount": 1,
+        "legacyContextCount": 10,
+        "occurrences": 11,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "move|5|1|4|1",
+        "legacyActionCount": 1,
+        "legacyContextCount": 10,
+        "occurrences": 10,
+        "actionTypes": [
+          "move"
+        ]
+      },
+      {
+        "compactActionKey": "wall|1|2|top",
+        "legacyActionCount": 1,
+        "legacyContextCount": 10,
+        "occurrences": 10,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|4|0|bottom",
+        "legacyActionCount": 1,
+        "legacyContextCount": 10,
+        "occurrences": 10,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|4|4|right",
+        "legacyActionCount": 1,
+        "legacyContextCount": 10,
+        "occurrences": 10,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|5|2|top",
+        "legacyActionCount": 1,
+        "legacyContextCount": 10,
+        "occurrences": 10,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|2|1|left",
+        "legacyActionCount": 1,
+        "legacyContextCount": 9,
+        "occurrences": 10,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|3|2|right",
+        "legacyActionCount": 1,
+        "legacyContextCount": 9,
+        "occurrences": 10,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|3|4|top",
+        "legacyActionCount": 1,
+        "legacyContextCount": 9,
+        "occurrences": 10,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "wall|4|5|right",
+        "legacyActionCount": 1,
+        "legacyContextCount": 9,
+        "occurrences": 10,
+        "actionTypes": [
+          "wall"
+        ]
+      },
+      {
+        "compactActionKey": "move|2|4|1|3",
+        "legacyActionCount": 1,
+        "legacyContextCount": 9,
+        "occurrences": 9,
+        "actionTypes": [
+          "move"
+        ]
+      },
+      {
+        "compactActionKey": "wall|1|4|bottom",
+        "legacyActionCount": 1,
+        "legacyContextCount": 9,
+        "occurrences": 9,
+        "actionTypes": [
+          "wall"
+        ]
+      }
+    ]
+  },
+  "compositeActionMetrics": {
+    "totalMoves": 748,
+    "secureMovesFollowedByWall": 748,
+    "possibleMovesFollowedByWall": 0,
+    "movesWithoutIdentifiableWall": 0,
+    "possibleMoveWallCombinations": 748,
+    "maxWallVariantsForSameMoveActionKey": 4,
+    "moveActionKeysWithMultipleWallVariants": [
+      {
+        "compactMoveActionKey": "move|1|1|2|2",
+        "wallVariantCount": 4,
+        "wallActionKeys": [
+          "wall|2|2|bottom",
+          "wall|2|2|left",
+          "wall|2|2|right",
+          "wall|2|2|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|2|2|3",
+        "wallVariantCount": 4,
+        "wallActionKeys": [
+          "wall|2|3|bottom",
+          "wall|2|3|left",
+          "wall|2|3|right",
+          "wall|2|3|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|2|4|1|3",
+        "wallVariantCount": 4,
+        "wallActionKeys": [
+          "wall|1|3|bottom",
+          "wall|1|3|left",
+          "wall|1|3|right",
+          "wall|1|3|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|3|2|2|1",
+        "wallVariantCount": 4,
+        "wallActionKeys": [
+          "wall|2|1|bottom",
+          "wall|2|1|left",
+          "wall|2|1|right",
+          "wall|2|1|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|3|2|4|3",
+        "wallVariantCount": 4,
+        "wallActionKeys": [
+          "wall|4|3|bottom",
+          "wall|4|3|left",
+          "wall|4|3|right",
+          "wall|4|3|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|4|3|3|4",
+        "wallVariantCount": 4,
+        "wallActionKeys": [
+          "wall|3|4|bottom",
+          "wall|3|4|left",
+          "wall|3|4|right",
+          "wall|3|4|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|0|2|1|1",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|1|1|bottom",
+          "wall|1|1|left",
+          "wall|1|1|right"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|1|2|0",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|2|0|bottom",
+          "wall|2|0|left",
+          "wall|2|0|right"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|3|0|2",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|0|2|bottom",
+          "wall|0|2|right",
+          "wall|0|2|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|3|1|4",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|1|4|bottom",
+          "wall|1|4|left",
+          "wall|1|4|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|3|2|2",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|2|2|bottom",
+          "wall|2|2|right",
+          "wall|2|2|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|4|0|5",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|0|5|bottom",
+          "wall|0|5|right",
+          "wall|0|5|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|4|1|5",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|1|5|bottom",
+          "wall|1|5|left",
+          "wall|1|5|right"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|4|2|5",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|2|5|bottom",
+          "wall|2|5|left",
+          "wall|2|5|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|5|1|4",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|1|4|bottom",
+          "wall|1|4|right",
+          "wall|1|4|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|5|2|4",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|2|4|bottom",
+          "wall|2|4|left",
+          "wall|2|4|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|1|5|2|5",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|2|5|left",
+          "wall|2|5|right",
+          "wall|2|5|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|2|1|3|2",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|3|2|left",
+          "wall|3|2|right",
+          "wall|3|2|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|2|2|3|1",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|3|1|bottom",
+          "wall|3|1|left",
+          "wall|3|1|top"
+        ]
+      },
+      {
+        "compactMoveActionKey": "move|2|3|3|4",
+        "wallVariantCount": 3,
+        "wallActionKeys": [
+          "wall|3|4|bottom",
+          "wall|3|4|left",
+          "wall|3|4|top"
+        ]
+      }
+    ],
+    "notes": [
+      "A secure move+wall association requires adjacent trace entries from the same game and player, a wall immediately after the move, and the wall position equal to the move destination.",
+      "Possible associations are adjacent same-player move+wall entries that do not satisfy all secure checks.",
+      "The trace format stores action entries separately, so this analysis does not rewrite them as followUp actions."
+    ]
+  },
+  "biasMetrics": {
+    "actionsByPlayer": {
+      "R": 810,
+      "B": 786
+    },
+    "actionsByInferredPolicy": {
+      "offensive_R": 810,
+      "defensive_B": 786
+    },
+    "actionsByPlayerAndGameOutcome": {
+      "R": {
+        "wins": 200,
+        "losses": 566,
+        "draws": 44
+      },
+      "B": {
+        "wins": 549,
+        "losses": 196,
+        "draws": 41
+      }
+    },
+    "gamesByWinner": {
+      "R": 5,
+      "B": 14,
+      "tie": 1
+    },
+    "explicitPolicyStoredInTrace": false,
+    "inferredPolicySource": "TrainingRunner constructs R as offensive and B as defensive; trace JSON stores both as heuristic only."
+  },
+  "warnings": [
+    "Trace JSON stores heuristic players generically; offensive R and defensive B are inferred from TrainingRunner configuration, not explicit trace fields.",
+    "Legacy state keys contain full serialized state while compact keys intentionally omit board, selected stone and legal moves.",
+    "Q2 action keys do not encode followUp walls attached to move actions."
+  ],
+  "conclusion": "The dry-run conversion found a 46.8568% collapse from legacy state-action pairs to compact Q2-style state-action pairs. The largest compact state groups 381 distinct legacy states. Detected 748 secure and 0 possible move+wall associations in the existing traces. Warnings recorded: 3. This is descriptive only; it does not choose the final Q3 state representation."
+}

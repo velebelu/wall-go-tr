@@ -1,0 +1,68 @@
+{
+  "caseId": "case-6",
+  "gameId": "competitive-heuristic-8-B-closure",
+  "turnIndex": 43,
+  "player": "B",
+  "state": null,
+  "stateAvailable": false,
+  "originalAction": {
+    "type": "move",
+    "from": {
+      "x": 1,
+      "y": 6
+    },
+    "pos": {
+      "x": 0,
+      "y": 5
+    },
+    "followUp": {
+      "type": "wall",
+      "from": {
+        "x": 0,
+        "y": 5
+      },
+      "pos": {
+        "x": 0,
+        "y": 5
+      },
+      "dir": "bottom"
+    }
+  },
+  "detectorAction": {
+    "type": "move",
+    "from": {
+      "x": 1,
+      "y": 6
+    },
+    "pos": {
+      "x": 0,
+      "y": 6
+    },
+    "followUp": {
+      "type": "wall",
+      "from": {
+        "x": 0,
+        "y": 6
+      },
+      "pos": {
+        "x": 0,
+        "y": 6
+      },
+      "dir": "top"
+    }
+  },
+  "mctsOriginal": null,
+  "mctsSelected": null,
+  "detectorMetrics": null,
+  "repliesAnalyzed": null,
+  "worstOpponentReply": null,
+  "pairedCounterfactual": {
+    "closureOutcome": "win",
+    "closureTerritoryDiff": 8,
+    "frozenOutcome": "win",
+    "frozenTerritoryDiff": 18,
+    "territoryDiffDelta": -10
+  },
+  "threatClassification": "indeterminate",
+  "auditStatus": "blocked-missing-state-and-action-trace"
+}

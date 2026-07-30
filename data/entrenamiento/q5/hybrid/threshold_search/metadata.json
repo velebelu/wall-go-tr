@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-07-12T17:08:22.898Z",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\qtable_q5_heuristic_initial.json",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\threshold_search",
+  "confidenceDefinition": {
+    "value": "max(originalDatasetObservations, qLearningUpdatesAfterInitialization)",
+    "originalDatasetObservations": "data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json",
+    "qLearningUpdatesAfterInitialization": "none loaded for this frozen initial-table search"
+  },
+  "protocol": {
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "qTableFrozen": true,
+    "alphaUpdates": false,
+    "representation": "Q3",
+    "seedBase": 502000,
+    "gamesPerVariant": 400,
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "maxTurns": 250
+  }
+}

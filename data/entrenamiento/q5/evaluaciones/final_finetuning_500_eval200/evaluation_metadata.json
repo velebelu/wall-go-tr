@@ -1,0 +1,21 @@
+{
+  "createdAt": "2026-07-12T15:38:34.019Z",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\final_finetuning\\checkpoint_500\\qtable_q5_final_finetuning_500.json",
+  "qTableEntries": 22752,
+  "hashBefore": "d7f5a6629eea60c7cfabcd24875aac1752033d8b2f15ad4acb249a56f3313212",
+  "hashAfter": "d7f5a6629eea60c7cfabcd24875aac1752033d8b2f15ad4acb249a56f3313212",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\evaluaciones\\final_finetuning_500_eval200",
+  "protocol": {
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "totalGames": 400,
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "alphaUpdates": false,
+    "qTableFrozen": true
+  }
+}

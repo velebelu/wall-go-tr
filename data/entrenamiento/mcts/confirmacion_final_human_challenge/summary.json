@@ -1,0 +1,108 @@
+{
+  "schema": "HumanChallengeFinalConfirmationSummaryV1",
+  "complete": true,
+  "classification": "retain-current-baseline",
+  "durationMsAccumulated": 10259054.7759,
+  "heuristic": {
+    "games": 100,
+    "wins": 97,
+    "losses": 1,
+    "ties": 2,
+    "winRate": 0.97,
+    "winRateCI95": {
+      "low": 91.5481,
+      "high": 98.9745
+    },
+    "averageOwnTerritory": 26.32,
+    "averageRivalTerritory": 15.71,
+    "averageTerritoryDiff": 10.61,
+    "medianTerritoryDiff": 10.5,
+    "territoryDiffStandardDeviation": 6.8015,
+    "byColor": {
+      "R": {
+        "games": 50,
+        "wins": 50,
+        "losses": 0,
+        "ties": 0
+      },
+      "B": {
+        "games": 50,
+        "wins": 47,
+        "losses": 1,
+        "ties": 2
+      }
+    }
+  },
+  "baseline": {
+    "games": 50,
+    "wins": 31,
+    "losses": 19,
+    "ties": 0,
+    "winRate": 0.62,
+    "winRateCI95": {
+      "low": 48.1504,
+      "high": 74.1372
+    },
+    "averageOwnTerritory": 19.84,
+    "averageRivalTerritory": 17.56,
+    "averageTerritoryDiff": 2.28,
+    "medianTerritoryDiff": 2,
+    "territoryDiffStandardDeviation": 11.9438,
+    "byColor": {
+      "R": {
+        "games": 25,
+        "wins": 17,
+        "losses": 8,
+        "ties": 0
+      },
+      "B": {
+        "games": 25,
+        "wins": 14,
+        "losses": 11,
+        "ties": 0
+      }
+    }
+  },
+  "pairedBaseline": {
+    "pairs": 25,
+    "averageTerritoryDiff": 2.28,
+    "medianTerritoryDiff": 2,
+    "bootstrapMeanCI95": {
+      "low": -1.08,
+      "high": 5.56,
+      "iterations": 10000,
+      "seed": 2026073999
+    },
+    "signTest": {
+      "positive": 13,
+      "negative": 8,
+      "tiesExcluded": 0,
+      "pValue": 0.3833
+    }
+  },
+  "timings": {
+    "decisions": 3607,
+    "averageMs": 2705.6364,
+    "medianMs": 2468.8581,
+    "p90Ms": 5118.079,
+    "p95Ms": 5140.1633,
+    "p99Ms": 5165.0495,
+    "maxMs": 5236.0785,
+    "averageSimulations": 460.2079,
+    "finishedAt250": 1168,
+    "expandedTo500": 1836,
+    "timeLimitStops": 782,
+    "timeLimitStopRate": 0.2168,
+    "totalMs": 9759230.6094
+  },
+  "criteria": {
+    "heuristicWinRate": true,
+    "heuristicTerritory": true,
+    "baselineWinRate": true,
+    "baselineTerritory": true,
+    "averageTime": false,
+    "p95Time": true,
+    "timeLimitStops": false,
+    "technicalValid": true
+  }
+}

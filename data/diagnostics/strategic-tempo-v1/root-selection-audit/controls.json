@@ -1,0 +1,44 @@
+{
+  "harmfulProgressAlternatives": [
+    {
+      "fixture": "06eb43800ede.fixture.json",
+      "classification": "ambiguous",
+      "meanEffect": -1.6666666666666667
+    },
+    {
+      "fixture": "3c6e0e435838.fixture.json",
+      "classification": "mobility-improving",
+      "meanEffect": -5.333333333333333
+    },
+    {
+      "fixture": "94fe8f8cbf50.fixture.json",
+      "classification": "future-wall-preparation",
+      "meanEffect": -2.3333333333333335
+    }
+  ],
+  "correctlyClassifiedUsefulMoves": [
+    {
+      "fixture": "8a62f8f826fc.fixture.json",
+      "classification": "mobility-improving",
+      "progressAlternativeMeanEffect": -9.333333333333334
+    },
+    {
+      "fixture": "c93e45301297.fixture.json",
+      "classification": "mobility-improving",
+      "progressAlternativeMeanEffect": -1
+    },
+    {
+      "fixture": "8238614515c3.fixture.json",
+      "classification": "strategic-repositioning",
+      "progressAlternativeMeanEffect": 0.3333333333333333
+    }
+  ],
+  "normalStateControls": {
+    "available": false,
+    "reason": "The retained StrategicTempoFixtureV1 corpus contains only preselected suspicious movements. Fabricating a normal label would invalidate the control."
+  },
+  "effectOfRecommendation": {
+    "changedDecisions": 0,
+    "reason": "Recommendation C makes no production selector or policy change."
+  }
+}

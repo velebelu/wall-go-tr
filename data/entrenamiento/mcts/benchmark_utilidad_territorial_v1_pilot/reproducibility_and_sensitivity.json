@@ -1,0 +1,304 @@
+{
+  "schema": "StrategicPositionPilotVerificationV1",
+  "sensitivity": [
+    {
+      "fixtureId": "human-e09743f2-turn-34",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-36",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-38",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-24",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-26",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-28",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-30",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-32",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-12-baseline-B-3238526987-turn-43-0b09c63d113d",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-17-historical-activation-seed-heuristic-R-3238461448-turn-34-ca796816f3ae",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-17-historical-activation-seed-heuristic-R-3238461448-turn-38-f01228b79a4a",
+      "sameBaselineAcrossSeeds": true,
+      "sameCandidateAcrossSeeds": true,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-20-baseline-B-3238526995-turn-39-81611c364b5b",
+      "sameBaselineAcrossSeeds": true,
+      "sameCandidateAcrossSeeds": true,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-20-historical-activation-seed-baseline-R-3238471468-turn-32-d34297e7520c",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-21-heuristic-R-3238526996-turn-40-7401577bec4a",
+      "sameBaselineAcrossSeeds": true,
+      "sameCandidateAcrossSeeds": true,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-21-historical-activation-seed-baseline-R-3238471472-turn-34-def8bb441beb",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-22-historical-activation-seed-heuristic-B-3238461453-turn-37-a2cdc4b35393",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-23-heuristic-B-3238526998-turn-45-d378e6bfe36a",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-23-historical-activation-seed-heuristic-B-3238461465-turn-33-4648882122a6",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-26-historical-activation-seed-baseline-B-3238471469-turn-43-4544957abb2c",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-28-historical-activation-seed-heuristic-B-3238461447-turn-39-6c6e1766114c",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-29-historical-activation-seed-heuristic-B-3238461463-turn-29-79c41d1832dc",
+      "sameBaselineAcrossSeeds": true,
+      "sameCandidateAcrossSeeds": true,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-3-heuristic-B-3238526978-turn-45-bdf5c95b806c",
+      "sameBaselineAcrossSeeds": true,
+      "sameCandidateAcrossSeeds": true,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-3-heuristic-B-3238526978-turn-53-b682722f3497",
+      "sameBaselineAcrossSeeds": true,
+      "sameCandidateAcrossSeeds": true,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-30-historical-activation-seed-heuristic-B-3238461475-turn-35-b70cccca5189",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-30-historical-activation-seed-heuristic-B-3238461475-turn-37-c4685045dd36",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-6-baseline-R-3238526981-turn-44-aa21f3e8eaa5",
+      "sameBaselineAcrossSeeds": false,
+      "sameCandidateAcrossSeeds": false,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    },
+    {
+      "fixtureId": "directed-8-baseline-B-3238526983-turn-45-b31a4793e158",
+      "sameBaselineAcrossSeeds": true,
+      "sameCandidateAcrossSeeds": true,
+      "changeInBothSeeds": false,
+      "changeInOneSeed": false,
+      "stability": "no_change"
+    }
+  ],
+  "repeated": [
+    {
+      "fixtureId": "human-e09743f2-turn-34",
+      "termKind": "zero",
+      "selectionSeed": 3254910977,
+      "configuration": "baseline",
+      "actionsReproducible": true,
+      "simulationsReproducible": true,
+      "persistedSimulations": 500,
+      "repeatedSimulations": 500
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-34",
+      "termKind": "zero",
+      "selectionSeed": 3254910977,
+      "configuration": "candidate",
+      "actionsReproducible": true,
+      "simulationsReproducible": true,
+      "persistedSimulations": 500,
+      "repeatedSimulations": 500
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-34",
+      "termKind": "zero",
+      "selectionSeed": 3254910978,
+      "configuration": "baseline",
+      "actionsReproducible": true,
+      "simulationsReproducible": true,
+      "persistedSimulations": 500,
+      "repeatedSimulations": 500
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-34",
+      "termKind": "zero",
+      "selectionSeed": 3254910978,
+      "configuration": "candidate",
+      "actionsReproducible": true,
+      "simulationsReproducible": true,
+      "persistedSimulations": 500,
+      "repeatedSimulations": 500
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-38",
+      "termKind": "non-zero",
+      "selectionSeed": 3254910977,
+      "configuration": "baseline",
+      "actionsReproducible": true,
+      "simulationsReproducible": true,
+      "persistedSimulations": 500,
+      "repeatedSimulations": 500
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-38",
+      "termKind": "non-zero",
+      "selectionSeed": 3254910977,
+      "configuration": "candidate",
+      "actionsReproducible": true,
+      "simulationsReproducible": true,
+      "persistedSimulations": 500,
+      "repeatedSimulations": 500
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-38",
+      "termKind": "non-zero",
+      "selectionSeed": 3254910978,
+      "configuration": "baseline",
+      "actionsReproducible": true,
+      "simulationsReproducible": true,
+      "persistedSimulations": 500,
+      "repeatedSimulations": 500
+    },
+    {
+      "fixtureId": "human-e09743f2-turn-38",
+      "termKind": "non-zero",
+      "selectionSeed": 3254910978,
+      "configuration": "candidate",
+      "actionsReproducible": true,
+      "simulationsReproducible": true,
+      "persistedSimulations": 500,
+      "repeatedSimulations": 500
+    }
+  ],
+  "reproducible": true
+}

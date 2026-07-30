@@ -1,0 +1,97 @@
+{
+  "schema": "HumanMCTSTraceV1",
+  "schemaVersion": 1,
+  "metadata": {
+    "gameId": "pilot-historical-g1",
+    "createdAt": "2026-07-27T10:00:00.000Z",
+    "startedAt": "2026-07-27T10:00:00.000Z",
+    "finishedAt": "2026-07-27T10:01:30.000Z",
+    "durationMs": 90000,
+    "projectCommit": "7efe186747f8369d87f30e87046a8eda5ca93426",
+    "boardSize": 0,
+    "humanColor": "R",
+    "mctsColor": "B",
+    "seed": 101,
+    "mctsConfig": {
+      "simulations": 250,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5,
+      "qPriorWeight": 0,
+      "tacticalVerification": true,
+      "tacticalCandidateCount": 2
+    },
+    "finalHumanChallengeConfig": {
+      "mcts": {
+        "simulations": 250,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "mixed",
+        "heuristicProbability": 0.8,
+        "expansionPolicy": "heuristic",
+        "progressiveWidening": true,
+        "wideningConstant": 2,
+        "wideningExponent": 0.5,
+        "qPriorWeight": 0,
+        "tacticalVerification": true,
+        "tacticalCandidateCount": 2
+      },
+      "budget": {
+        "enable750": false,
+        "base": 250,
+        "lowConfidence": 500,
+        "highUncertainty": 500,
+        "maxDecisionMs": 5000,
+        "maxVisitGap": 3,
+        "maxValueGap": 0.04,
+        "maxSelectedVisitShare": 0.12,
+        "highUncertaintyVisitGap": 1,
+        "highUncertaintyValueGap": 0.015,
+        "highUncertaintySelectedVisitShare": 0.08
+      },
+      "endgame": {
+        "enabled": false,
+        "maxLegalActions": 8,
+        "maxConnectedRegions": 3,
+        "maxMobilePieces": 2,
+        "maxDepth": 8,
+        "maxNodes": 40000,
+        "maxTimeMs": 1500
+      }
+    },
+    "initialState": {
+      "board": [],
+      "turn": "R",
+      "legal": [],
+      "stepsTaken": 0,
+      "phase": "finished",
+      "players": ["R", "B"],
+      "stonesLimit": 4,
+      "stonesPlaced": { "R": 2, "B": 2 },
+      "result": { "finished": true, "winner": "R", "score": { "R": 26, "B": 23 } }
+    }
+  },
+  "decisions": [],
+  "final": {
+    "state": {
+      "board": [],
+      "turn": "R",
+      "legal": [],
+      "stepsTaken": 0,
+      "phase": "finished",
+      "players": ["R", "B"],
+      "stonesLimit": 4,
+      "stonesPlaced": { "R": 2, "B": 2 },
+      "result": { "finished": true, "winner": "R", "score": { "R": 26, "B": 23 } }
+    },
+    "result": { "finished": true, "winner": "R", "score": { "R": 26, "B": 23 } },
+    "territory": { "R": 26, "B": 23 },
+    "totalTurns": 0,
+    "finishReason": "game-result"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "schema": "HumanChallengeMCTSPilotV1",
+  "durationMs": 3118547.6319,
+  "games": 60,
+  "config": {
+    "mcts": {
+      "simulations": 250,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5,
+      "qPriorWeight": 0,
+      "tacticalVerification": true,
+      "tacticalCandidateCount": 2
+    },
+    "budget": {
+      "enable750": true,
+      "base": 250,
+      "lowConfidence": 500,
+      "highUncertainty": 750,
+      "maxDecisionMs": 5000,
+      "maxVisitGap": 3,
+      "maxValueGap": 0.04,
+      "maxSelectedVisitShare": 0.12,
+      "highUncertaintyVisitGap": 1,
+      "highUncertaintyValueGap": 0.015,
+      "highUncertaintySelectedVisitShare": 0.08
+    },
+    "endgame": {
+      "enabled": true,
+      "maxLegalActions": 8,
+      "maxConnectedRegions": 3,
+      "maxMobilePieces": 2,
+      "maxDepth": 8,
+      "maxNodes": 40000,
+      "maxTimeMs": 1500
+    }
+  },
+  "variants": {
+    "current": {
+      "games": 20,
+      "wins": 11,
+      "losses": 9,
+      "ties": 0,
+      "winRate": 0.55,
+      "winRateCI95": {
+        "low": 34.2085,
+        "high": 74.1802
+      },
+      "averageTerritoryDiff": 4.5,
+      "averageDecisionMs": 378.2575,
+      "maxDecisionMs": 957.4725,
+      "p95DecisionMs": 838.9468,
+      "averageSimulations": 50,
+      "expansion500": 0,
+      "expansion750": 0,
+      "solverActivations": 0,
+      "solverCompletions": 0,
+      "solverChanges": 0,
+      "tacticalChanges": 260,
+      "nodes": 0,
+      "timeLimitStops": 0
+    },
+    "moderate": {
+      "games": 20,
+      "wins": 18,
+      "losses": 2,
+      "ties": 0,
+      "winRate": 0.9,
+      "winRateCI95": {
+        "low": 69.8966,
+        "high": 97.2134
+      },
+      "averageTerritoryDiff": 9.65,
+      "averageDecisionMs": 2493.8393,
+      "maxDecisionMs": 5176.8707,
+      "p95DecisionMs": 5140.5981,
+      "averageSimulations": 402.0806,
+      "expansion500": 258,
+      "expansion750": 0,
+      "solverActivations": 0,
+      "solverCompletions": 0,
+      "solverChanges": 0,
+      "tacticalChanges": 269,
+      "nodes": 0,
+      "timeLimitStops": 89
+    },
+    "selective": {
+      "games": 20,
+      "wins": 18,
+      "losses": 1,
+      "ties": 1,
+      "winRate": 0.9,
+      "winRateCI95": {
+        "low": 69.8966,
+        "high": 97.2134
+      },
+      "averageTerritoryDiff": 5.5,
+      "averageDecisionMs": 2698.3868,
+      "maxDecisionMs": 5222.643,
+      "p95DecisionMs": 5140.3445,
+      "averageSimulations": 466.9105,
+      "expansion500": 260,
+      "expansion750": 119,
+      "solverActivations": 0,
+      "solverCompletions": 0,
+      "solverChanges": 0,
+      "tacticalChanges": 286,
+      "nodes": 0,
+      "timeLimitStops": 104
+    }
+  },
+  "note": "Calibrated pilot; 10 paired games per variant/rival, five per color."
+}

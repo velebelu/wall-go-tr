@@ -1,0 +1,3929 @@
+{
+  "2eac0bd16e43": {
+    "originalAction": "move:4,1>3,1:right",
+    "counterfactualAlternative": "move:4,1>4,2:right",
+    "counterfactualEffect": {
+      "games": 3,
+      "wins": 0,
+      "losses": 3,
+      "draws": 0,
+      "winRate": 0,
+      "ownTerritoryMean": 10.666666666666666,
+      "opponentTerritoryMean": 20.333333333333332,
+      "territoryDifferenceMean": -9.666666666666666,
+      "territoryDifferenceMedian": -7,
+      "turnsMean": 14,
+      "suspiciousInternalMoves": 0,
+      "tiebreakActivations": 0,
+      "illegalActions": 0,
+      "fallbacks": 0,
+      "meanDecisionMs": 505.43840634920775,
+      "maxDecisionMs": 954.0042000000103,
+      "pairedEffects": [13, 9, 2],
+      "meanEffect": 8,
+      "bootstrap95": [2, 13],
+      "effectClassification": "beneficial"
+    },
+    "legalActionCount": 33,
+    "initialLegalOrder": [
+      "move:3,0>2,0:right",
+      "wall:3,0:left",
+      "move:4,1>4,0:right",
+      "move:4,1>4,0:bottom",
+      "move:4,1>5,0:right",
+      "move:4,1>5,0:left",
+      "move:4,1>3,1:right",
+      "move:4,1>4,2:right",
+      "move:4,1>4,2:top",
+      "move:4,1>5,2:left",
+      "move:4,1>5,2:top",
+      "wall:4,1:left",
+      "wall:4,1:bottom",
+      "wall:4,1:top",
+      "move:6,1>5,1:right",
+      "move:6,1>5,1:bottom",
+      "move:6,1>5,2:left",
+      "move:6,1>5,2:top",
+      "move:6,1>6,2:bottom",
+      "move:6,1>6,2:top",
+      "move:6,1>6,3:top",
+      "wall:6,1:left",
+      "wall:6,1:bottom",
+      "move:4,6>2,6:right",
+      "move:4,6>2,6:left",
+      "move:4,6>3,6:right",
+      "move:4,6>3,6:left",
+      "move:4,6>5,6:right",
+      "move:4,6>5,6:left",
+      "move:4,6>6,6:left",
+      "move:4,6>6,6:top",
+      "wall:4,6:right",
+      "wall:4,6:left"
+    ],
+    "expansionOrder": [
+      "wall:4,1:left",
+      "wall:4,1:top",
+      "wall:4,1:bottom",
+      "move:6,1>6,2:bottom",
+      "move:4,6>6,6:left",
+      "move:4,6>6,6:top",
+      "move:4,1>4,2:right",
+      "move:6,1>6,2:top",
+      "move:4,6>3,6:left",
+      "move:4,6>3,6:right",
+      "move:4,1>4,2:top",
+      "move:4,1>5,2:top",
+      "move:6,1>5,2:left",
+      "move:6,1>5,2:top",
+      "move:4,1>5,2:left",
+      "wall:6,1:bottom",
+      "move:4,6>5,6:right",
+      "move:4,6>2,6:right",
+      "move:4,6>5,6:left",
+      "wall:6,1:left",
+      "move:4,6>2,6:left",
+      "wall:4,6:left",
+      "wall:4,6:right",
+      "move:6,1>5,1:bottom",
+      "move:6,1>5,1:right",
+      "move:4,1>4,0:bottom",
+      "move:4,1>4,0:right",
+      "move:4,1>5,0:left",
+      "move:4,1>5,0:right",
+      "move:6,1>6,3:top",
+      "move:4,1>3,1:right",
+      "move:3,0>2,0:right",
+      "wall:3,0:left"
+    ],
+    "expansionOrderingRngCalls": 22,
+    "progressiveWideningExpansionMoments": [
+      {
+        "action": "wall:4,1:left",
+        "rootVisitAtEarliestExpansion": 0
+      },
+      {
+        "action": "wall:4,1:top",
+        "rootVisitAtEarliestExpansion": 1
+      },
+      {
+        "action": "wall:4,1:bottom",
+        "rootVisitAtEarliestExpansion": 3
+      },
+      {
+        "action": "move:6,1>6,2:bottom",
+        "rootVisitAtEarliestExpansion": 4
+      },
+      {
+        "action": "move:4,6>6,6:left",
+        "rootVisitAtEarliestExpansion": 7
+      },
+      {
+        "action": "move:4,6>6,6:top",
+        "rootVisitAtEarliestExpansion": 9
+      },
+      {
+        "action": "move:4,1>4,2:right",
+        "rootVisitAtEarliestExpansion": 13
+      },
+      {
+        "action": "move:6,1>6,2:top",
+        "rootVisitAtEarliestExpansion": 16
+      },
+      {
+        "action": "move:4,6>3,6:left",
+        "rootVisitAtEarliestExpansion": 21
+      },
+      {
+        "action": "move:4,6>3,6:right",
+        "rootVisitAtEarliestExpansion": 25
+      },
+      {
+        "action": "move:4,1>4,2:top",
+        "rootVisitAtEarliestExpansion": 31
+      },
+      {
+        "action": "move:4,1>5,2:top",
+        "rootVisitAtEarliestExpansion": 36
+      },
+      {
+        "action": "move:6,1>5,2:left",
+        "rootVisitAtEarliestExpansion": 43
+      },
+      {
+        "action": "move:6,1>5,2:top",
+        "rootVisitAtEarliestExpansion": 49
+      },
+      {
+        "action": "move:4,1>5,2:left",
+        "rootVisitAtEarliestExpansion": 57
+      },
+      {
+        "action": "wall:6,1:bottom",
+        "rootVisitAtEarliestExpansion": 64
+      },
+      {
+        "action": "move:4,6>5,6:right",
+        "rootVisitAtEarliestExpansion": 73
+      },
+      {
+        "action": "move:4,6>2,6:right",
+        "rootVisitAtEarliestExpansion": 81
+      },
+      {
+        "action": "move:4,6>5,6:left",
+        "rootVisitAtEarliestExpansion": 91
+      },
+      {
+        "action": "wall:6,1:left",
+        "rootVisitAtEarliestExpansion": 100
+      },
+      {
+        "action": "move:4,6>2,6:left",
+        "rootVisitAtEarliestExpansion": 111
+      },
+      {
+        "action": "wall:4,6:left",
+        "rootVisitAtEarliestExpansion": 121
+      },
+      {
+        "action": "wall:4,6:right",
+        "rootVisitAtEarliestExpansion": 133
+      },
+      {
+        "action": "move:6,1>5,1:bottom",
+        "rootVisitAtEarliestExpansion": 144
+      },
+      {
+        "action": "move:6,1>5,1:right",
+        "rootVisitAtEarliestExpansion": 157
+      },
+      {
+        "action": "move:4,1>4,0:bottom",
+        "rootVisitAtEarliestExpansion": 169
+      },
+      {
+        "action": "move:4,1>4,0:right",
+        "rootVisitAtEarliestExpansion": 183
+      },
+      {
+        "action": "move:4,1>5,0:left",
+        "rootVisitAtEarliestExpansion": 196
+      },
+      {
+        "action": "move:4,1>5,0:right",
+        "rootVisitAtEarliestExpansion": 211
+      },
+      {
+        "action": "move:6,1>6,3:top",
+        "rootVisitAtEarliestExpansion": 225
+      },
+      {
+        "action": "move:4,1>3,1:right",
+        "rootVisitAtEarliestExpansion": 241
+      },
+      {
+        "action": "move:3,0>2,0:right",
+        "rootVisitAtEarliestExpansion": 256
+      },
+      {
+        "action": "wall:3,0:left",
+        "rootVisitAtEarliestExpansion": 273
+      }
+    ],
+    "observedRun": {
+      "fixture": "2eac0bd16e43",
+      "kind": "budget",
+      "budget": 500,
+      "seed": 3047330330,
+      "order": "current",
+      "elapsedMs": 1199.1101999999992,
+      "rngCalls": 11552,
+      "action": "move:4,1>3,1:right",
+      "rawAction": "move:4,1>3,1:right",
+      "originalSelected": true,
+      "alternativeSelected": false,
+      "topVisits": 24,
+      "secondVisits": 22,
+      "visitGap": 2,
+      "topValue": -0.7916666666666666,
+      "secondValue": -0.8181818181818182,
+      "valueGap": 0.026515151515151603,
+      "rootVisits": 500,
+      "tacticalSelectionChanged": false,
+      "originalMCTSActionScore": 101,
+      "verifiedActionScore": 101,
+      "children": [
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "dir": "left"
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "wall:4,1:left",
+          "valueSum": -14,
+          "arrayIndex": 0
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "dir": "top"
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "wall:4,1:top",
+          "valueSum": -14,
+          "arrayIndex": 1
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "dir": "bottom"
+          },
+          "visits": 18,
+          "value": -0.8888888888888888,
+          "signature": "wall:4,1:bottom",
+          "valueSum": -16,
+          "arrayIndex": 2
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 6,
+              "y": 1
+            },
+            "pos": {
+              "x": 6,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 2
+              },
+              "pos": {
+                "x": 6,
+                "y": 2
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:6,1>6,2:bottom",
+          "valueSum": -14,
+          "arrayIndex": 3
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 6,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 6
+              },
+              "pos": {
+                "x": 6,
+                "y": 6
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,6>6,6:left",
+          "valueSum": -14,
+          "arrayIndex": 4
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 6,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 6
+              },
+              "pos": {
+                "x": 6,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,6>6,6:top",
+          "valueSum": -14,
+          "arrayIndex": 5
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 2
+              },
+              "pos": {
+                "x": 4,
+                "y": 2
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,1>4,2:right",
+          "valueSum": -14,
+          "arrayIndex": 6
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 6,
+              "y": 1
+            },
+            "pos": {
+              "x": 6,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 2
+              },
+              "pos": {
+                "x": 6,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:6,1>6,2:top",
+          "valueSum": -14,
+          "arrayIndex": 7
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 3,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 6
+              },
+              "pos": {
+                "x": 3,
+                "y": 6
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,6>3,6:left",
+          "valueSum": -14,
+          "arrayIndex": 8
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 3,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 6
+              },
+              "pos": {
+                "x": 3,
+                "y": 6
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,6>3,6:right",
+          "valueSum": -14,
+          "arrayIndex": 9
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 2
+              },
+              "pos": {
+                "x": 4,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,1>4,2:top",
+          "valueSum": -14,
+          "arrayIndex": 10
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 2
+              },
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,1>5,2:top",
+          "valueSum": -14,
+          "arrayIndex": 11
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 6,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 2
+              },
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:6,1>5,2:left",
+          "valueSum": -14,
+          "arrayIndex": 12
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 6,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 2
+              },
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 15,
+          "value": -1,
+          "signature": "move:6,1>5,2:top",
+          "valueSum": -15,
+          "arrayIndex": 13
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 2
+              },
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,1>5,2:left",
+          "valueSum": -14,
+          "arrayIndex": 14
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 6,
+              "y": 1
+            },
+            "pos": {
+              "x": 6,
+              "y": 1
+            },
+            "dir": "bottom"
+          },
+          "visits": 18,
+          "value": -0.8888888888888888,
+          "signature": "wall:6,1:bottom",
+          "valueSum": -16,
+          "arrayIndex": 15
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 5,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 6
+              },
+              "pos": {
+                "x": 5,
+                "y": 6
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,6>5,6:right",
+          "valueSum": -14,
+          "arrayIndex": 16
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 2,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 6
+              },
+              "pos": {
+                "x": 2,
+                "y": 6
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 15,
+          "value": -1,
+          "signature": "move:4,6>2,6:right",
+          "valueSum": -15,
+          "arrayIndex": 17
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 5,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 6
+              },
+              "pos": {
+                "x": 5,
+                "y": 6
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,6>5,6:left",
+          "valueSum": -14,
+          "arrayIndex": 18
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 6,
+              "y": 1
+            },
+            "pos": {
+              "x": 6,
+              "y": 1
+            },
+            "dir": "left"
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "wall:6,1:left",
+          "valueSum": -14,
+          "arrayIndex": 19
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 2,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 6
+              },
+              "pos": {
+                "x": 2,
+                "y": 6
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 15,
+          "value": -1,
+          "signature": "move:4,6>2,6:left",
+          "valueSum": -15,
+          "arrayIndex": 20
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 4,
+              "y": 6
+            },
+            "dir": "left"
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "wall:4,6:left",
+          "valueSum": -14,
+          "arrayIndex": 21
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 6
+            },
+            "pos": {
+              "x": 4,
+              "y": 6
+            },
+            "dir": "right"
+          },
+          "visits": 15,
+          "value": -1,
+          "signature": "wall:4,6:right",
+          "valueSum": -15,
+          "arrayIndex": 22
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 6,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 1
+              },
+              "pos": {
+                "x": 5,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:6,1>5,1:bottom",
+          "valueSum": -14,
+          "arrayIndex": 23
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 6,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 1
+              },
+              "pos": {
+                "x": 5,
+                "y": 1
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 22,
+          "value": -0.8181818181818182,
+          "signature": "move:6,1>5,1:right",
+          "valueSum": -18,
+          "arrayIndex": 24
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 0
+              },
+              "pos": {
+                "x": 4,
+                "y": 0
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 18,
+          "value": -0.8888888888888888,
+          "signature": "move:4,1>4,0:bottom",
+          "valueSum": -16,
+          "arrayIndex": 25
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 0
+              },
+              "pos": {
+                "x": 4,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,1>4,0:right",
+          "valueSum": -14,
+          "arrayIndex": 26
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 0
+              },
+              "pos": {
+                "x": 5,
+                "y": 0
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 18,
+          "value": -0.8888888888888888,
+          "signature": "move:4,1>5,0:left",
+          "valueSum": -16,
+          "arrayIndex": 27
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 0
+              },
+              "pos": {
+                "x": 5,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:4,1>5,0:right",
+          "valueSum": -14,
+          "arrayIndex": 28
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 6,
+              "y": 1
+            },
+            "pos": {
+              "x": 6,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 3
+              },
+              "pos": {
+                "x": 6,
+                "y": 3
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:6,1>6,3:top",
+          "valueSum": -14,
+          "arrayIndex": 29
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 3,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 1
+              },
+              "pos": {
+                "x": 3,
+                "y": 1
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 24,
+          "value": -0.7916666666666666,
+          "signature": "move:4,1>3,1:right",
+          "valueSum": -19,
+          "arrayIndex": 30
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 0
+            },
+            "pos": {
+              "x": 2,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 0
+              },
+              "pos": {
+                "x": 2,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "move:3,0>2,0:right",
+          "valueSum": -14,
+          "arrayIndex": 31
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 0
+            },
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "dir": "left"
+          },
+          "visits": 14,
+          "value": -1,
+          "signature": "wall:3,0:left",
+          "valueSum": -14,
+          "arrayIndex": 32
+        }
+      ]
+    },
+    "finalCriteria": {
+      "maximumVisitsThenMean": "move:4,1>3,1:right",
+      "maximumMean": "move:4,1>3,1:right",
+      "maximumAccumulatedValue": "wall:4,1:left",
+      "exactVisitTieCount": 1,
+      "exactFinalTieCount": 1,
+      "deterministicFirstExactTie": "move:4,1>3,1:right",
+      "deterministicLastExactTie": "move:4,1>3,1:right"
+    },
+    "implementation": {
+      "childrenStructure": "array; push in expansion order",
+      "uct": "signed mean + C * sqrt(log(max(1,parentVisits))/childVisits); strict >; exact === ties collected then randomIndex",
+      "final": "maximum visits, then maximum mean among exact visit ties, then randomIndex among exact value ties",
+      "rounding": "none",
+      "tacticalVerification": "enabled: evaluates the two children ranked by visits desc then mean desc and may replace raw MCTS winner",
+      "randomStream": "one Mulberry32 stream shared by expansion tie shuffles, UCT exact ties, rollouts, final exact ties and tactical verification"
+    }
+  },
+  "d8c69cdbde8d": {
+    "originalAction": "move:5,0>6,1:bottom",
+    "counterfactualAlternative": "move:1,5>3,5:top",
+    "counterfactualEffect": {
+      "games": 3,
+      "wins": 3,
+      "losses": 0,
+      "draws": 0,
+      "winRate": 1,
+      "ownTerritoryMean": 20,
+      "opponentTerritoryMean": 16.333333333333332,
+      "territoryDifferenceMean": 3.6666666666666665,
+      "territoryDifferenceMedian": 3,
+      "turnsMean": 10.333333333333334,
+      "suspiciousInternalMoves": 2,
+      "tiebreakActivations": 0,
+      "illegalActions": 0,
+      "fallbacks": 0,
+      "meanDecisionMs": 530.346603703698,
+      "maxDecisionMs": 1001.2359999999753,
+      "pairedEffects": [2, 3, 2],
+      "meanEffect": 2.3333333333333335,
+      "bootstrap95": [2, 3],
+      "effectClassification": "beneficial"
+    },
+    "legalActionCount": 34,
+    "initialLegalOrder": [
+      "move:5,0>5,2:top",
+      "wall:5,0:right",
+      "wall:5,0:bottom",
+      "move:1,5>1,3:left",
+      "move:1,5>1,3:bottom",
+      "move:1,5>0,4:right",
+      "move:1,5>0,4:bottom",
+      "move:1,5>1,4:left",
+      "move:1,5>1,4:bottom",
+      "move:1,5>1,4:top",
+      "move:1,5>0,5:right",
+      "move:1,5>0,5:bottom",
+      "move:1,5>0,5:top",
+      "move:1,5>2,5:right",
+      "move:1,5>2,5:left",
+      "move:1,5>2,5:bottom",
+      "move:1,5>3,5:right",
+      "move:1,5>3,5:left",
+      "move:1,5>3,5:top",
+      "move:1,5>0,6:right",
+      "move:1,5>0,6:top",
+      "move:1,5>2,6:right",
+      "move:1,5>2,6:left",
+      "move:1,5>2,6:top",
+      "wall:1,5:right",
+      "wall:1,5:left",
+      "wall:1,5:top",
+      "move:5,0>6,0:left",
+      "move:5,0>5,1:right",
+      "move:5,0>5,1:bottom",
+      "move:5,0>5,1:top",
+      "move:5,0>6,1:left",
+      "move:5,0>6,1:bottom",
+      "move:5,0>5,2:right"
+    ],
+    "expansionOrder": [
+      "move:1,5>3,5:right",
+      "move:1,5>3,5:top",
+      "move:1,5>3,5:left",
+      "move:5,0>5,1:bottom",
+      "move:5,0>5,1:top",
+      "move:1,5>2,5:right",
+      "move:5,0>5,1:right",
+      "move:1,5>2,5:bottom",
+      "move:1,5>2,5:left",
+      "move:1,5>1,4:top",
+      "wall:1,5:left",
+      "wall:1,5:top",
+      "wall:1,5:right",
+      "move:1,5>1,4:left",
+      "move:1,5>1,4:bottom",
+      "move:1,5>2,6:top",
+      "move:1,5>2,6:right",
+      "move:1,5>2,6:left",
+      "move:1,5>0,5:bottom",
+      "move:1,5>0,5:top",
+      "move:1,5>0,5:right",
+      "move:5,0>5,2:right",
+      "move:5,0>5,2:top",
+      "wall:5,0:right",
+      "wall:5,0:bottom",
+      "move:1,5>1,3:bottom",
+      "move:1,5>1,3:left",
+      "move:5,0>6,1:bottom",
+      "move:5,0>6,1:left",
+      "move:1,5>0,4:bottom",
+      "move:1,5>0,4:right",
+      "move:1,5>0,6:top",
+      "move:1,5>0,6:right",
+      "move:5,0>6,0:left"
+    ],
+    "expansionOrderingRngCalls": 22,
+    "progressiveWideningExpansionMoments": [
+      {
+        "action": "move:1,5>3,5:right",
+        "rootVisitAtEarliestExpansion": 0
+      },
+      {
+        "action": "move:1,5>3,5:top",
+        "rootVisitAtEarliestExpansion": 1
+      },
+      {
+        "action": "move:1,5>3,5:left",
+        "rootVisitAtEarliestExpansion": 3
+      },
+      {
+        "action": "move:5,0>5,1:bottom",
+        "rootVisitAtEarliestExpansion": 4
+      },
+      {
+        "action": "move:5,0>5,1:top",
+        "rootVisitAtEarliestExpansion": 7
+      },
+      {
+        "action": "move:1,5>2,5:right",
+        "rootVisitAtEarliestExpansion": 9
+      },
+      {
+        "action": "move:5,0>5,1:right",
+        "rootVisitAtEarliestExpansion": 13
+      },
+      {
+        "action": "move:1,5>2,5:bottom",
+        "rootVisitAtEarliestExpansion": 16
+      },
+      {
+        "action": "move:1,5>2,5:left",
+        "rootVisitAtEarliestExpansion": 21
+      },
+      {
+        "action": "move:1,5>1,4:top",
+        "rootVisitAtEarliestExpansion": 25
+      },
+      {
+        "action": "wall:1,5:left",
+        "rootVisitAtEarliestExpansion": 31
+      },
+      {
+        "action": "wall:1,5:top",
+        "rootVisitAtEarliestExpansion": 36
+      },
+      {
+        "action": "wall:1,5:right",
+        "rootVisitAtEarliestExpansion": 43
+      },
+      {
+        "action": "move:1,5>1,4:left",
+        "rootVisitAtEarliestExpansion": 49
+      },
+      {
+        "action": "move:1,5>1,4:bottom",
+        "rootVisitAtEarliestExpansion": 57
+      },
+      {
+        "action": "move:1,5>2,6:top",
+        "rootVisitAtEarliestExpansion": 64
+      },
+      {
+        "action": "move:1,5>2,6:right",
+        "rootVisitAtEarliestExpansion": 73
+      },
+      {
+        "action": "move:1,5>2,6:left",
+        "rootVisitAtEarliestExpansion": 81
+      },
+      {
+        "action": "move:1,5>0,5:bottom",
+        "rootVisitAtEarliestExpansion": 91
+      },
+      {
+        "action": "move:1,5>0,5:top",
+        "rootVisitAtEarliestExpansion": 100
+      },
+      {
+        "action": "move:1,5>0,5:right",
+        "rootVisitAtEarliestExpansion": 111
+      },
+      {
+        "action": "move:5,0>5,2:right",
+        "rootVisitAtEarliestExpansion": 121
+      },
+      {
+        "action": "move:5,0>5,2:top",
+        "rootVisitAtEarliestExpansion": 133
+      },
+      {
+        "action": "wall:5,0:right",
+        "rootVisitAtEarliestExpansion": 144
+      },
+      {
+        "action": "wall:5,0:bottom",
+        "rootVisitAtEarliestExpansion": 157
+      },
+      {
+        "action": "move:1,5>1,3:bottom",
+        "rootVisitAtEarliestExpansion": 169
+      },
+      {
+        "action": "move:1,5>1,3:left",
+        "rootVisitAtEarliestExpansion": 183
+      },
+      {
+        "action": "move:5,0>6,1:bottom",
+        "rootVisitAtEarliestExpansion": 196
+      },
+      {
+        "action": "move:5,0>6,1:left",
+        "rootVisitAtEarliestExpansion": 211
+      },
+      {
+        "action": "move:1,5>0,4:bottom",
+        "rootVisitAtEarliestExpansion": 225
+      },
+      {
+        "action": "move:1,5>0,4:right",
+        "rootVisitAtEarliestExpansion": 241
+      },
+      {
+        "action": "move:1,5>0,6:top",
+        "rootVisitAtEarliestExpansion": 256
+      },
+      {
+        "action": "move:1,5>0,6:right",
+        "rootVisitAtEarliestExpansion": 273
+      },
+      {
+        "action": "move:5,0>6,0:left",
+        "rootVisitAtEarliestExpansion": 289
+      }
+    ],
+    "observedRun": {
+      "fixture": "d8c69cdbde8d",
+      "kind": "budget",
+      "budget": 250,
+      "seed": 4061244542,
+      "order": "current",
+      "elapsedMs": 690.5136000000057,
+      "rngCalls": 6251,
+      "action": "move:5,0>6,1:bottom",
+      "rawAction": "move:1,5>1,4:top",
+      "originalSelected": true,
+      "alternativeSelected": false,
+      "topVisits": 36,
+      "secondVisits": 20,
+      "visitGap": 16,
+      "topValue": 0.6388888888888888,
+      "secondValue": 0.45,
+      "valueGap": 0.18888888888888883,
+      "rootVisits": 250,
+      "tacticalSelectionChanged": true,
+      "originalMCTSActionScore": -1000000,
+      "verifiedActionScore": -108,
+      "children": [
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 3,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 5
+              },
+              "pos": {
+                "x": 3,
+                "y": 5
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 6,
+          "value": -0.3333333333333333,
+          "signature": "move:1,5>3,5:right",
+          "valueSum": -2,
+          "arrayIndex": 0
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 3,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 5
+              },
+              "pos": {
+                "x": 3,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 4,
+          "value": -0.5,
+          "signature": "move:1,5>3,5:top",
+          "valueSum": -2,
+          "arrayIndex": 1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 3,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 5
+              },
+              "pos": {
+                "x": 3,
+                "y": 5
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 3,
+          "value": -1,
+          "signature": "move:1,5>3,5:left",
+          "valueSum": -3,
+          "arrayIndex": 2
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 5
+              },
+              "pos": {
+                "x": 2,
+                "y": 5
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 8,
+          "value": 0,
+          "signature": "move:1,5>2,5:left",
+          "valueSum": 0,
+          "arrayIndex": 3
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 5
+              },
+              "pos": {
+                "x": 2,
+                "y": 5
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 6,
+          "value": -0.3333333333333333,
+          "signature": "move:1,5>2,5:bottom",
+          "valueSum": -2,
+          "arrayIndex": 4
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 1
+              },
+              "pos": {
+                "x": 5,
+                "y": 1
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 6,
+          "value": -0.3333333333333333,
+          "signature": "move:5,0>5,1:right",
+          "valueSum": -2,
+          "arrayIndex": 5
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 5
+              },
+              "pos": {
+                "x": 2,
+                "y": 5
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 7,
+          "value": -0.14285714285714285,
+          "signature": "move:1,5>2,5:right",
+          "valueSum": -1,
+          "arrayIndex": 6
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 1
+              },
+              "pos": {
+                "x": 5,
+                "y": 1
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 7,
+          "value": -0.14285714285714285,
+          "signature": "move:5,0>5,1:top",
+          "valueSum": -1,
+          "arrayIndex": 7
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 1
+              },
+              "pos": {
+                "x": 5,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 3,
+          "value": -1,
+          "signature": "move:5,0>5,1:bottom",
+          "valueSum": -3,
+          "arrayIndex": 8
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 4
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 36,
+          "value": 0.6388888888888888,
+          "signature": "move:1,5>1,4:top",
+          "valueSum": 23,
+          "arrayIndex": 9
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 5
+            },
+            "dir": "left"
+          },
+          "visits": 4,
+          "value": -0.5,
+          "signature": "wall:1,5:left",
+          "valueSum": -2,
+          "arrayIndex": 10
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 5
+            },
+            "dir": "top"
+          },
+          "visits": 5,
+          "value": -0.4,
+          "signature": "wall:1,5:top",
+          "valueSum": -2,
+          "arrayIndex": 11
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 5
+            },
+            "dir": "right"
+          },
+          "visits": 3,
+          "value": -1,
+          "signature": "wall:1,5:right",
+          "valueSum": -3,
+          "arrayIndex": 12
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 4
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 4,
+          "value": -0.5,
+          "signature": "move:1,5>1,4:left",
+          "valueSum": -2,
+          "arrayIndex": 13
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 4
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 4,
+          "value": -0.5,
+          "signature": "move:1,5>1,4:bottom",
+          "valueSum": -2,
+          "arrayIndex": 14
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 6
+              },
+              "pos": {
+                "x": 2,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 10,
+          "value": 0,
+          "signature": "move:1,5>2,6:top",
+          "valueSum": 0,
+          "arrayIndex": 15
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 6
+              },
+              "pos": {
+                "x": 2,
+                "y": 6
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 6,
+          "value": -0.3333333333333333,
+          "signature": "move:1,5>2,6:right",
+          "valueSum": -2,
+          "arrayIndex": 16
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 6
+              },
+              "pos": {
+                "x": 2,
+                "y": 6
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 3,
+          "value": -1,
+          "signature": "move:1,5>2,6:left",
+          "valueSum": -3,
+          "arrayIndex": 17
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 5
+              },
+              "pos": {
+                "x": 0,
+                "y": 5
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 7,
+          "value": -0.14285714285714285,
+          "signature": "move:1,5>0,5:bottom",
+          "valueSum": -1,
+          "arrayIndex": 18
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 5
+              },
+              "pos": {
+                "x": 0,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 3,
+          "value": -1,
+          "signature": "move:1,5>0,5:top",
+          "valueSum": -3,
+          "arrayIndex": 19
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 5
+              },
+              "pos": {
+                "x": 0,
+                "y": 5
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 20,
+          "value": 0.4,
+          "signature": "move:1,5>0,5:right",
+          "valueSum": 8,
+          "arrayIndex": 20
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 2
+              },
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 6,
+          "value": -0.3333333333333333,
+          "signature": "move:5,0>5,2:top",
+          "valueSum": -2,
+          "arrayIndex": 21
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 5,
+                "y": 2
+              },
+              "pos": {
+                "x": 5,
+                "y": 2
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 13,
+          "value": 0.15384615384615385,
+          "signature": "move:5,0>5,2:right",
+          "valueSum": 2,
+          "arrayIndex": 22
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "dir": "right"
+          },
+          "visits": 15,
+          "value": 0.3333333333333333,
+          "signature": "wall:5,0:right",
+          "valueSum": 5,
+          "arrayIndex": 23
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "dir": "bottom"
+          },
+          "visits": 4,
+          "value": -0.5,
+          "signature": "wall:5,0:bottom",
+          "valueSum": -2,
+          "arrayIndex": 24
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "pos": {
+                "x": 1,
+                "y": 3
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 3,
+          "value": -1,
+          "signature": "move:1,5>1,3:bottom",
+          "valueSum": -3,
+          "arrayIndex": 25
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 1,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "pos": {
+                "x": 1,
+                "y": 3
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 17,
+          "value": 0.4117647058823529,
+          "signature": "move:1,5>1,3:left",
+          "valueSum": 7,
+          "arrayIndex": 26
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 6,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 1
+              },
+              "pos": {
+                "x": 6,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 20,
+          "value": 0.45,
+          "signature": "move:5,0>6,1:bottom",
+          "valueSum": 9,
+          "arrayIndex": 27
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 6,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 6,
+                "y": 1
+              },
+              "pos": {
+                "x": 6,
+                "y": 1
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 3,
+          "value": -1,
+          "signature": "move:5,0>6,1:left",
+          "valueSum": -3,
+          "arrayIndex": 28
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 0,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 4
+              },
+              "pos": {
+                "x": 0,
+                "y": 4
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 6,
+          "value": -0.3333333333333333,
+          "signature": "move:1,5>0,4:bottom",
+          "valueSum": -2,
+          "arrayIndex": 29
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 5
+            },
+            "pos": {
+              "x": 0,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 4
+              },
+              "pos": {
+                "x": 0,
+                "y": 4
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 8,
+          "value": -0.125,
+          "signature": "move:1,5>0,4:right",
+          "valueSum": -1,
+          "arrayIndex": 30
+        }
+      ]
+    },
+    "finalCriteria": {
+      "maximumVisitsThenMean": "move:1,5>1,4:top",
+      "maximumMean": "move:1,5>1,4:top",
+      "maximumAccumulatedValue": "move:1,5>1,4:top",
+      "exactVisitTieCount": 1,
+      "exactFinalTieCount": 1,
+      "deterministicFirstExactTie": "move:1,5>1,4:top",
+      "deterministicLastExactTie": "move:1,5>1,4:top"
+    },
+    "implementation": {
+      "childrenStructure": "array; push in expansion order",
+      "uct": "signed mean + C * sqrt(log(max(1,parentVisits))/childVisits); strict >; exact === ties collected then randomIndex",
+      "final": "maximum visits, then maximum mean among exact visit ties, then randomIndex among exact value ties",
+      "rounding": "none",
+      "tacticalVerification": "enabled: evaluates the two children ranked by visits desc then mean desc and may replace raw MCTS winner",
+      "randomStream": "one Mulberry32 stream shared by expansion tie shuffles, UCT exact ties, rollouts, final exact ties and tactical verification"
+    }
+  },
+  "f197c3b937e4": {
+    "originalAction": "move:0,2>1,3:top",
+    "counterfactualAlternative": "move:5,0>4,1:bottom",
+    "counterfactualEffect": {
+      "games": 3,
+      "wins": 3,
+      "losses": 0,
+      "draws": 0,
+      "winRate": 1,
+      "ownTerritoryMean": 32,
+      "opponentTerritoryMean": 15,
+      "territoryDifferenceMean": 17,
+      "territoryDifferenceMedian": 17,
+      "turnsMean": 0,
+      "suspiciousInternalMoves": 0,
+      "tiebreakActivations": 0,
+      "illegalActions": 0,
+      "fallbacks": 0,
+      "meanDecisionMs": 0,
+      "maxDecisionMs": 0,
+      "pairedEffects": [2, 2, 2],
+      "meanEffect": 2,
+      "bootstrap95": [2, 2],
+      "effectClassification": "beneficial"
+    },
+    "legalActionCount": 48,
+    "initialLegalOrder": [
+      "move:0,2>1,2:left",
+      "move:0,2>1,2:bottom",
+      "move:0,2>0,3:right",
+      "move:0,2>0,3:bottom",
+      "move:0,2>0,3:top",
+      "move:0,2>1,3:left",
+      "move:0,2>1,3:bottom",
+      "move:0,2>1,3:top",
+      "move:0,2>0,4:bottom",
+      "move:0,2>0,4:top",
+      "wall:0,2:right",
+      "wall:0,2:bottom",
+      "move:2,4>1,3:left",
+      "move:2,4>1,3:bottom",
+      "move:2,4>1,3:top",
+      "move:2,4>3,3:bottom",
+      "move:2,4>3,3:top",
+      "move:2,4>1,4:right",
+      "move:2,4>1,4:bottom",
+      "move:2,4>1,4:top",
+      "move:2,4>3,4:left",
+      "move:2,4>3,4:top",
+      "move:2,4>1,5:left",
+      "move:2,4>1,5:bottom",
+      "move:2,4>1,5:top",
+      "wall:2,4:right",
+      "wall:2,4:left",
+      "move:3,5>4,4:bottom",
+      "move:3,5>4,4:top",
+      "move:3,5>4,5:left",
+      "move:3,5>4,5:top",
+      "move:3,5>2,6:right",
+      "move:3,5>2,6:left",
+      "move:3,5>2,6:top",
+      "move:3,5>3,6:right",
+      "move:3,5>3,6:left",
+      "move:3,5>3,6:top",
+      "move:3,5>4,6:right",
+      "move:3,5>4,6:left",
+      "wall:3,5:right",
+      "wall:3,5:bottom",
+      "move:5,0>4,0:right",
+      "move:5,0>4,0:bottom",
+      "move:5,0>4,1:bottom",
+      "move:5,0>4,1:top",
+      "move:5,0>5,1:top",
+      "wall:5,0:left",
+      "wall:5,0:bottom"
+    ],
+    "expansionOrder": [
+      "move:0,2>1,3:left",
+      "move:0,2>1,3:bottom",
+      "move:2,4>1,3:bottom",
+      "move:2,4>1,3:left",
+      "move:0,2>1,3:top",
+      "move:2,4>1,3:top",
+      "move:2,4>1,4:bottom",
+      "move:2,4>1,4:right",
+      "move:2,4>1,4:top",
+      "move:2,4>1,5:bottom",
+      "move:2,4>1,5:left",
+      "move:2,4>1,5:top",
+      "move:0,2>0,3:bottom",
+      "move:0,2>0,3:top",
+      "move:0,2>0,3:right",
+      "move:3,5>3,6:left",
+      "move:3,5>3,6:right",
+      "move:3,5>3,6:top",
+      "move:3,5>2,6:right",
+      "move:3,5>2,6:left",
+      "move:3,5>2,6:top",
+      "move:3,5>4,4:top",
+      "move:3,5>4,4:bottom",
+      "move:0,2>1,2:bottom",
+      "move:2,4>3,3:top",
+      "move:5,0>4,1:bottom",
+      "move:5,0>4,1:top",
+      "move:0,2>1,2:left",
+      "move:2,4>3,3:bottom",
+      "wall:5,0:bottom",
+      "move:2,4>3,4:top",
+      "move:2,4>3,4:left",
+      "wall:5,0:left",
+      "move:3,5>4,5:top",
+      "move:3,5>4,5:left",
+      "wall:2,4:right",
+      "wall:0,2:right",
+      "move:5,0>4,0:bottom",
+      "wall:0,2:bottom",
+      "wall:2,4:left",
+      "move:5,0>4,0:right",
+      "wall:3,5:bottom",
+      "wall:3,5:right",
+      "move:3,5>4,6:left",
+      "move:3,5>4,6:right",
+      "move:0,2>0,4:top",
+      "move:0,2>0,4:bottom",
+      "move:5,0>5,1:top"
+    ],
+    "expansionOrderingRngCalls": 33,
+    "progressiveWideningExpansionMoments": [
+      {
+        "action": "move:0,2>1,3:left",
+        "rootVisitAtEarliestExpansion": 0
+      },
+      {
+        "action": "move:0,2>1,3:bottom",
+        "rootVisitAtEarliestExpansion": 1
+      },
+      {
+        "action": "move:2,4>1,3:bottom",
+        "rootVisitAtEarliestExpansion": 3
+      },
+      {
+        "action": "move:2,4>1,3:left",
+        "rootVisitAtEarliestExpansion": 4
+      },
+      {
+        "action": "move:0,2>1,3:top",
+        "rootVisitAtEarliestExpansion": 7
+      },
+      {
+        "action": "move:2,4>1,3:top",
+        "rootVisitAtEarliestExpansion": 9
+      },
+      {
+        "action": "move:2,4>1,4:bottom",
+        "rootVisitAtEarliestExpansion": 13
+      },
+      {
+        "action": "move:2,4>1,4:right",
+        "rootVisitAtEarliestExpansion": 16
+      },
+      {
+        "action": "move:2,4>1,4:top",
+        "rootVisitAtEarliestExpansion": 21
+      },
+      {
+        "action": "move:2,4>1,5:bottom",
+        "rootVisitAtEarliestExpansion": 25
+      },
+      {
+        "action": "move:2,4>1,5:left",
+        "rootVisitAtEarliestExpansion": 31
+      },
+      {
+        "action": "move:2,4>1,5:top",
+        "rootVisitAtEarliestExpansion": 36
+      },
+      {
+        "action": "move:0,2>0,3:bottom",
+        "rootVisitAtEarliestExpansion": 43
+      },
+      {
+        "action": "move:0,2>0,3:top",
+        "rootVisitAtEarliestExpansion": 49
+      },
+      {
+        "action": "move:0,2>0,3:right",
+        "rootVisitAtEarliestExpansion": 57
+      },
+      {
+        "action": "move:3,5>3,6:left",
+        "rootVisitAtEarliestExpansion": 64
+      },
+      {
+        "action": "move:3,5>3,6:right",
+        "rootVisitAtEarliestExpansion": 73
+      },
+      {
+        "action": "move:3,5>3,6:top",
+        "rootVisitAtEarliestExpansion": 81
+      },
+      {
+        "action": "move:3,5>2,6:right",
+        "rootVisitAtEarliestExpansion": 91
+      },
+      {
+        "action": "move:3,5>2,6:left",
+        "rootVisitAtEarliestExpansion": 100
+      },
+      {
+        "action": "move:3,5>2,6:top",
+        "rootVisitAtEarliestExpansion": 111
+      },
+      {
+        "action": "move:3,5>4,4:top",
+        "rootVisitAtEarliestExpansion": 121
+      },
+      {
+        "action": "move:3,5>4,4:bottom",
+        "rootVisitAtEarliestExpansion": 133
+      },
+      {
+        "action": "move:0,2>1,2:bottom",
+        "rootVisitAtEarliestExpansion": 144
+      },
+      {
+        "action": "move:2,4>3,3:top",
+        "rootVisitAtEarliestExpansion": 157
+      },
+      {
+        "action": "move:5,0>4,1:bottom",
+        "rootVisitAtEarliestExpansion": 169
+      },
+      {
+        "action": "move:5,0>4,1:top",
+        "rootVisitAtEarliestExpansion": 183
+      },
+      {
+        "action": "move:0,2>1,2:left",
+        "rootVisitAtEarliestExpansion": 196
+      },
+      {
+        "action": "move:2,4>3,3:bottom",
+        "rootVisitAtEarliestExpansion": 211
+      },
+      {
+        "action": "wall:5,0:bottom",
+        "rootVisitAtEarliestExpansion": 225
+      },
+      {
+        "action": "move:2,4>3,4:top",
+        "rootVisitAtEarliestExpansion": 241
+      },
+      {
+        "action": "move:2,4>3,4:left",
+        "rootVisitAtEarliestExpansion": 256
+      },
+      {
+        "action": "wall:5,0:left",
+        "rootVisitAtEarliestExpansion": 273
+      },
+      {
+        "action": "move:3,5>4,5:top",
+        "rootVisitAtEarliestExpansion": 289
+      },
+      {
+        "action": "move:3,5>4,5:left",
+        "rootVisitAtEarliestExpansion": 307
+      },
+      {
+        "action": "wall:2,4:right",
+        "rootVisitAtEarliestExpansion": 324
+      },
+      {
+        "action": "wall:0,2:right",
+        "rootVisitAtEarliestExpansion": 343
+      },
+      {
+        "action": "move:5,0>4,0:bottom",
+        "rootVisitAtEarliestExpansion": 361
+      },
+      {
+        "action": "wall:0,2:bottom",
+        "rootVisitAtEarliestExpansion": 381
+      },
+      {
+        "action": "wall:2,4:left",
+        "rootVisitAtEarliestExpansion": 400
+      },
+      {
+        "action": "move:5,0>4,0:right",
+        "rootVisitAtEarliestExpansion": 421
+      },
+      {
+        "action": "wall:3,5:bottom",
+        "rootVisitAtEarliestExpansion": 441
+      },
+      {
+        "action": "wall:3,5:right",
+        "rootVisitAtEarliestExpansion": 463
+      },
+      {
+        "action": "move:3,5>4,6:left",
+        "rootVisitAtEarliestExpansion": 484
+      },
+      {
+        "action": "move:3,5>4,6:right",
+        "rootVisitAtEarliestExpansion": 507
+      },
+      {
+        "action": "move:0,2>0,4:top",
+        "rootVisitAtEarliestExpansion": 529
+      },
+      {
+        "action": "move:0,2>0,4:bottom",
+        "rootVisitAtEarliestExpansion": 553
+      },
+      {
+        "action": "move:5,0>5,1:top",
+        "rootVisitAtEarliestExpansion": 576
+      }
+    ],
+    "observedRun": {
+      "fixture": "f197c3b937e4",
+      "kind": "budget",
+      "budget": 500,
+      "seed": 4061232578,
+      "order": "current",
+      "elapsedMs": 391.4130999999761,
+      "rngCalls": 7280,
+      "action": "move:0,2>1,3:top",
+      "rawAction": "wall:5,0:bottom",
+      "originalSelected": true,
+      "alternativeSelected": false,
+      "topVisits": 12,
+      "secondVisits": 12,
+      "visitGap": 0,
+      "topValue": 1,
+      "secondValue": 1,
+      "valueGap": 0,
+      "rootVisits": 500,
+      "tacticalSelectionChanged": true,
+      "originalMCTSActionScore": null,
+      "verifiedActionScore": 177,
+      "children": [
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "pos": {
+                "x": 1,
+                "y": 3
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:0,2>1,3:left",
+          "valueSum": 11,
+          "arrayIndex": 0
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "pos": {
+                "x": 1,
+                "y": 3
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:0,2>1,3:bottom",
+          "valueSum": 12,
+          "arrayIndex": 1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 1,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "pos": {
+                "x": 1,
+                "y": 3
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:2,4>1,3:bottom",
+          "valueSum": 11,
+          "arrayIndex": 2
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 1,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "pos": {
+                "x": 1,
+                "y": 3
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:2,4>1,3:left",
+          "valueSum": 11,
+          "arrayIndex": 3
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "pos": {
+                "x": 1,
+                "y": 3
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:0,2>1,3:top",
+          "valueSum": 12,
+          "arrayIndex": 4
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 1,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "pos": {
+                "x": 1,
+                "y": 3
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:2,4>1,3:top",
+          "valueSum": 11,
+          "arrayIndex": 5
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 1,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 4
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:2,4>1,4:bottom",
+          "valueSum": 12,
+          "arrayIndex": 6
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 1,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 4
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:2,4>1,4:right",
+          "valueSum": 11,
+          "arrayIndex": 7
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 1,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 4
+              },
+              "pos": {
+                "x": 1,
+                "y": 4
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:2,4>1,4:top",
+          "valueSum": 11,
+          "arrayIndex": 8
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 1,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 5
+              },
+              "pos": {
+                "x": 1,
+                "y": 5
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:2,4>1,5:bottom",
+          "valueSum": 11,
+          "arrayIndex": 9
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 1,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 5
+              },
+              "pos": {
+                "x": 1,
+                "y": 5
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:2,4>1,5:left",
+          "valueSum": 12,
+          "arrayIndex": 10
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 1,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 5
+              },
+              "pos": {
+                "x": 1,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:2,4>1,5:top",
+          "valueSum": 11,
+          "arrayIndex": 11
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 3
+              },
+              "pos": {
+                "x": 0,
+                "y": 3
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:0,2>0,3:bottom",
+          "valueSum": 11,
+          "arrayIndex": 12
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 3
+              },
+              "pos": {
+                "x": 0,
+                "y": 3
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:0,2>0,3:top",
+          "valueSum": 11,
+          "arrayIndex": 13
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 3
+              },
+              "pos": {
+                "x": 0,
+                "y": 3
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:0,2>0,3:right",
+          "valueSum": 11,
+          "arrayIndex": 14
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 3,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 6
+              },
+              "pos": {
+                "x": 3,
+                "y": 6
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:3,5>3,6:left",
+          "valueSum": 12,
+          "arrayIndex": 15
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 3,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 6
+              },
+              "pos": {
+                "x": 3,
+                "y": 6
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:3,5>3,6:right",
+          "valueSum": 11,
+          "arrayIndex": 16
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 3,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 6
+              },
+              "pos": {
+                "x": 3,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:3,5>3,6:top",
+          "valueSum": 11,
+          "arrayIndex": 17
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 6
+              },
+              "pos": {
+                "x": 2,
+                "y": 6
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:3,5>2,6:right",
+          "valueSum": 11,
+          "arrayIndex": 18
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 6
+              },
+              "pos": {
+                "x": 2,
+                "y": 6
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:3,5>2,6:left",
+          "valueSum": 12,
+          "arrayIndex": 19
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 2,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 6
+              },
+              "pos": {
+                "x": 2,
+                "y": 6
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:3,5>2,6:top",
+          "valueSum": 11,
+          "arrayIndex": 20
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 4,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 4
+              },
+              "pos": {
+                "x": 4,
+                "y": 4
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:3,5>4,4:top",
+          "valueSum": 12,
+          "arrayIndex": 21
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 4,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 4
+              },
+              "pos": {
+                "x": 4,
+                "y": 4
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:3,5>4,4:bottom",
+          "valueSum": 11,
+          "arrayIndex": 22
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 1
+              },
+              "pos": {
+                "x": 4,
+                "y": 1
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:5,0>4,1:top",
+          "valueSum": 11,
+          "arrayIndex": 23
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 2
+              },
+              "pos": {
+                "x": 1,
+                "y": 2
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:0,2>1,2:bottom",
+          "valueSum": 11,
+          "arrayIndex": 24
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 3,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 3
+              },
+              "pos": {
+                "x": 3,
+                "y": 3
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:2,4>3,3:bottom",
+          "valueSum": 11,
+          "arrayIndex": 25
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 3,
+              "y": 3
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 3
+              },
+              "pos": {
+                "x": 3,
+                "y": 3
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:2,4>3,3:top",
+          "valueSum": 12,
+          "arrayIndex": 26
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 1
+              },
+              "pos": {
+                "x": 4,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:5,0>4,1:bottom",
+          "valueSum": 12,
+          "arrayIndex": 27
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 2
+              },
+              "pos": {
+                "x": 1,
+                "y": 2
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:0,2>1,2:left",
+          "valueSum": 11,
+          "arrayIndex": 28
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 3,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 4
+              },
+              "pos": {
+                "x": 3,
+                "y": 4
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:2,4>3,4:top",
+          "valueSum": 12,
+          "arrayIndex": 29
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "dir": "bottom"
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "wall:5,0:bottom",
+          "valueSum": 12,
+          "arrayIndex": 30
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 5,
+              "y": 0
+            },
+            "dir": "left"
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "wall:5,0:left",
+          "valueSum": 12,
+          "arrayIndex": 31
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 3,
+              "y": 4
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 3,
+                "y": 4
+              },
+              "pos": {
+                "x": 3,
+                "y": 4
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:2,4>3,4:left",
+          "valueSum": 11,
+          "arrayIndex": 32
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 4,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 5
+              },
+              "pos": {
+                "x": 4,
+                "y": 5
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:3,5>4,5:top",
+          "valueSum": 11,
+          "arrayIndex": 33
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 4,
+              "y": 5
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 5
+              },
+              "pos": {
+                "x": 4,
+                "y": 5
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:3,5>4,5:left",
+          "valueSum": 11,
+          "arrayIndex": 34
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "right"
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "wall:0,2:right",
+          "valueSum": 12,
+          "arrayIndex": 35
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 4,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 0
+              },
+              "pos": {
+                "x": 4,
+                "y": 0
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:5,0>4,0:right",
+          "valueSum": 11,
+          "arrayIndex": 36
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 2,
+              "y": 4
+            },
+            "dir": "left"
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "wall:2,4:left",
+          "valueSum": 12,
+          "arrayIndex": 37
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 5,
+              "y": 0
+            },
+            "pos": {
+              "x": 4,
+              "y": 0
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 0
+              },
+              "pos": {
+                "x": 4,
+                "y": 0
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "move:5,0>4,0:bottom",
+          "valueSum": 12,
+          "arrayIndex": 38
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "bottom"
+          },
+          "visits": 12,
+          "value": 1,
+          "signature": "wall:0,2:bottom",
+          "valueSum": 12,
+          "arrayIndex": 39
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 2,
+              "y": 4
+            },
+            "pos": {
+              "x": 2,
+              "y": 4
+            },
+            "dir": "right"
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "wall:2,4:right",
+          "valueSum": 11,
+          "arrayIndex": 40
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 3,
+              "y": 5
+            },
+            "dir": "bottom"
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "wall:3,5:bottom",
+          "valueSum": 11,
+          "arrayIndex": 41
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 3,
+              "y": 5
+            },
+            "dir": "right"
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "wall:3,5:right",
+          "valueSum": 11,
+          "arrayIndex": 42
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 3,
+              "y": 5
+            },
+            "pos": {
+              "x": 4,
+              "y": 6
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 4,
+                "y": 6
+              },
+              "pos": {
+                "x": 4,
+                "y": 6
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 11,
+          "value": 1,
+          "signature": "move:3,5>4,6:left",
+          "valueSum": 11,
+          "arrayIndex": 43
+        }
+      ]
+    },
+    "finalCriteria": {
+      "maximumVisitsThenMean": "move:0,2>1,3:bottom",
+      "maximumMean": "move:0,2>1,3:bottom",
+      "maximumAccumulatedValue": "move:0,2>1,3:bottom",
+      "exactVisitTieCount": 16,
+      "exactFinalTieCount": 16,
+      "deterministicFirstExactTie": "move:0,2>1,3:bottom",
+      "deterministicLastExactTie": "wall:0,2:bottom"
+    },
+    "implementation": {
+      "childrenStructure": "array; push in expansion order",
+      "uct": "signed mean + C * sqrt(log(max(1,parentVisits))/childVisits); strict >; exact === ties collected then randomIndex",
+      "final": "maximum visits, then maximum mean among exact visit ties, then randomIndex among exact value ties",
+      "rounding": "none",
+      "tacticalVerification": "enabled: evaluates the two children ranked by visits desc then mean desc and may replace raw MCTS winner",
+      "randomStream": "one Mulberry32 stream shared by expansion tie shuffles, UCT exact ties, rollouts, final exact ties and tactical verification"
+    }
+  }
+}

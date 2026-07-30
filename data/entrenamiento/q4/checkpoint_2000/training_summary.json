@@ -1,0 +1,130 @@
+{
+  "model": "Q4",
+  "seed": 3,
+  "totalGames": 2000,
+  "checkpoint": 2000,
+  "sourceCheckpoint": {
+    "checkpoint": 1500,
+    "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q4\\checkpoint_1500\\qtable_q4_1500.json",
+    "metadataPath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q4\\checkpoint_1500\\metadata.json",
+    "qTableEntries": 14282,
+    "trainingGames": 1500,
+    "epsilonFinal": 0.2834
+  },
+  "newTrainingGames": 500,
+  "summary": {
+    "gamesByOpponent": {
+      "random": 1000,
+      "heuristic": 1000
+    },
+    "gamesByColor": {
+      "R": 1000,
+      "B": 1000
+    },
+    "gamesByCombination": {
+      "random_R": 500,
+      "random_B": 500,
+      "heuristic_R": 500,
+      "heuristic_B": 500
+    },
+    "results": {
+      "games": 2000,
+      "wins": 369,
+      "losses": 1603,
+      "ties": 28
+    },
+    "resultsByOpponent": {
+      "random": {
+        "games": 1000,
+        "wins": 369,
+        "losses": 603,
+        "ties": 28
+      },
+      "heuristic": {
+        "games": 1000,
+        "wins": 0,
+        "losses": 1000,
+        "ties": 0
+      }
+    },
+    "resultsByColor": {
+      "R": {
+        "games": 1000,
+        "wins": 190,
+        "losses": 795,
+        "ties": 15
+      },
+      "B": {
+        "games": 1000,
+        "wins": 179,
+        "losses": 808,
+        "ties": 13
+      }
+    },
+    "resultsByCombination": {
+      "random_R": {
+        "games": 500,
+        "wins": 190,
+        "losses": 295,
+        "ties": 15
+      },
+      "random_B": {
+        "games": 500,
+        "wins": 179,
+        "losses": 308,
+        "ties": 13
+      },
+      "heuristic_R": {
+        "games": 500,
+        "wins": 0,
+        "losses": 500,
+        "ties": 0
+      },
+      "heuristic_B": {
+        "games": 500,
+        "wins": 0,
+        "losses": 500,
+        "ties": 0
+      }
+    },
+    "qTotal": {
+      "qHits": 19965,
+      "qMisses": 17421,
+      "qHitRate": 53.4023
+    },
+    "qByOpponent": {
+      "random": {
+        "qHits": 11693,
+        "qMisses": 11532,
+        "qHitRate": 50.3466
+      },
+      "heuristic": {
+        "qHits": 8272,
+        "qMisses": 5889,
+        "qHitRate": 58.414
+      }
+    },
+    "qByColor": {
+      "R": {
+        "qHits": 10243,
+        "qMisses": 8830,
+        "qHitRate": 53.7042
+      },
+      "B": {
+        "qHits": 9722,
+        "qMisses": 8591,
+        "qHitRate": 53.088
+      }
+    },
+    "averageTerritory": {
+      "q4": 10.3385,
+      "opponent": 31.049
+    },
+    "averageTerritoryDiff": -20.7105,
+    "averageTurns": 65.0145,
+    "epsilonInitial": 0.6,
+    "epsilonFinal": 0.2207,
+    "finalQTableEntries": 17421,
+    "uniqueQ3StatesVisited": 809
+  }
+}

@@ -1,16 +1,57 @@
-import { PLAYER_LIST, type AiLevel, type PlayerAction, type State } from '@/lib/types'
+import {
+  PLAYER_LIST,
+  type AiLevel,
+  type GameMode,
+  type GameSnapshot,
+  type PlayerAction,
+} from '@/lib/types'
 import GameButton from './ui/GameButton'
 import Navbar from './ui/Navbar'
 import Board from './Board/Board'
 import { useTranslation } from 'react-i18next'
 import { useGame } from '@/store/index'
 import { checkGameEnd } from '@/utils/game'
+import {
+  saveFinishedGameArtifacts,
+  saveMCTSGameTrace,
+  type MCTSGameTraceSaveResult,
+  type MCTSGameTurnTrace,
+} from '@/utils/saveGame'
 import { useRef, useEffect, useCallback, useState } from 'react'
 import { TurnManager } from '@/agents/TurnManager'
-import { HumanAgent, RandomAgent, MinimaxAgent } from '@/agents'
+import { applyAgentActionToGame } from '@/agents/gameAgentIntegration'
+import {
+  HumanAgent,
+  RandomAgent,
+  HeuristicAgent,
+  MinimaxAgent,
+  LearningAgent,
+  Q5LearningAgent,
+  createHumanVsQ5Agents,
+  MCTSAgent,
+  createHumanVsMCTSAgents,
+  type PlayerAgent,
+} from '@/agents'
 import { snapshotFromState } from '@/store/gameState'
+import { runHeuristicTraining } from '@/training/TrainingRunner'
 import ConfirmDialog from './ui/ConfirmDialog'
 import TurnTimer from './ui/TurnTimer'
+import { getGameParticipantMetadata } from '@/utils/gameModeMetadata'
+import { appendMCTSGameTurnTrace } from '@/utils/mctsGameTrace'
+import {
+  createHumanMCTSTrace,
+  downloadPreparedHumanMCTSTrace,
+  finalizeHumanMCTSTrace,
+  markHumanMCTSTraceStarted,
+  markHumanMCTSTurnForReview,
+  prepareHumanMCTSTraceFile,
+  recordHumanMCTSDecision,
+  type HumanMCTSTraceV1,
+  type PreparedHumanMCTSTraceFile,
+} from '@/utils/humanMCTSTrace'
+import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
+import { CURRENT_HUMAN_EXPERIMENT_ID } from '@/experiments/humanExperimentConfig'
+import { sessionContextFromEnvironment } from '@/experiments/humanExperimentSession'
 
 export default function Game({
   gameMode,
@@ -20,16 +61,18 @@ export default function Game({
   setShowRule,
   dark,
   setDark,
+  developmentFixture,
 }: {
-  gameMode: 'pvp' | 'ai'
+  gameMode: GameMode
   aiSide: 'R' | 'B'
   aiLevel: AiLevel
-  setGameMode: (m: 'pvp' | 'ai' | null) => void
+  setGameMode: (m: GameMode | null) => void
   setShowRule: (b: boolean) => void
   dark: boolean
   setDark: (d: boolean | ((d: boolean) => boolean)) => void
+  developmentFixture?: GameSnapshot
 }) {
-  // 內部自行管理 useGame 狀態與 AI 流程
+  // Estado del juego y flujo de agentes.
   const {
     board,
     turn,
@@ -37,9 +80,11 @@ export default function Game({
     result,
     selected,
     legal,
+    stepsTaken,
     placeStone,
     selectStone,
     moveTo,
+    finishMove,
     buildWall,
     setPhase,
     resetGame,
@@ -47,55 +92,205 @@ export default function Game({
     redo,
     canUndo,
     canRedo,
+    players,
+    humanSide,
   } = useGame()
   const live = checkGameEnd(board, [...PLAYER_LIST])
   const { t } = useTranslation()
   const [showConfirm, setShowConfirm] = useState(false)
+  const [aiError, setAiError] = useState<string | null>(null)
+  const [mctsTraceSaveResult, setMctsTraceSaveResult] = useState<MCTSGameTraceSaveResult | null>(
+    null,
+  )
+  const [mctsTraceComplete, setMctsTraceComplete] = useState(false)
+  const [fullTraceDownload, setFullTraceDownload] = useState<{
+    fileName: string
+    bytes: number
+    error?: string
+  } | null>(null)
   const [timeLeft, setTimeLeft] = useState(90_000)
   const turnTimeLimit = 90_000
   const [turnStart, setTurnStart] = useState<number | null>(null)
+  const [markedTurns, setMarkedTurns] = useState<number[]>([])
 
-  // --- 代理主流程整合 ---
+  // Integración del bucle principal de agentes.
   const turnManagerRef = useRef<TurnManager | null>(null)
   const humanAgentRef = useRef<HumanAgent | null>(null)
-  // 直接用 useGame() 的完整 state 當 snapshot
-  const latestStateRef = useRef<State | null>(null)
-  useEffect(() => {
-    latestStateRef.current = useGame.getState()
-  }, [board, turn, selected, legal, phase, result])
+  const learningAgentRef = useRef<LearningAgent | null>(null)
+  // Diagnóstico completo de cada decisión en partidas humano contra MCTS.
+  const mctsTraceRef = useRef<MCTSGameTurnTrace[]>([])
+  const fullMctsTraceRef = useRef<HumanMCTSTraceV1 | null>(null)
+  const finalizedFullMctsTraceRef = useRef<HumanMCTSTraceV1 | null>(null)
+  const preparedFullTraceRef = useRef<PreparedHumanMCTSTraceFile | null>(null)
+  const savedRef = useRef(false)
 
   const turnManagerStartedRef = useRef(false)
+  const trainingStartedRef = useRef(false)
+  const [trainingProgress, setTrainingProgress] = useState<{
+    current: number
+    total: number
+  } | null>(null)
 
   const setupTurnManager = useCallback(() => {
     if (!gameMode) return
+
+    fullMctsTraceRef.current = null
+    finalizedFullMctsTraceRef.current = null
+    preparedFullTraceRef.current = null
+    savedRef.current = false
+    setFullTraceDownload(null)
+
+    if (gameMode === 'heuristic-training') {
+      learningAgentRef.current = null
+      turnManagerRef.current = null
+      return
+    }
+
+    const isExperimentalAiVsAi =
+      gameMode === 'ai-vs-ai' ||
+      gameMode === 'random-vs-heuristic' ||
+      gameMode === 'learning-vs-random' ||
+      gameMode === 'learning-vs-heuristic'
+
+    if (isExperimentalAiVsAi) {
+      learningAgentRef.current = null
+      let agents: Record<'R' | 'B', PlayerAgent>
+
+      if (gameMode === 'random-vs-heuristic') {
+        agents = {
+          R: new RandomAgent(),
+          B: new HeuristicAgent(),
+        }
+      } else if (gameMode === 'learning-vs-random') {
+        const learningAgent = new LearningAgent()
+        learningAgentRef.current = learningAgent
+        agents = {
+          R: learningAgent,
+          B: new RandomAgent(),
+        }
+      } else if (gameMode === 'learning-vs-heuristic') {
+        const learningAgent = new LearningAgent()
+        learningAgentRef.current = learningAgent
+        agents = {
+          R: learningAgent,
+          B: new HeuristicAgent(),
+        }
+      } else if (gameMode === 'ai-vs-ai') {
+        agents = {
+          R: new RandomAgent(),
+          B: new HeuristicAgent(),
+        }
+      } else {
+        const learningAgent = new LearningAgent()
+        learningAgentRef.current = learningAgent
+        agents = {
+          R: learningAgent,
+          B: new RandomAgent(),
+        }
+      }
+
+      turnManagerRef.current = new TurnManager({
+        agents,
+        getGameState: () => snapshotFromState(useGame.getState()),
+        applyAction: async (action: PlayerAction) => {
+          const prevState = snapshotFromState(useGame.getState())
+          applyAgentActionToGame(action, { placeStone, selectStone, moveTo, finishMove, buildWall })
+
+          if (learningAgentRef.current && prevState.turn === 'R') {
+            const nextState = snapshotFromState(useGame.getState())
+            learningAgentRef.current.recordTransition(prevState, action, nextState)
+          }
+        },
+        isGameOver: (state) =>
+          state.phase === 'finished' || !!state.result || state.stepsTaken > 200,
+        turnTimeLimit: 5_000,
+        onTurnStart: (state) => {
+          if (state.phase !== 'playing') return
+          setTurnStart(Date.now())
+          setTimeLeft(5_000)
+        },
+      })
+      turnManagerStartedRef.current = false
+      return
+    }
+
+    // Modos con una persona: se conserva HumanAgent para el lado humano.
     const human = new HumanAgent()
     humanAgentRef.current = human
-    const aiMap = {
-      practice: new RandomAgent(),
-      easy: new MinimaxAgent(2),
-      middle: new MinimaxAgent(4),
-      hard: new MinimaxAgent(6),
+    let agents
+    if (gameMode === 'q5-learning') {
+      agents = createHumanVsQ5Agents(aiSide, new Q5LearningAgent(), human)
+    } else if (gameMode === 'mcts-final') {
+      mctsTraceRef.current = []
+      setMctsTraceSaveResult(null)
+      setMctsTraceComplete(false)
+      const mcts = new MCTSAgent({ profile: 'human-challenge' })
+      const session = import.meta.env.VITE_SESSION_TYPE
+        ? sessionContextFromEnvironment(import.meta.env)
+        : {
+            experimentId: CURRENT_HUMAN_EXPERIMENT_ID,
+            sessionType: 'diagnostic' as const,
+            sessionId: crypto.randomUUID(),
+            runtimeCommit: '0000000000000000000000000000000000000000',
+            humanColor: (aiSide === 'R' ? 'B' : 'R') as 'R' | 'B',
+            aiColor: aiSide,
+          }
+      if (session.aiColor !== aiSide)
+        throw new Error(
+          `La sesión asigna la IA a ${session.aiColor}, pero se intentó iniciar como ${aiSide}`,
+        )
+      fullMctsTraceRef.current = createHumanMCTSTrace({
+        experimentId: session.experimentId ?? CURRENT_HUMAN_EXPERIMENT_ID,
+        participantId: session.participantId,
+        gameNumber: session.gameNumber,
+        sessionType: session.sessionType,
+        sessionId: session.sessionId,
+        projectCommit: session.runtimeCommit,
+        implementationCommit: session.implementationCommit,
+        experimentPreparationCommit: session.experimentPreparationCommit,
+        codeFreezeBindingCommit: session.codeFreezeBindingCommit,
+        humanColor: session.humanColor,
+        mctsColor: session.aiColor,
+        seed: mcts.getBaseSeed(),
+        mctsConfig: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG.mcts,
+        finalHumanChallengeConfig: FINAL_HUMAN_CHALLENGE_MCTS_CONFIG,
+        initialState: snapshotFromState(useGame.getState()),
+      })
+      agents = createHumanVsMCTSAgents(aiSide, mcts, human)
+    } else if (gameMode === 'mcts-fast') {
+      agents = createHumanVsMCTSAgents(aiSide, new MCTSAgent({ profile: 'fast' }), human)
+    } else if (gameMode === 'ai') {
+      const aiMap = {
+        practice: new RandomAgent(),
+        heuristic: new HeuristicAgent(),
+        easy: new MinimaxAgent(2),
+        middle: new MinimaxAgent(4),
+        hard: new MinimaxAgent(6),
+      }
+      const ai = aiMap[aiLevel]
+      agents = aiSide === 'R' ? { R: ai, B: human } : { R: human, B: ai }
+    } else {
+      agents = { R: human, B: human }
     }
-    const ai = aiMap[aiLevel]
-    const agents =
-      gameMode === 'ai'
-        ? aiSide === 'R'
-          ? { R: ai, B: human }
-          : { R: human, B: ai }
-        : { R: human, B: human }
     turnManagerRef.current = new TurnManager({
       agents,
-      getGameState: () => snapshotFromState(latestStateRef.current!),
+      getGameState: () => snapshotFromState(useGame.getState()),
       applyAction: async (action: PlayerAction) => {
-        if (action.type === 'place') {
-          placeStone(action.pos)
-        } else if (action.type === 'move') {
-          if (action.from) selectStone(action.from)
-          moveTo(action.pos)
-        } else if (action.type === 'wall' && action.dir) {
-          if (action.from) selectStone(action.from)
-          buildWall(action.pos, action.dir)
+        if (human.consumePartiallyAppliedAction(action)) {
+          if (action.followUp) {
+            applyAgentActionToGame(action.followUp, {
+              placeStone,
+              selectStone,
+              moveTo,
+              finishMove,
+              buildWall,
+            })
+          } else {
+            finishMove()
+          }
+          return
         }
+        applyAgentActionToGame(action, { placeStone, selectStone, moveTo, finishMove, buildWall })
       },
       isGameOver: (state) => state.phase === 'finished' || !!state.result,
       turnTimeLimit,
@@ -104,17 +299,35 @@ export default function Game({
         setTurnStart(Date.now())
         setTimeLeft(turnTimeLimit)
       },
+      onDecision: (trace) => {
+        if (gameMode !== 'mcts-final') return
+        appendMCTSGameTurnTrace(mctsTraceRef.current, trace, aiSide)
+        recordHumanMCTSDecision(fullMctsTraceRef.current, trace, aiSide)
+      },
     })
     turnManagerStartedRef.current = false
-  }, [gameMode, aiSide, aiLevel, buildWall, moveTo, placeStone, selectStone])
+  }, [gameMode, aiSide, aiLevel, buildWall, finishMove, moveTo, placeStone, selectStone])
 
   useEffect(() => {
     if (!gameMode) {
       useGame.getState().setHumanSide(null)
       return
     }
-    if (gameMode === 'ai') {
+    const isAiVsAiMode =
+      gameMode === 'ai-vs-ai' ||
+      gameMode === 'random-vs-heuristic' ||
+      gameMode === 'learning-vs-random' ||
+      gameMode === 'learning-vs-heuristic'
+
+    if (
+      gameMode === 'ai' ||
+      gameMode === 'q5-learning' ||
+      gameMode === 'mcts-final' ||
+      gameMode === 'mcts-fast'
+    ) {
       useGame.getState().setHumanSide(aiSide === 'R' ? 'B' : 'R')
+    } else if (isAiVsAiMode) {
+      useGame.getState().setHumanSide(null)
     } else {
       useGame.getState().setHumanSide(null)
     }
@@ -122,23 +335,86 @@ export default function Game({
 
   useEffect(() => {
     if (!gameMode) return
-    setPhase('placing')
+    if (developmentFixture) {
+      const fixture = snapshotFromState(developmentFixture)
+      useGame.setState({
+        ...fixture,
+        _history: [snapshotFromState(fixture)],
+        _future: [],
+        canUndo: false,
+        canRedo: false,
+      })
+    } else {
+      setPhase('placing')
+    }
     setupTurnManager()
-  }, [gameMode, aiSide, setPhase, setupTurnManager])
+    return () => {
+      turnManagerRef.current?.stop()
+      turnManagerRef.current = null
+      humanAgentRef.current = null
+      turnManagerStartedRef.current = false
+      fullMctsTraceRef.current = null
+      finalizedFullMctsTraceRef.current = null
+      preparedFullTraceRef.current = null
+    }
+  }, [gameMode, aiSide, developmentFixture, setPhase, setupTurnManager])
+
+  useEffect(() => {
+    if (gameMode !== 'heuristic-training') {
+      trainingStartedRef.current = false
+      setTrainingProgress(null)
+      return
+    }
+
+    if (trainingStartedRef.current) return
+
+    trainingStartedRef.current = true
+    setTrainingProgress({ current: 0, total: 20 })
+
+    runHeuristicTraining(20, (current, total) => {
+      setTrainingProgress({ current, total })
+    })
+      .then(() => {
+        setTrainingProgress({ current: 20, total: 20 })
+      })
+      .catch((error) => {
+        console.error('[Game] Error en entrenamiento heurístico:', error)
+      })
+  }, [gameMode])
 
   useEffect(() => {
     if (!turnManagerRef.current) return
     if ((phase === 'placing' || phase === 'playing') && !turnManagerStartedRef.current) {
-      turnManagerRef.current.startLoop()
+      setAiError(null)
+      const manager = turnManagerRef.current
+      if (gameMode === 'mcts-final' && fullMctsTraceRef.current) {
+        markHumanMCTSTraceStarted(fullMctsTraceRef.current)
+      }
+      void manager
+        .startLoop()
+        .then(() => {
+          if (turnManagerRef.current === manager && gameMode === 'mcts-final') {
+            setMctsTraceComplete(true)
+          }
+        })
+        .catch((error: unknown) => {
+          const message = error instanceof Error ? error.message : t('game.ai_error', 'Error de IA')
+          console.error('[Game] Error de IA:', error)
+          setAiError(message)
+        })
       turnManagerStartedRef.current = true
     }
-  }, [phase])
+  }, [phase, t, gameMode])
 
   const handlePlayerAction = useCallback((action: PlayerAction) => {
     humanAgentRef.current?.submitAction(action)
   }, [])
 
   const isHumanTurn = turnManagerRef.current?.['agents']?.[turn] instanceof HumanAgent
+  const isAIThinking =
+    (gameMode === 'mcts-final' || gameMode === 'mcts-fast') &&
+    (phase === 'placing' || phase === 'playing') &&
+    !isHumanTurn
 
   const onTurnEnd = useCallback(() => {
     if (phase !== 'playing') return
@@ -147,7 +423,7 @@ export default function Game({
     }, 0)
   }, [phase, live, setPhase])
 
-  // Turn timer update
+  // Actualiza el temporizador del turno.
   useEffect(() => {
     if (turnStart === null) return
     let frame: number
@@ -164,7 +440,7 @@ export default function Game({
     }
   }, [turnStart])
 
-  // 只要 phase 進入 playing（不論是 redo/undo 或正常下棋），timer 就 reset
+  // Detiene el temporizador cuando termina la partida.
   useEffect(() => {
     if (phase === 'finished') {
       setTurnStart(null)
@@ -172,10 +448,105 @@ export default function Game({
     }
   }, [phase])
 
-  // 每當遊戲狀態變化時檢查是否需要結束回合
+  // Comprueba el final de la partida después de cada cambio de estado.
   useEffect(() => {
     onTurnEnd()
   }, [onTurnEnd, turn, phase, result, live])
+
+  // Evita guardar varias veces si se vuelve a renderizar la pantalla final.
+  useEffect(() => {
+    if (phase !== 'finished' || !result) return
+    if (savedRef.current) return
+    if (gameMode === 'mcts-final' && !mctsTraceComplete) return
+
+    // Identificador determinista del estado final para evitar duplicados.
+    const hashStr = JSON.stringify({ board, result, players })
+    let h = 0
+    for (let i = 0; i < hashStr.length; i++) {
+      h = (h * 31 + hashStr.charCodeAt(i)) | 0
+    }
+    const id = `g_${(h >>> 0).toString(16)}`
+
+    // Cuenta los muros colocados.
+    let walls = 0
+    for (let y = 0; y < board.length; y++) {
+      for (let x = 0; x < board.length; x++) {
+        if (board[y][x].wallLeft) walls++
+        if (board[y][x].wallTop) walls++
+      }
+    }
+
+    // Aproxima los turnos mediante el historial del store.
+    const historyLen = useGame.getState()._history?.length ?? 1
+    const turnos =
+      gameMode === 'mcts-final' ? mctsTraceRef.current.length : Math.max(0, historyLen - 1)
+
+    const { tipo_partida, jugador_rojo, jugador_azul } = getGameParticipantMetadata({
+      gameMode,
+      aiSide,
+      aiLevel,
+      humanSide,
+    })
+
+    const ganador = result.tie
+      ? 'empate'
+      : result.winner === 'R'
+        ? 'rojo'
+        : result.winner === 'B'
+          ? 'azul'
+          : 'desconocido'
+
+    // Actualizar LearningAgent si existe (para modos con agente aprendiz)
+    if (learningAgentRef.current) {
+      const learningResult = result.tie ? 'draw' : result.winner === 'R' ? 'win' : 'loss'
+      const territoryAprendiz = result.score?.R ?? 0
+      const territoryRival = result.score?.B ?? 0
+      learningAgentRef.current.updateAfterGame(
+        learningResult,
+        'R',
+        territoryAprendiz,
+        territoryRival,
+      )
+      learningAgentRef.current.logStats()
+    }
+
+    const payload = {
+      id_partida: id,
+      fecha: new Date().toISOString(),
+      tipo_partida,
+      jugador_rojo,
+      jugador_azul,
+      ganador,
+      turnos,
+      territorio_rojo: result.score?.R ?? 0,
+      territorio_azul: result.score?.B ?? 0,
+      muros_colocados: walls,
+      observaciones: 'Guardado automático para recogida de datos TR',
+    }
+
+    const saved = saveFinishedGameArtifacts(payload, gameMode, mctsTraceRef.current)
+    if (saved.traceResult.status !== 'not_applicable') {
+      setMctsTraceSaveResult(saved.traceResult)
+    }
+    if (gameMode === 'mcts-final' && fullMctsTraceRef.current) {
+      try {
+        const trace = fullMctsTraceRef.current
+        finalizeHumanMCTSTrace(trace, id, snapshotFromState(useGame.getState()))
+        finalizedFullMctsTraceRef.current = trace
+        const prepared = prepareHumanMCTSTraceFile(trace)
+        preparedFullTraceRef.current = prepared
+        setFullTraceDownload({ fileName: prepared.fileName, bytes: prepared.bytes })
+      } catch (error) {
+        preparedFullTraceRef.current = null
+        setFullTraceDownload({
+          fileName: `traza_humano_mcts_${id}.json`,
+          bytes: 0,
+          error: error instanceof Error ? error.message : String(error),
+        })
+      }
+    }
+    savedRef.current = true
+  }, [phase, result, board, players, gameMode, aiLevel, aiSide, humanSide, mctsTraceComplete])
 
   return (
     <div
@@ -206,6 +577,119 @@ export default function Game({
         dark={dark}
         setDark={setDark}
       />
+      {aiError && (
+        <div
+          role="alert"
+          className="w-full max-w-xl rounded-xl border border-red-300 bg-red-50 p-3 text-center text-red-800 dark:border-red-700 dark:bg-red-950 dark:text-red-200"
+        >
+          {aiError}
+        </div>
+      )}
+      {isAIThinking && !aiError && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="w-full max-w-xl rounded-xl border border-indigo-200 bg-indigo-50 p-2 text-center text-indigo-800 dark:border-indigo-800 dark:bg-indigo-950 dark:text-indigo-200"
+        >
+          La IA está pensando…
+        </div>
+      )}
+      {gameMode === 'mcts-final' && fullMctsTraceRef.current && (
+        <div className="w-full max-w-xl rounded-xl border border-zinc-300 bg-white/80 p-2 text-sm dark:border-zinc-700 dark:bg-zinc-900/80">
+          <div>
+            Sesión: {fullMctsTraceRef.current.metadata.sessionId} · Turno:{' '}
+            {fullMctsTraceRef.current.decisions.length} · Jugador activo: {turn}
+          </div>
+          {fullMctsTraceRef.current.metadata.gameId !== 'pending' && (
+            <div>Trace ID: {fullMctsTraceRef.current.metadata.gameId}</div>
+          )}
+          {fullMctsTraceRef.current.decisions[fullMctsTraceRef.current.decisions.length - 1] && (
+            <div>
+              Última acción:{' '}
+              {JSON.stringify(
+                fullMctsTraceRef.current.decisions[fullMctsTraceRef.current.decisions.length - 1]!
+                  .action,
+              )}
+              <button
+                type="button"
+                className="ml-2 underline"
+                onClick={() => {
+                  const trace = fullMctsTraceRef.current
+                  const decision = trace?.decisions[(trace?.decisions.length ?? 0) - 1]
+                  if (!trace || !decision) return
+                  markHumanMCTSTurnForReview(trace, decision.turnIndex)
+                  setMarkedTurns((current) =>
+                    current.includes(decision.turnIndex)
+                      ? current
+                      : [...current, decision.turnIndex],
+                  )
+                }}
+              >
+                Marcar turno para revisión
+              </button>
+            </div>
+          )}
+          {markedTurns.length > 0 && <div>Turnos marcados: {markedTurns.join(', ')}</div>}
+        </div>
+      )}
+      {gameMode === 'mcts-final' && phase === 'finished' && (
+        <div
+          role="status"
+          className="w-full max-w-xl rounded-xl border border-indigo-300 bg-indigo-50 p-3 text-center text-indigo-900 dark:border-indigo-700 dark:bg-indigo-950 dark:text-indigo-100"
+        >
+          {!mctsTraceSaveResult
+            ? 'La función de descarga de la traza MCTS todavía no se ha ejecutado.'
+            : mctsTraceSaveResult.status === 'empty'
+              ? 'La traza MCTS está vacía; no se solicitó ninguna descarga.'
+              : mctsTraceSaveResult.status === 'failed'
+                ? `Falló la descarga de ${mctsTraceSaveResult.fileName}: ${mctsTraceSaveResult.error}`
+                : `Se solicitó ${mctsTraceSaveResult.fileName} con ${mctsTraceSaveResult.rowCount} filas. Si no aparece, el navegador bloqueó la segunda descarga.`}
+          {mctsTraceSaveResult && mctsTraceSaveResult.status !== 'empty' && (
+            <button
+              type="button"
+              className="ml-2 underline"
+              onClick={() =>
+                setMctsTraceSaveResult(
+                  saveMCTSGameTrace(
+                    mctsTraceSaveResult.fileName.replace(/^traza_partida_mcts_|\.csv$/g, ''),
+                    mctsTraceRef.current,
+                  ),
+                )
+              }
+            >
+              Descargar traza
+            </button>
+          )}
+          <div className="mt-2">
+            {!fullTraceDownload
+              ? 'La traza JSON reproducible todavía no se ha generado.'
+              : fullTraceDownload.error
+                ? `Falló la traza JSON ${fullTraceDownload.fileName}: ${fullTraceDownload.error}`
+                : `Traza reproducible preparada: ${fullTraceDownload.fileName} (${fullTraceDownload.bytes} bytes).`}
+            {preparedFullTraceRef.current && finalizedFullMctsTraceRef.current && (
+              <button
+                type="button"
+                className="ml-2 underline"
+                onClick={() => {
+                  try {
+                    setFullTraceDownload(
+                      downloadPreparedHumanMCTSTrace(preparedFullTraceRef.current!),
+                    )
+                  } catch (error) {
+                    setFullTraceDownload({
+                      fileName: preparedFullTraceRef.current!.fileName,
+                      bytes: 0,
+                      error: error instanceof Error ? error.message : String(error),
+                    })
+                  }
+                }}
+              >
+                Descargar JSON reproducible
+              </button>
+            )}
+          </div>
+        </div>
+      )}
       <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-800 dark:text-zinc-100 drop-shadow animate-fade-in flex items-center gap-2">
         {phase === 'finished' && result ? (
           result.tie ? (
@@ -234,6 +718,16 @@ export default function Game({
           </>
         )}
       </h1>
+      {developmentFixture && (
+        <p
+          className="rounded bg-amber-100 px-3 py-2 text-sm text-amber-950"
+          data-testid="development-fixture"
+        >
+          {board[3]?.[3]?.stone === 'B'
+            ? 'Development fixture: select blue D4, move once, then finish or build one wall.'
+            : 'Development fixture: blue A7 cannot move; select it and build its right wall.'}
+        </p>
+      )}
       <div className="flex gap-4 animate-fade-in items-center">
         {(phase === 'placing'
           ? PLAYER_LIST.map((p) => [p, 0])
@@ -268,6 +762,17 @@ export default function Game({
           </GameButton>
         )}
       </div>
+      {trainingProgress && (
+        <div className="w-full max-w-xl text-center py-3 rounded-2xl bg-amber-100/80 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700 mb-4">
+          <p className="font-semibold text-zinc-800 dark:text-zinc-100">
+            Entrenamiento heurístico automático: {trainingProgress.current} /{' '}
+            {trainingProgress.total}
+          </p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-300">
+            Se ejecutan partidas automáticas y se descargarán los resultados en CSV al finalizar.
+          </p>
+        </div>
+      )}
       <div className="board-container flex flex-col aspect-ratio-1 items-center w-[min(800px,100dvh-280px)] max-w-[calc(100dvw-32px)] transition-all">
         <Board
           board={board}
@@ -275,24 +780,38 @@ export default function Game({
           turn={turn}
           selected={selected ?? null}
           legal={legal}
-          placeStone={
-            phase === 'placing' || isHumanTurn
-              ? (pos) => handlePlayerAction({ type: 'place', pos })
+          placeStone={isHumanTurn ? (pos) => handlePlayerAction({ type: 'place', pos }) : undefined}
+          selectStone={
+            isHumanTurn && phase === 'playing' && stepsTaken === 0
+              ? (pos) => {
+                  humanAgentRef.current?.beginSelection(pos)
+                  selectStone(pos)
+                }
               : undefined
           }
-          selectStone={isHumanTurn && phase === 'playing' ? (pos) => selectStone(pos) : undefined}
           moveTo={
-            isHumanTurn && phase === 'playing'
-              ? (pos) => handlePlayerAction({ type: 'move', pos })
+            isHumanTurn && phase === 'playing' && stepsTaken === 0
+              ? (pos) => {
+                  moveTo(pos)
+                  humanAgentRef.current?.submitMove(pos)
+                }
               : undefined
           }
           buildWall={
             isHumanTurn && phase === 'playing'
-              ? (pos, dir) => handlePlayerAction({ type: 'wall', pos, dir })
+              ? (pos, dir) => humanAgentRef.current?.submitWall(pos, dir)
               : undefined
           }
         />
       </div>
+      {isHumanTurn && phase === 'playing' && stepsTaken > 0 && (
+        <GameButton
+          onClick={() => humanAgentRef.current?.submitMoveWithoutWall()}
+          ariaLabel="Finish turn without wall"
+        >
+          Finish turn without wall
+        </GameButton>
+      )}
       <div className="w-full flex justify-center mt-3 animate-fade-in">
         <GameButton onClick={() => setShowRule(true)} text ariaLabel={t('menu.rule', 'Game Rules')}>
           {t('menu.rule', 'Game Rules')}

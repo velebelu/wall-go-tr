@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-07-11T16:22:56.427Z",
+  "qTablePath": "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\q3\\replicas\\seed_13\\checkpoint_2000\\qtable_q3_2000.json",
+  "qTableEntries": 21311,
+  "hashBefore": "3cc0a98465dcc3f4ab7add898676ddac3b5d98e3fd00109137402dddfbd023c4",
+  "hashAfter": "3cc0a98465dcc3f4ab7add898676ddac3b5d98e3fd00109137402dddfbd023c4",
+  "outputDir": "C:\\Users\\silvi\\OneDrive\\Despido\\Eric\\wall-go-tr\\data\\entrenamiento\\q3\\replicas\\seed_13\\evaluacion_2000_200",
+  "protocol": {
+    "rivals": [
+      "random",
+      "learning-empty-Q3",
+      "heuristic"
+    ],
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "totalGames": 600,
+    "epsilon": 0,
+    "tieBreak": "random among max-Q actions using seeded RNG, matching Q2 tie behavior"
+  }
+}

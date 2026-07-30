@@ -1,7 +1,16 @@
 // src/agents/AIWorker.ts
 import type { GameSnapshot, PlayerAction } from '@/lib/types'
-import { getLegalActions, getRandomAction, getBestPlacement } from '@/utils/ai'
+import {
+  getBestHeuristicAction,
+  getBestPlacement,
+  getLegalActions,
+  getRandomAction,
+} from '@/utils/ai'
 import { MinimaxAI } from '@/ai/minimax-ai'
+import { chooseLearningAction, type QTableEntries } from './learningPolicy'
+import type { MCTSConfig } from '@/engine/mcts/types'
+import { choosePlayableMCTSDecision } from './mctsWorkerDecision'
+import { chooseHumanChallengeMCTSDecision, type HumanChallengeConfig } from './humanChallengeMCTS'
 
 function calculateMinimaxPlayingAction(gameState: GameSnapshot, depth = 2): PlayerAction {
   const ai = new MinimaxAI(depth)
@@ -10,7 +19,6 @@ function calculateMinimaxPlayingAction(gameState: GameSnapshot, depth = 2): Play
   return ai.getBestMove(gameState)
 }
 
-// --- Worker message handler ---
 self.onmessage = (
   event: MessageEvent<{ aiType: string; gameState: GameSnapshot; config: Record<string, unknown> }>,
 ) => {
@@ -18,9 +26,11 @@ self.onmessage = (
   let action: PlayerAction | null = null
 
   try {
+    if (Array.isArray(gameState.legal)) {
+      gameState.legal = new Set(gameState.legal)
+    }
     const legalActions = getLegalActions(gameState)
 
-    // Handle case where game is finished first
     if (gameState.phase === 'finished') {
       self.postMessage({
         action: null,
@@ -36,11 +46,51 @@ self.onmessage = (
       return
     }
 
+    const heuristicMode =
+      (event.data.config?.policy as 'default' | 'offensive' | 'defensive') ?? 'default'
+    if (aiType === 'mcts-human-challenge') {
+      const config = event.data.config?.challenge as HumanChallengeConfig
+      const seed = (event.data.config?.seed as number) >>> 0
+      const result = chooseHumanChallengeMCTSDecision({ gameState, config, seed })
+      action = result.action
+      self.postMessage({
+        action,
+        diagnostics: {
+          result: result.mcts,
+          effectiveConfig: config.mcts,
+          searchTimeMs: result.decisionMs,
+        },
+      })
+      return
+    }
+    if (aiType === 'mcts-final') {
+      const config = event.data.config?.mcts as MCTSConfig
+      const seed = (event.data.config?.seed as number) >>> 0
+      const startedAt = performance.now()
+      const result = choosePlayableMCTSDecision({ gameState, config, seed })
+      action = result.action
+      self.postMessage({
+        action,
+        diagnostics: {
+          result,
+          effectiveConfig: config,
+          searchTimeMs: performance.now() - startedAt,
+        },
+      })
+      return
+    }
     if (gameState.phase === 'placing') {
       switch (aiType) {
+        case 'heuristic':
         case 'minimax':
           action = getBestPlacement(gameState)
           break
+        case 'learning': {
+          const epsilon = (event.data.config?.epsilon as number) ?? 0.3
+          const qTable = (event.data.config?.qTable as QTableEntries) ?? []
+          action = chooseLearningAction(gameState, legalActions, epsilon, qTable)
+          break
+        }
         case 'random':
         default:
           action = getRandomAction(legalActions)!
@@ -48,19 +98,27 @@ self.onmessage = (
       }
     } else if (gameState.phase === 'playing') {
       switch (aiType) {
+        case 'heuristic':
+          action = getBestHeuristicAction(gameState, heuristicMode)
+          break
         case 'minimax':
           action = calculateMinimaxPlayingAction(
             gameState,
             (event.data.config?.depth as number) ?? 2,
           )
           break
+        case 'learning': {
+          const epsilon = (event.data.config?.epsilon as number) ?? 0.3
+          const qTable = (event.data.config?.qTable as QTableEntries) ?? []
+          action = chooseLearningAction(gameState, legalActions, epsilon, qTable)
+          break
+        }
         case 'random':
         default:
           action = getRandomAction(legalActions)!
           break
       }
     } else {
-      // Fallback for unexpected phase, though 'finished' is handled above
       self.postMessage({ error: `Unexpected game phase: ${gameState.phase}` })
       return
     }
@@ -68,9 +126,6 @@ self.onmessage = (
     if (action) {
       self.postMessage({ action })
     } else {
-      // If action is null here, it implies an issue in decision logic for non-finished phases
-      // or a specific AI logic failed to return an action.
-      // As a robust fallback, if legal actions were available, pick a random one.
       self.postMessage({
         action: getRandomAction(legalActions)!,
         info: 'Fell back to random action.',

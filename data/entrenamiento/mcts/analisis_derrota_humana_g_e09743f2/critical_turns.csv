@@ -1,0 +1,10 @@
+turn,classification,territoryR,territoryB,accessibleR,accessibleB,regions,contestedSize,contestedR,contestedB,openFrontiers,minBlueTurns,legalDefenses,rootVisits,configuredSimulations,searchTimeMs,timedOutBefore500,heuristicBefore,heuristicAfter
+24,no-immediate-threat,1,0,49,48,2,48,3,4,40,,0,500,250,2052.699999988079,false,-13,-17
+26,no-immediate-threat,1,0,49,48,2,48,3,4,33,,0,500,250,2008.8999999761581,false,-15,-13
+28,no-immediate-threat,1,0,48,47,3,47,3,4,35,,0,500,250,1904.2000000178814,false,-13,-15
+30,no-immediate-threat,1,0,48,47,3,47,3,4,27,,0,500,250,1528.199999988079,false,-15,-15
+32,no-immediate-threat,1,0,48,47,3,47,3,4,23,,0,500,250,1076.8999999761581,false,-17,-19
+34,emerging-closure-threat,2,0,46,44,5,44,2,4,16,3,0,500,250,567.5,false,-16,-20
+36,last-defensive-opportunity,2,0,41,39,6,39,2,4,10,2,0,500,250,434.5,false,-24,-24
+38,territorial-collapse-unavoidable,5,0,40,35,8,35,1,4,5,1,0,500,250,181.09999999403954,false,17,4
+40,territorial-collapse-unavoidable,4,30,9,35,10,5,1,1,5,0,0,500,250,83.59999999403954,false,-318,-318

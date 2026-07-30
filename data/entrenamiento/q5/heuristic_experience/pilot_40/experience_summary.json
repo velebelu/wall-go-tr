@@ -1,0 +1,70 @@
+{
+  "totalGames": 40,
+  "totalExperiences": 737,
+  "gamesByOpponent": {
+    "random": 20,
+    "heuristic": 20
+  },
+  "gamesByColor": {
+    "R": 20,
+    "B": 20
+  },
+  "gamesByCombination": {
+    "random_R": 10,
+    "random_B": 10,
+    "heuristic_R": 10,
+    "heuristic_B": 10
+  },
+  "experiencesByOpponent": {
+    "random": 291,
+    "heuristic": 446
+  },
+  "experiencesByColor": {
+    "R": 359,
+    "B": 378
+  },
+  "results": {
+    "games": 40,
+    "wins": 25,
+    "losses": 14,
+    "ties": 1
+  },
+  "resultsByOpponent": {
+    "random": {
+      "games": 20,
+      "wins": 20,
+      "losses": 0,
+      "ties": 0
+    },
+    "heuristic": {
+      "games": 20,
+      "wins": 5,
+      "losses": 14,
+      "ties": 1
+    }
+  },
+  "resultsByColor": {
+    "R": {
+      "games": 20,
+      "wins": 12,
+      "losses": 7,
+      "ties": 1
+    },
+    "B": {
+      "games": 20,
+      "wins": 13,
+      "losses": 7,
+      "ties": 0
+    }
+  },
+  "averageTerritory": {
+    "heuristic": 28.675,
+    "opponent": 14.75
+  },
+  "averageTerritoryDiff": 13.925,
+  "averagePreviousOwnMobility": 23.9118,
+  "averageNextOwnMobility": 24.6581,
+  "averagePreviousOwnTrappedPieces": 0.27,
+  "averageNextOwnTrappedPieces": 0.2768,
+  "averageTurns": 67.575
+}

@@ -1,0 +1,21 @@
+id_partida,fecha,tipo_partida,jugador_rojo,jugador_azul,ganador,turnos,territorio_rojo,territorio_azul,muros_colocados,comentario
+training_1782813125261_1,2026-06-30T09:52:20.169Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,87,15,26,43,Entrenamiento heurístico automático
+training_1782813140169_2,2026-06-30T09:52:34.284Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,empate,85,22,22,41,Entrenamiento heurístico automático
+training_1782813154284_3,2026-06-30T09:52:48.675Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,85,16,28,41,Entrenamiento heurístico automático
+training_1782813168675_4,2026-06-30T09:53:06.668Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,rojo,94,14,13,46,Entrenamiento heurístico automático
+training_1782813186668_5,2026-06-30T09:53:19.406Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,rojo,76,34,15,36,Entrenamiento heurístico automático
+training_1782813199406_6,2026-06-30T09:53:30.101Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,60,10,39,29,Entrenamiento heurístico automático
+training_1782813210101_7,2026-06-30T09:53:39.906Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,rojo,58,27,22,27,Entrenamiento heurístico automático
+training_1782813219906_8,2026-06-30T09:53:55.462Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,93,12,18,45,Entrenamiento heurístico automático
+training_1782813235462_9,2026-06-30T09:54:11.842Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,96,13,28,47,Entrenamiento heurístico automático
+training_1782813251843_10,2026-06-30T09:54:24.705Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,rojo,76,25,24,37,Entrenamiento heurístico automático
+training_1782813264706_11,2026-06-30T09:54:40.690Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,97,19,23,47,Entrenamiento heurístico automático
+training_1782813280690_12,2026-06-30T09:54:52.167Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,70,13,35,33,Entrenamiento heurístico automático
+training_1782813292167_13,2026-06-30T09:55:07.482Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,rojo,92,25,16,44,Entrenamiento heurístico automático
+training_1782813307482_14,2026-06-30T09:55:22.952Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,91,21,23,44,Entrenamiento heurístico automático
+training_1782813322952_15,2026-06-30T09:55:35.749Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,78,9,36,37,Entrenamiento heurístico automático
+training_1782813335749_16,2026-06-30T09:55:46.194Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,62,10,33,29,Entrenamiento heurístico automático
+training_1782813346194_17,2026-06-30T09:55:59.641Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,78,17,30,38,Entrenamiento heurístico automático
+training_1782813359641_18,2026-06-30T09:56:11.471Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,69,16,31,33,Entrenamiento heurístico automático
+training_1782813371471_19,2026-06-30T09:56:25.449Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,84,18,27,40,Entrenamiento heurístico automático
+training_1782813385449_20,2026-06-30T09:56:36.775Z,entrenamiento_heuristico,heuristica_ofensiva,heuristica_defensiva,azul,65,21,28,31,Entrenamiento heurístico automático

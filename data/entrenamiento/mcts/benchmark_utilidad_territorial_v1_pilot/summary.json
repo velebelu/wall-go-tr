@@ -1,0 +1,69 @@
+{
+  "schema": "StrategicPositionPilotSummaryV1",
+  "fixtures": {
+    "expected": 27,
+    "loaded": 27,
+    "valid": 27,
+    "exclusions": []
+  },
+  "coverage": {
+    "total": 27,
+    "zero": 22,
+    "positive": 1,
+    "negative": 4,
+    "nonZero": 5,
+    "activationPercent": 18.51851851851852,
+    "mean": -1.4259259259259258,
+    "median": 0,
+    "minimum": -15,
+    "maximum": 1.5
+  },
+  "influence": {
+    "searches": 108,
+    "comparisons": 54,
+    "initialChanges": 0,
+    "finalChanges": 0,
+    "changeRatePercent": 0,
+    "classifications": {
+      "no_change": 54,
+      "tree_change_only": 0,
+      "tactical_verification_change_only": 0,
+      "tree_and_tactical_change": 0
+    }
+  },
+  "provisional": {
+    "effectiveInterventions": 0,
+    "classifications": {
+      "pilot_positive": 0,
+      "pilot_negative": 0,
+      "pilot_neutral": 0,
+      "pilot_mixed": 0
+    },
+    "pairs": 0,
+    "meanDelta": 0,
+    "medianDelta": 0,
+    "minimumDelta": null,
+    "maximumDelta": null
+  },
+  "sensitivity": [],
+  "cost": {
+    "baseline": {
+      "totalElapsedMs": 55112.232499999984,
+      "meanElapsedMs": 1020.5968981481478,
+      "meanCompletedSimulations": 458.3333333333333,
+      "stoppedByTimePercent": 0,
+      "metricEvaluationCalls": 0,
+      "metricTotalElapsedMs": 0,
+      "metricMeanElapsedUs": 0
+    },
+    "candidate": {
+      "totalElapsedMs": 55555.63470000002,
+      "meanElapsedMs": 1028.8080500000003,
+      "meanCompletedSimulations": 458.3333333333333,
+      "stoppedByTimePercent": 0,
+      "metricEvaluationCalls": 9056,
+      "metricTotalElapsedMs": 151.5365000005295,
+      "metricMeanElapsedUs": 16.73327075977578
+    }
+  }
+}

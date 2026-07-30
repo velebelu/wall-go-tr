@@ -1,0 +1,36 @@
+{
+  "createdAt": "2026-07-12T20:01:49.654Z",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\qtable_q5_hybrid_final_1000.json",
+  "qTableEntries": 27815,
+  "hashBefore": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+  "hashAfter": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\evaluacion_final_checkpoint_1000_eval200",
+  "protocol": {
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "qTableFrozen": true,
+    "alphaUpdates": false,
+    "representation": "Q3",
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "maxTurns": 250,
+    "variant": {
+      "id": "E",
+      "minConfidence": 10,
+      "minMargin": 0.5
+    }
+  },
+  "confidenceDefinition": {
+    "value": "max(originalDatasetObservations, qLearningUpdatesAfterInitialization)",
+    "originalDatasetObservations": "data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json",
+    "qLearningUpdatesAfterInitialization": [
+      "data/entrenamiento/q5/hybrid/final_checkpoint_500/q_update_log.jsonl",
+      "data/entrenamiento/q5/hybrid/final_checkpoint_1000/q_update_log.jsonl"
+    ],
+    "qLearningUpdateCountsLoaded": 12068
+  }
+}

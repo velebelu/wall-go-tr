@@ -1,0 +1,76 @@
+{
+  "createdAt": "2026-07-12T11:42:36.058Z",
+  "model": "Q5",
+  "artifact": "heuristic_initial_qtable",
+  "sourceExperiencePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_experience\\dataset_2000\\experiences.jsonl",
+  "qLearningTrainingExecuted": false,
+  "qTableCreatedFromExperiences": true,
+  "stateRepresentation": "Q3",
+  "rewardFormula": {
+    "resultSignal": {
+      "win": 1,
+      "loss": -1,
+      "tie": 0
+    },
+    "territorySignal": {
+      "multiplier": 0.05,
+      "min": -0.5,
+      "max": 0.5
+    },
+    "mobilitySignal": {
+      "multiplier": 0.02,
+      "min": -0.2,
+      "max": 0.2
+    },
+    "trapSignal": {
+      "newTrappedMultiplier": -0.5,
+      "releasedTrappedMultiplier": 0.3
+    },
+    "experienceValue": {
+      "min": -2,
+      "max": 2
+    }
+  },
+  "outputFiles": {
+    "qTable": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\qtable_q5_heuristic_initial.json",
+    "metadata": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\metadata.json",
+    "buildSummary": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json"
+  },
+  "summary": {
+    "totalExperiencesProcessed": 38330,
+    "uniqueStates": 602,
+    "uniqueStateActionPairs": 19652,
+    "qValueDistribution": {
+      "min": -1.62,
+      "max": 1.58,
+      "mean": 0.35,
+      "median": 0.96
+    },
+    "positivePairs": 13400,
+    "negativePairs": 6139,
+    "zeroPairs": 113,
+    "frequencyBuckets": {
+      "one": 15462,
+      "twoToFive": 3437,
+      "sixToTwenty": 595,
+      "moreThanTwenty": 158
+    },
+    "coverageByOpponent": {
+      "random": 15722,
+      "heuristic": 22608
+    },
+    "coverageByColor": {
+      "R": 19389,
+      "B": 18941
+    },
+    "colorBias": {
+      "averageValueR": 0.3837,
+      "averageValueB": 0.4187,
+      "difference": -0.035
+    },
+    "clampPairPercentage": 0,
+    "illegalActionExperiences": 0,
+    "nonQ3Experiences": 0,
+    "lowConfidencePairs": 15462
+  }
+}

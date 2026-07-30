@@ -1,0 +1,30 @@
+{
+  "schema": "HumanExperimentMetadataV2",
+  "experimentId": "WGTR-HUMAN-FINAL-2026-V3",
+  "supersedes": "WGTR-HUMAN-FINAL-2026-V2",
+  "archivedExperimentDirectory": "data/human-experiment/invalidated-2026-v2-pre-traceability",
+  "createdAt": "2026-07-29",
+  "gameCount": 0,
+  "aiPolicy": {
+    "securedTerritoryPolicy": false,
+    "status": "rejected",
+    "accepted": false,
+    "reason": "negative-counterfactual-effect",
+    "independentInterventions": 4,
+    "beneficial": 1,
+    "harmful": 3,
+    "meanTerritoryEffect": -1.55,
+    "bootstrap95": [
+      -2.9,
+      -0.3
+    ],
+    "independentInterventionsPer100Decisions": 0.24,
+    "conclusion": "The redundant behaviour exists, but the filter frequently removes strategically superior actions."
+  },
+  "codeFreeze": {
+    "status": "frozen",
+    "implementationCommit": "d24414802111390f0d4cffc5cb87b0de56932904",
+    "experimentPreparationCommit": "d24414802111390f0d4cffc5cb87b0de56932904",
+    "relation": "Both fields identify the definitive functional implementation; the code-freeze binding is its immediate child commit and modifies only this metadata file."
+  }
+}

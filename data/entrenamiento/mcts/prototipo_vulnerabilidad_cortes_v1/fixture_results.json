@@ -1,0 +1,2017 @@
+[
+  {
+    "fixtureId": "human-e09743f2-turn-34",
+    "source": "data/entrenamiento/mcts/analisis_derrota_humana_g_e09743f2/turn_34.fixture.json",
+    "type": "human-critical",
+    "turn": 34,
+    "phase": "end",
+    "playerToMove": "R",
+    "stateFingerprint": "949aba39bc01a066109d90a2ac470456ee58f8ad4a6880c3ccca8b71e5dfc38d",
+    "currentAccessibleCells": 46,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 31,
+    "legalActionsInspected": 53,
+    "duplicateWallsDiscarded": 22,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 1,
+            "y": 0
+          },
+          "second": {
+            "x": 2,
+            "y": 0
+          },
+          "key": "1,0|2,0",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 2,
+              "y": 0
+            },
+            "dir": "left"
+          }
+        },
+        "accessibleCellsAfter": 45,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          44,
+          2,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          43,
+          2,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "wall": {
+          "first": {
+            "x": 5,
+            "y": 3
+          },
+          "second": {
+            "x": 5,
+            "y": 4
+          },
+          "key": "5,3|5,4",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 5,
+              "y": 4
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 45,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          44,
+          2,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          43,
+          2,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 2.578800000000001,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        3.393699999999967,
+        3.109100000000012,
+        2.893599999999992,
+        3.109399999999937,
+        2.578800000000001
+      ],
+      "meanMs": 3.016919999999982,
+      "medianMs": 3.109100000000012,
+      "minimumMs": 2.578800000000001,
+      "maximumMs": 3.393699999999967
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "human-e09743f2-turn-36",
+    "source": "data/entrenamiento/mcts/analisis_derrota_humana_g_e09743f2/turn_36.fixture.json",
+    "type": "human-critical",
+    "turn": 36,
+    "phase": "end",
+    "playerToMove": "R",
+    "stateFingerprint": "053f43154934296c54cce56652e9de8d5871cf1093fcfe0b437e2c89d7171213",
+    "currentAccessibleCells": 41,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 32,
+    "legalActionsInspected": 56,
+    "duplicateWallsDiscarded": 24,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 1,
+            "y": 0
+          },
+          "second": {
+            "x": 2,
+            "y": 0
+          },
+          "key": "1,0|2,0",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 2,
+              "y": 0
+            },
+            "dir": "left"
+          }
+        },
+        "accessibleCellsAfter": 40,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          39,
+          5,
+          2,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          38,
+          5,
+          2,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "wall": {
+          "first": {
+            "x": 5,
+            "y": 3
+          },
+          "second": {
+            "x": 5,
+            "y": 4
+          },
+          "key": "5,3|5,4",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 5,
+              "y": 3
+            },
+            "dir": "bottom"
+          }
+        },
+        "accessibleCellsAfter": 40,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          39,
+          5,
+          2,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          38,
+          5,
+          2,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 2.872100000000046,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        2.689799999999991,
+        2.6872999999999365,
+        2.6818000000000666,
+        2.449799999999982,
+        2.872100000000046
+      ],
+      "meanMs": 2.6761600000000043,
+      "medianMs": 2.6872999999999365,
+      "minimumMs": 2.449799999999982,
+      "maximumMs": 2.872100000000046
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "human-e09743f2-turn-38",
+    "source": "data/entrenamiento/mcts/analisis_derrota_humana_g_e09743f2/turn_38.fixture.json",
+    "type": "human-critical",
+    "turn": 38,
+    "phase": "end",
+    "playerToMove": "R",
+    "stateFingerprint": "97bd5c1b8746aea10b85d435261c8d78363fb03ab15ea1a15041572a6e40afb4",
+    "currentAccessibleCells": 40,
+    "maxImmediateCutLoss": 31,
+    "intensity": "high",
+    "uniqueLegalWallsChecked": 23,
+    "legalActionsInspected": 43,
+    "duplicateWallsDiscarded": 20,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 0,
+            "y": 4
+          },
+          "second": {
+            "x": 1,
+            "y": 4
+          },
+          "key": "0,4|1,4",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 1,
+              "y": 4
+            },
+            "dir": "left"
+          }
+        },
+        "accessibleCellsAfter": 9,
+        "loss": 31,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          35,
+          5,
+          3,
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          31,
+          5,
+          4,
+          3,
+          2,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.9168999999999414,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.975400000000036,
+        2.049199999999928,
+        1.9338000000000193,
+        1.7496000000001004,
+        1.9168999999999414
+      ],
+      "meanMs": 1.924980000000005,
+      "medianMs": 1.9338000000000193,
+      "minimumMs": 1.7496000000001004,
+      "maximumMs": 2.049199999999928
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "human-e09743f2-turn-24",
+    "source": "data/entrenamiento/mcts/evaluacion_closure_threat_verification/controls/turn_24.fixture.json",
+    "type": "human-control",
+    "turn": 24,
+    "phase": "middle",
+    "playerToMove": "R",
+    "stateFingerprint": "18324c3883e973fde09b9db7523423f7ae5a47c6151c794bbf21fd8a257f1c27",
+    "currentAccessibleCells": 49,
+    "maxImmediateCutLoss": 0,
+    "intensity": "none",
+    "uniqueLegalWallsChecked": 37,
+    "legalActionsInspected": 65,
+    "duplicateWallsDiscarded": 28,
+    "worstWalls": [],
+    "elapsedMs": 2.3097000000000207,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        2.3765999999999394,
+        2.376199999999926,
+        2.2257999999999356,
+        2.3363999999999123,
+        2.3097000000000207
+      ],
+      "meanMs": 2.324939999999947,
+      "medianMs": 2.3363999999999123,
+      "minimumMs": 2.2257999999999356,
+      "maximumMs": 2.3765999999999394
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "human-e09743f2-turn-26",
+    "source": "data/entrenamiento/mcts/evaluacion_closure_threat_verification/controls/turn_26.fixture.json",
+    "type": "human-control",
+    "turn": 26,
+    "phase": "middle",
+    "playerToMove": "R",
+    "stateFingerprint": "a18d4ec6ee4c16a16584c98c802e9d85b7c25cc07c0c39a2c60c4f37a7059500",
+    "currentAccessibleCells": 49,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 37,
+    "legalActionsInspected": 64,
+    "duplicateWallsDiscarded": 27,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 5,
+            "y": 3
+          },
+          "second": {
+            "x": 5,
+            "y": 4
+          },
+          "key": "5,3|5,4",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 5,
+              "y": 4
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 48,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          48,
+          1
+        ],
+        "componentSizesAfter": [
+          47,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 2.2870000000000346,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        2.3116999999999734,
+        2.4413000000000693,
+        2.3909999999999627,
+        2.1865000000000236,
+        2.2870000000000346
+      ],
+      "meanMs": 2.3235000000000126,
+      "medianMs": 2.3116999999999734,
+      "minimumMs": 2.1865000000000236,
+      "maximumMs": 2.4413000000000693
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "human-e09743f2-turn-28",
+    "source": "data/entrenamiento/mcts/evaluacion_closure_threat_verification/controls/turn_28.fixture.json",
+    "type": "human-control",
+    "turn": 28,
+    "phase": "middle",
+    "playerToMove": "R",
+    "stateFingerprint": "0ee9a1defa8770d37455680c6dcf9a68c149846286b48df59954aaacd3797d31",
+    "currentAccessibleCells": 48,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 36,
+    "legalActionsInspected": 63,
+    "duplicateWallsDiscarded": 27,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 5,
+            "y": 3
+          },
+          "second": {
+            "x": 5,
+            "y": 4
+          },
+          "key": "5,3|5,4",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 5,
+              "y": 4
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 47,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          47,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          46,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 2.3210000000000264,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        3.84050000000002,
+        2.5785000000000764,
+        2.476600000000076,
+        2.4722999999999047,
+        2.3210000000000264
+      ],
+      "meanMs": 2.7377800000000208,
+      "medianMs": 2.476600000000076,
+      "minimumMs": 2.3210000000000264,
+      "maximumMs": 3.84050000000002
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "human-e09743f2-turn-30",
+    "source": "data/entrenamiento/mcts/evaluacion_closure_threat_verification/controls/turn_30.fixture.json",
+    "type": "human-control",
+    "turn": 30,
+    "phase": "middle",
+    "playerToMove": "R",
+    "stateFingerprint": "3966aec357eda84daa6bb938aee825dbdc54fe347713a52ffd2bd6162e0e4b30",
+    "currentAccessibleCells": 48,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 33,
+    "legalActionsInspected": 61,
+    "duplicateWallsDiscarded": 28,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 5,
+            "y": 3
+          },
+          "second": {
+            "x": 5,
+            "y": 4
+          },
+          "key": "5,3|5,4",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 5,
+              "y": 4
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 47,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          47,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          46,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 2.0705999999998994,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        2.0557000000000016,
+        2.0156999999999243,
+        2.032899999999927,
+        2.0669000000000324,
+        2.0705999999998994
+      ],
+      "meanMs": 2.048359999999957,
+      "medianMs": 2.0557000000000016,
+      "minimumMs": 2.0156999999999243,
+      "maximumMs": 2.0705999999998994
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "human-e09743f2-turn-32",
+    "source": "data/entrenamiento/mcts/evaluacion_closure_threat_verification/controls/turn_32.fixture.json",
+    "type": "human-control",
+    "turn": 32,
+    "phase": "end",
+    "playerToMove": "R",
+    "stateFingerprint": "acbcf76219f01c2919fcaadcfdc5330cfe8381437e067412e4939f130ddca3a0",
+    "currentAccessibleCells": 48,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 32,
+    "legalActionsInspected": 60,
+    "duplicateWallsDiscarded": 28,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 5,
+            "y": 3
+          },
+          "second": {
+            "x": 5,
+            "y": 4
+          },
+          "key": "5,3|5,4",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 5,
+              "y": 4
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 47,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          47,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          46,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.8716999999999189,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.8514999999999873,
+        1.9606999999999744,
+        1.9665999999999713,
+        1.948099999999954,
+        1.8716999999999189
+      ],
+      "meanMs": 1.9197199999999612,
+      "medianMs": 1.948099999999954,
+      "minimumMs": 1.8514999999999873,
+      "maximumMs": 1.9665999999999713
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-12-baseline-B-3238526987-turn-43-0b09c63d113d",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-12-baseline-B-3238526987-turn-43-0b09c63d113d.json",
+    "type": "directed-closure-intervention",
+    "turn": 43,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "a0f863249d0b555cc05af1eab59ccaba0e9071f501ca406b008284590197e3f6",
+    "currentAccessibleCells": 41,
+    "maxImmediateCutLoss": 3,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 16,
+    "legalActionsInspected": 36,
+    "duplicateWallsDiscarded": 20,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 3,
+            "y": 6
+          },
+          "second": {
+            "x": 4,
+            "y": 6
+          },
+          "key": "3,6|4,6",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 4,
+              "y": 6
+            },
+            "dir": "left"
+          }
+        },
+        "accessibleCellsAfter": 38,
+        "loss": 3,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          36,
+          5,
+          3,
+          2,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          33,
+          5,
+          3,
+          3,
+          2,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 0.9793999999999414,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.0731999999999289,
+        0.9997999999999365,
+        0.9909000000000106,
+        1.1112000000000535,
+        0.9793999999999414
+      ],
+      "meanMs": 1.0308999999999742,
+      "medianMs": 0.9997999999999365,
+      "minimumMs": 0.9793999999999414,
+      "maximumMs": 1.1112000000000535
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-17-historical-activation-seed-heuristic-R-3238461448-turn-34-ca796816f3ae",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-17-historical-activation-seed-heuristic-R-3238461448-turn-34-ca796816f3ae.json",
+    "type": "directed-closure-intervention",
+    "turn": 34,
+    "phase": "end",
+    "playerToMove": "R",
+    "stateFingerprint": "32b8e869ec381cb7987cc03f4337fd4fd7e1bc969320e84f43fd6ad4c3919328",
+    "currentAccessibleCells": 44,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 27,
+    "legalActionsInspected": 58,
+    "duplicateWallsDiscarded": 31,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 3,
+            "y": 0
+          },
+          "second": {
+            "x": 4,
+            "y": 0
+          },
+          "key": "3,0|4,0",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 3,
+              "y": 0
+            },
+            "dir": "right"
+          }
+        },
+        "accessibleCellsAfter": 43,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          43,
+          5,
+          1
+        ],
+        "componentSizesAfter": [
+          42,
+          5,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 2.0371999999999844,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        2.4838999999999487,
+        2.2007999999999583,
+        2.0470000000000255,
+        2.1154999999999973,
+        2.0371999999999844
+      ],
+      "meanMs": 2.176879999999983,
+      "medianMs": 2.1154999999999973,
+      "minimumMs": 2.0371999999999844,
+      "maximumMs": 2.4838999999999487
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-17-historical-activation-seed-heuristic-R-3238461448-turn-38-f01228b79a4a",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-17-historical-activation-seed-heuristic-R-3238461448-turn-38-f01228b79a4a.json",
+    "type": "directed-closure-intervention",
+    "turn": 38,
+    "phase": "end",
+    "playerToMove": "R",
+    "stateFingerprint": "25af43a03e54f4013667ebd4493ea6d4e78ddce80a823e2c6a89350656ad1917",
+    "currentAccessibleCells": 44,
+    "maxImmediateCutLoss": 12,
+    "intensity": "high",
+    "uniqueLegalWallsChecked": 21,
+    "legalActionsInspected": 39,
+    "duplicateWallsDiscarded": 18,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 6,
+            "y": 4
+          },
+          "second": {
+            "x": 6,
+            "y": 5
+          },
+          "key": "6,4|6,5",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 6,
+              "y": 4
+            },
+            "dir": "bottom"
+          }
+        },
+        "accessibleCellsAfter": 32,
+        "loss": 12,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          41,
+          5,
+          2,
+          1
+        ],
+        "componentSizesAfter": [
+          29,
+          12,
+          5,
+          2,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.7927999999999429,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.6872999999999365,
+        1.6391999999999598,
+        1.7212999999999283,
+        1.6399999999999864,
+        1.7927999999999429
+      ],
+      "meanMs": 1.6961199999999508,
+      "medianMs": 1.6872999999999365,
+      "minimumMs": 1.6391999999999598,
+      "maximumMs": 1.7927999999999429
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-20-baseline-B-3238526995-turn-39-81611c364b5b",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-20-baseline-B-3238526995-turn-39-81611c364b5b.json",
+    "type": "directed-closure-intervention",
+    "turn": 39,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "4ab8ecc095b53876c1a64adafb27be1842c6a4e44f762614cdd96b6e24fb0797",
+    "currentAccessibleCells": 46,
+    "maxImmediateCutLoss": 13,
+    "intensity": "high",
+    "uniqueLegalWallsChecked": 23,
+    "legalActionsInspected": 41,
+    "duplicateWallsDiscarded": 18,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 0,
+            "y": 1
+          },
+          "second": {
+            "x": 0,
+            "y": 2
+          },
+          "key": "0,1|0,2",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 33,
+        "loss": 13,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          33,
+          7,
+          6,
+          2,
+          1
+        ],
+        "componentSizesAfter": [
+          20,
+          13,
+          7,
+          6,
+          2,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.5357999999999947,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.4581999999999198,
+        1.3278999999999996,
+        1.4898000000000593,
+        1.4595000000000482,
+        1.5357999999999947
+      ],
+      "meanMs": 1.4542400000000044,
+      "medianMs": 1.4595000000000482,
+      "minimumMs": 1.3278999999999996,
+      "maximumMs": 1.5357999999999947
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-20-historical-activation-seed-baseline-R-3238471468-turn-32-d34297e7520c",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-20-historical-activation-seed-baseline-R-3238471468-turn-32-d34297e7520c.json",
+    "type": "directed-closure-intervention",
+    "turn": 32,
+    "phase": "end",
+    "playerToMove": "R",
+    "stateFingerprint": "4b13fa03be1e7f2d485d541abd6ce460fb17da5f7e6e5bbe8b9a66ee6e936475",
+    "currentAccessibleCells": 47,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 22,
+    "legalActionsInspected": 40,
+    "duplicateWallsDiscarded": 18,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 3,
+            "y": 6
+          },
+          "second": {
+            "x": 4,
+            "y": 6
+          },
+          "key": "3,6|4,6",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 3,
+              "y": 6
+            },
+            "dir": "right"
+          }
+        },
+        "accessibleCellsAfter": 46,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          47,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          46,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.3665000000000873,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.5789999999999509,
+        1.5463999999999487,
+        1.6376000000000204,
+        1.2830000000000155,
+        1.3665000000000873
+      ],
+      "meanMs": 1.4825000000000046,
+      "medianMs": 1.5463999999999487,
+      "minimumMs": 1.2830000000000155,
+      "maximumMs": 1.6376000000000204
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-21-heuristic-R-3238526996-turn-40-7401577bec4a",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-21-heuristic-R-3238526996-turn-40-7401577bec4a.json",
+    "type": "directed-closure-intervention",
+    "turn": 40,
+    "phase": "end",
+    "playerToMove": "R",
+    "stateFingerprint": "538c968f302d8a7807f8d564e6c648c2eb33af32c2c2739a061a01bbec793b8a",
+    "currentAccessibleCells": 49,
+    "maxImmediateCutLoss": 13,
+    "intensity": "high",
+    "uniqueLegalWallsChecked": 32,
+    "legalActionsInspected": 51,
+    "duplicateWallsDiscarded": 19,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 4,
+            "y": 0
+          },
+          "second": {
+            "x": 4,
+            "y": 1
+          },
+          "key": "4,0|4,1",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 4,
+              "y": 0
+            },
+            "dir": "bottom"
+          }
+        },
+        "accessibleCellsAfter": 36,
+        "loss": 13,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          32,
+          16,
+          1
+        ],
+        "componentSizesAfter": [
+          19,
+          16,
+          13,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 2.0295999999999594,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.9131999999999607,
+        1.8333999999999833,
+        1.9756000000000995,
+        2.135099999999966,
+        2.0295999999999594
+      ],
+      "meanMs": 1.9773799999999937,
+      "medianMs": 1.9756000000000995,
+      "minimumMs": 1.8333999999999833,
+      "maximumMs": 2.135099999999966
+    },
+    "previousDetectorHarmful": true
+  },
+  {
+    "fixtureId": "directed-21-historical-activation-seed-baseline-R-3238471472-turn-34-def8bb441beb",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-21-historical-activation-seed-baseline-R-3238471472-turn-34-def8bb441beb.json",
+    "type": "directed-closure-intervention",
+    "turn": 34,
+    "phase": "end",
+    "playerToMove": "R",
+    "stateFingerprint": "c0458b044d1d0a81f0c90a5525d2ad45a7a64b426cd07d2688f61d3dd3b34cb7",
+    "currentAccessibleCells": 46,
+    "maxImmediateCutLoss": 12,
+    "intensity": "high",
+    "uniqueLegalWallsChecked": 31,
+    "legalActionsInspected": 50,
+    "duplicateWallsDiscarded": 19,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 3,
+            "y": 6
+          },
+          "second": {
+            "x": 4,
+            "y": 6
+          },
+          "key": "3,6|4,6",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 3,
+              "y": 6
+            },
+            "dir": "right"
+          }
+        },
+        "accessibleCellsAfter": 34,
+        "loss": 12,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          46,
+          3
+        ],
+        "componentSizesAfter": [
+          34,
+          12,
+          3
+        ]
+      }
+    ],
+    "elapsedMs": 2.421299999999974,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        2.0504000000000815,
+        1.9516999999999598,
+        1.7047999999999774,
+        2.1547999999999092,
+        2.421299999999974
+      ],
+      "meanMs": 2.0565999999999804,
+      "medianMs": 2.0504000000000815,
+      "minimumMs": 1.7047999999999774,
+      "maximumMs": 2.421299999999974
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-22-historical-activation-seed-heuristic-B-3238461453-turn-37-a2cdc4b35393",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-22-historical-activation-seed-heuristic-B-3238461453-turn-37-a2cdc4b35393.json",
+    "type": "directed-closure-intervention",
+    "turn": 37,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "80185596aacc1814e182fed9d696f5d3c1e1c5c3c128fb893b06f6f5cf780672",
+    "currentAccessibleCells": 44,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 18,
+    "legalActionsInspected": 39,
+    "duplicateWallsDiscarded": 21,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 4,
+            "y": 3
+          },
+          "second": {
+            "x": 4,
+            "y": 4
+          },
+          "key": "4,3|4,4",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 4,
+              "y": 4
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 43,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          32,
+          12,
+          3,
+          2
+        ],
+        "componentSizesAfter": [
+          31,
+          12,
+          3,
+          2,
+          1
+        ]
+      },
+      {
+        "wall": {
+          "first": {
+            "x": 4,
+            "y": 6
+          },
+          "second": {
+            "x": 5,
+            "y": 6
+          },
+          "key": "4,6|5,6",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 5,
+              "y": 6
+            },
+            "dir": "left"
+          }
+        },
+        "accessibleCellsAfter": 43,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          32,
+          12,
+          3,
+          2
+        ],
+        "componentSizesAfter": [
+          31,
+          12,
+          3,
+          2,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.133199999999988,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.044300000000021,
+        1.1690000000000964,
+        1.0509999999999309,
+        1.0792000000000144,
+        1.133199999999988
+      ],
+      "meanMs": 1.0953400000000102,
+      "medianMs": 1.0792000000000144,
+      "minimumMs": 1.044300000000021,
+      "maximumMs": 1.1690000000000964
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-23-heuristic-B-3238526998-turn-45-d378e6bfe36a",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-23-heuristic-B-3238526998-turn-45-d378e6bfe36a.json",
+    "type": "directed-closure-intervention",
+    "turn": 45,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "fd32b051c2c10d8135a63ac06a10ea15d8546ecd7fcef5dc134d0b7d488709f2",
+    "currentAccessibleCells": 43,
+    "maxImmediateCutLoss": 14,
+    "intensity": "high",
+    "uniqueLegalWallsChecked": 17,
+    "legalActionsInspected": 29,
+    "duplicateWallsDiscarded": 12,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 4,
+            "y": 0
+          },
+          "second": {
+            "x": 4,
+            "y": 1
+          },
+          "key": "4,0|4,1",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 29,
+        "loss": 14,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          25,
+          14,
+          4,
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          14,
+          14,
+          11,
+          4,
+          2,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.0632000000000517,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        0.9998000000000502,
+        1.0977000000000317,
+        0.9958000000000311,
+        1.1595000000000937,
+        1.0632000000000517
+      ],
+      "meanMs": 1.0632000000000517,
+      "medianMs": 1.0632000000000517,
+      "minimumMs": 0.9958000000000311,
+      "maximumMs": 1.1595000000000937
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-23-historical-activation-seed-heuristic-B-3238461465-turn-33-4648882122a6",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-23-historical-activation-seed-heuristic-B-3238461465-turn-33-4648882122a6.json",
+    "type": "directed-closure-intervention",
+    "turn": 33,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "1108c3bff363e87fcd586b69abecec484ac31ff738e0daba79c2306300ddef05",
+    "currentAccessibleCells": 49,
+    "maxImmediateCutLoss": 3,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 26,
+    "legalActionsInspected": 58,
+    "duplicateWallsDiscarded": 32,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 5,
+            "y": 2
+          },
+          "second": {
+            "x": 5,
+            "y": 3
+          },
+          "key": "5,2|5,3",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 5,
+              "y": 2
+            },
+            "dir": "bottom"
+          }
+        },
+        "accessibleCellsAfter": 46,
+        "loss": 3,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          30,
+          15,
+          4
+        ],
+        "componentSizesAfter": [
+          27,
+          15,
+          4,
+          3
+        ]
+      }
+    ],
+    "elapsedMs": 1.6049000000000433,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.6130000000000564,
+        1.6725000000000136,
+        1.7569999999999482,
+        1.5496999999999161,
+        1.6049000000000433
+      ],
+      "meanMs": 1.6394199999999954,
+      "medianMs": 1.6130000000000564,
+      "minimumMs": 1.5496999999999161,
+      "maximumMs": 1.7569999999999482
+    },
+    "previousDetectorHarmful": true
+  },
+  {
+    "fixtureId": "directed-26-historical-activation-seed-baseline-B-3238471469-turn-43-4544957abb2c",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-26-historical-activation-seed-baseline-B-3238471469-turn-43-4544957abb2c.json",
+    "type": "directed-closure-intervention",
+    "turn": 43,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "a88246f4e27ad919664d469f8509d42379142cffaf3ee26e94f3be9b573e9d71",
+    "currentAccessibleCells": 44,
+    "maxImmediateCutLoss": 12,
+    "intensity": "high",
+    "uniqueLegalWallsChecked": 23,
+    "legalActionsInspected": 43,
+    "duplicateWallsDiscarded": 20,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 6,
+            "y": 2
+          },
+          "second": {
+            "x": 6,
+            "y": 3
+          },
+          "key": "6,2|6,3",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 6,
+              "y": 3
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 32,
+        "loss": 12,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          21,
+          13,
+          8,
+          4,
+          2,
+          1
+        ],
+        "componentSizesAfter": [
+          13,
+          12,
+          9,
+          8,
+          4,
+          2,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.557299999999941,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.530399999999986,
+        1.5027999999999793,
+        1.3950999999999567,
+        1.5286000000000968,
+        1.557299999999941
+      ],
+      "meanMs": 1.502839999999992,
+      "medianMs": 1.5286000000000968,
+      "minimumMs": 1.3950999999999567,
+      "maximumMs": 1.557299999999941
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-28-historical-activation-seed-heuristic-B-3238461447-turn-39-6c6e1766114c",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-28-historical-activation-seed-heuristic-B-3238461447-turn-39-6c6e1766114c.json",
+    "type": "directed-closure-intervention",
+    "turn": 39,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "fc7de961a138734eef993b6df40a35b77ef45e388b3a5ca6c2fe0fc78ae65320",
+    "currentAccessibleCells": 48,
+    "maxImmediateCutLoss": 16,
+    "intensity": "high",
+    "uniqueLegalWallsChecked": 19,
+    "legalActionsInspected": 38,
+    "duplicateWallsDiscarded": 19,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 4,
+            "y": 0
+          },
+          "second": {
+            "x": 5,
+            "y": 0
+          },
+          "key": "4,0|5,0",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 4,
+              "y": 0
+            },
+            "dir": "right"
+          }
+        },
+        "accessibleCellsAfter": 32,
+        "loss": 16,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          23,
+          21,
+          4,
+          1
+        ],
+        "componentSizesAfter": [
+          23,
+          16,
+          5,
+          4,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.2124000000000024,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.0797000000000025,
+        1.0692000000000235,
+        1.427500000000009,
+        1.22199999999998,
+        1.2124000000000024
+      ],
+      "meanMs": 1.2021600000000034,
+      "medianMs": 1.2124000000000024,
+      "minimumMs": 1.0692000000000235,
+      "maximumMs": 1.427500000000009
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-29-historical-activation-seed-heuristic-B-3238461463-turn-29-79c41d1832dc",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-29-historical-activation-seed-heuristic-B-3238461463-turn-29-79c41d1832dc.json",
+    "type": "directed-closure-intervention",
+    "turn": 29,
+    "phase": "middle",
+    "playerToMove": "B",
+    "stateFingerprint": "1205a5472a60397d06e0a749e78fd5a0dffa2c945ca0cefe88abc7e9bd4879f7",
+    "currentAccessibleCells": 49,
+    "maxImmediateCutLoss": 2,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 31,
+    "legalActionsInspected": 71,
+    "duplicateWallsDiscarded": 40,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 4,
+            "y": 4
+          },
+          "second": {
+            "x": 4,
+            "y": 5
+          },
+          "key": "4,4|4,5",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 4,
+              "y": 5
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 47,
+        "loss": 2,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          48,
+          1
+        ],
+        "componentSizesAfter": [
+          46,
+          2,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 2.135400000000004,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        2.2896999999999252,
+        1.7743000000000393,
+        1.9198999999999842,
+        1.8724000000000842,
+        2.135400000000004
+      ],
+      "meanMs": 1.9983400000000073,
+      "medianMs": 1.9198999999999842,
+      "minimumMs": 1.7743000000000393,
+      "maximumMs": 2.2896999999999252
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-3-heuristic-B-3238526978-turn-45-bdf5c95b806c",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-3-heuristic-B-3238526978-turn-45-bdf5c95b806c.json",
+    "type": "directed-closure-intervention",
+    "turn": 45,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "2a4679ec55bef42173f764c7f45a7120fbca9fce0f9d685d6b6266b647e3a8f5",
+    "currentAccessibleCells": 41,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 24,
+    "legalActionsInspected": 40,
+    "duplicateWallsDiscarded": 16,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 4,
+            "y": 6
+          },
+          "second": {
+            "x": 5,
+            "y": 6
+          },
+          "key": "4,6|5,6",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 5,
+              "y": 6
+            },
+            "dir": "left"
+          }
+        },
+        "accessibleCellsAfter": 40,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          36,
+          3,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          35,
+          3,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.3475000000000819,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.4411999999999807,
+        1.5325999999998885,
+        1.7382000000000062,
+        1.4691000000000258,
+        1.3475000000000819
+      ],
+      "meanMs": 1.5057199999999966,
+      "medianMs": 1.4691000000000258,
+      "minimumMs": 1.3475000000000819,
+      "maximumMs": 1.7382000000000062
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-3-heuristic-B-3238526978-turn-53-b682722f3497",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-3-heuristic-B-3238526978-turn-53-b682722f3497.json",
+    "type": "directed-closure-intervention",
+    "turn": 53,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "853e3ca4e9491667e58dcd952ac8f4618c69b1e2d9a843eac207dc7493e185a5",
+    "currentAccessibleCells": 35,
+    "maxImmediateCutLoss": 3,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 22,
+    "legalActionsInspected": 39,
+    "duplicateWallsDiscarded": 17,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 5,
+            "y": 4
+          },
+          "second": {
+            "x": 5,
+            "y": 5
+          },
+          "key": "5,4|5,5",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 5,
+              "y": 4
+            },
+            "dir": "bottom"
+          }
+        },
+        "accessibleCellsAfter": 32,
+        "loss": 3,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          31,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          28,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.329499999999939,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.6003000000000611,
+        1.5224000000000615,
+        1.286200000000008,
+        1.3365999999999758,
+        1.329499999999939
+      ],
+      "meanMs": 1.4150000000000091,
+      "medianMs": 1.3365999999999758,
+      "minimumMs": 1.286200000000008,
+      "maximumMs": 1.6003000000000611
+    },
+    "previousDetectorHarmful": true
+  },
+  {
+    "fixtureId": "directed-30-historical-activation-seed-heuristic-B-3238461475-turn-35-b70cccca5189",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-30-historical-activation-seed-heuristic-B-3238461475-turn-35-b70cccca5189.json",
+    "type": "directed-closure-intervention",
+    "turn": 35,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "9500a380213a1d68d387f9315fc22415f544af9fcdf216a10e11cdf77ef24ec5",
+    "currentAccessibleCells": 48,
+    "maxImmediateCutLoss": 5,
+    "intensity": "moderate",
+    "uniqueLegalWallsChecked": 23,
+    "legalActionsInspected": 46,
+    "duplicateWallsDiscarded": 23,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 2,
+            "y": 5
+          },
+          "second": {
+            "x": 2,
+            "y": 6
+          },
+          "key": "2,5|2,6",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 2,
+              "y": 6
+            },
+            "dir": "top"
+          }
+        },
+        "accessibleCellsAfter": 43,
+        "loss": 5,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          48,
+          1
+        ],
+        "componentSizesAfter": [
+          43,
+          5,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.3045000000000755,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.3984000000000378,
+        1.5056000000000722,
+        1.3161000000000058,
+        1.4104999999999563,
+        1.3045000000000755
+      ],
+      "meanMs": 1.3870200000000295,
+      "medianMs": 1.3984000000000378,
+      "minimumMs": 1.3045000000000755,
+      "maximumMs": 1.5056000000000722
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-30-historical-activation-seed-heuristic-B-3238461475-turn-37-c4685045dd36",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-30-historical-activation-seed-heuristic-B-3238461475-turn-37-c4685045dd36.json",
+    "type": "directed-closure-intervention",
+    "turn": 37,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "68b712f35b2c6d9bd4b387f6d844c840cddd3a13b894a737658df54f7105dd30",
+    "currentAccessibleCells": 48,
+    "maxImmediateCutLoss": 7,
+    "intensity": "moderate",
+    "uniqueLegalWallsChecked": 22,
+    "legalActionsInspected": 43,
+    "duplicateWallsDiscarded": 21,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 6,
+            "y": 5
+          },
+          "second": {
+            "x": 6,
+            "y": 6
+          },
+          "key": "6,5|6,6",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 6,
+              "y": 5
+            },
+            "dir": "bottom"
+          }
+        },
+        "accessibleCellsAfter": 41,
+        "loss": 7,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          48,
+          1
+        ],
+        "componentSizesAfter": [
+          41,
+          7,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.300799999999981,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.3740999999999985,
+        1.275600000000054,
+        1.3377000000000407,
+        1.338799999999992,
+        1.300799999999981
+      ],
+      "meanMs": 1.3254000000000132,
+      "medianMs": 1.3377000000000407,
+      "minimumMs": 1.275600000000054,
+      "maximumMs": 1.3740999999999985
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-6-baseline-R-3238526981-turn-44-aa21f3e8eaa5",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-6-baseline-R-3238526981-turn-44-aa21f3e8eaa5.json",
+    "type": "directed-closure-intervention",
+    "turn": 44,
+    "phase": "end",
+    "playerToMove": "R",
+    "stateFingerprint": "e9c6f1112f949f759e7bf8ab8fc4360e41c3b4c48c8b839a53fae0bc42f0e385",
+    "currentAccessibleCells": 40,
+    "maxImmediateCutLoss": 1,
+    "intensity": "small",
+    "uniqueLegalWallsChecked": 19,
+    "legalActionsInspected": 38,
+    "duplicateWallsDiscarded": 19,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 0,
+            "y": 5
+          },
+          "second": {
+            "x": 1,
+            "y": 5
+          },
+          "key": "0,5|1,5",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "dir": "right"
+          }
+        },
+        "accessibleCellsAfter": 39,
+        "loss": 1,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          35,
+          5,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          34,
+          5,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.1870000000000118,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.1171000000000504,
+        1.2304000000000315,
+        1.2386999999999944,
+        1.1128999999999678,
+        1.1870000000000118
+      ],
+      "meanMs": 1.1772200000000113,
+      "medianMs": 1.1870000000000118,
+      "minimumMs": 1.1128999999999678,
+      "maximumMs": 1.2386999999999944
+    },
+    "previousDetectorHarmful": false
+  },
+  {
+    "fixtureId": "directed-8-baseline-B-3238526983-turn-45-b31a4793e158",
+    "source": "data/entrenamiento/mcts/captura_dirigida_closure_threat/fixtures/directed-8-baseline-B-3238526983-turn-45-b31a4793e158.json",
+    "type": "directed-closure-intervention",
+    "turn": 45,
+    "phase": "end",
+    "playerToMove": "B",
+    "stateFingerprint": "62adf09958703a5c5ed019caf9b8667e3e091a29f10cc0cf49b333d2abb49f83",
+    "currentAccessibleCells": 43,
+    "maxImmediateCutLoss": 17,
+    "intensity": "high",
+    "uniqueLegalWallsChecked": 21,
+    "legalActionsInspected": 35,
+    "duplicateWallsDiscarded": 14,
+    "worstWalls": [
+      {
+        "wall": {
+          "first": {
+            "x": 3,
+            "y": 5
+          },
+          "second": {
+            "x": 3,
+            "y": 6
+          },
+          "key": "3,5|3,6",
+          "action": {
+            "type": "wall",
+            "pos": {
+              "x": 3,
+              "y": 5
+            },
+            "dir": "bottom"
+          }
+        },
+        "accessibleCellsAfter": 26,
+        "loss": 17,
+        "disconnectsGraph": true,
+        "componentSizesBefore": [
+          26,
+          14,
+          3,
+          3,
+          1,
+          1,
+          1
+        ],
+        "componentSizesAfter": [
+          17,
+          14,
+          9,
+          3,
+          3,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "elapsedMs": 1.1976999999999407,
+    "performance": {
+      "repetitions": 5,
+      "samplesMs": [
+        1.275600000000054,
+        1.4399999999999409,
+        1.2027000000000498,
+        1.3260999999999967,
+        1.1976999999999407
+      ],
+      "meanMs": 1.2884199999999963,
+      "medianMs": 1.275600000000054,
+      "minimumMs": 1.1976999999999407,
+      "maximumMs": 1.4399999999999409
+    },
+    "previousDetectorHarmful": true
+  }
+]

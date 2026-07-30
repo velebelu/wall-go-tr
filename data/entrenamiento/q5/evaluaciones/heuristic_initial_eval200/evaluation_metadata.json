@@ -1,0 +1,21 @@
+{
+  "createdAt": "2026-07-12T11:46:09.413Z",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\qtable_q5_heuristic_initial.json",
+  "qTableEntries": 19652,
+  "hashBefore": "cc901a6c3ee8f6bb196781109e665eea12ad8675d58b13565146326f863694de",
+  "hashAfter": "cc901a6c3ee8f6bb196781109e665eea12ad8675d58b13565146326f863694de",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\evaluaciones\\heuristic_initial_eval200",
+  "protocol": {
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "totalGames": 400,
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "alphaUpdates": false,
+    "qTableFrozen": true
+  }
+}

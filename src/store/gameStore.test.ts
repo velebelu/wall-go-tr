@@ -1,5 +1,6 @@
-import { beforeAll } from 'vitest'
+import { beforeAll, beforeEach } from 'vitest'
 import { JSDOM } from 'jsdom'
+import { makeInitialState, snapshotFromState } from './gameState'
 
 beforeAll(() => {
   if (typeof window === 'undefined') {
@@ -15,6 +16,18 @@ import { useGame } from './index'
 import { BOARD_SIZE, PLAYER_LIST, STONES_PER_PLAYER, type Pos } from '@/lib/types'
 import { describe, it, expect } from 'vitest'
 import type { DOMWindow } from 'jsdom'
+
+beforeEach(() => {
+  const initial = makeInitialState()
+  useGame.setState({
+    ...initial,
+    _history: [snapshotFromState(initial)],
+    _future: [],
+    canUndo: false,
+    canRedo: false,
+    humanSide: null,
+  })
+})
 
 describe('Game Store', () => {
   it('placeStone: 正確擺子與換手', () => {
@@ -85,9 +98,9 @@ describe('Game Store', () => {
       result.current.selectStone({ x: 0, y: 0 })
     })
     act(() => {
-      result.current.buildWall({ x: 0, y: 0 }, 'top')
+      result.current.buildWall({ x: 0, y: 0 }, 'right')
     })
-    expect(result.current.board[0][0].wallTop).toBe(PLAYER_LIST[0])
+    expect(result.current.board[0][1].wallLeft).toBe(PLAYER_LIST[0])
   })
 
   it('undo/redo: 歷史紀錄正確', () => {
@@ -109,7 +122,7 @@ describe('Game Store', () => {
     expect(result.current.board[0][1].stone).toBe(PLAYER_LIST[1])
   })
 
-  it('resetGame: 可 undo 回到前局', () => {
+  it('resetGame: clears history and starts a fresh game', () => {
     const { result } = renderHook(() => useGame())
     act(() => {
       result.current.placeStone({ x: 0, y: 0 })
@@ -121,7 +134,8 @@ describe('Game Store', () => {
     act(() => {
       result.current.undo()
     })
-    expect(result.current.board[0][0].stone).toBe(PLAYER_LIST[0])
+    expect(result.current.board[0][0].stone).toBe(null)
+    expect(result.current.canUndo).toBe(false)
   })
 
   it('多步 undo/redo', () => {
@@ -194,12 +208,12 @@ describe('Game Store', () => {
       result.current.selectStone({ x: 0, y: 0 })
     })
     act(() => {
-      result.current.buildWall({ x: 0, y: 0 }, 'top')
+      result.current.buildWall({ x: 0, y: 0 }, 'right')
     })
     act(() => {
-      result.current.buildWall({ x: 0, y: 0 }, 'top')
+      result.current.buildWall({ x: 0, y: 0 }, 'right')
     })
-    expect(result.current.board[0][0].wallTop).toBe(PLAYER_LIST[0])
+    expect(result.current.board[0][1].wallLeft).toBe(PLAYER_LIST[0])
   })
 
   it('遊戲結束後操作無效', () => {

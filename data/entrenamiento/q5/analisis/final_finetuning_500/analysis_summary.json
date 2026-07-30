@@ -1,0 +1,125 @@
+{
+  "createdAt": "2026-07-12T15:44:56.724Z",
+  "inputs": {
+    "initialPath": "data/entrenamiento/q5/heuristic_initial_qtable/qtable_q5_heuristic_initial.json",
+    "finalPath": "data/entrenamiento/q5/final_finetuning/checkpoint_500/qtable_q5_final_finetuning_500.json",
+    "buildSummaryPath": "data/entrenamiento/q5/heuristic_initial_qtable/build_summary.json",
+    "metadataPath": "data/entrenamiento/q5/final_finetuning/checkpoint_500/metadata.json",
+    "evalPath": "data/entrenamiento/q5/evaluaciones/final_finetuning_500_eval200/learning_comparison_summary.json"
+  },
+  "counts": {
+    "initialEntries": 19652,
+    "finalEntries": 22752,
+    "inheritedEntries": 19652,
+    "addedEntries": 3100
+  },
+  "qChangeDistribution": {
+    "thresholds": [
+      {
+        "threshold": 0.1,
+        "count": 109
+      },
+      {
+        "threshold": 0.5,
+        "count": 41
+      },
+      {
+        "threshold": 1,
+        "count": 41
+      },
+      {
+        "threshold": 2,
+        "count": 41
+      },
+      {
+        "threshold": 5,
+        "count": 1
+      }
+    ],
+    "signChanges": {
+      "positiveToNegative": 8,
+      "negativeToPositive": 6,
+      "anySignChange": 14
+    },
+    "meanAbsChange": 0.009557,
+    "maxAbsChange": 6.53037,
+    "medianAbsChange": 0
+  },
+  "byConfidence": {
+    "1 observacion": {
+      "entries": 15462,
+      "changed": 1310,
+      "meanAbsChange": 0.009987,
+      "medianAbsChange": 0,
+      "maxAbsChange": 6.53037,
+      "above1": 36,
+      "above5": 1
+    },
+    "2-5": {
+      "entries": 3437,
+      "changed": 475,
+      "meanAbsChange": 0.0081,
+      "medianAbsChange": 0,
+      "maxAbsChange": 3.5043,
+      "above1": 5,
+      "above5": 0
+    },
+    "6-20": {
+      "entries": 595,
+      "changed": 115,
+      "meanAbsChange": 0.005648,
+      "medianAbsChange": 0,
+      "maxAbsChange": 0.169558,
+      "above1": 0,
+      "above5": 0
+    },
+    "mas de 20": {
+      "entries": 158,
+      "changed": 45,
+      "meanAbsChange": 0.013855,
+      "medianAbsChange": 0,
+      "maxAbsChange": 0.338083,
+      "above1": 0,
+      "above5": 0
+    }
+  },
+  "valueHealth": {
+    "finalMin": -6.9938733,
+    "finalMax": 7.800369999999999,
+    "invalidValueCount": 0,
+    "outOfReasonableRangeAbsGt500": 0
+  },
+  "maxExplanation": {
+    "key": "q3|phase:playing|step:0|sp:4,4|td:L1|mob:6-15,6-15|trap:1,2|walls:37+|||move-wall|4|5|5|6|5|6|left",
+    "initialQ": 1.27,
+    "finalQ": 7.800369999999999,
+    "diff": 6.53037,
+    "absDiff": 6.53037,
+    "alpha": 0.03,
+    "equivalentSingleUpdateTargetMinusCurrent": 217.679,
+    "interpretation": "With alpha=0.03, a 6.5304 absolute move implies an update target roughly 217.68 points away from the then-current Q if it happened in one update. This scale cannot be explained by the bounded intermediate reward alone; it requires terminal reward (+/-100 plus territory final), bootstrapping from future Q values, repeated updates, or a combination. Exact update count and per-key reward decomposition were not logged."
+  },
+  "trainingMetadataDelta": {
+    "modifiedExistingValues": 1945,
+    "addedStateActionPairs": 3100,
+    "unchangedExistingValues": 17707,
+    "inheritedAbsoluteChangeMean": 0.0096,
+    "inheritedAbsoluteChangeMax": 6.5304
+  },
+  "evaluation": {
+    "qTableChangedDuringEvaluation": false,
+    "hashBefore": "d7f5a6629eea60c7cfabcd24875aac1752033d8b2f15ad4acb249a56f3313212",
+    "hashAfter": "d7f5a6629eea60c7cfabcd24875aac1752033d8b2f15ad4acb249a56f3313212"
+  },
+  "behaviorReview": {
+    "knownStateNoKnownAction": "Q5 evaluates every legal action with qTable[key] ?? 0. If no legal action has a known key, all actions tie at 0 and selection is random among all legal actions using the seeded RNG.",
+    "tieBreaks": "When several actions share the same max Q value, chooseLearningActionQ4 chooses randomly among tied best actions with the seeded RNG.",
+    "newStateEpsilonZero": "With epsilon=0 in evaluation, a completely new state still uses greedy selection over default value 0, so every legal action ties and behavior becomes seeded-random for that decision.",
+    "coverageRisk": "Yes. Any state with no known positive action, or only unknown actions, can retain random behavior during evaluation. Unknown actions with default 0 can also beat known inherited negative actions."
+  },
+  "limitations": {
+    "exactUpdatesPerPair": "Not reconstructable from current artifacts; training metadata logs game-level hits/misses and table sizes, not state-action update events.",
+    "updateRivalColor": "Not reconstructable per pair; original heuristic dataset rival/color frequencies are available, but training update rival/color by key was not logged.",
+    "finalVsIntermediate": "Not logged per state-action. Large changes can be interpreted from magnitude and Q-learning formula, but not attributed exactly."
+  }
+}

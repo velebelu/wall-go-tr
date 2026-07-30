@@ -1,0 +1,4374 @@
+{
+  "schema": "HumanMCTSTraceAnalysisV1",
+  "gameId": "g_41746ecd",
+  "thresholds": {
+    "lowConfidenceMaxVisitGap": 1,
+    "lowConfidenceMaxValueGap": 0.1,
+    "lowConfidenceMaxSelectedVisitShare": 0.12,
+    "largeScoreChange": 10,
+    "territorySwing": 5,
+    "accessibleTerritorySwing": 5,
+    "ownMobilityDrop": 4,
+    "opponentMobilityGain": 4,
+    "trappedPiecesIncrease": 1,
+    "highSearchTimeMs": 750,
+    "highVerificationTimeMs": 125,
+    "criticalSignalCount": 2
+  },
+  "replay": {
+    "ok": true,
+    "decisionsReplayed": 34
+  },
+  "game": {
+    "result": {
+      "finished": true,
+      "winner": "B",
+      "score": {
+        "R": 9,
+        "B": 37
+      }
+    },
+    "territory": {
+      "R": 9,
+      "B": 37
+    },
+    "totalDecisions": 34,
+    "humanDecisions": 17,
+    "mctsDecisions": 17,
+    "mctsColor": "R",
+    "humanColor": "B"
+  },
+  "summary": {
+    "averageMCTSTimeMs": 562.5294,
+    "maximumMCTSTimeMs": 979.4,
+    "tacticalChanges": 11,
+    "lowConfidenceDecisions": 14,
+    "possibleCriticalDecisions": 11
+  },
+  "decisions": [
+    {
+      "turnIndex": 0,
+      "actorDecisionIndex": 0,
+      "phase": "placing",
+      "actionOriginal": {
+        "type": "place",
+        "pos": {
+          "x": 3,
+          "y": 5
+        }
+      },
+      "actionFinal": {
+        "type": "place",
+        "pos": {
+          "x": 3,
+          "y": 5
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 9,
+      "selectedValue": 0.5555555555555556,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.18,
+      "topCandidateVisits": 9,
+      "secondCandidateVisits": 6,
+      "visitGap": 3,
+      "topCandidateValue": 0.5555555555555556,
+      "secondCandidateValue": 0.3333333333333333,
+      "valueGap": 0.2222,
+      "originalScore": -6,
+      "verifiedScore": -6,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -6,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 20,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 20,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 28,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 19,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 8,
+      "opponentMobilityDelta": -1,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 801,
+      "verificationTimeMs": 39.599999994039536,
+      "legalActionCount": 45,
+      "rootCandidateCount": 14,
+      "categories": [
+        "high-cost"
+      ],
+      "relevanceScore": 1,
+      "rankReasons": [
+        "Coste alto: búsqueda=801 ms, verificación=39.6 ms."
+      ]
+    },
+    {
+      "turnIndex": 3,
+      "actorDecisionIndex": 1,
+      "phase": "placing",
+      "actionOriginal": {
+        "type": "place",
+        "pos": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      "actionFinal": {
+        "type": "place",
+        "pos": {
+          "x": 4,
+          "y": 2
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 5,
+      "selectedValue": 0.6,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.1,
+      "topCandidateVisits": 7,
+      "secondCandidateVisits": 5,
+      "visitGap": 2,
+      "topCandidateValue": 0.42857142857142855,
+      "secondCandidateValue": 0.6,
+      "valueGap": -0.1714,
+      "originalScore": -30,
+      "verifiedScore": -20,
+      "scoreChange": 10,
+      "worstOpponentReplyScore": -20,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 25,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 40,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 34,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 37,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 9,
+      "opponentMobilityDelta": -3,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 816.5,
+      "verificationTimeMs": 141.09999999403954,
+      "legalActionCount": 42,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "large-score-change",
+        "high-cost",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 8,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=2, valor=-0.1714, cuota elegida=0.1.",
+        "La puntuación verificada cambió 10 puntos.",
+        "Coste alto: búsqueda=816.5 ms, verificación=141.1 ms.",
+        "Combina 4 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 4,
+      "actorDecisionIndex": 2,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 3,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "pos": {
+            "x": 3,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 3,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "pos": {
+            "x": 3,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 11,
+      "selectedValue": 0.8181818181818182,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.22,
+      "topCandidateVisits": 11,
+      "secondCandidateVisits": 6,
+      "visitGap": 5,
+      "topCandidateValue": 0.8181818181818182,
+      "secondCandidateValue": 0.3333333333333333,
+      "valueGap": 0.4848,
+      "originalScore": -8,
+      "verifiedScore": -8,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -8,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 34,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 37,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 35,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 38,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 1,
+      "opponentMobilityDelta": 1,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 817.2000000029802,
+      "verificationTimeMs": 162.20000000298023,
+      "legalActionCount": 135,
+      "rootCandidateCount": 14,
+      "categories": [
+        "high-cost"
+      ],
+      "relevanceScore": 1,
+      "rankReasons": [
+        "Coste alto: búsqueda=817.2 ms, verificación=162.2 ms."
+      ]
+    },
+    {
+      "turnIndex": 6,
+      "actorDecisionIndex": 3,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "pos": {
+            "x": 4,
+            "y": 3
+          },
+          "dir": "left"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 6,
+      "selectedValue": 0,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.12,
+      "topCandidateVisits": 7,
+      "secondCandidateVisits": 6,
+      "visitGap": 1,
+      "topCandidateValue": 0.14285714285714285,
+      "secondCandidateValue": 0,
+      "valueGap": 0.1429,
+      "originalScore": -8,
+      "verifiedScore": -2,
+      "scoreChange": 6,
+      "worstOpponentReplyScore": -2,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 33,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 35,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 35,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 33,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 2,
+      "opponentMobilityDelta": -2,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 752.5,
+      "verificationTimeMs": 143.09999999403954,
+      "legalActionCount": 130,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "high-cost",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 5.6,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=1, valor=0.1429, cuota elegida=0.12.",
+        "Coste alto: búsqueda=752.5 ms, verificación=143.1 ms.",
+        "Combina 3 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 8,
+      "actorDecisionIndex": 4,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 4
+          },
+          "pos": {
+            "x": 4,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "pos": {
+            "x": 4,
+            "y": 3
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 7,
+      "selectedValue": 0.7142857142857143,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.14,
+      "topCandidateVisits": 7,
+      "secondCandidateVisits": 7,
+      "visitGap": 0,
+      "topCandidateValue": 0.7142857142857143,
+      "secondCandidateValue": 0.7142857142857143,
+      "valueGap": 0,
+      "originalScore": -6,
+      "verifiedScore": 0,
+      "scoreChange": 6,
+      "worstOpponentReplyScore": 0,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 33,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 31,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 36,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 28,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 3,
+      "opponentMobilityDelta": -3,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 680.2000000029802,
+      "verificationTimeMs": 115.59999999403954,
+      "legalActionCount": 128,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.6,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.14.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 10,
+      "actorDecisionIndex": 5,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 5
+          },
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 4
+          },
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 7,
+      "selectedValue": 0.42857142857142855,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.14,
+      "topCandidateVisits": 7,
+      "secondCandidateVisits": 7,
+      "visitGap": 0,
+      "topCandidateValue": 0.7142857142857143,
+      "secondCandidateValue": 0.42857142857142855,
+      "valueGap": 0.2857,
+      "originalScore": -12,
+      "verifiedScore": -4,
+      "scoreChange": 8,
+      "worstOpponentReplyScore": -4,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 32,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 32,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 32,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 30,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 0,
+      "opponentMobilityDelta": -2,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 615,
+      "verificationTimeMs": 106,
+      "legalActionCount": 120,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.8,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0.2857, cuota elegida=0.14.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 12,
+      "actorDecisionIndex": 6,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 3
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 3
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 6,
+      "selectedValue": 0.3333333333333333,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.12,
+      "topCandidateVisits": 8,
+      "secondCandidateVisits": 6,
+      "visitGap": 2,
+      "topCandidateValue": 0.25,
+      "secondCandidateValue": 0.3333333333333333,
+      "valueGap": -0.0833,
+      "originalScore": -2,
+      "verifiedScore": -2,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -2,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 29,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 31,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 31,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 31,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 2,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 588.0999999940395,
+      "verificationTimeMs": 107.09999999403954,
+      "legalActionCount": 107,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=2, valor=-0.0833, cuota elegida=0.12.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 14,
+      "actorDecisionIndex": 7,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "left"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 9,
+      "selectedValue": 0.3333333333333333,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.18,
+      "topCandidateVisits": 9,
+      "secondCandidateVisits": 6,
+      "visitGap": 3,
+      "topCandidateValue": 0.3333333333333333,
+      "secondCandidateValue": 0.16666666666666666,
+      "valueGap": 0.1667,
+      "originalScore": -6,
+      "verifiedScore": -6,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -6,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 29,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 29,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 29,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 29,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 0,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 536.7999999970198,
+      "verificationTimeMs": 93.19999998807907,
+      "legalActionCount": 103,
+      "rootCandidateCount": 14,
+      "categories": [],
+      "relevanceScore": 0,
+      "rankReasons": []
+    },
+    {
+      "turnIndex": 16,
+      "actorDecisionIndex": 8,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 6,
+      "selectedValue": 0,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.12,
+      "topCandidateVisits": 6,
+      "secondCandidateVisits": 6,
+      "visitGap": 0,
+      "topCandidateValue": 0,
+      "secondCandidateValue": 0,
+      "valueGap": 0,
+      "originalScore": -14,
+      "verifiedScore": -14,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -14,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 27,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 27,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 28,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 27,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 1,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 449.70000000298023,
+      "verificationTimeMs": 74.70000000298023,
+      "legalActionCount": 99,
+      "rootCandidateCount": 14,
+      "categories": [
+        "low-confidence"
+      ],
+      "relevanceScore": 1,
+      "rankReasons": [
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.12."
+      ]
+    },
+    {
+      "turnIndex": 18,
+      "actorDecisionIndex": 9,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 4
+          },
+          "pos": {
+            "x": 2,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 7,
+      "selectedValue": 0.14285714285714285,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.14,
+      "topCandidateVisits": 8,
+      "secondCandidateVisits": 7,
+      "visitGap": 1,
+      "topCandidateValue": 0.25,
+      "secondCandidateValue": 0.14285714285714285,
+      "valueGap": 0.1071,
+      "originalScore": -17,
+      "verifiedScore": -13,
+      "scoreChange": 4,
+      "worstOpponentReplyScore": -13,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 1,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 1,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 48
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 48
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 23,
+          "trapPieces": 1,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 27,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 22,
+          "trapPieces": 1,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 25,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": -1,
+      "opponentMobilityDelta": -2,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 470,
+      "verificationTimeMs": 71.40000000596046,
+      "legalActionCount": 87,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=1, valor=0.1071, cuota elegida=0.14.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 20,
+      "actorDecisionIndex": 10,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 3
+          },
+          "pos": {
+            "x": 2,
+            "y": 3
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 2
+        },
+        "pos": {
+          "x": 1,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 3
+          },
+          "pos": {
+            "x": 1,
+            "y": 3
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 7,
+      "selectedValue": -0.14285714285714285,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.14,
+      "topCandidateVisits": 9,
+      "secondCandidateVisits": 7,
+      "visitGap": 2,
+      "topCandidateValue": -0.1111111111111111,
+      "secondCandidateValue": -0.14285714285714285,
+      "valueGap": 0.0317,
+      "originalScore": -25,
+      "verifiedScore": -21,
+      "scoreChange": 4,
+      "worstOpponentReplyScore": -21,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 1,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 1,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 48
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 48
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 19,
+          "trapPieces": 1,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 26,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 16,
+          "trapPieces": 1,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 24,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": -3,
+      "opponentMobilityDelta": -2,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 381.29999999701977,
+      "verificationTimeMs": 63.599999994039536,
+      "legalActionCount": 70,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=2, valor=0.0317, cuota elegida=0.14.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 22,
+      "actorDecisionIndex": 11,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 3
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 3
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 7,
+      "selectedValue": -0.14285714285714285,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.14,
+      "topCandidateVisits": 7,
+      "secondCandidateVisits": 7,
+      "visitGap": 0,
+      "topCandidateValue": -0.14285714285714285,
+      "secondCandidateValue": -0.14285714285714285,
+      "valueGap": 0,
+      "originalScore": 7,
+      "verifiedScore": 7,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": 7,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 15,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 22,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 17,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 23,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 2,
+      "opponentMobilityDelta": 1,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 326.40000000596046,
+      "verificationTimeMs": 57.20000000298023,
+      "legalActionCount": 54,
+      "rootCandidateCount": 14,
+      "categories": [
+        "low-confidence"
+      ],
+      "relevanceScore": 1,
+      "rankReasons": [
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.14."
+      ]
+    },
+    {
+      "turnIndex": 24,
+      "actorDecisionIndex": 12,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 4
+          },
+          "pos": {
+            "x": 1,
+            "y": 4
+          },
+          "dir": "bottom"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 6,
+      "selectedValue": -0.6666666666666666,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.12,
+      "topCandidateVisits": 6,
+      "secondCandidateVisits": 6,
+      "visitGap": 0,
+      "topCandidateValue": -0.6666666666666666,
+      "secondCandidateValue": -0.6666666666666666,
+      "valueGap": 0,
+      "originalScore": -7,
+      "verifiedScore": -3,
+      "scoreChange": 4,
+      "worstOpponentReplyScore": -3,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 14,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 22,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 14,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 21,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 0,
+      "opponentMobilityDelta": -1,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 286.69999998807907,
+      "verificationTimeMs": 51,
+      "legalActionCount": 47,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.12.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 26,
+      "actorDecisionIndex": 13,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 0,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 5
+          },
+          "pos": {
+            "x": 0,
+            "y": 5
+          },
+          "dir": "right"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 5,
+      "selectedValue": -0.6,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.1,
+      "topCandidateVisits": 5,
+      "secondCandidateVisits": 5,
+      "visitGap": 0,
+      "topCandidateValue": -0.6,
+      "secondCandidateValue": -0.6,
+      "valueGap": 0,
+      "verifiedScore": -7,
+      "scoreChange": null,
+      "worstOpponentReplyScore": -7,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 11,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 25,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 10,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 23,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": -1,
+      "opponentMobilityDelta": -2,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 264.09999999403954,
+      "verificationTimeMs": 42.3999999910593,
+      "legalActionCount": 35,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.1.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 28,
+      "actorDecisionIndex": 14,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 5
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 4
+          },
+          "pos": {
+            "x": 0,
+            "y": 4
+          },
+          "dir": "bottom"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 5
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 4
+          },
+          "pos": {
+            "x": 0,
+            "y": 4
+          },
+          "dir": "bottom"
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 6,
+      "selectedValue": -0.3333333333333333,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.12,
+      "topCandidateVisits": 6,
+      "secondCandidateVisits": 5,
+      "visitGap": 1,
+      "topCandidateValue": -0.3333333333333333,
+      "secondCandidateValue": -0.6,
+      "valueGap": 0.2667,
+      "originalScore": -34,
+      "verifiedScore": -34,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -34,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleAfter": {
+        "R": 48,
+        "B": 45
+      },
+      "accessibleDelta": {
+        "R": -1,
+        "B": -1
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 8,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 23,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 9,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 23,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 1,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 207.8999999910593,
+      "verificationTimeMs": 43.599999994039536,
+      "legalActionCount": 23,
+      "rootCandidateCount": 14,
+      "categories": [
+        "low-confidence"
+      ],
+      "relevanceScore": 1.2,
+      "rankReasons": [
+        "Margen reducido: visitas=1, valor=0.2667, cuota elegida=0.12."
+      ]
+    },
+    {
+      "turnIndex": 30,
+      "actorDecisionIndex": 15,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 4,
+      "selectedValue": -1,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.08,
+      "topCandidateVisits": 4,
+      "secondCandidateVisits": 4,
+      "visitGap": 0,
+      "topCandidateValue": -1,
+      "secondCandidateValue": -1,
+      "valueGap": 0,
+      "verifiedScore": -38,
+      "scoreChange": null,
+      "worstOpponentReplyScore": -38,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 48,
+        "B": 45
+      },
+      "accessibleAfter": {
+        "R": 48,
+        "B": 45
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 9,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 24,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 8,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 24,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": -1,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 126.30000001192093,
+      "verificationTimeMs": 43.70000000298023,
+      "legalActionCount": 25,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.08.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 32,
+      "actorDecisionIndex": 16,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 4
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "dir": "right"
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 4,
+      "selectedValue": -1,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.08,
+      "topCandidateVisits": 4,
+      "secondCandidateVisits": 4,
+      "visitGap": 0,
+      "topCandidateValue": -1,
+      "secondCandidateValue": -1,
+      "valueGap": 0,
+      "verifiedScore": -1000000,
+      "scoreChange": null,
+      "worstOpponentReplyScore": -1000000,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 48,
+        "B": 45
+      },
+      "accessibleAfter": {
+        "R": 46,
+        "B": 43
+      },
+      "accessibleDelta": {
+        "R": -2,
+        "B": -2
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 6,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 21,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 8,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 21,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 2,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 70.40000000596046,
+      "verificationTimeMs": 17.400000005960464,
+      "legalActionCount": 15,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.08.",
+        "Combina 2 señales diagnósticas."
+      ]
+    }
+  ],
+  "ranking": [
+    {
+      "turnIndex": 3,
+      "actorDecisionIndex": 1,
+      "phase": "placing",
+      "actionOriginal": {
+        "type": "place",
+        "pos": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      "actionFinal": {
+        "type": "place",
+        "pos": {
+          "x": 4,
+          "y": 2
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 5,
+      "selectedValue": 0.6,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.1,
+      "topCandidateVisits": 7,
+      "secondCandidateVisits": 5,
+      "visitGap": 2,
+      "topCandidateValue": 0.42857142857142855,
+      "secondCandidateValue": 0.6,
+      "valueGap": -0.1714,
+      "originalScore": -30,
+      "verifiedScore": -20,
+      "scoreChange": 10,
+      "worstOpponentReplyScore": -20,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 25,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 40,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 34,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 37,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 9,
+      "opponentMobilityDelta": -3,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 816.5,
+      "verificationTimeMs": 141.09999999403954,
+      "legalActionCount": 42,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "large-score-change",
+        "high-cost",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 8,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=2, valor=-0.1714, cuota elegida=0.1.",
+        "La puntuación verificada cambió 10 puntos.",
+        "Coste alto: búsqueda=816.5 ms, verificación=141.1 ms.",
+        "Combina 4 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 6,
+      "actorDecisionIndex": 3,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "pos": {
+            "x": 4,
+            "y": 3
+          },
+          "dir": "left"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 6,
+      "selectedValue": 0,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.12,
+      "topCandidateVisits": 7,
+      "secondCandidateVisits": 6,
+      "visitGap": 1,
+      "topCandidateValue": 0.14285714285714285,
+      "secondCandidateValue": 0,
+      "valueGap": 0.1429,
+      "originalScore": -8,
+      "verifiedScore": -2,
+      "scoreChange": 6,
+      "worstOpponentReplyScore": -2,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 33,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 35,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 35,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 33,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 2,
+      "opponentMobilityDelta": -2,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 752.5,
+      "verificationTimeMs": 143.09999999403954,
+      "legalActionCount": 130,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "high-cost",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 5.6,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=1, valor=0.1429, cuota elegida=0.12.",
+        "Coste alto: búsqueda=752.5 ms, verificación=143.1 ms.",
+        "Combina 3 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 10,
+      "actorDecisionIndex": 5,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 5
+          },
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 4
+          },
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 7,
+      "selectedValue": 0.42857142857142855,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.14,
+      "topCandidateVisits": 7,
+      "secondCandidateVisits": 7,
+      "visitGap": 0,
+      "topCandidateValue": 0.7142857142857143,
+      "secondCandidateValue": 0.42857142857142855,
+      "valueGap": 0.2857,
+      "originalScore": -12,
+      "verifiedScore": -4,
+      "scoreChange": 8,
+      "worstOpponentReplyScore": -4,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 32,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 32,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 32,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 30,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 0,
+      "opponentMobilityDelta": -2,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 615,
+      "verificationTimeMs": 106,
+      "legalActionCount": 120,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.8,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0.2857, cuota elegida=0.14.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 8,
+      "actorDecisionIndex": 4,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 4
+          },
+          "pos": {
+            "x": 4,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "pos": {
+            "x": 4,
+            "y": 3
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 7,
+      "selectedValue": 0.7142857142857143,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.14,
+      "topCandidateVisits": 7,
+      "secondCandidateVisits": 7,
+      "visitGap": 0,
+      "topCandidateValue": 0.7142857142857143,
+      "secondCandidateValue": 0.7142857142857143,
+      "valueGap": 0,
+      "originalScore": -6,
+      "verifiedScore": 0,
+      "scoreChange": 6,
+      "worstOpponentReplyScore": 0,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 33,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 31,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 36,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 28,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 3,
+      "opponentMobilityDelta": -3,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 680.2000000029802,
+      "verificationTimeMs": 115.59999999403954,
+      "legalActionCount": 128,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.6,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.14.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 18,
+      "actorDecisionIndex": 9,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 4
+          },
+          "pos": {
+            "x": 2,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 7,
+      "selectedValue": 0.14285714285714285,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.14,
+      "topCandidateVisits": 8,
+      "secondCandidateVisits": 7,
+      "visitGap": 1,
+      "topCandidateValue": 0.25,
+      "secondCandidateValue": 0.14285714285714285,
+      "valueGap": 0.1071,
+      "originalScore": -17,
+      "verifiedScore": -13,
+      "scoreChange": 4,
+      "worstOpponentReplyScore": -13,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 1,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 1,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 48
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 48
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 23,
+          "trapPieces": 1,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 27,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 22,
+          "trapPieces": 1,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 25,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": -1,
+      "opponentMobilityDelta": -2,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 470,
+      "verificationTimeMs": 71.40000000596046,
+      "legalActionCount": 87,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=1, valor=0.1071, cuota elegida=0.14.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 20,
+      "actorDecisionIndex": 10,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 3
+          },
+          "pos": {
+            "x": 2,
+            "y": 3
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 2
+        },
+        "pos": {
+          "x": 1,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 3
+          },
+          "pos": {
+            "x": 1,
+            "y": 3
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 7,
+      "selectedValue": -0.14285714285714285,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.14,
+      "topCandidateVisits": 9,
+      "secondCandidateVisits": 7,
+      "visitGap": 2,
+      "topCandidateValue": -0.1111111111111111,
+      "secondCandidateValue": -0.14285714285714285,
+      "valueGap": 0.0317,
+      "originalScore": -25,
+      "verifiedScore": -21,
+      "scoreChange": 4,
+      "worstOpponentReplyScore": -21,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 1,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 1,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 48
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 48
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 19,
+          "trapPieces": 1,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 26,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 16,
+          "trapPieces": 1,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 24,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": -3,
+      "opponentMobilityDelta": -2,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 381.29999999701977,
+      "verificationTimeMs": 63.599999994039536,
+      "legalActionCount": 70,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=2, valor=0.0317, cuota elegida=0.14.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 24,
+      "actorDecisionIndex": 12,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 4
+          },
+          "pos": {
+            "x": 1,
+            "y": 4
+          },
+          "dir": "bottom"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 6,
+      "selectedValue": -0.6666666666666666,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.12,
+      "topCandidateVisits": 6,
+      "secondCandidateVisits": 6,
+      "visitGap": 0,
+      "topCandidateValue": -0.6666666666666666,
+      "secondCandidateValue": -0.6666666666666666,
+      "valueGap": 0,
+      "originalScore": -7,
+      "verifiedScore": -3,
+      "scoreChange": 4,
+      "worstOpponentReplyScore": -3,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 14,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 22,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 14,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 21,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 0,
+      "opponentMobilityDelta": -1,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 286.69999998807907,
+      "verificationTimeMs": 51,
+      "legalActionCount": 47,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.12.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 32,
+      "actorDecisionIndex": 16,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 4
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "dir": "right"
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 4,
+      "selectedValue": -1,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.08,
+      "topCandidateVisits": 4,
+      "secondCandidateVisits": 4,
+      "visitGap": 0,
+      "topCandidateValue": -1,
+      "secondCandidateValue": -1,
+      "valueGap": 0,
+      "verifiedScore": -1000000,
+      "scoreChange": null,
+      "worstOpponentReplyScore": -1000000,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 48,
+        "B": 45
+      },
+      "accessibleAfter": {
+        "R": 46,
+        "B": 43
+      },
+      "accessibleDelta": {
+        "R": -2,
+        "B": -2
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 6,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 21,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 8,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 21,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 2,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 70.40000000596046,
+      "verificationTimeMs": 17.400000005960464,
+      "legalActionCount": 15,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4.4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.08.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 12,
+      "actorDecisionIndex": 6,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 3
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 3
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 6,
+      "selectedValue": 0.3333333333333333,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.12,
+      "topCandidateVisits": 8,
+      "secondCandidateVisits": 6,
+      "visitGap": 2,
+      "topCandidateValue": 0.25,
+      "secondCandidateValue": 0.3333333333333333,
+      "valueGap": -0.0833,
+      "originalScore": -2,
+      "verifiedScore": -2,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -2,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 29,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 31,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 31,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 31,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 2,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 588.0999999940395,
+      "verificationTimeMs": 107.09999999403954,
+      "legalActionCount": 107,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=2, valor=-0.0833, cuota elegida=0.12.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 26,
+      "actorDecisionIndex": 13,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 0,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 5
+          },
+          "pos": {
+            "x": 0,
+            "y": 5
+          },
+          "dir": "right"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 5,
+      "selectedValue": -0.6,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.1,
+      "topCandidateVisits": 5,
+      "secondCandidateVisits": 5,
+      "visitGap": 0,
+      "topCandidateValue": -0.6,
+      "secondCandidateValue": -0.6,
+      "valueGap": 0,
+      "verifiedScore": -7,
+      "scoreChange": null,
+      "worstOpponentReplyScore": -7,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 11,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 25,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 10,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 23,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": -1,
+      "opponentMobilityDelta": -2,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 264.09999999403954,
+      "verificationTimeMs": 42.3999999910593,
+      "legalActionCount": 35,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.1.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 30,
+      "actorDecisionIndex": 15,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "pos": {
+            "x": 0,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": true,
+      "selectedVisits": 4,
+      "selectedValue": -1,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.08,
+      "topCandidateVisits": 4,
+      "secondCandidateVisits": 4,
+      "visitGap": 0,
+      "topCandidateValue": -1,
+      "secondCandidateValue": -1,
+      "valueGap": 0,
+      "verifiedScore": -38,
+      "scoreChange": null,
+      "worstOpponentReplyScore": -38,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 48,
+        "B": 45
+      },
+      "accessibleAfter": {
+        "R": 48,
+        "B": 45
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 9,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 24,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 8,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 24,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": -1,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 126.30000001192093,
+      "verificationTimeMs": 43.70000000298023,
+      "legalActionCount": 25,
+      "rootCandidateCount": 14,
+      "categories": [
+        "tactical-change",
+        "low-confidence",
+        "possible-critical-decision"
+      ],
+      "relevanceScore": 4,
+      "rankReasons": [
+        "La verificación táctica cambió la acción inicialmente seleccionada.",
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.08.",
+        "Combina 2 señales diagnósticas."
+      ]
+    },
+    {
+      "turnIndex": 28,
+      "actorDecisionIndex": 14,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 5
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 4
+          },
+          "pos": {
+            "x": 0,
+            "y": 4
+          },
+          "dir": "bottom"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 5
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 4
+          },
+          "pos": {
+            "x": 0,
+            "y": 4
+          },
+          "dir": "bottom"
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 6,
+      "selectedValue": -0.3333333333333333,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.12,
+      "topCandidateVisits": 6,
+      "secondCandidateVisits": 5,
+      "visitGap": 1,
+      "topCandidateValue": -0.3333333333333333,
+      "secondCandidateValue": -0.6,
+      "valueGap": 0.2667,
+      "originalScore": -34,
+      "verifiedScore": -34,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -34,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleAfter": {
+        "R": 48,
+        "B": 45
+      },
+      "accessibleDelta": {
+        "R": -1,
+        "B": -1
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 8,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 23,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 9,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 23,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 1,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 207.8999999910593,
+      "verificationTimeMs": 43.599999994039536,
+      "legalActionCount": 23,
+      "rootCandidateCount": 14,
+      "categories": [
+        "low-confidence"
+      ],
+      "relevanceScore": 1.2,
+      "rankReasons": [
+        "Margen reducido: visitas=1, valor=0.2667, cuota elegida=0.12."
+      ]
+    },
+    {
+      "turnIndex": 0,
+      "actorDecisionIndex": 0,
+      "phase": "placing",
+      "actionOriginal": {
+        "type": "place",
+        "pos": {
+          "x": 3,
+          "y": 5
+        }
+      },
+      "actionFinal": {
+        "type": "place",
+        "pos": {
+          "x": 3,
+          "y": 5
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 9,
+      "selectedValue": 0.5555555555555556,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.18,
+      "topCandidateVisits": 9,
+      "secondCandidateVisits": 6,
+      "visitGap": 3,
+      "topCandidateValue": 0.5555555555555556,
+      "secondCandidateValue": 0.3333333333333333,
+      "valueGap": 0.2222,
+      "originalScore": -6,
+      "verifiedScore": -6,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -6,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 20,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 20,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 28,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 19,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 8,
+      "opponentMobilityDelta": -1,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 801,
+      "verificationTimeMs": 39.599999994039536,
+      "legalActionCount": 45,
+      "rootCandidateCount": 14,
+      "categories": [
+        "high-cost"
+      ],
+      "relevanceScore": 1,
+      "rankReasons": [
+        "Coste alto: búsqueda=801 ms, verificación=39.6 ms."
+      ]
+    },
+    {
+      "turnIndex": 4,
+      "actorDecisionIndex": 2,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 3,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "pos": {
+            "x": 3,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 3,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "pos": {
+            "x": 3,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 11,
+      "selectedValue": 0.8181818181818182,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.22,
+      "topCandidateVisits": 11,
+      "secondCandidateVisits": 6,
+      "visitGap": 5,
+      "topCandidateValue": 0.8181818181818182,
+      "secondCandidateValue": 0.3333333333333333,
+      "valueGap": 0.4848,
+      "originalScore": -8,
+      "verifiedScore": -8,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -8,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 34,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 37,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 35,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 38,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 1,
+      "opponentMobilityDelta": 1,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 817.2000000029802,
+      "verificationTimeMs": 162.20000000298023,
+      "legalActionCount": 135,
+      "rootCandidateCount": 14,
+      "categories": [
+        "high-cost"
+      ],
+      "relevanceScore": 1,
+      "rankReasons": [
+        "Coste alto: búsqueda=817.2 ms, verificación=162.2 ms."
+      ]
+    },
+    {
+      "turnIndex": 16,
+      "actorDecisionIndex": 8,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 6,
+      "selectedValue": 0,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.12,
+      "topCandidateVisits": 6,
+      "secondCandidateVisits": 6,
+      "visitGap": 0,
+      "topCandidateValue": 0,
+      "secondCandidateValue": 0,
+      "valueGap": 0,
+      "originalScore": -14,
+      "verifiedScore": -14,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -14,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 27,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 27,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 28,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 27,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 1,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 449.70000000298023,
+      "verificationTimeMs": 74.70000000298023,
+      "legalActionCount": 99,
+      "rootCandidateCount": 14,
+      "categories": [
+        "low-confidence"
+      ],
+      "relevanceScore": 1,
+      "rankReasons": [
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.12."
+      ]
+    },
+    {
+      "turnIndex": 22,
+      "actorDecisionIndex": 11,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 3
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 3
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 7,
+      "selectedValue": -0.14285714285714285,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.14,
+      "topCandidateVisits": 7,
+      "secondCandidateVisits": 7,
+      "visitGap": 0,
+      "topCandidateValue": -0.14285714285714285,
+      "secondCandidateValue": -0.14285714285714285,
+      "valueGap": 0,
+      "originalScore": 7,
+      "verifiedScore": 7,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": 7,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 3,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 46
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 15,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 22,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 17,
+          "trapPieces": 1,
+          "lowPieces": 1
+        },
+        "B": {
+          "totalDestinations": 23,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 2,
+      "opponentMobilityDelta": 1,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 326.40000000596046,
+      "verificationTimeMs": 57.20000000298023,
+      "legalActionCount": 54,
+      "rootCandidateCount": 14,
+      "categories": [
+        "low-confidence"
+      ],
+      "relevanceScore": 1,
+      "rankReasons": [
+        "Margen reducido: visitas=0, valor=0, cuota elegida=0.14."
+      ]
+    },
+    {
+      "turnIndex": 14,
+      "actorDecisionIndex": 7,
+      "phase": "playing",
+      "actionOriginal": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "left"
+        }
+      },
+      "actionFinal": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "left"
+        }
+      },
+      "tacticalSelectionChanged": false,
+      "selectedVisits": 9,
+      "selectedValue": 0.3333333333333333,
+      "rootVisits": 50,
+      "selectedVisitShare": 0.18,
+      "topCandidateVisits": 9,
+      "secondCandidateVisits": 6,
+      "visitGap": 3,
+      "topCandidateValue": 0.3333333333333333,
+      "secondCandidateValue": 0.16666666666666666,
+      "valueGap": 0.1667,
+      "originalScore": -6,
+      "verifiedScore": -6,
+      "scoreChange": 0,
+      "worstOpponentReplyScore": -6,
+      "immediateTerminalLossAvoided": false,
+      "territoryBefore": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryAfter": {
+        "R": 0,
+        "B": 0
+      },
+      "territoryDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "accessibleBefore": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleAfter": {
+        "R": 49,
+        "B": 49
+      },
+      "accessibleDelta": {
+        "R": 0,
+        "B": 0
+      },
+      "mobilityBefore": {
+        "R": {
+          "totalDestinations": 29,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 29,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "mobilityAfter": {
+        "R": {
+          "totalDestinations": 29,
+          "trapPieces": 0,
+          "lowPieces": 0
+        },
+        "B": {
+          "totalDestinations": 29,
+          "trapPieces": 0,
+          "lowPieces": 0
+        }
+      },
+      "ownMobilityDelta": 0,
+      "opponentMobilityDelta": 0,
+      "ownTrappedPiecesDelta": 0,
+      "searchTimeMs": 536.7999999970198,
+      "verificationTimeMs": 93.19999998807907,
+      "legalActionCount": 103,
+      "rootCandidateCount": 14,
+      "categories": [],
+      "relevanceScore": 0,
+      "rankReasons": []
+    }
+  ]
+}

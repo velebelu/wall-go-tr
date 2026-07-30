@@ -3,14 +3,33 @@
     "title": "Wall Go",
     "mode": {
       "pvp": "🤝 2 Players",
-      "ai": "🤖 vs AI"
+      "ai": "🤖 vs AI",
+      "ai-vs-ai": "🤖 AI vs AI",
+      "experimentalTitle": "Experimental modes",
+      "random_vs_heuristic": "Random AI vs Heuristic AI",
+      "learning_vs_random": "Learning AI vs Random AI",
+      "learning_vs_heuristic": "Learning AI vs Heuristic AI",
+      "q5_learning": "Q5 Learning AI",
+      "mcts_final": "Final AI / MCTS Challenge",
+      "mcts_fast": "Current MCTS / fast mode"
     },
     "rule": "Game Rules",
+    "q5": {
+      "select_side": "Choose the Q5 Learning AI color:",
+      "red": "Red",
+      "blue": "Blue"
+    },
+    "mcts": {
+      "select_side": "Choose the Strategic MCTS AI color:",
+      "red": "Red",
+      "blue": "Blue"
+    },
     "ai": {
       "select": "Select AI level and side:",
       "level": "AI Level:",
       "levels": {
-        "practice": "🎲 Practice",
+        "practice": "🎲 Random AI",
+        "heuristic": "Heuristic AI",
         "easy": "🌱 Easy",
         "middle": "🐵 Medium",
         "hard": "👾 Hard"
@@ -61,6 +80,8 @@
     "redo": "Redo",
     "undoAria": "Undo",
     "redoAria": "Redo",
-    "menu": "Menu"
+    "menu": "Menu",
+    "themeToggle": "Toggle dark/light mode",
+    "languageToggle": "Change language"
   }
 }

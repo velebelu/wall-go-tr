@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-07-12T09:19:01.790Z",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q4\\checkpoint_2000\\qtable_q4_2000.json",
+  "qTableEntries": 17421,
+  "hashBefore": "8a56b1a80befbf5df55188cd4f24de4d98523f37a976aa0ad7c9ace8999365a7",
+  "hashAfter": "8a56b1a80befbf5df55188cd4f24de4d98523f37a976aa0ad7c9ace8999365a7",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q4\\evaluaciones\\checkpoint_2000_eval200",
+  "protocol": {
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "totalGames": 400,
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "alphaUpdates": false,
+    "qTableFrozen": true,
+    "tieBreak": "random among max-Q actions using seeded RNG, matching Q3 evaluation behavior"
+  }
+}

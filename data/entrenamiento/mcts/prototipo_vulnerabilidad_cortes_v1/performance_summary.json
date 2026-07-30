@@ -1,0 +1,15 @@
+{
+  "measuredEvaluations": 135,
+  "meanMs": 1.7572985185185146,
+  "medianMs": 1.6391999999999598,
+  "p95Ms": 2.689799999999991,
+  "maximumMs": 3.84050000000002,
+  "meanUniqueWalls": 25.85185185185185,
+  "meanLegalActionsInspected": 48.111111111111114,
+  "meanDuplicateWallsDiscarded": 22.25925925925926,
+  "meanCostPerWallMs": 0.06797573065902564,
+  "observedEvaluationsPerDecision": 167.7037037037037,
+  "estimatedAddedMsPerDecision": 294.7054700685864,
+  "estimatedOverheadPercent": 28.875795194294973,
+  "estimateOnly": true
+}

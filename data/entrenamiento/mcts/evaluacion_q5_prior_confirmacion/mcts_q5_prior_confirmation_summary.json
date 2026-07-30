@@ -1,0 +1,790 @@
+{
+  "createdAt": "2026-07-14T11:52:01.932Z",
+  "evaluationVersion": "mcts-q5-prior-confirmation-v1",
+  "durationMs": 3052908.9154,
+  "protocol": {
+    "totalGames": 240,
+    "pairs": 120,
+    "games": {
+      "heuristic": 50,
+      "q5-final": 50,
+      "random": 20
+    },
+    "configs": [
+      {
+        "name": "baseline",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "mixed",
+        "heuristicProbability": 0.8,
+        "progressiveWidening": true,
+        "wideningConstant": 2,
+        "wideningExponent": 0.5,
+        "expansionPolicy": "heuristic",
+        "qPriorWeight": 0
+      },
+      {
+        "name": "q5-prior-1",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "mixed",
+        "heuristicProbability": 0.8,
+        "progressiveWidening": true,
+        "wideningConstant": 2,
+        "wideningExponent": 0.5,
+        "expansionPolicy": "heuristic-q5",
+        "qPriorWeight": 1
+      }
+    ],
+    "pairedSeeds": true,
+    "minConfidence": 10
+  },
+  "q5": {
+    "source": "data/entrenamiento/q5/hybrid/final_checkpoint_1000/qtable_q5_hybrid_final_1000.json",
+    "sha256": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+    "confidenceStats": {
+      "confidenceMapEntries": 19652,
+      "qLearningUpdateCountsEntries": 12068,
+      "effectiveConfidenceEntries": 27815,
+      "maxEffectiveConfidence": 778,
+      "effectiveEntriesAtLeast10": 404
+    },
+    "resourceHashesBefore": {
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\qtable_q5_hybrid_final_1000.json": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json": "cd1fa941b250aef0338cb1ac39c9a34aeea4db6adac86e29b6020688690cdf3d",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\q_update_log.jsonl": "e29a740ffe5e2d1921e0923d1c69d3a7353af22fbee5ea97f27d6ff51093eee8",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\q_update_log.jsonl": "23ca15f84f63719fcba14158d6dde3144ebcdcadc3d991b6b314a3fcd95576f1"
+    },
+    "resourceHashesAfter": {
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\qtable_q5_hybrid_final_1000.json": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json": "cd1fa941b250aef0338cb1ac39c9a34aeea4db6adac86e29b6020688690cdf3d",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\q_update_log.jsonl": "e29a740ffe5e2d1921e0923d1c69d3a7353af22fbee5ea97f27d6ff51093eee8",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\q_update_log.jsonl": "23ca15f84f63719fcba14158d6dde3144ebcdcadc3d991b6b314a3fcd95576f1"
+    },
+    "resourcesChanged": false
+  },
+  "normal": [
+    {
+      "config": "baseline",
+      "rival": "heuristic",
+      "aggregate": {
+        "games": 50,
+        "wins": 40,
+        "losses": 9,
+        "ties": 1,
+        "winRate": 80,
+        "averageTerritoryMCTS": 21.36,
+        "averageTerritoryRival": 18.94,
+        "averageTerritoryDiff": 2.42,
+        "averageTurns": 86.96,
+        "totalTimeMs": 394963.0017,
+        "averageGameTimeMs": 7899.26,
+        "averageDecisionMs": 336.0964,
+        "averageRootLegalActions": 58.9412,
+        "averageRootExpandedChildren": 13.9079,
+        "averageMaxDepthReached": 2.8875,
+        "averageSelectedDepth": 0.8025,
+        "averageRootExplorationRatio": 0.3285,
+        "averageQPriorKnownActions": 0,
+        "averageQPriorReliableActions": 0,
+        "qPriorSelectedActionKnownRate": 0,
+        "qPriorSelectedActionReliableRate": 0,
+        "averageSelectedQPrior": 0,
+        "simulations": 50
+      },
+      "byColor": {
+        "R": {
+          "games": 25,
+          "wins": 19,
+          "losses": 5,
+          "ties": 1,
+          "winRate": 76,
+          "averageTerritoryMCTS": 20.48,
+          "averageTerritoryRival": 18.6,
+          "averageTerritoryDiff": 1.88,
+          "averageTurns": 88.72,
+          "totalTimeMs": 200220.6044,
+          "averageGameTimeMs": 8008.8242,
+          "averageDecisionMs": 331.4407,
+          "averageRootLegalActions": 58.8292,
+          "averageRootExpandedChildren": 13.8839,
+          "averageMaxDepthReached": 2.8988,
+          "averageSelectedDepth": 0.8031,
+          "averageRootExplorationRatio": 0.3376,
+          "averageQPriorKnownActions": 0,
+          "averageQPriorReliableActions": 0,
+          "qPriorSelectedActionKnownRate": 0,
+          "qPriorSelectedActionReliableRate": 0,
+          "averageSelectedQPrior": 0,
+          "simulations": 50
+        },
+        "B": {
+          "games": 25,
+          "wins": 21,
+          "losses": 4,
+          "ties": 0,
+          "winRate": 84,
+          "averageTerritoryMCTS": 22.24,
+          "averageTerritoryRival": 19.28,
+          "averageTerritoryDiff": 2.96,
+          "averageTurns": 85.2,
+          "totalTimeMs": 194742.3973,
+          "averageGameTimeMs": 7789.6959,
+          "averageDecisionMs": 341.0216,
+          "averageRootLegalActions": 59.0596,
+          "averageRootExpandedChildren": 13.9333,
+          "averageMaxDepthReached": 2.8754,
+          "averageSelectedDepth": 0.8019,
+          "averageRootExplorationRatio": 0.319,
+          "averageQPriorKnownActions": 0,
+          "averageQPriorReliableActions": 0,
+          "qPriorSelectedActionKnownRate": 0,
+          "qPriorSelectedActionReliableRate": 0,
+          "averageSelectedQPrior": 0,
+          "simulations": 50
+        }
+      },
+      "winRateConfidence95": {
+        "low": 0.6696,
+        "high": 0.8876
+      }
+    },
+    {
+      "config": "baseline",
+      "rival": "q5-final",
+      "aggregate": {
+        "games": 50,
+        "wins": 35,
+        "losses": 13,
+        "ties": 2,
+        "winRate": 70,
+        "averageTerritoryMCTS": 20.2,
+        "averageTerritoryRival": 19.84,
+        "averageTerritoryDiff": 0.36,
+        "averageTurns": 89.36,
+        "totalTimeMs": 432907.9058,
+        "averageGameTimeMs": 8658.1581,
+        "averageDecisionMs": 335.3671,
+        "averageRootLegalActions": 57.405,
+        "averageRootExpandedChildren": 13.9042,
+        "averageMaxDepthReached": 2.9176,
+        "averageSelectedDepth": 0.8062,
+        "averageRootExplorationRatio": 0.3433,
+        "averageQPriorKnownActions": 0,
+        "averageQPriorReliableActions": 0,
+        "qPriorSelectedActionKnownRate": 0,
+        "qPriorSelectedActionReliableRate": 0,
+        "averageSelectedQPrior": 0,
+        "simulations": 50
+      },
+      "byColor": {
+        "R": {
+          "games": 25,
+          "wins": 17,
+          "losses": 8,
+          "ties": 0,
+          "winRate": 68,
+          "averageTerritoryMCTS": 19.76,
+          "averageTerritoryRival": 20.88,
+          "averageTerritoryDiff": -1.12,
+          "averageTurns": 87.88,
+          "totalTimeMs": 219969.0629,
+          "averageGameTimeMs": 8798.7625,
+          "averageDecisionMs": 344.3838,
+          "averageRootLegalActions": 60.6115,
+          "averageRootExpandedChildren": 13.9544,
+          "averageMaxDepthReached": 2.9105,
+          "averageSelectedDepth": 0.8045,
+          "averageRootExplorationRatio": 0.317,
+          "averageQPriorKnownActions": 0,
+          "averageQPriorReliableActions": 0,
+          "qPriorSelectedActionKnownRate": 0,
+          "qPriorSelectedActionReliableRate": 0,
+          "averageSelectedQPrior": 0,
+          "simulations": 50
+        },
+        "B": {
+          "games": 25,
+          "wins": 18,
+          "losses": 5,
+          "ties": 2,
+          "winRate": 72,
+          "averageTerritoryMCTS": 20.64,
+          "averageTerritoryRival": 18.8,
+          "averageTerritoryDiff": 1.84,
+          "averageTurns": 90.84,
+          "totalTimeMs": 212938.8429,
+          "averageGameTimeMs": 8517.5537,
+          "averageDecisionMs": 326.4408,
+          "averageRootLegalActions": 54.2308,
+          "averageRootExpandedChildren": 13.8545,
+          "averageMaxDepthReached": 2.9247,
+          "averageSelectedDepth": 0.8079,
+          "averageRootExplorationRatio": 0.3694,
+          "averageQPriorKnownActions": 0,
+          "averageQPriorReliableActions": 0,
+          "qPriorSelectedActionKnownRate": 0,
+          "qPriorSelectedActionReliableRate": 0,
+          "averageSelectedQPrior": 0,
+          "simulations": 50
+        }
+      },
+      "winRateConfidence95": {
+        "low": 0.5625,
+        "high": 0.809
+      }
+    },
+    {
+      "config": "baseline",
+      "rival": "random",
+      "aggregate": {
+        "games": 20,
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "winRate": 100,
+        "averageTerritoryMCTS": 33.2,
+        "averageTerritoryRival": 6.95,
+        "averageTerritoryDiff": 26.25,
+        "averageTurns": 79.9,
+        "totalTimeMs": 151309.6044,
+        "averageGameTimeMs": 7565.4802,
+        "averageDecisionMs": 340.4039,
+        "averageRootLegalActions": 82.2252,
+        "averageRootExpandedChildren": 14,
+        "averageMaxDepthReached": 2.5586,
+        "averageSelectedDepth": 0.7744,
+        "averageRootExplorationRatio": 0.2067,
+        "averageQPriorKnownActions": 0,
+        "averageQPriorReliableActions": 0,
+        "qPriorSelectedActionKnownRate": 0,
+        "qPriorSelectedActionReliableRate": 0,
+        "averageSelectedQPrior": 0,
+        "simulations": 50
+      },
+      "byColor": {
+        "R": {
+          "games": 10,
+          "wins": 10,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryMCTS": 31.7,
+          "averageTerritoryRival": 6.7,
+          "averageTerritoryDiff": 25,
+          "averageTurns": 82.8,
+          "totalTimeMs": 77092.9872,
+          "averageGameTimeMs": 7709.2987,
+          "averageDecisionMs": 331.9235,
+          "averageRootLegalActions": 82.6983,
+          "averageRootExpandedChildren": 14,
+          "averageMaxDepthReached": 2.5129,
+          "averageSelectedDepth": 0.7704,
+          "averageRootExplorationRatio": 0.2093,
+          "averageQPriorKnownActions": 0,
+          "averageQPriorReliableActions": 0,
+          "qPriorSelectedActionKnownRate": 0,
+          "qPriorSelectedActionReliableRate": 0,
+          "averageSelectedQPrior": 0,
+          "simulations": 50
+        },
+        "B": {
+          "games": 10,
+          "wins": 10,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryMCTS": 34.7,
+          "averageTerritoryRival": 7.2,
+          "averageTerritoryDiff": 27.5,
+          "averageTurns": 77,
+          "totalTimeMs": 74216.6172,
+          "averageGameTimeMs": 7421.6617,
+          "averageDecisionMs": 349.6843,
+          "averageRootLegalActions": 81.7075,
+          "averageRootExpandedChildren": 14,
+          "averageMaxDepthReached": 2.6085,
+          "averageSelectedDepth": 0.7787,
+          "averageRootExplorationRatio": 0.2039,
+          "averageQPriorKnownActions": 0,
+          "averageQPriorReliableActions": 0,
+          "qPriorSelectedActionKnownRate": 0,
+          "qPriorSelectedActionReliableRate": 0,
+          "averageSelectedQPrior": 0,
+          "simulations": 50
+        }
+      },
+      "winRateConfidence95": {
+        "low": 0.8389,
+        "high": 1
+      }
+    },
+    {
+      "config": "q5-prior-1",
+      "rival": "heuristic",
+      "aggregate": {
+        "games": 50,
+        "wins": 36,
+        "losses": 13,
+        "ties": 1,
+        "winRate": 72,
+        "averageTerritoryMCTS": 21.14,
+        "averageTerritoryRival": 19.86,
+        "averageTerritoryDiff": 1.28,
+        "averageTurns": 85.82,
+        "totalTimeMs": 872591.9999,
+        "averageGameTimeMs": 17451.84,
+        "averageDecisionMs": 753.5664,
+        "averageRootLegalActions": 55.7563,
+        "averageRootExpandedChildren": 13.8712,
+        "averageMaxDepthReached": 2.9075,
+        "averageSelectedDepth": 0.8039,
+        "averageRootExplorationRatio": 0.3582,
+        "averageQPriorKnownActions": 25.7053,
+        "averageQPriorReliableActions": 4.8133,
+        "qPriorSelectedActionKnownRate": 0.4659,
+        "qPriorSelectedActionReliableRate": 0.166,
+        "averageSelectedQPrior": 0.0986,
+        "simulations": 50
+      },
+      "byColor": {
+        "R": {
+          "games": 25,
+          "wins": 17,
+          "losses": 8,
+          "ties": 0,
+          "winRate": 68,
+          "averageTerritoryMCTS": 22.68,
+          "averageTerritoryRival": 20.24,
+          "averageTerritoryDiff": 2.44,
+          "averageTurns": 82.28,
+          "totalTimeMs": 450966.3045,
+          "averageGameTimeMs": 18038.6522,
+          "averageDecisionMs": 804.6717,
+          "averageRootLegalActions": 57.625,
+          "averageRootExpandedChildren": 13.8875,
+          "averageMaxDepthReached": 2.9036,
+          "averageSelectedDepth": 0.8023,
+          "averageRootExplorationRatio": 0.3476,
+          "averageQPriorKnownActions": 24.475,
+          "averageQPriorReliableActions": 4.5875,
+          "qPriorSelectedActionKnownRate": 0.4411,
+          "qPriorSelectedActionReliableRate": 0.1339,
+          "averageSelectedQPrior": 0.0806,
+          "simulations": 50
+        },
+        "B": {
+          "games": 25,
+          "wins": 19,
+          "losses": 5,
+          "ties": 1,
+          "winRate": 76,
+          "averageTerritoryMCTS": 19.6,
+          "averageTerritoryRival": 19.48,
+          "averageTerritoryDiff": 0.12,
+          "averageTurns": 89.36,
+          "totalTimeMs": 421625.6954,
+          "averageGameTimeMs": 16865.0278,
+          "averageDecisionMs": 705.6283,
+          "averageRootLegalActions": 54.0033,
+          "averageRootExpandedChildren": 13.8559,
+          "averageMaxDepthReached": 2.9112,
+          "averageSelectedDepth": 0.8054,
+          "averageRootExplorationRatio": 0.3682,
+          "averageQPriorKnownActions": 26.8593,
+          "averageQPriorReliableActions": 5.0251,
+          "qPriorSelectedActionKnownRate": 0.4891,
+          "qPriorSelectedActionReliableRate": 0.196,
+          "averageSelectedQPrior": 0.1156,
+          "simulations": 50
+        }
+      },
+      "winRateConfidence95": {
+        "low": 0.5833,
+        "high": 0.8253
+      }
+    },
+    {
+      "config": "q5-prior-1",
+      "rival": "q5-final",
+      "aggregate": {
+        "games": 50,
+        "wins": 34,
+        "losses": 15,
+        "ties": 1,
+        "winRate": 68,
+        "averageTerritoryMCTS": 18.38,
+        "averageTerritoryRival": 20.62,
+        "averageTerritoryDiff": -2.24,
+        "averageTurns": 87.38,
+        "totalTimeMs": 912906.964,
+        "averageGameTimeMs": 18258.1393,
+        "averageDecisionMs": 750.4831,
+        "averageRootLegalActions": 55.0145,
+        "averageRootExpandedChildren": 13.8686,
+        "averageMaxDepthReached": 2.8805,
+        "averageSelectedDepth": 0.8005,
+        "averageRootExplorationRatio": 0.3556,
+        "averageQPriorKnownActions": 23.7142,
+        "averageQPriorReliableActions": 4.4437,
+        "qPriorSelectedActionKnownRate": 0.4445,
+        "qPriorSelectedActionReliableRate": 0.1596,
+        "averageSelectedQPrior": 0.0918,
+        "simulations": 50
+      },
+      "byColor": {
+        "R": {
+          "games": 25,
+          "wins": 16,
+          "losses": 9,
+          "ties": 0,
+          "winRate": 64,
+          "averageTerritoryMCTS": 18.76,
+          "averageTerritoryRival": 20.6,
+          "averageTerritoryDiff": -1.84,
+          "averageTurns": 87.16,
+          "totalTimeMs": 474870.4809,
+          "averageGameTimeMs": 18994.8192,
+          "averageDecisionMs": 778.8084,
+          "averageRootLegalActions": 55.5127,
+          "averageRootExpandedChildren": 13.8404,
+          "averageMaxDepthReached": 2.8353,
+          "averageSelectedDepth": 0.797,
+          "averageRootExplorationRatio": 0.3503,
+          "averageQPriorKnownActions": 21.9389,
+          "averageQPriorReliableActions": 4.0102,
+          "qPriorSelectedActionKnownRate": 0.3922,
+          "qPriorSelectedActionReliableRate": 0.129,
+          "averageSelectedQPrior": 0.0753,
+          "simulations": 50
+        },
+        "B": {
+          "games": 25,
+          "wins": 18,
+          "losses": 6,
+          "ties": 1,
+          "winRate": 72,
+          "averageTerritoryMCTS": 18,
+          "averageTerritoryRival": 20.64,
+          "averageTerritoryDiff": -2.64,
+          "averageTurns": 87.6,
+          "totalTimeMs": 438036.4831,
+          "averageGameTimeMs": 17521.4593,
+          "averageDecisionMs": 721.8663,
+          "averageRootLegalActions": 54.5111,
+          "averageRootExpandedChildren": 13.8971,
+          "averageMaxDepthReached": 2.9262,
+          "averageSelectedDepth": 0.8041,
+          "averageRootExplorationRatio": 0.3609,
+          "averageQPriorKnownActions": 25.5077,
+          "averageQPriorReliableActions": 4.8816,
+          "qPriorSelectedActionKnownRate": 0.4974,
+          "qPriorSelectedActionReliableRate": 0.1904,
+          "averageSelectedQPrior": 0.1085,
+          "simulations": 50
+        }
+      },
+      "winRateConfidence95": {
+        "low": 0.5419,
+        "high": 0.7924
+      }
+    },
+    {
+      "config": "q5-prior-1",
+      "rival": "random",
+      "aggregate": {
+        "games": 20,
+        "wins": 20,
+        "losses": 0,
+        "ties": 0,
+        "winRate": 100,
+        "averageTerritoryMCTS": 33.75,
+        "averageTerritoryRival": 6.75,
+        "averageTerritoryDiff": 27,
+        "averageTurns": 75.75,
+        "totalTimeMs": 287119.3353,
+        "averageGameTimeMs": 14355.9668,
+        "averageDecisionMs": 683.2434,
+        "averageRootLegalActions": 82.1333,
+        "averageRootExpandedChildren": 14,
+        "averageMaxDepthReached": 2.6048,
+        "averageSelectedDepth": 0.7762,
+        "averageRootExplorationRatio": 0.2082,
+        "averageQPriorKnownActions": 40.8357,
+        "averageQPriorReliableActions": 6.2524,
+        "qPriorSelectedActionKnownRate": 0.55,
+        "qPriorSelectedActionReliableRate": 0.1929,
+        "averageSelectedQPrior": 0.1267,
+        "simulations": 50
+      },
+      "byColor": {
+        "R": {
+          "games": 10,
+          "wins": 10,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryMCTS": 36.3,
+          "averageTerritoryRival": 7.3,
+          "averageTerritoryDiff": 29,
+          "averageTurns": 69.8,
+          "totalTimeMs": 148910.7323,
+          "averageGameTimeMs": 14891.0732,
+          "averageDecisionMs": 755.5152,
+          "averageRootLegalActions": 87.9289,
+          "averageRootExpandedChildren": 14,
+          "averageMaxDepthReached": 2.6142,
+          "averageSelectedDepth": 0.7775,
+          "averageRootExplorationRatio": 0.1887,
+          "averageQPriorKnownActions": 43.3299,
+          "averageQPriorReliableActions": 6.4569,
+          "qPriorSelectedActionKnownRate": 0.5685,
+          "qPriorSelectedActionReliableRate": 0.1726,
+          "averageSelectedQPrior": 0.1164,
+          "simulations": 50
+        },
+        "B": {
+          "games": 10,
+          "wins": 10,
+          "losses": 0,
+          "ties": 0,
+          "winRate": 100,
+          "averageTerritoryMCTS": 31.2,
+          "averageTerritoryRival": 6.2,
+          "averageTerritoryDiff": 25,
+          "averageTurns": 81.7,
+          "totalTimeMs": 138208.603,
+          "averageGameTimeMs": 13820.8603,
+          "averageDecisionMs": 619.398,
+          "averageRootLegalActions": 77.0134,
+          "averageRootExpandedChildren": 14,
+          "averageMaxDepthReached": 2.5964,
+          "averageSelectedDepth": 0.7751,
+          "averageRootExplorationRatio": 0.2254,
+          "averageQPriorKnownActions": 38.6323,
+          "averageQPriorReliableActions": 6.0717,
+          "qPriorSelectedActionKnownRate": 0.5336,
+          "qPriorSelectedActionReliableRate": 0.2108,
+          "averageSelectedQPrior": 0.1359,
+          "simulations": 50
+        }
+      },
+      "winRateConfidence95": {
+        "low": 0.8389,
+        "high": 1
+      }
+    }
+  ],
+  "paired": {
+    "overall": {
+      "pairs": 120,
+      "improves": 18,
+      "worsens": 23,
+      "same": 79,
+      "territoryDifference": {
+        "mean": -1.4333,
+        "median": 1,
+        "low": -4.892,
+        "high": 2.0254
+      },
+      "mcnemar": {
+        "baselineOnlyWins": 23,
+        "hybridOnlyWins": 18,
+        "discordant": 41,
+        "pValue": 0.5327
+      },
+      "initialActionDivergenceRate": 89.1667,
+      "averageDecisionDivergenceRate": 98.9348,
+      "reliableCoverage": {
+        "improvedAverageReliableActions": 4.4204,
+        "worsenedAverageReliableActions": 4.3215,
+        "improvedSelectedReliableRate": 0.1505,
+        "worsenedSelectedReliableRate": 0.1483
+      }
+    },
+    "byRival": {
+      "heuristic": {
+        "pairs": 50,
+        "improves": 8,
+        "worsens": 12,
+        "same": 30,
+        "territoryDifference": {
+          "mean": -1.14,
+          "median": 1.5,
+          "low": -6.7678,
+          "high": 4.4878
+        },
+        "mcnemar": {
+          "baselineOnlyWins": 12,
+          "hybridOnlyWins": 8,
+          "discordant": 20,
+          "pValue": 0.5034
+        },
+        "initialActionDivergenceRate": 94,
+        "averageDecisionDivergenceRate": 99.0539,
+        "reliableCoverage": {
+          "improvedAverageReliableActions": 4.349,
+          "worsenedAverageReliableActions": 4.5629,
+          "improvedSelectedReliableRate": 0.1658,
+          "worsenedSelectedReliableRate": 0.1427
+        }
+      },
+      "q5-final": {
+        "pairs": 50,
+        "improves": 10,
+        "worsens": 11,
+        "same": 29,
+        "territoryDifference": {
+          "mean": -2.6,
+          "median": 0,
+          "low": -8.3155,
+          "high": 3.1155
+        },
+        "mcnemar": {
+          "baselineOnlyWins": 11,
+          "hybridOnlyWins": 10,
+          "discordant": 21,
+          "pValue": 1
+        },
+        "initialActionDivergenceRate": 86,
+        "averageDecisionDivergenceRate": 98.7154,
+        "reliableCoverage": {
+          "improvedAverageReliableActions": 4.4775,
+          "worsenedAverageReliableActions": 4.058,
+          "improvedSelectedReliableRate": 0.1383,
+          "worsenedSelectedReliableRate": 0.1544
+        }
+      },
+      "random": {
+        "pairs": 20,
+        "improves": 0,
+        "worsens": 0,
+        "same": 20,
+        "territoryDifference": {
+          "mean": 0.75,
+          "median": 2,
+          "low": -4.9975,
+          "high": 6.4975
+        },
+        "mcnemar": {
+          "baselineOnlyWins": 0,
+          "hybridOnlyWins": 0,
+          "discordant": 0,
+          "pValue": 1
+        },
+        "initialActionDivergenceRate": 85,
+        "averageDecisionDivergenceRate": 99.1859,
+        "reliableCoverage": {
+          "improvedAverageReliableActions": 0,
+          "worsenedAverageReliableActions": 0,
+          "improvedSelectedReliableRate": 0,
+          "worsenedSelectedReliableRate": 0
+        }
+      }
+    }
+  },
+  "conclusions": {
+    "heuristic": {
+      "answer": "No. Q5 prior does not significantly improve against heuristic and the point estimate is worse.",
+      "paired": {
+        "pairs": 50,
+        "improves": 8,
+        "worsens": 12,
+        "same": 30,
+        "territoryDifference": {
+          "mean": -1.14,
+          "median": 1.5,
+          "low": -6.7678,
+          "high": 4.4878
+        },
+        "mcnemar": {
+          "baselineOnlyWins": 12,
+          "hybridOnlyWins": 8,
+          "discordant": 20,
+          "pValue": 0.5034
+        },
+        "initialActionDivergenceRate": 94,
+        "averageDecisionDivergenceRate": 99.0539,
+        "reliableCoverage": {
+          "improvedAverageReliableActions": 4.349,
+          "worsenedAverageReliableActions": 4.5629,
+          "improvedSelectedReliableRate": 0.1658,
+          "worsenedSelectedReliableRate": 0.1427
+        }
+      }
+    },
+    "q5Final": {
+      "answer": "Q5 prior statistically maintains, but does not improve, performance against frozen Q5; point estimates are slightly worse.",
+      "paired": {
+        "pairs": 50,
+        "improves": 10,
+        "worsens": 11,
+        "same": 29,
+        "territoryDifference": {
+          "mean": -2.6,
+          "median": 0,
+          "low": -8.3155,
+          "high": 3.1155
+        },
+        "mcnemar": {
+          "baselineOnlyWins": 11,
+          "hybridOnlyWins": 10,
+          "discordant": 21,
+          "pValue": 1
+        },
+        "initialActionDivergenceRate": 86,
+        "averageDecisionDivergenceRate": 98.7154,
+        "reliableCoverage": {
+          "improvedAverageReliableActions": 4.4775,
+          "worsenedAverageReliableActions": 4.058,
+          "improvedSelectedReliableRate": 0.1383,
+          "worsenedSelectedReliableRate": 0.1544
+        }
+      }
+    },
+    "random": {
+      "answer": "Yes. Both configurations retain 100% wins; no paired result changes were observed.",
+      "paired": {
+        "pairs": 20,
+        "improves": 0,
+        "worsens": 0,
+        "same": 20,
+        "territoryDifference": {
+          "mean": 0.75,
+          "median": 2,
+          "low": -4.9975,
+          "high": 6.4975
+        },
+        "mcnemar": {
+          "baselineOnlyWins": 0,
+          "hybridOnlyWins": 0,
+          "discordant": 0,
+          "pValue": 1
+        },
+        "initialActionDivergenceRate": 85,
+        "averageDecisionDivergenceRate": 99.1859,
+        "reliableCoverage": {
+          "improvedAverageReliableActions": 0,
+          "worsenedAverageReliableActions": 0,
+          "improvedSelectedReliableRate": 0,
+          "worsenedSelectedReliableRate": 0
+        }
+      }
+    },
+    "reliablePriorAssociation": {
+      "answer": "No meaningful association is visible: reliable coverage is nearly equal in improved and worsened pairs.",
+      "improvedAverageReliableActions": 4.4204,
+      "worsenedAverageReliableActions": 4.3215,
+      "improvedSelectedReliableRate": 0.1505,
+      "worsenedSelectedReliableRate": 0.1483
+    },
+    "cost": {
+      "ratioHybridToBaseline": 2.1167,
+      "answer": "No. The hybrid costs approximately 2.1167x and has no statistically supported gain."
+    },
+    "finalRecommendation": "Keep the baseline MCTS configuration. Do not adopt qPriorWeight=1 as the final configuration.",
+    "statisticalCaution": "Confidence intervals include no effect and McNemar tests are non-significant; the sample does not support a firm positive Q5 effect."
+  }
+}

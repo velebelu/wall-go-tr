@@ -1,0 +1,116 @@
+{
+  "evaluatorVersion": "playable-mcts-final-v1",
+  "note": "El IC Wilson 95% usa victorias/partidas; los empates cuentan como no-victorias.",
+  "overall": {
+    "games": 250,
+    "wins": 206,
+    "losses": 42,
+    "ties": 2,
+    "winRate": 82.4,
+    "winRateCI95": {
+      "low": 77.1993,
+      "high": 86.62
+    },
+    "averageTerritoryFinal": 25.788,
+    "averageTerritoryRival": 14.3,
+    "averageTerritoryDiff": 11.488,
+    "averageTurns": 88.084,
+    "averageDecisionMs": 334.2972,
+    "mctsActions": 8518,
+    "illegalMCTSActions": 0
+  },
+  "byRival": {
+    "heuristic": {
+      "games": 100,
+      "wins": 83,
+      "losses": 15,
+      "ties": 2,
+      "winRate": 83,
+      "winRateCI95": {
+        "low": 74.452,
+        "high": 89.1064
+      },
+      "averageTerritoryFinal": 23.22,
+      "averageTerritoryRival": 17.12,
+      "averageTerritoryDiff": 6.1,
+      "averageTurns": 90.42,
+      "averageDecisionMs": 366.3304,
+      "mctsActions": 2418,
+      "illegalMCTSActions": 0
+    },
+    "random": {
+      "games": 50,
+      "wins": 50,
+      "losses": 0,
+      "ties": 0,
+      "winRate": 100,
+      "winRateCI95": {
+        "low": 92.8652,
+        "high": 100
+      },
+      "averageTerritoryFinal": 37.92,
+      "averageTerritoryRival": 7.12,
+      "averageTerritoryDiff": 30.8,
+      "averageTurns": 67.86,
+      "averageDecisionMs": 378.7542,
+      "mctsActions": 943,
+      "illegalMCTSActions": 0
+    },
+    "baseline-mcts": {
+      "games": 100,
+      "wins": 73,
+      "losses": 27,
+      "ties": 0,
+      "winRate": 73,
+      "winRateCI95": {
+        "low": 63.5679,
+        "high": 80.7304
+      },
+      "averageTerritoryFinal": 22.29,
+      "averageTerritoryRival": 15.07,
+      "averageTerritoryDiff": 7.22,
+      "averageTurns": 95.86,
+      "averageDecisionMs": 311.1483,
+      "mctsActions": 5157,
+      "illegalMCTSActions": 0
+    }
+  },
+  "byColor": {
+    "R": {
+      "games": 125,
+      "wins": 100,
+      "losses": 24,
+      "ties": 1,
+      "winRate": 80,
+      "winRateCI95": {
+        "low": 72.141,
+        "high": 86.0701
+      },
+      "averageTerritoryFinal": 25.576,
+      "averageTerritoryRival": 14.384,
+      "averageTerritoryDiff": 11.192,
+      "averageTurns": 88.016,
+      "averageDecisionMs": 337.2072,
+      "mctsActions": 4296,
+      "illegalMCTSActions": 0
+    },
+    "B": {
+      "games": 125,
+      "wins": 106,
+      "losses": 18,
+      "ties": 1,
+      "winRate": 84.8,
+      "winRateCI95": {
+        "low": 77.4769,
+        "high": 90.0479
+      },
+      "averageTerritoryFinal": 26,
+      "averageTerritoryRival": 14.216,
+      "averageTerritoryDiff": 11.784,
+      "averageTurns": 88.152,
+      "averageDecisionMs": 331.3363,
+      "mctsActions": 4222,
+      "illegalMCTSActions": 0
+    }
+  }
+}

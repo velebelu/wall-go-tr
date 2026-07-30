@@ -1,0 +1,37 @@
+{
+  "createdAt": "2026-07-14T11:52:01.932Z",
+  "evaluationVersion": "mcts-q5-prior-confirmation-v1",
+  "durationMs": 3052908.9154,
+  "files": [
+    "mcts_q5_prior_confirmation_summary.json",
+    "mcts_q5_prior_confirmation_results.csv",
+    "mcts_q5_prior_confirmation_pairs.csv",
+    "metadata.json"
+  ],
+  "q5": {
+    "source": "data/entrenamiento/q5/hybrid/final_checkpoint_1000/qtable_q5_hybrid_final_1000.json",
+    "sha256": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+    "confidenceStats": {
+      "confidenceMapEntries": 19652,
+      "qLearningUpdateCountsEntries": 12068,
+      "effectiveConfidenceEntries": 27815,
+      "maxEffectiveConfidence": 778,
+      "effectiveEntriesAtLeast10": 404
+    },
+    "resourceHashesBefore": {
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\qtable_q5_hybrid_final_1000.json": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json": "cd1fa941b250aef0338cb1ac39c9a34aeea4db6adac86e29b6020688690cdf3d",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\q_update_log.jsonl": "e29a740ffe5e2d1921e0923d1c69d3a7353af22fbee5ea97f27d6ff51093eee8",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\q_update_log.jsonl": "23ca15f84f63719fcba14158d6dde3144ebcdcadc3d991b6b314a3fcd95576f1"
+    },
+    "resourceHashesAfter": {
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\qtable_q5_hybrid_final_1000.json": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json": "cd1fa941b250aef0338cb1ac39c9a34aeea4db6adac86e29b6020688690cdf3d",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\q_update_log.jsonl": "e29a740ffe5e2d1921e0923d1c69d3a7353af22fbee5ea97f27d6ff51093eee8",
+      "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\q_update_log.jsonl": "23ca15f84f63719fcba14158d6dde3144ebcdcadc3d991b6b314a3fcd95576f1"
+    },
+    "resourcesChanged": false
+  },
+  "previousEvaluationsOverwritten": false,
+  "conclusionsRecordedInSummary": true
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "HumanExperimentParticipantV1",
+  "experimentId": "WGTR-HUMAN-FINAL-2026",
+  "participantId": "P01",
+  "experienceGroup": "none",
+  "previousWallGoGames": 0,
+  "practiceGames": 1,
+  "colorOrder": ["R", "B"],
+  "notes": ""
+}

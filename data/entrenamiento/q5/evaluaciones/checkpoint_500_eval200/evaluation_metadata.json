@@ -1,0 +1,21 @@
+{
+  "createdAt": "2026-07-12T13:14:12.341Z",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\checkpoint_500\\qtable_q5_500.json",
+  "qTableEntries": 24549,
+  "hashBefore": "4463f2f01641b827056b46e6ce9fe3c8a19b4a56b0f373cf9eaaa90622fb500e",
+  "hashAfter": "4463f2f01641b827056b46e6ce9fe3c8a19b4a56b0f373cf9eaaa90622fb500e",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\evaluaciones\\checkpoint_500_eval200",
+  "protocol": {
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "totalGames": 400,
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "alphaUpdates": false,
+    "qTableFrozen": true
+  }
+}

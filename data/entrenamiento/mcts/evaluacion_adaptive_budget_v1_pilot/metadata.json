@@ -1,0 +1,40 @@
+{
+  "commit": "b0e61e552ff7badd4f5099463777cf95b0f1de01",
+  "branch": "ia-hibrida-mcts",
+  "createdAt": "2026-07-23T17:53:07.665Z",
+  "version": "adaptive-budget-v1",
+  "finalConfigUnchanged": {
+    "simulations": 50,
+    "explorationConstant": 1.4142135623730951,
+    "maxDepth": 60,
+    "rolloutPolicy": "mixed",
+    "heuristicProbability": 0.8,
+    "expansionPolicy": "heuristic",
+    "progressiveWidening": true,
+    "wideningConstant": 2,
+    "wideningExponent": 0.5,
+    "qPriorWeight": 0,
+    "tacticalVerification": true,
+    "tacticalCandidateCount": 2
+  },
+  "adaptiveThresholds": [
+    {
+      "maxLegalActions": 30,
+      "simulations": 50
+    },
+    {
+      "maxLegalActions": 70,
+      "simulations": 100
+    },
+    {
+      "maxLegalActions": 110,
+      "simulations": 150
+    },
+    {
+      "maxLegalActions": null,
+      "simulations": 200
+    }
+  ],
+  "scheduleGames": 80,
+  "masterSeed": 1260000
+}

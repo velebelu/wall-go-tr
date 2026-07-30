@@ -1,0 +1,1443 @@
+{
+  "schema": "StrategicTempoDiagnosticReportV1",
+  "generatedAt": "2026-07-29T15:22:34.445Z",
+  "scope": {
+    "diagnosticTraces": 36,
+    "reviewedHumanTraces": 4,
+    "v3ReadOrModified": false,
+    "decisionsExamined": 932
+  },
+  "constraints": {
+    "decisionPolicyChanged": false,
+    "frozenConfigurationChanged": false,
+    "securedTerritoryPolicyEnabled": false,
+    "qPriorWeight": 0
+  },
+  "dataLimitations": {
+    "maxDepthReached": "not recorded by the historical HumanMCTSTraceV1 decision diagnostics",
+    "rolloutOutcomes": "individual rollout outcomes are not recorded; only aggregate candidate values are available",
+    "humanReviewScope": "four attributable pre-V3 human traces; V3 traces were intentionally excluded"
+  },
+  "suspiciousOccurrences": 22,
+  "independentCases": 22,
+  "classifications": {
+    "productive": 0,
+    "strategic-repositioning": 1,
+    "defensive": 0,
+    "mobility-improving": 12,
+    "future-wall-preparation": 5,
+    "redundant": 0,
+    "ambiguous": 4
+  },
+  "causeIndicators": {
+    "nearTiedCases": 18,
+    "betterImmediateAlternativeCases": 20,
+    "nonPositiveSelectedValueCases": 9,
+    "meanVisitGap": 1.9545454545454546,
+    "meanValueGap": 0.02771912277542088
+  },
+  "provisionalConclusion": {
+    "primaryCause": "near ties and saturated aggregate values hide differences in immediate strategic progress",
+    "confirmedRedundantCases": 0,
+    "recommendation": "continue investigating with paired counterfactual continuations before testing any tie-break signal"
+  },
+  "fixtures": [
+    "06eb43800ede.fixture.json",
+    "024456fb924d.fixture.json",
+    "d8c69cdbde8d.fixture.json",
+    "ea0610abb2c1.fixture.json",
+    "c93e45301297.fixture.json",
+    "f197c3b937e4.fixture.json",
+    "8a62f8f826fc.fixture.json",
+    "3c6e0e435838.fixture.json",
+    "e28286aceb33.fixture.json",
+    "2eac0bd16e43.fixture.json",
+    "bddb6dd1b3cb.fixture.json",
+    "94fe8f8cbf50.fixture.json",
+    "8238614515c3.fixture.json"
+  ],
+  "cases": [
+    {
+      "id": "06eb43800ede",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-2.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-2",
+      "turnIndex": 33,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "left"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 0,
+          "B": 22
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 22
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "ambiguous",
+        "reasons": [
+          "later-progress-observed-but-not-causally-attributable",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 0,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 0,
+        "threatDelta": 2.25,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 2,
+        "selectedVisits": 14,
+        "selectedValue": 1,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "8238614515c3",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-2.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-2",
+      "turnIndex": 35,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 0,
+          "B": 22
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 22
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "strategic-repositioning",
+        "reasons": [
+          "closer-to-relevant-frontier",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 0,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": -1,
+        "threatDelta": 2.25,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 4,
+        "selectedVisits": 13,
+        "selectedValue": 1,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "c93e45301297",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-2.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-2",
+      "turnIndex": 39,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 11,
+          "B": 22
+        },
+        "territoryAfter": {
+          "R": 11,
+          "B": 22
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 1,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": -1,
+        "threatDelta": 1,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 5,
+        "selectedVisits": 14,
+        "selectedValue": 1,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "f197c3b937e4",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-4.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-4",
+      "turnIndex": 43,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 1,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 3
+          },
+          "pos": {
+            "x": 1,
+            "y": 3
+          },
+          "dir": "top"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 13,
+          "B": 28
+        },
+        "territoryAfter": {
+          "R": 13,
+          "B": 28
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 1,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 0.75,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 21,
+        "selectedVisits": 12,
+        "selectedValue": 1,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "e28286aceb33",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-6.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-6",
+      "turnIndex": 25,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 0,
+          "B": 14
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 14
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "future-wall-preparation",
+        "reasons": [
+          "move-enabled-wall-has-structural-value",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 1,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 1,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 0.25,
+        "wallCreatesImmediateBenefit": true,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 5,
+        "selectedVisits": 18,
+        "selectedValue": -0.7777777777777778,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "8a62f8f826fc",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-6.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-6",
+      "turnIndex": 31,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 0,
+          "B": 13
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 13
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility"
+        ],
+        "ownMobilityDelta": 3,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 0.5,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 1,
+        "selectedVisits": 16,
+        "selectedValue": -0.6875,
+        "visitGap": 7,
+        "valueGap": 0.1657608695652174,
+        "statisticallyNearTied": false
+      }
+    },
+    {
+      "id": "3c6e0e435838",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-6.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-6",
+      "turnIndex": 33,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 0,
+          "B": 13
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 13
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 1,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 0,
+        "threatDelta": 0.5,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 3,
+        "selectedVisits": 21,
+        "selectedValue": -0.6190476190476191,
+        "visitGap": 2,
+        "valueGap": 0.012531328320801949,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "86009b589a1c",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-6.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-6",
+      "turnIndex": 35,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 0,
+          "B": 13
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 13
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 1,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 0.5,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 0,
+        "selectedVisits": 19,
+        "selectedValue": -0.6842105263157895,
+        "visitGap": 1,
+        "valueGap": 0.015789473684210464,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "580edb7f3870",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-6.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-6",
+      "turnIndex": 37,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 0,
+          "B": 13
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 13
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 1,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 0.5,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 1,
+        "selectedVisits": 18,
+        "selectedValue": -0.7777777777777778,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "2eac0bd16e43",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-6.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-6",
+      "turnIndex": 41,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 0,
+          "B": 13
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 13
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "future-wall-preparation",
+        "reasons": [
+          "move-enabled-wall-has-structural-value",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": -2,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 1,
+        "relevantFrontierDistanceDelta": -1,
+        "threatDelta": 0.5,
+        "wallCreatesImmediateBenefit": true,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 3,
+        "selectedVisits": 24,
+        "selectedValue": -0.7916666666666666,
+        "visitGap": 2,
+        "valueGap": 0.026515151515151603,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "bddb6dd1b3cb",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-13.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-13",
+      "turnIndex": 46,
+      "player": "R",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 0
+          },
+          "pos": {
+            "x": 2,
+            "y": 0
+          },
+          "dir": "left"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 14,
+          "B": 9
+        },
+        "territoryAfter": {
+          "R": 14,
+          "B": 9
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "future-wall-preparation",
+        "reasons": [
+          "move-enabled-wall-has-structural-value",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 1,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 1,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 0.75,
+        "wallCreatesImmediateBenefit": true,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 81,
+        "selectedVisits": 20,
+        "selectedValue": 1,
+        "visitGap": 1,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "024456fb924d",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-14.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-14",
+      "turnIndex": 39,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 0,
+          "B": 20
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 20
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "ambiguous",
+        "reasons": [
+          "later-progress-observed-but-not-causally-attributable",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 0,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 4,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 4,
+        "selectedVisits": 28,
+        "selectedValue": 1,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "fb65cc24eb0e",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-16.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-16",
+      "turnIndex": 39,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 0
+          },
+          "pos": {
+            "x": 6,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 10,
+          "B": 9
+        },
+        "territoryAfter": {
+          "R": 10,
+          "B": 9
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility"
+        ],
+        "ownMobilityDelta": 2,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 2,
+        "threatDelta": 1,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 2,
+        "selectedVisits": 25,
+        "selectedValue": -0.28,
+        "visitGap": 7,
+        "valueGap": 0.06125000000000003,
+        "statisticallyNearTied": false
+      }
+    },
+    {
+      "id": "d8c69cdbde8d",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-16.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-16",
+      "turnIndex": 43,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 10,
+          "B": 8
+        },
+        "territoryAfter": {
+          "R": 10,
+          "B": 8
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "ambiguous",
+        "reasons": [
+          "later-progress-observed-but-not-causally-attributable"
+        ],
+        "ownMobilityDelta": 0,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 0,
+        "threatDelta": 1.5,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 1,
+        "selectedVisits": 20,
+        "selectedValue": 0.45,
+        "visitGap": 16,
+        "valueGap": 0.18888888888888883,
+        "statisticallyNearTied": false
+      }
+    },
+    {
+      "id": "bc34595e4099",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-21.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-21",
+      "turnIndex": 30,
+      "player": "R",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 4
+          },
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 10,
+          "B": 0
+        },
+        "territoryAfter": {
+          "R": 10,
+          "B": 0
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 4,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 0.25,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 47,
+        "selectedVisits": 30,
+        "selectedValue": -0.06666666666666667,
+        "visitGap": 2,
+        "valueGap": 0.030952380952380953,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "00c725feb22e",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-21.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-21",
+      "turnIndex": 34,
+      "player": "R",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 6
+        },
+        "pos": {
+          "x": 6,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 6
+          },
+          "pos": {
+            "x": 6,
+            "y": 6
+          },
+          "dir": "left"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 15,
+          "B": 16
+        },
+        "territoryAfter": {
+          "R": 15,
+          "B": 16
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 2,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 0,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 1,
+        "selectedVisits": 27,
+        "selectedValue": -0.18518518518518517,
+        "visitGap": 1,
+        "valueGap": 0.0071225071225071435,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "94fe8f8cbf50",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-27.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-27",
+      "turnIndex": 46,
+      "player": "R",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 3
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 14,
+          "B": 5
+        },
+        "territoryAfter": {
+          "R": 14,
+          "B": 5
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "future-wall-preparation",
+        "reasons": [
+          "move-enabled-wall-has-structural-value",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 2,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 1,
+        "relevantFrontierDistanceDelta": -1,
+        "threatDelta": 0.75,
+        "wallCreatesImmediateBenefit": true,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 2,
+        "selectedVisits": 13,
+        "selectedValue": 1,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "412e4a780401",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-29.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-29",
+      "turnIndex": 36,
+      "player": "R",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 6
+        },
+        "pos": {
+          "x": 3,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 5
+          },
+          "pos": {
+            "x": 3,
+            "y": 5
+          },
+          "dir": "right"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 24,
+          "B": 1
+        },
+        "territoryAfter": {
+          "R": 24,
+          "B": 1
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 1,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 0,
+        "threatDelta": 2.75,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 4,
+        "selectedVisits": 13,
+        "selectedValue": 1,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "993e180ec568",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-29.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-29",
+      "turnIndex": 40,
+      "player": "R",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 4
+        },
+        "pos": {
+          "x": 5,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 5
+          },
+          "pos": {
+            "x": 5,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 24,
+          "B": 5
+        },
+        "territoryAfter": {
+          "R": 24,
+          "B": 5
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 1,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 2.75,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 4,
+        "selectedVisits": 15,
+        "selectedValue": 1,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "a9bac6bb3c8c",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-29.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-29",
+      "turnIndex": 42,
+      "player": "R",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 6
+          },
+          "pos": {
+            "x": 3,
+            "y": 6
+          },
+          "dir": "right"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 24,
+          "B": 5
+        },
+        "territoryAfter": {
+          "R": 24,
+          "B": 5
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "future-wall-preparation",
+        "reasons": [
+          "move-enabled-wall-has-structural-value",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 3,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 1,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 2.5,
+        "wallCreatesImmediateBenefit": true,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 2,
+        "selectedVisits": 18,
+        "selectedValue": 1,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "ea0610abb2c1",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-30.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-30",
+      "turnIndex": 51,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 8,
+          "B": 19
+        },
+        "territoryAfter": {
+          "R": 8,
+          "B": 19
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "ambiguous",
+        "reasons": [
+          "later-progress-observed-but-not-causally-attributable",
+          "mcts-candidates-near-tied"
+        ],
+        "ownMobilityDelta": 0,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 0,
+        "threatDelta": 0.75,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 3,
+        "selectedVisits": 26,
+        "selectedValue": 1,
+        "visitGap": 0,
+        "valueGap": 0,
+        "statisticallyNearTied": true
+      }
+    },
+    {
+      "id": "6ee0b5f62f3d",
+      "source": "data/diagnostics/secured-territory-behaviour/trace-32.json",
+      "sourceKind": "diagnostic",
+      "gameId": "diagnostic-32",
+      "turnIndex": 29,
+      "player": "B",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 5,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 0
+          },
+          "pos": {
+            "x": 5,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "analysis": {
+        "territoryBefore": {
+          "R": 0,
+          "B": 8
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 8
+        },
+        "maxDepthReached": null,
+        "rolloutOutcomes": null,
+        "suspicious": true,
+        "classification": "mobility-improving",
+        "reasons": [
+          "improved-relative-mobility"
+        ],
+        "ownMobilityDelta": 3,
+        "opponentMobilityDelta": 0,
+        "ownTrapPiecesDelta": 0,
+        "componentCountDelta": 0,
+        "relevantFrontierDistanceDelta": 1,
+        "threatDelta": 0.25,
+        "wallCreatesImmediateBenefit": false,
+        "futureStrategicBenefit": true,
+        "bestAlternativeImmediateAdvantage": 0,
+        "selectedVisits": 18,
+        "selectedValue": 0.4444444444444444,
+        "visitGap": 4,
+        "valueGap": 0.101010101010101,
+        "statisticallyNearTied": false
+      }
+    }
+  ]
+}

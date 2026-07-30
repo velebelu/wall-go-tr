@@ -1,0 +1,173 @@
+{
+  "gamesByOpponent": {
+    "random": 50,
+    "heuristic": 50
+  },
+  "gamesByColor": {
+    "R": 50,
+    "B": 50
+  },
+  "gamesByCombination": {
+    "random_R": 25,
+    "random_B": 25,
+    "heuristic_R": 25,
+    "heuristic_B": 25
+  },
+  "results": {
+    "games": 100,
+    "wins": 53,
+    "losses": 46,
+    "ties": 1
+  },
+  "resultsByOpponent": {
+    "random": {
+      "games": 50,
+      "wins": 46,
+      "losses": 3,
+      "ties": 1
+    },
+    "heuristic": {
+      "games": 50,
+      "wins": 7,
+      "losses": 43,
+      "ties": 0
+    }
+  },
+  "resultsByColor": {
+    "R": {
+      "games": 50,
+      "wins": 27,
+      "losses": 23,
+      "ties": 0
+    },
+    "B": {
+      "games": 50,
+      "wins": 26,
+      "losses": 23,
+      "ties": 1
+    }
+  },
+  "resultsByCombination": {
+    "random_R": {
+      "games": 25,
+      "wins": 23,
+      "losses": 2,
+      "ties": 0
+    },
+    "random_B": {
+      "games": 25,
+      "wins": 23,
+      "losses": 1,
+      "ties": 1
+    },
+    "heuristic_R": {
+      "games": 25,
+      "wins": 4,
+      "losses": 21,
+      "ties": 0
+    },
+    "heuristic_B": {
+      "games": 25,
+      "wins": 3,
+      "losses": 22,
+      "ties": 0
+    }
+  },
+  "qTotal": {
+    "qHits": 1244,
+    "qMisses": 956,
+    "qHitRate": 56.5455
+  },
+  "qByOpponent": {
+    "random": {
+      "qHits": 717,
+      "qMisses": 415,
+      "qHitRate": 63.3392
+    },
+    "heuristic": {
+      "qHits": 527,
+      "qMisses": 541,
+      "qHitRate": 49.3446
+    }
+  },
+  "qByColor": {
+    "R": {
+      "qHits": 628,
+      "qMisses": 465,
+      "qHitRate": 57.4565
+    },
+    "B": {
+      "qHits": 616,
+      "qMisses": 491,
+      "qHitRate": 55.6459
+    }
+  },
+  "averageTerritory": {
+    "q5": 21.66,
+    "opponent": 19.35
+  },
+  "averageTerritoryDiff": 2.31,
+  "averageTurns": 79.22,
+  "epsilonInitial": 0.1,
+  "epsilonFinal": 0.0951,
+  "initialQTableEntries": 19652,
+  "finalQTableEntries": 20608,
+  "tableGrowth": 956,
+  "uniqueQ3StatesVisited": 631,
+  "rewards": {
+    "averageTotalReward": 8.0213,
+    "averageTerritoryReward": 0.0074,
+    "averageMobilityReward": -0.0441,
+    "averageTrappedReward": -0.0348,
+    "averageLowMobilityReward": -0.0077,
+    "averageIntermediateReward": -0.0787,
+    "averageFinalReward": 8.1,
+    "minTotalReward": -119.705,
+    "maxTotalReward": 120.085,
+    "minIntermediateReward": -0.1,
+    "maxIntermediateReward": 0.1,
+    "clampCounts": {
+      "territory": 219,
+      "mobility": 206,
+      "trap": 0,
+      "lowMobility": 0,
+      "total": 3,
+      "finalTerritory": 1
+    },
+    "trappedPiecesCreated": 104,
+    "trappedPiecesFreed": 17
+  },
+  "hybridPolicy": {
+    "confidenceThreshold": 3,
+    "decisions": {
+      "qReliable": 1098,
+      "heuristicFallback": 882,
+      "randomExploration": 220
+    },
+    "decisionPercentages": {
+      "qReliable": 49.9091,
+      "heuristicFallback": 40.0909,
+      "randomExploration": 10
+    },
+    "resultsByPrimaryDecisionMechanism": {
+      "qReliable": {
+        "games": 66,
+        "wins": 46,
+        "losses": 19,
+        "ties": 1
+      },
+      "heuristicFallback": {
+        "games": 34,
+        "wins": 7,
+        "losses": 27,
+        "ties": 0
+      },
+      "randomExploration": {
+        "games": 0,
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      }
+    }
+  }
+}

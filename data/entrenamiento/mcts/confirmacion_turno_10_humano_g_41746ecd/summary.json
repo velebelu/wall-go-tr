@@ -1,0 +1,73 @@
+{
+  "schema": "HumanMCTSTurn10ConfirmationSummaryV1",
+  "evaluatorVersion": "human-mcts-turn-10-confirmation-v1",
+  "fixtureId": "3_turn_10_mcts_5",
+  "complete": true,
+  "classification": "inconclusive",
+  "actions": {
+    "final": {
+      "games": 20,
+      "wins": 9,
+      "losses": 11,
+      "ties": 0,
+      "winRate": 0.45,
+      "winRateCI95": {
+        "low": 25.8198,
+        "high": 65.7915
+      },
+      "averageOwnTerritory": 15.8,
+      "averageOpponentTerritory": 16.85,
+      "averageTerritoryDiff": -1.05,
+      "medianOwnTerritory": 14,
+      "medianOpponentTerritory": 17,
+      "medianTerritoryDiff": -1.5,
+      "territoryDiffStandardDeviation": 8.4509,
+      "averageDurationMs": 66388.5384,
+      "totalDurationMs": 1327770.7689
+    },
+    "original": {
+      "games": 20,
+      "wins": 11,
+      "losses": 8,
+      "ties": 1,
+      "winRate": 0.55,
+      "winRateCI95": {
+        "low": 34.2085,
+        "high": 74.1802
+      },
+      "averageOwnTerritory": 18.45,
+      "averageOpponentTerritory": 16.95,
+      "averageTerritoryDiff": 1.5,
+      "medianOwnTerritory": 18,
+      "medianOpponentTerritory": 17.5,
+      "medianTerritoryDiff": 1.5,
+      "territoryDiffStandardDeviation": 13.4654,
+      "averageDurationMs": 64486.6072,
+      "totalDurationMs": 1289732.1437
+    }
+  },
+  "paired": {
+    "pairs": 20,
+    "originalPreferred": 11,
+    "finalPreferred": 9,
+    "tied": 0,
+    "originalOutcomeBetter": 8,
+    "finalOutcomeBetter": 6,
+    "equalOutcomes": 6,
+    "averageTerritoryDelta": 2.55,
+    "medianTerritoryDelta": 3.5,
+    "bootstrapMeanCI95": {
+      "low": -5.15,
+      "high": 9.85,
+      "iterations": 10000,
+      "seed": 710010
+    },
+    "signTest": {
+      "positive": 11,
+      "negative": 9,
+      "tiesExcluded": 0,
+      "pValue": 0.8238
+    }
+  },
+  "disclaimer": "This comparison can support a tactical-regression hypothesis but does not label an action as an error."
+}

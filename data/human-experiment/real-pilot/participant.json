@@ -1,0 +1,10 @@
+{
+  "schema": "HumanExperimentParticipantV1",
+  "experimentId": "WGTR-REAL-PILOT-2026",
+  "participantId": "REAL-PILOT-001",
+  "experienceGroup": "none",
+  "previousWallGoGames": 0,
+  "practiceGames": 1,
+  "colorOrder": ["R", "B"],
+  "notes": "Piloto jugable real separado; participante excluido de la muestra definitiva."
+}

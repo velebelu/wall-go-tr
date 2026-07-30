@@ -1,0 +1,21 @@
+{
+  "schema": "HumanExperimentManifestV1",
+  "experimentId": "WGTR-REAL-PILOT-2026",
+  "exportedAt": "2026-07-27T10:06:36.607Z",
+  "sourceCommits": [
+    "60d45a283e4b6f91af32f307a2bb613ffad76970"
+  ],
+  "expectedConfigSha256": "7d137f48f941045742aacbeeadffcd8db036477e355a2f8c61aace3af4e7fca8",
+  "participantCount": 1,
+  "gameCount": 2,
+  "files": {
+    "participants.csv": "6be0f8e69a3f96297cc14ad42c6e3a962289888a1a6b32f52742790fcbc9ae84",
+    "games.csv": "30f955881e569d94529a51210f5576e5b3a475062a0fe0a3bf549b3a308dc59f",
+    "summary.json": "28036340934146e6fbe5166c23dafe7f3fc2a2de0a27a56862e677a12393e290"
+  },
+  "validation": {
+    "ok": true
+  },
+  "globalIncidents": [],
+  "command": "npm run human-experiment:export -- data/human-experiment/real-pilot data/human-experiment/real-pilot/export"
+}

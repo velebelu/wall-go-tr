@@ -1,0 +1,83 @@
+{
+  "totalGames": 2,
+  "humanWins": 1,
+  "aiWins": 1,
+  "draws": 0,
+  "humanWinRate": 0.5,
+  "aiWinRate": 0.5,
+  "meanHumanTerritory": 24,
+  "meanAiTerritory": 25,
+  "meanTerritoryDiffHuman": -1,
+  "medianTerritoryDiffHuman": -1,
+  "meanTurnCount": 0,
+  "meanDurationMs": 97500,
+  "byHumanColor": {
+    "humanAsRed": {
+      "games": 1,
+      "humanWins": 1,
+      "aiWins": 0,
+      "draws": 0,
+      "meanHumanTerritory": 26,
+      "meanAiTerritory": 23,
+      "meanTerritoryDiffHuman": 3
+    },
+    "humanAsBlue": {
+      "games": 1,
+      "humanWins": 0,
+      "aiWins": 1,
+      "draws": 0,
+      "meanHumanTerritory": 22,
+      "meanAiTerritory": 27,
+      "meanTerritoryDiffHuman": -5
+    }
+  },
+  "byExperience": {
+    "none": {
+      "games": 0,
+      "humanWins": 0,
+      "aiWins": 0,
+      "draws": 0,
+      "meanHumanTerritory": null,
+      "meanAiTerritory": null,
+      "meanTerritoryDiffHuman": null
+    },
+    "basic": {
+      "games": 2,
+      "humanWins": 1,
+      "aiWins": 1,
+      "draws": 0,
+      "meanHumanTerritory": 24,
+      "meanAiTerritory": 25,
+      "meanTerritoryDiffHuman": -1
+    },
+    "experienced": {
+      "games": 0,
+      "humanWins": 0,
+      "aiWins": 0,
+      "draws": 0,
+      "meanHumanTerritory": null,
+      "meanAiTerritory": null,
+      "meanTerritoryDiffHuman": null
+    }
+  },
+  "byGameNumber": {
+    "game1": {
+      "games": 1,
+      "humanWins": 1,
+      "aiWins": 0,
+      "draws": 0,
+      "meanHumanTerritory": 26,
+      "meanAiTerritory": 23,
+      "meanTerritoryDiffHuman": 3
+    },
+    "game2": {
+      "games": 1,
+      "humanWins": 0,
+      "aiWins": 1,
+      "draws": 0,
+      "meanHumanTerritory": 22,
+      "meanAiTerritory": 27,
+      "meanTerritoryDiffHuman": -5
+    }
+  }
+}

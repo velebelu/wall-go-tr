@@ -1,0 +1,35 @@
+{
+  "createdAt": "2026-07-13T21:47:34.794Z",
+  "evaluationVersion": "mcts-mixed80-confirmation-v1",
+  "git": {
+    "branch": "ia-hibrida-mcts",
+    "commit": "b1d1593fc5ec635441b93a6fed7699ba42884c25"
+  },
+  "protocol": {
+    "configuration": {
+      "name": "MCTS-50-mixed-80",
+      "simulations": 50,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8
+    },
+    "heuristicGames": 100,
+    "heuristicGamesPerColor": 50,
+    "randomGames": 50,
+    "randomGamesPerColor": 25,
+    "totalGames": 150,
+    "seedBase": 615000,
+    "maxTurns": 250,
+    "learningEnabled": false,
+    "q5Included": false,
+    "turnLimitResolution": "finalizeGameIfNeeded using getTerritoryCounts"
+  },
+  "confidenceInterval": "Wilson score interval, 95%",
+  "previousPilot": "data/entrenamiento/mcts/evaluacion_rollout_policy/mcts_rollout_summary.json",
+  "files": {
+    "summary": "mcts_mixed80_confirmation_summary.json",
+    "results": "mcts_mixed80_confirmation_results.csv",
+    "metadata": "metadata.json"
+  }
+}

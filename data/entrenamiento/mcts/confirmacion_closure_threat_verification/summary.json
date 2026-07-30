@@ -1,0 +1,320 @@
+{
+  "schema": "ClosureThreatVerificationConfirmationSummaryV1",
+  "complete": true,
+  "classification": "promising-needs-more-evidence",
+  "durationMs": 5208514.8341,
+  "frozenConfig": {
+    "mcts": {
+      "simulations": 250,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5,
+      "qPriorWeight": 0,
+      "tacticalVerification": true,
+      "tacticalCandidateCount": 2
+    },
+    "budget": {
+      "enable750": false,
+      "base": 250,
+      "lowConfidence": 500,
+      "highUncertainty": 500,
+      "maxDecisionMs": 5000,
+      "maxVisitGap": 3,
+      "maxValueGap": 0.04,
+      "maxSelectedVisitShare": 0.12,
+      "highUncertaintyVisitGap": 1,
+      "highUncertaintyValueGap": 0.015,
+      "highUncertaintySelectedVisitShare": 0.08
+    },
+    "endgame": {
+      "enabled": false,
+      "maxLegalActions": 8,
+      "maxConnectedRegions": 3,
+      "maxMobilePieces": 2,
+      "maxDepth": 8,
+      "maxNodes": 40000,
+      "maxTimeMs": 1500
+    }
+  },
+  "detectorConfig": {
+    "enabled": true,
+    "candidateCount": 4,
+    "maxRepliesPerCandidate": 80,
+    "maxTimeMsPerCandidate": 250,
+    "minimumOpponentTerritoryGain": 12,
+    "minimumOwnAccessibleDrop": 12,
+    "minimumExposedComponentSize": 15,
+    "terminalTerritoryDiffThreshold": -12
+  },
+  "fixtures": {
+    "34": {
+      "frozen": {
+        "games": 20,
+        "wins": 0,
+        "losses": 20,
+        "ties": 0,
+        "winRate": 0,
+        "winRateCI95": {
+          "low": 0,
+          "high": 16.1125
+        },
+        "averageTerritory": 7.5,
+        "averageTerritoryDiff": -18.15,
+        "averageTurns": 15.75,
+        "averageFirstLargeClosureTurn": 13.625,
+        "averageMaximumCapturedRegion": 20,
+        "detectorActivations": 0,
+        "detectorChanges": 0
+      },
+      "closure": {
+        "games": 20,
+        "wins": 0,
+        "losses": 20,
+        "ties": 0,
+        "winRate": 0,
+        "winRateCI95": {
+          "low": 0,
+          "high": 16.1125
+        },
+        "averageTerritory": 7,
+        "averageTerritoryDiff": -17.85,
+        "averageTurns": 17,
+        "averageFirstLargeClosureTurn": 13.285714285714286,
+        "averageMaximumCapturedRegion": 19.35,
+        "detectorActivations": 135,
+        "detectorChanges": 6
+      },
+      "paired": {
+        "pairs": 20,
+        "favorable": 4,
+        "neutral": 14,
+        "harmful": 2,
+        "averageTerritoryDiffDelta": 0.3
+      }
+    },
+    "36": {
+      "frozen": {
+        "games": 20,
+        "wins": 0,
+        "losses": 20,
+        "ties": 0,
+        "winRate": 0,
+        "winRateCI95": {
+          "low": 0,
+          "high": 16.1125
+        },
+        "averageTerritory": 6.05,
+        "averageTerritoryDiff": -21.2,
+        "averageTurns": 11.9,
+        "averageFirstLargeClosureTurn": 10.5,
+        "averageMaximumCapturedRegion": 24.15,
+        "detectorActivations": 0,
+        "detectorChanges": 0
+      },
+      "closure": {
+        "games": 20,
+        "wins": 0,
+        "losses": 20,
+        "ties": 0,
+        "winRate": 0,
+        "winRateCI95": {
+          "low": 0,
+          "high": 16.1125
+        },
+        "averageTerritory": 6.7,
+        "averageTerritoryDiff": -17.05,
+        "averageTurns": 15.75,
+        "averageFirstLargeClosureTurn": 13.529411764705882,
+        "averageMaximumCapturedRegion": 18.85,
+        "detectorActivations": 152,
+        "detectorChanges": 16
+      },
+      "paired": {
+        "pairs": 20,
+        "favorable": 11,
+        "neutral": 8,
+        "harmful": 1,
+        "averageTerritoryDiffDelta": 4.15
+      }
+    },
+    "38": {
+      "frozen": {
+        "games": 20,
+        "wins": 0,
+        "losses": 20,
+        "ties": 0,
+        "winRate": 0,
+        "winRateCI95": {
+          "low": 0,
+          "high": 16.1125
+        },
+        "averageTerritory": 6.95,
+        "averageTerritoryDiff": -21.3,
+        "averageTurns": 7.45,
+        "averageFirstLargeClosureTurn": 6.421052631578948,
+        "averageMaximumCapturedRegion": 24.35,
+        "detectorActivations": 0,
+        "detectorChanges": 0
+      },
+      "closure": {
+        "games": 20,
+        "wins": 0,
+        "losses": 20,
+        "ties": 0,
+        "winRate": 0,
+        "winRateCI95": {
+          "low": 0,
+          "high": 16.1125
+        },
+        "averageTerritory": 7.55,
+        "averageTerritoryDiff": -19.95,
+        "averageTurns": 7.85,
+        "averageFirstLargeClosureTurn": 6.684210526315789,
+        "averageMaximumCapturedRegion": 24,
+        "detectorActivations": 82,
+        "detectorChanges": 3
+      },
+      "paired": {
+        "pairs": 20,
+        "favorable": 2,
+        "neutral": 18,
+        "harmful": 0,
+        "averageTerritoryDiffDelta": 1.35
+      }
+    }
+  },
+  "normal": {
+    "positions": 30,
+    "observations": 60,
+    "changes": 0,
+    "changeRate": 0,
+    "openingChanges": 0
+  },
+  "competitive": {
+    "heuristic": {
+      "frozen": {
+        "games": 40,
+        "wins": 37,
+        "losses": 3,
+        "ties": 0,
+        "winRate": 0.925,
+        "winRateCI95": {
+          "low": 80.1358,
+          "high": 97.4164
+        },
+        "averageTerritory": 25.35,
+        "averageTerritoryDiff": 7.925,
+        "averageTurns": 44.45,
+        "averageFirstLargeClosureTurn": 39.5,
+        "averageMaximumCapturedRegion": 19.4,
+        "detectorActivations": 0,
+        "detectorChanges": 0
+      },
+      "closure": {
+        "games": 40,
+        "wins": 37,
+        "losses": 3,
+        "ties": 0,
+        "winRate": 0.925,
+        "winRateCI95": {
+          "low": 80.1358,
+          "high": 97.4164
+        },
+        "averageTerritory": 25.825,
+        "averageTerritoryDiff": 9.85,
+        "averageTurns": 45.8,
+        "averageFirstLargeClosureTurn": 39.68421052631579,
+        "averageMaximumCapturedRegion": 19.275,
+        "detectorActivations": 83,
+        "detectorChanges": 10
+      }
+    },
+    "baseline": {
+      "frozen": {
+        "games": 40,
+        "wins": 32,
+        "losses": 7,
+        "ties": 1,
+        "winRate": 0.8,
+        "winRateCI95": {
+          "low": 65.2427,
+          "high": 89.5
+        },
+        "averageTerritory": 20.4,
+        "averageTerritoryDiff": 5.15,
+        "averageTurns": 53.55,
+        "averageFirstLargeClosureTurn": 42.47826086956522,
+        "averageMaximumCapturedRegion": 13.125,
+        "detectorActivations": 0,
+        "detectorChanges": 0
+      },
+      "closure": {
+        "games": 40,
+        "wins": 26,
+        "losses": 14,
+        "ties": 0,
+        "winRate": 0.65,
+        "winRateCI95": {
+          "low": 49.5059,
+          "high": 77.8655
+        },
+        "averageTerritory": 19.675,
+        "averageTerritoryDiff": 4.1,
+        "averageTurns": 54.55,
+        "averageFirstLargeClosureTurn": 43.21739130434783,
+        "averageMaximumCapturedRegion": 13.725,
+        "detectorActivations": 77,
+        "detectorChanges": 7
+      }
+    }
+  },
+  "pairedCompetitive": {
+    "heuristic": {
+      "pairs": 40,
+      "favorable": 17,
+      "neutral": 8,
+      "harmful": 15,
+      "averageTerritoryDiffDelta": 1.925
+    },
+    "baseline": {
+      "pairs": 40,
+      "favorable": 13,
+      "neutral": 9,
+      "harmful": 18,
+      "averageTerritoryDiffDelta": -1.05
+    }
+  },
+  "changes": {
+    "total": 42,
+    "favorable": 29,
+    "neutral": 3,
+    "harmful": 10,
+    "harmfulRate": 0.23809523809523808
+  },
+  "timing": {
+    "detectorAverageMs": 48.256783327548014,
+    "detectorP95Ms": 111.70409999997355,
+    "detectorMaxMs": 135.73070000007283,
+    "totalAverageMs": 2482.7044291073353,
+    "totalP95Ms": 5343.199900000007,
+    "totalMaxMs": 5662.9372999999905
+  },
+  "criteria": {
+    "turn36ImprovesConsistently": true,
+    "turn34NotClearlyWorse": true,
+    "turn38NotClearlyWorse": true,
+    "harmfulLaterChangesBelow5Percent": false,
+    "normalChangeRateBelow10Percent": true,
+    "noOpeningIndiscriminateChanges": true,
+    "heuristicCompetitive": true,
+    "baselineCompetitive": true,
+    "territoryNotClearlyNegative": true,
+    "detectorAverageBelow100Ms": true,
+    "technicalValidity": true
+  }
+}

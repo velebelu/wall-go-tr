@@ -11,9 +11,20 @@ export interface Cell {
   wallLeft: Player | null // left wall
 }
 
-export type GameMode = 'pvp' | 'ai'
+export type GameMode =
+  | 'pvp'
+  | 'ai'
+  | 'q5-learning'
+  | 'mcts-final'
+  | 'mcts-fast'
+  | 'ai-vs-ai'
+  | 'random-vs-heuristic'
+  | 'learning-vs-random'
+  | 'learning-vs-heuristic'
+  | 'heuristic-training'
 export type AiSide = 'R' | 'B'
-export type AiLevel = 'practice' | 'easy' | 'middle' | 'hard'
+export type AiLevel = 'practice' | 'heuristic' | 'easy' | 'middle' | 'hard'
+export type HeuristicMode = 'default' | 'offensive' | 'defensive'
 export type Phase = 'selecting' | 'placing' | 'playing' | 'finished'
 export type WallDir = 'top' | 'left' | 'right' | 'bottom'
 export const PLAYER_LIST = ['R', 'B'] as readonly Player[]
@@ -57,6 +68,7 @@ export interface State extends GameSnapshot {
   placeStone: (pos: Pos) => void
   selectStone: (pos: Pos) => void
   moveTo: (to: Pos) => void
+  finishMove: () => void
   buildWall: (pos: Pos, dir: WallDir) => void
   resetGame: () => void
   undo: () => void

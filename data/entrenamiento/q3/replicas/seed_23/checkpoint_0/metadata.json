@@ -1,0 +1,105 @@
+{
+  "model": "Q3",
+  "baseRewardModel": "Q2",
+  "stateRepresentation": "Q3",
+  "initialization": "empty",
+  "startedFromEmptyQTable": true,
+  "checkpoint0Reused": false,
+  "checkpoint0Validated": true,
+  "trainingGames": 0,
+  "seed": 23,
+  "alpha": 0.1,
+  "gamma": 0.9,
+  "epsilonInitial": 0.6,
+  "epsilonFinal": 0.6,
+  "epsilonMin": 0.05,
+  "epsilonDecay": 0.9995,
+  "rewardConfiguration": {
+    "win": 100,
+    "loss": -100,
+    "tie": 0,
+    "finalTerritoryDiffMultiplier": 1,
+    "intermediateTerritoryDeltaMultiplier": 0.01,
+    "intermediateMin": -0.05,
+    "intermediateMax": 0.05
+  },
+  "opponentConfiguration": {
+    "random": 0,
+    "heuristic": 0
+  },
+  "boardSize": 7,
+  "createdAt": "2026-07-11T14:01:27.836Z",
+  "durationMs": 0,
+  "qTableEntries": 0,
+  "uniqueQ3StatesVisited": 0,
+  "visitedStateActionPairs": 0,
+  "qHits": 0,
+  "qMisses": 0,
+  "actionDistribution": {
+    "place": 0,
+    "move": 0,
+    "wall": 0,
+    "move-wall": 0
+  },
+  "wins": 0,
+  "losses": 0,
+  "ties": 0,
+  "winRate": 0,
+  "resultsByColor": {
+    "R": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    },
+    "B": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    }
+  },
+  "averageTerritory": {
+    "learning": 0,
+    "opponent": 0
+  },
+  "averageTerritoryDiff": 0,
+  "averageTurns": 0,
+  "representationStats": {
+    "uniqueStateKeys": 0,
+    "visitsByState": {},
+    "statesVisitedOnce": 0,
+    "statesWithAtLeast2": 0,
+    "statesWithAtLeast5": 0,
+    "statesWithAtLeast10": 0,
+    "statesWithAtLeast20": 0,
+    "maxVisits": 0,
+    "meanVisits": 0,
+    "medianVisits": 0,
+    "bucketDistributions": {
+      "td": {},
+      "mobMine": {},
+      "mobOpponent": {},
+      "trapMine": {},
+      "trapOpponent": {},
+      "walls": {}
+    },
+    "actionKeysPerState": {
+      "max": 0,
+      "mean": 0
+    },
+    "differentiatedMoveWallActions": 0
+  },
+  "configurationComparisonWithQ2": {
+    "sameRewardConfiguration": true,
+    "sameHyperparameters": true,
+    "sameOpponentConfiguration": true,
+    "sameMaxTurns": true,
+    "differences": [
+      "state/action key functions: Q3 instead of Q2"
+    ]
+  },
+  "outputFiles": {
+    "qTable": "data\\entrenamiento\\q3\\replicas\\seed_23\\checkpoint_0\\qtable_q3_0.json",
+    "metadata": "data\\entrenamiento\\q3\\replicas\\seed_23\\checkpoint_0\\metadata.json",
+    "trainingSummary": "data\\entrenamiento\\q3\\replicas\\seed_23\\checkpoint_0\\training_summary.json"
+  }
+}

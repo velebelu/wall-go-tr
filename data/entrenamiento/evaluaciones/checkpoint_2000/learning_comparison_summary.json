@@ -1,0 +1,617 @@
+{
+  "createdAt": "2026-07-11T09:39:52.488Z",
+  "experiments": [
+    {
+      "name": "checkpoint_vs_random_as_red",
+      "games": 30,
+      "players": {
+        "R": "learning-pretrained",
+        "B": "random"
+      },
+      "wins": {
+        "R": 8,
+        "B": 21,
+        "tie": 1
+      },
+      "winRates": {
+        "R": 26.6667,
+        "B": 70,
+        "tie": 3.3333
+      },
+      "averageTerritory": {
+        "R": 12.9333,
+        "B": 25.5667
+      },
+      "averageTerritoryDiff": -12.6333,
+      "averageTurns": 83.6667,
+      "blocksOf10": [
+        {
+          "block": 1,
+          "fromGame": 1,
+          "toGame": 10,
+          "games": 10,
+          "wins": {
+            "R": 3,
+            "B": 7,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 30,
+            "B": 70,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 13,
+            "B": 22.4
+          },
+          "averageTerritoryDiff": -9.4,
+          "averageTurns": 86.1
+        },
+        {
+          "block": 2,
+          "fromGame": 11,
+          "toGame": 20,
+          "games": 10,
+          "wins": {
+            "R": 3,
+            "B": 6,
+            "tie": 1
+          },
+          "winRates": {
+            "R": 30,
+            "B": 60,
+            "tie": 10
+          },
+          "averageTerritory": {
+            "R": 15.1,
+            "B": 23.4
+          },
+          "averageTerritoryDiff": -8.3,
+          "averageTurns": 82.6
+        },
+        {
+          "block": 3,
+          "fromGame": 21,
+          "toGame": 30,
+          "games": 10,
+          "wins": {
+            "R": 2,
+            "B": 8,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 20,
+            "B": 80,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 10.7,
+            "B": 30.9
+          },
+          "averageTerritoryDiff": -20.2,
+          "averageTurns": 82.3
+        }
+      ],
+      "learningDiagnostics": {
+        "totalDecisions": 700,
+        "qTableHits": 700,
+        "qTableHitRate": 100,
+        "totalMaxTiedActions": 1804,
+        "tiedBestActionDecisions": 527,
+        "distinctQTableKeysConsulted": 26014,
+        "initialQTableEntries": 1417,
+        "qTableChangedDuringEvaluation": false
+      }
+    },
+    {
+      "name": "random_vs_checkpoint_as_blue",
+      "games": 30,
+      "players": {
+        "R": "random",
+        "B": "learning-pretrained"
+      },
+      "wins": {
+        "R": 23,
+        "B": 7,
+        "tie": 0
+      },
+      "winRates": {
+        "R": 76.6667,
+        "B": 23.3333,
+        "tie": 0
+      },
+      "averageTerritory": {
+        "R": 27.3,
+        "B": 10.5333
+      },
+      "averageTerritoryDiff": 16.7667,
+      "averageTurns": 79.6667,
+      "blocksOf10": [
+        {
+          "block": 1,
+          "fromGame": 1,
+          "toGame": 10,
+          "games": 10,
+          "wins": {
+            "R": 7,
+            "B": 3,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 70,
+            "B": 30,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 25.5,
+            "B": 14.7
+          },
+          "averageTerritoryDiff": 10.8,
+          "averageTurns": 79.9
+        },
+        {
+          "block": 2,
+          "fromGame": 11,
+          "toGame": 20,
+          "games": 10,
+          "wins": {
+            "R": 6,
+            "B": 4,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 60,
+            "B": 40,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 24.9,
+            "B": 12.4
+          },
+          "averageTerritoryDiff": 12.5,
+          "averageTurns": 76.4
+        },
+        {
+          "block": 3,
+          "fromGame": 21,
+          "toGame": 30,
+          "games": 10,
+          "wins": {
+            "R": 10,
+            "B": 0,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 100,
+            "B": 0,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 31.5,
+            "B": 4.5
+          },
+          "averageTerritoryDiff": 27,
+          "averageTurns": 82.7
+        }
+      ],
+      "learningDiagnostics": {
+        "totalDecisions": 655,
+        "qTableHits": 655,
+        "qTableHitRate": 100,
+        "totalMaxTiedActions": 1554,
+        "tiedBestActionDecisions": 493,
+        "distinctQTableKeysConsulted": 22860,
+        "initialQTableEntries": 1417,
+        "qTableChangedDuringEvaluation": false
+      }
+    },
+    {
+      "name": "checkpoint_vs_heuristic_as_red",
+      "games": 30,
+      "players": {
+        "R": "learning-pretrained",
+        "B": "heuristic"
+      },
+      "wins": {
+        "R": 0,
+        "B": 30,
+        "tie": 0
+      },
+      "winRates": {
+        "R": 0,
+        "B": 100,
+        "tie": 0
+      },
+      "averageTerritory": {
+        "R": 5.6667,
+        "B": 41.0333
+      },
+      "averageTerritoryDiff": -35.3667,
+      "averageTurns": 51.9,
+      "blocksOf10": [
+        {
+          "block": 1,
+          "fromGame": 1,
+          "toGame": 10,
+          "games": 10,
+          "wins": {
+            "R": 0,
+            "B": 10,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 0,
+            "B": 100,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 6,
+            "B": 41
+          },
+          "averageTerritoryDiff": -35,
+          "averageTurns": 47.2
+        },
+        {
+          "block": 2,
+          "fromGame": 11,
+          "toGame": 20,
+          "games": 10,
+          "wins": {
+            "R": 0,
+            "B": 10,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 0,
+            "B": 100,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 5.2,
+            "B": 40.3
+          },
+          "averageTerritoryDiff": -35.1,
+          "averageTurns": 55.9
+        },
+        {
+          "block": 3,
+          "fromGame": 21,
+          "toGame": 30,
+          "games": 10,
+          "wins": {
+            "R": 0,
+            "B": 10,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 0,
+            "B": 100,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 5.8,
+            "B": 41.8
+          },
+          "averageTerritoryDiff": -36,
+          "averageTurns": 52.6
+        }
+      ],
+      "learningDiagnostics": {
+        "totalDecisions": 449,
+        "qTableHits": 449,
+        "qTableHitRate": 100,
+        "totalMaxTiedActions": 1129,
+        "tiedBestActionDecisions": 306,
+        "distinctQTableKeysConsulted": 16885,
+        "initialQTableEntries": 1417,
+        "qTableChangedDuringEvaluation": false
+      }
+    },
+    {
+      "name": "heuristic_vs_checkpoint_as_blue",
+      "games": 30,
+      "players": {
+        "R": "heuristic",
+        "B": "learning-pretrained"
+      },
+      "wins": {
+        "R": 30,
+        "B": 0,
+        "tie": 0
+      },
+      "winRates": {
+        "R": 100,
+        "B": 0,
+        "tie": 0
+      },
+      "averageTerritory": {
+        "R": 40.9667,
+        "B": 5.4667
+      },
+      "averageTerritoryDiff": 35.5,
+      "averageTurns": 45.7,
+      "blocksOf10": [
+        {
+          "block": 1,
+          "fromGame": 1,
+          "toGame": 10,
+          "games": 10,
+          "wins": {
+            "R": 10,
+            "B": 0,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 100,
+            "B": 0,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 41.6,
+            "B": 5.6
+          },
+          "averageTerritoryDiff": 36,
+          "averageTurns": 41.4
+        },
+        {
+          "block": 2,
+          "fromGame": 11,
+          "toGame": 20,
+          "games": 10,
+          "wins": {
+            "R": 10,
+            "B": 0,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 100,
+            "B": 0,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 41.3,
+            "B": 5.6
+          },
+          "averageTerritoryDiff": 35.7,
+          "averageTurns": 45
+        },
+        {
+          "block": 3,
+          "fromGame": 21,
+          "toGame": 30,
+          "games": 10,
+          "wins": {
+            "R": 10,
+            "B": 0,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 100,
+            "B": 0,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 40,
+            "B": 5.2
+          },
+          "averageTerritoryDiff": 34.8,
+          "averageTurns": 50.7
+        }
+      ],
+      "learningDiagnostics": {
+        "totalDecisions": 375,
+        "qTableHits": 375,
+        "qTableHitRate": 100,
+        "totalMaxTiedActions": 847,
+        "tiedBestActionDecisions": 264,
+        "distinctQTableKeysConsulted": 13705,
+        "initialQTableEntries": 1417,
+        "qTableChangedDuringEvaluation": false
+      }
+    },
+    {
+      "name": "checkpoint_vs_learning_empty_as_red",
+      "games": 30,
+      "players": {
+        "R": "learning-pretrained",
+        "B": "learning-empty"
+      },
+      "wins": {
+        "R": 11,
+        "B": 19,
+        "tie": 0
+      },
+      "winRates": {
+        "R": 36.6667,
+        "B": 63.3333,
+        "tie": 0
+      },
+      "averageTerritory": {
+        "R": 13,
+        "B": 24
+      },
+      "averageTerritoryDiff": -11,
+      "averageTurns": 82.8667,
+      "blocksOf10": [
+        {
+          "block": 1,
+          "fromGame": 1,
+          "toGame": 10,
+          "games": 10,
+          "wins": {
+            "R": 3,
+            "B": 7,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 30,
+            "B": 70,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 11.9,
+            "B": 26.4
+          },
+          "averageTerritoryDiff": -14.5,
+          "averageTurns": 85.5
+        },
+        {
+          "block": 2,
+          "fromGame": 11,
+          "toGame": 20,
+          "games": 10,
+          "wins": {
+            "R": 4,
+            "B": 6,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 40,
+            "B": 60,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 13.8,
+            "B": 23
+          },
+          "averageTerritoryDiff": -9.2,
+          "averageTurns": 81.2
+        },
+        {
+          "block": 3,
+          "fromGame": 21,
+          "toGame": 30,
+          "games": 10,
+          "wins": {
+            "R": 4,
+            "B": 6,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 40,
+            "B": 60,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 13.3,
+            "B": 22.6
+          },
+          "averageTerritoryDiff": -9.3,
+          "averageTurns": 81.9
+        }
+      ],
+      "learningDiagnostics": {
+        "totalDecisions": 1372,
+        "qTableHits": 694,
+        "qTableHitRate": 50.5831,
+        "totalMaxTiedActions": 44826,
+        "tiedBestActionDecisions": 1199,
+        "distinctQTableKeysConsulted": 52790,
+        "initialQTableEntries": 1417,
+        "qTableChangedDuringEvaluation": false
+      }
+    },
+    {
+      "name": "learning_empty_vs_checkpoint_as_blue",
+      "games": 30,
+      "players": {
+        "R": "learning-empty",
+        "B": "learning-pretrained"
+      },
+      "wins": {
+        "R": 25,
+        "B": 5,
+        "tie": 0
+      },
+      "winRates": {
+        "R": 83.3333,
+        "B": 16.6667,
+        "tie": 0
+      },
+      "averageTerritory": {
+        "R": 30.9333,
+        "B": 8.5333
+      },
+      "averageTerritoryDiff": 22.4,
+      "averageTurns": 76.7,
+      "blocksOf10": [
+        {
+          "block": 1,
+          "fromGame": 1,
+          "toGame": 10,
+          "games": 10,
+          "wins": {
+            "R": 10,
+            "B": 0,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 100,
+            "B": 0,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 33.6,
+            "B": 5.6
+          },
+          "averageTerritoryDiff": 28,
+          "averageTurns": 79.6
+        },
+        {
+          "block": 2,
+          "fromGame": 11,
+          "toGame": 20,
+          "games": 10,
+          "wins": {
+            "R": 7,
+            "B": 3,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 70,
+            "B": 30,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 26.7,
+            "B": 9.5
+          },
+          "averageTerritoryDiff": 17.2,
+          "averageTurns": 79.8
+        },
+        {
+          "block": 3,
+          "fromGame": 21,
+          "toGame": 30,
+          "games": 10,
+          "wins": {
+            "R": 8,
+            "B": 2,
+            "tie": 0
+          },
+          "winRates": {
+            "R": 80,
+            "B": 20,
+            "tie": 0
+          },
+          "averageTerritory": {
+            "R": 32.5,
+            "B": 10.5
+          },
+          "averageTerritoryDiff": 22,
+          "averageTurns": 70.7
+        }
+      ],
+      "learningDiagnostics": {
+        "totalDecisions": 1276,
+        "qTableHits": 634,
+        "qTableHitRate": 49.6865,
+        "totalMaxTiedActions": 48245,
+        "tiedBestActionDecisions": 1107,
+        "distinctQTableKeysConsulted": 49818,
+        "initialQTableEntries": 1417,
+        "qTableChangedDuringEvaluation": false
+      }
+    }
+  ]
+}

@@ -20,7 +20,7 @@ export default function LanguageThemeSwitcher({
   setDark: (d: boolean | ((d: boolean) => boolean)) => void
   className?: string
 }) {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -35,8 +35,8 @@ export default function LanguageThemeSwitcher({
 
   return (
     <div className={`flex gap-2 items-center ${className}`}>
-      <GameButton onClick={() => setDark((d: boolean) => !d)} ariaLabel="切換深色/亮色模式">
-        <span role="img" aria-label="切換深色/亮色模式" className="text-xl">
+      <GameButton onClick={() => setDark((d: boolean) => !d)} ariaLabel={t('nav.themeToggle')}>
+        <span role="img" aria-label={t('nav.themeToggle')} className="text-xl">
           {dark ? '☀️' : '🌙'}
         </span>
       </GameButton>
@@ -44,11 +44,11 @@ export default function LanguageThemeSwitcher({
       <div className="relative" ref={selectRef}>
         <GameButton
           onClick={() => setOpen((o: boolean) => !o)}
-          ariaLabel="切換語言"
+          ariaLabel={t('nav.languageToggle')}
           className="flex items-center gap-1 px-3 py-1 text-base"
           text={false}
         >
-          <span role="img" aria-label="語言" className="text-xl">
+          <span role="img" aria-label={t('nav.languageToggle')} className="text-xl">
             🌏
           </span>
         </GameButton>

@@ -7,14 +7,33 @@
     "title": "Wall Go · Go de Muros",
     "mode": {
       "pvp": "🤝 Dos jugadores",
-      "ai": "🤖 vs IA"
+      "ai": "🤖 vs IA",
+      "ai-vs-ai": "🤖 IA vs IA",
+      "experimentalTitle": "Modos experimentales",
+      "random_vs_heuristic": "IA aleatoria vs IA heurística",
+      "learning_vs_random": "IA aprendiz vs IA aleatoria",
+      "learning_vs_heuristic": "IA aprendiz vs IA heurística",
+      "q5_learning": "IA aprendiz Q5",
+      "mcts_final": "IA final / Desafío MCTS",
+      "mcts_fast": "MCTS actual / modo rápido"
     },
     "rule": "Reglas del Juego",
+    "q5": {
+      "select_side": "Elige el color de la IA aprendiz Q5:",
+      "red": "Rojo",
+      "blue": "Azul"
+    },
+    "mcts": {
+      "select_side": "Elige el color de la IA estratégica MCTS:",
+      "red": "Rojo",
+      "blue": "Azul"
+    },
     "ai": {
       "select": "Selecciona nivel y turno de IA:",
       "level": "Nivel de IA:",
       "levels": {
-        "practice": "🎲 Práctica",
+        "practice": "🎲 IA aleatoria",
+        "heuristic": "IA heurística",
         "easy": "🌱 Fácil",
         "middle": "🐵 Medio",
         "hard": "👾 Difícil"
@@ -61,6 +80,8 @@
     "redo": "Rehacer",
     "undoAria": "Deshacer",
     "redoAria": "Rehacer",
-    "menu": "Menú"
+    "menu": "Menú",
+    "themeToggle": "Cambiar modo oscuro/claro",
+    "languageToggle": "Cambiar idioma"
   }
 }

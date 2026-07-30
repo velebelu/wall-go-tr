@@ -7,14 +7,32 @@
     "title": "Wall Go · 牆壁圍棋",
     "mode": {
       "pvp": "🤝 雙人對戰",
-      "ai": "🤖 vs AI"
+      "ai": "🤖 vs AI",
+      "ai-vs-ai": "🤖 AI vs AI",
+      "experimentalTitle": "實驗模式",
+      "random_vs_heuristic": "隨機 AI vs 啟發式 AI",
+      "learning_vs_random": "學習 AI vs 隨機 AI",
+      "learning_vs_heuristic": "學習 AI vs 啟發式 AI",
+      "q5_learning": "Q5 學習 AI",
+      "mcts_final": "策略 MCTS AI"
     },
     "rule": "遊戲規則",
+    "q5": {
+      "select_side": "選擇 Q5 學習 AI 的顏色：",
+      "red": "紅色",
+      "blue": "藍色"
+    },
+    "mcts": {
+      "select_side": "選擇策略 MCTS AI 的顏色：",
+      "red": "紅色",
+      "blue": "藍色"
+    },
     "ai": {
       "select": "選擇難易度與先後手：",
       "level": "AI 強度：",
       "levels": {
         "practice": "🎲 練習",
+        "heuristic": "啟發式 AI",
         "easy": "🌱 初階",
         "middle": "🐵 中階",
         "hard": "👾 高階"
@@ -61,6 +79,8 @@
     "redo": "重做",
     "undoAria": "復原",
     "redoAria": "重做",
-    "menu": "主選單"
+    "menu": "主選單",
+    "themeToggle": "切換深色/亮色模式",
+    "languageToggle": "切換語言"
   }
 }

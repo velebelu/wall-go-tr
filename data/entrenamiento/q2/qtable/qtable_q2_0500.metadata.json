@@ -1,0 +1,36 @@
+{
+  "createdAt": "2026-07-11T10:25:41.286Z",
+  "model": "Q2",
+  "games": 500,
+  "qTableSize": 1353,
+  "epsilonStart": 0.6,
+  "epsilonFinal": 0.4673,
+  "alpha": 0.1,
+  "gamma": 0.9,
+  "wins": 209,
+  "losses": 282,
+  "ties": 9,
+  "winRate": 41.8,
+  "averageTerritory": {
+    "learning": 15.702,
+    "opponent": 19.066
+  },
+  "opponents": {
+    "random": 500,
+    "heuristic": 0
+  },
+  "colorDistribution": {
+    "R": 250,
+    "B": 250
+  },
+  "reward": {
+    "win": 100,
+    "loss": -100,
+    "tie": 0,
+    "finalTerritoryDiffMultiplier": 1,
+    "intermediateTerritoryDeltaMultiplier": 0.01,
+    "intermediateMin": -0.05,
+    "intermediateMax": 0.05
+  },
+  "qTablePath": "data\\entrenamiento\\q2\\qtable\\qtable_q2_0500.json"
+}

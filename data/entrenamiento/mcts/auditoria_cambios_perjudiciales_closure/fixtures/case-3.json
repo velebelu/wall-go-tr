@@ -1,0 +1,68 @@
+{
+  "caseId": "case-3",
+  "gameId": "competitive-baseline-2-B-closure",
+  "turnIndex": 29,
+  "player": "B",
+  "state": null,
+  "stateAvailable": false,
+  "originalAction": {
+    "type": "move",
+    "from": {
+      "x": 5,
+      "y": 2
+    },
+    "pos": {
+      "x": 5,
+      "y": 4
+    },
+    "followUp": {
+      "type": "wall",
+      "from": {
+        "x": 5,
+        "y": 4
+      },
+      "pos": {
+        "x": 5,
+        "y": 4
+      },
+      "dir": "right"
+    }
+  },
+  "detectorAction": {
+    "type": "move",
+    "from": {
+      "x": 0,
+      "y": 1
+    },
+    "pos": {
+      "x": 1,
+      "y": 0
+    },
+    "followUp": {
+      "type": "wall",
+      "from": {
+        "x": 1,
+        "y": 0
+      },
+      "pos": {
+        "x": 1,
+        "y": 0
+      },
+      "dir": "left"
+    }
+  },
+  "mctsOriginal": null,
+  "mctsSelected": null,
+  "detectorMetrics": null,
+  "repliesAnalyzed": null,
+  "worstOpponentReply": null,
+  "pairedCounterfactual": {
+    "closureOutcome": "loss",
+    "closureTerritoryDiff": -8,
+    "frozenOutcome": "loss",
+    "frozenTerritoryDiff": -6,
+    "territoryDiffDelta": -2
+  },
+  "threatClassification": "indeterminate",
+  "auditStatus": "blocked-missing-state-and-action-trace"
+}

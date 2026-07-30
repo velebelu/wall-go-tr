@@ -1,0 +1,29 @@
+{
+  "createdAt": "2026-07-12T16:32:55.209Z",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\pilot_100\\qtable_q5_hybrid_pilot_100.json",
+  "qTableEntries": 20608,
+  "hashBefore": "44c247268921f004e8859e10c93227fe6725f29be440867d812977637e24196f",
+  "hashAfter": "44c247268921f004e8859e10c93227fe6725f29be440867d812977637e24196f",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\evaluacion_pilot_100_eval200",
+  "protocol": {
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "qTableFrozen": true,
+    "alphaUpdates": false,
+    "representation": "Q3",
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "gamesPerRival": 200,
+    "gamesPerColor": 100,
+    "maxTurns": 250
+  },
+  "hybridPolicy": {
+    "enabled": true,
+    "confidenceThreshold": 3,
+    "fallback": "heuristic",
+    "epsilon": 0,
+    "qLearningUpdateCountsLoaded": 1369
+  }
+}

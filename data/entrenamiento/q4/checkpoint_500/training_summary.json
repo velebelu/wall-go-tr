@@ -1,0 +1,120 @@
+{
+  "model": "Q4",
+  "seed": 3,
+  "totalGames": 500,
+  "summary": {
+    "gamesByOpponent": {
+      "random": 250,
+      "heuristic": 250
+    },
+    "gamesByColor": {
+      "R": 250,
+      "B": 250
+    },
+    "gamesByCombination": {
+      "random_R": 125,
+      "random_B": 125,
+      "heuristic_R": 125,
+      "heuristic_B": 125
+    },
+    "results": {
+      "games": 500,
+      "wins": 100,
+      "losses": 390,
+      "ties": 10
+    },
+    "resultsByOpponent": {
+      "random": {
+        "games": 250,
+        "wins": 100,
+        "losses": 140,
+        "ties": 10
+      },
+      "heuristic": {
+        "games": 250,
+        "wins": 0,
+        "losses": 250,
+        "ties": 0
+      }
+    },
+    "resultsByColor": {
+      "R": {
+        "games": 250,
+        "wins": 48,
+        "losses": 198,
+        "ties": 4
+      },
+      "B": {
+        "games": 250,
+        "wins": 52,
+        "losses": 192,
+        "ties": 6
+      }
+    },
+    "resultsByCombination": {
+      "random_R": {
+        "games": 125,
+        "wins": 48,
+        "losses": 73,
+        "ties": 4
+      },
+      "random_B": {
+        "games": 125,
+        "wins": 52,
+        "losses": 67,
+        "ties": 6
+      },
+      "heuristic_R": {
+        "games": 125,
+        "wins": 0,
+        "losses": 125,
+        "ties": 0
+      },
+      "heuristic_B": {
+        "games": 125,
+        "wins": 0,
+        "losses": 125,
+        "ties": 0
+      }
+    },
+    "qTotal": {
+      "qHits": 3446,
+      "qMisses": 6339,
+      "qHitRate": 35.2172
+    },
+    "qByOpponent": {
+      "random": {
+        "qHits": 1989,
+        "qMisses": 3911,
+        "qHitRate": 33.7119
+      },
+      "heuristic": {
+        "qHits": 1457,
+        "qMisses": 2428,
+        "qHitRate": 37.5032
+      }
+    },
+    "qByColor": {
+      "R": {
+        "qHits": 1738,
+        "qMisses": 3236,
+        "qHitRate": 34.9417
+      },
+      "B": {
+        "qHits": 1708,
+        "qMisses": 3103,
+        "qHitRate": 35.502
+      }
+    },
+    "averageTerritory": {
+      "q4": 10.692,
+      "opponent": 29.722
+    },
+    "averageTerritoryDiff": -19.03,
+    "averageTurns": 68.838,
+    "epsilonInitial": 0.6,
+    "epsilonFinal": 0.4673,
+    "finalQTableEntries": 6339,
+    "uniqueQ3StatesVisited": 542
+  }
+}

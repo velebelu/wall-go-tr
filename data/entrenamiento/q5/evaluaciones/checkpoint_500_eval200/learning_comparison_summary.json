@@ -1,0 +1,100 @@
+{
+  "createdAt": "2026-07-12T13:14:12.341Z",
+  "model": "Q5",
+  "checkpoint": "Q5-500",
+  "qTablePath": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\checkpoint_500\\qtable_q5_500.json",
+  "qTableEntries": 24549,
+  "qTableHashBefore": "4463f2f01641b827056b46e6ce9fe3c8a19b4a56b0f373cf9eaaa90622fb500e",
+  "qTableHashAfter": "4463f2f01641b827056b46e6ce9fe3c8a19b4a56b0f373cf9eaaa90622fb500e",
+  "qTableChangedDuringEvaluation": false,
+  "seeds": {
+    "baseSeed": 502000,
+    "gamesPerColor": 100,
+    "maxTurns": 250
+  },
+  "evaluationProtocol": {
+    "epsilon": 0,
+    "learnsDuringEvaluation": false,
+    "qTableFrozen": true,
+    "alphaUpdates": false,
+    "representation": "Q3",
+    "rivals": [
+      "random",
+      "heuristic"
+    ]
+  },
+  "experiments": [
+    {
+      "rival": "random",
+      "games": 200,
+      "wins": 118,
+      "losses": 79,
+      "ties": 3,
+      "winRate": 59,
+      "byColor": {
+        "R": {
+          "games": 100,
+          "wins": 56,
+          "losses": 42,
+          "ties": 2,
+          "winRate": 56
+        },
+        "B": {
+          "games": 100,
+          "wins": 62,
+          "losses": 37,
+          "ties": 1,
+          "winRate": 62
+        }
+      },
+      "averageTerritoryQ5": 19.8,
+      "averageTerritoryRival": 14.185,
+      "averageTerritorialDiff": 5.615,
+      "averageTurns": 85.895,
+      "endedByTurnLimit": 0,
+      "qHits": 3871,
+      "qMisses": 935,
+      "qHitRate": 80.5452,
+      "qTableUsagePercentage": 34.2254,
+      "qTableChangedDuringEvaluation": false,
+      "hashBefore": "4463f2f01641b827056b46e6ce9fe3c8a19b4a56b0f373cf9eaaa90622fb500e",
+      "hashAfter": "4463f2f01641b827056b46e6ce9fe3c8a19b4a56b0f373cf9eaaa90622fb500e"
+    },
+    {
+      "rival": "heuristic",
+      "games": 200,
+      "wins": 2,
+      "losses": 198,
+      "ties": 0,
+      "winRate": 1,
+      "byColor": {
+        "R": {
+          "games": 100,
+          "wins": 2,
+          "losses": 98,
+          "ties": 0,
+          "winRate": 2
+        },
+        "B": {
+          "games": 100,
+          "wins": 0,
+          "losses": 100,
+          "ties": 0,
+          "winRate": 0
+        }
+      },
+      "averageTerritoryQ5": 6.375,
+      "averageTerritoryRival": 39.27,
+      "averageTerritorialDiff": -32.895,
+      "averageTurns": 60.995,
+      "endedByTurnLimit": 0,
+      "qHits": 2652,
+      "qMisses": 794,
+      "qHitRate": 76.9588,
+      "qTableUsagePercentage": 12.4812,
+      "qTableChangedDuringEvaluation": false,
+      "hashBefore": "4463f2f01641b827056b46e6ce9fe3c8a19b4a56b0f373cf9eaaa90622fb500e",
+      "hashAfter": "4463f2f01641b827056b46e6ce9fe3c8a19b4a56b0f373cf9eaaa90622fb500e"
+    }
+  ]
+}

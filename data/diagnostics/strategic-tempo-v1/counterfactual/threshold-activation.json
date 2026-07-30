@@ -1,0 +1,2258 @@
+{
+  "variants": [
+    "exact-value",
+    "value-0.01",
+    "value-0.025",
+    "value-0.05",
+    "value-0.025-visits-0.15",
+    "saturated-equal"
+  ],
+  "rows": [
+    {
+      "fixture": "024456fb924d.fixture.json",
+      "variant": "exact-value",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "exact-value",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "024456fb924d.fixture.json",
+      "variant": "value-0.01",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "value-0.01",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "024456fb924d.fixture.json",
+      "variant": "value-0.025",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "value-0.025",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "024456fb924d.fixture.json",
+      "variant": "value-0.05",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "024456fb924d.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "value-0.025-visits-0.15",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "024456fb924d.fixture.json",
+      "variant": "saturated-equal",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "saturated-equal",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "06eb43800ede.fixture.json",
+      "variant": "exact-value",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "exact-value",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "06eb43800ede.fixture.json",
+      "variant": "value-0.01",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "value-0.01",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "06eb43800ede.fixture.json",
+      "variant": "value-0.025",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "value-0.025",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "06eb43800ede.fixture.json",
+      "variant": "value-0.05",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "06eb43800ede.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "value-0.025-visits-0.15",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "06eb43800ede.fixture.json",
+      "variant": "saturated-equal",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "saturated-equal",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "2eac0bd16e43.fixture.json",
+      "variant": "exact-value",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "2eac0bd16e43.fixture.json",
+      "variant": "value-0.01",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "2eac0bd16e43.fixture.json",
+      "variant": "value-0.025",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "2eac0bd16e43.fixture.json",
+      "variant": "value-0.05",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "2eac0bd16e43.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "2eac0bd16e43.fixture.json",
+      "variant": "saturated-equal",
+      "changed": false,
+      "eligibleCandidates": 0,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "3c6e0e435838.fixture.json",
+      "variant": "exact-value",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "3c6e0e435838.fixture.json",
+      "variant": "value-0.01",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "3c6e0e435838.fixture.json",
+      "variant": "value-0.025",
+      "changed": true,
+      "eligibleCandidates": 2,
+      "reason": "value-0.025",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "3c6e0e435838.fixture.json",
+      "variant": "value-0.05",
+      "changed": true,
+      "eligibleCandidates": 4,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "3c6e0e435838.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": true,
+      "eligibleCandidates": 2,
+      "reason": "value-0.025-visits-0.15",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "3c6e0e435838.fixture.json",
+      "variant": "saturated-equal",
+      "changed": false,
+      "eligibleCandidates": 0,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      }
+    },
+    {
+      "fixture": "8238614515c3.fixture.json",
+      "variant": "exact-value",
+      "changed": true,
+      "eligibleCandidates": 31,
+      "reason": "exact-value",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "8238614515c3.fixture.json",
+      "variant": "value-0.01",
+      "changed": true,
+      "eligibleCandidates": 31,
+      "reason": "value-0.01",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "8238614515c3.fixture.json",
+      "variant": "value-0.025",
+      "changed": true,
+      "eligibleCandidates": 31,
+      "reason": "value-0.025",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "8238614515c3.fixture.json",
+      "variant": "value-0.05",
+      "changed": true,
+      "eligibleCandidates": 31,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "8238614515c3.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": true,
+      "eligibleCandidates": 31,
+      "reason": "value-0.025-visits-0.15",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "8238614515c3.fixture.json",
+      "variant": "saturated-equal",
+      "changed": true,
+      "eligibleCandidates": 31,
+      "reason": "saturated-equal",
+      "selectedAction": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "fixture": "8a62f8f826fc.fixture.json",
+      "variant": "exact-value",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "8a62f8f826fc.fixture.json",
+      "variant": "value-0.01",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "8a62f8f826fc.fixture.json",
+      "variant": "value-0.025",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "8a62f8f826fc.fixture.json",
+      "variant": "value-0.05",
+      "changed": true,
+      "eligibleCandidates": 12,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 6,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 2
+          },
+          "pos": {
+            "x": 6,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "8a62f8f826fc.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "8a62f8f826fc.fixture.json",
+      "variant": "saturated-equal",
+      "changed": false,
+      "eligibleCandidates": 0,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "94fe8f8cbf50.fixture.json",
+      "variant": "exact-value",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "exact-value",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 3
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 2
+          },
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "94fe8f8cbf50.fixture.json",
+      "variant": "value-0.01",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "value-0.01",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 3
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 2
+          },
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "94fe8f8cbf50.fixture.json",
+      "variant": "value-0.025",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "value-0.025",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 3
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 2
+          },
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "94fe8f8cbf50.fixture.json",
+      "variant": "value-0.05",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 3
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 2
+          },
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "94fe8f8cbf50.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "value-0.025-visits-0.15",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 3
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 2
+          },
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "94fe8f8cbf50.fixture.json",
+      "variant": "saturated-equal",
+      "changed": true,
+      "eligibleCandidates": 26,
+      "reason": "saturated-equal",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 3
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 2
+          },
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "bddb6dd1b3cb.fixture.json",
+      "variant": "exact-value",
+      "changed": true,
+      "eligibleCandidates": 17,
+      "reason": "exact-value",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 6,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 5
+          },
+          "pos": {
+            "x": 6,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "bddb6dd1b3cb.fixture.json",
+      "variant": "value-0.01",
+      "changed": true,
+      "eligibleCandidates": 17,
+      "reason": "value-0.01",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 6,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 5
+          },
+          "pos": {
+            "x": 6,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "bddb6dd1b3cb.fixture.json",
+      "variant": "value-0.025",
+      "changed": true,
+      "eligibleCandidates": 17,
+      "reason": "value-0.025",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 6,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 5
+          },
+          "pos": {
+            "x": 6,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "bddb6dd1b3cb.fixture.json",
+      "variant": "value-0.05",
+      "changed": true,
+      "eligibleCandidates": 17,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 6,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 5
+          },
+          "pos": {
+            "x": 6,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "bddb6dd1b3cb.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": true,
+      "eligibleCandidates": 17,
+      "reason": "value-0.025-visits-0.15",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 6,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 5
+          },
+          "pos": {
+            "x": 6,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "bddb6dd1b3cb.fixture.json",
+      "variant": "saturated-equal",
+      "changed": true,
+      "eligibleCandidates": 17,
+      "reason": "saturated-equal",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 6,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 5
+          },
+          "pos": {
+            "x": 6,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "c93e45301297.fixture.json",
+      "variant": "exact-value",
+      "changed": true,
+      "eligibleCandidates": 28,
+      "reason": "exact-value",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "c93e45301297.fixture.json",
+      "variant": "value-0.01",
+      "changed": true,
+      "eligibleCandidates": 28,
+      "reason": "value-0.01",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "c93e45301297.fixture.json",
+      "variant": "value-0.025",
+      "changed": true,
+      "eligibleCandidates": 28,
+      "reason": "value-0.025",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "c93e45301297.fixture.json",
+      "variant": "value-0.05",
+      "changed": true,
+      "eligibleCandidates": 28,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "c93e45301297.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": true,
+      "eligibleCandidates": 28,
+      "reason": "value-0.025-visits-0.15",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "c93e45301297.fixture.json",
+      "variant": "saturated-equal",
+      "changed": true,
+      "eligibleCandidates": 28,
+      "reason": "saturated-equal",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      }
+    },
+    {
+      "fixture": "d8c69cdbde8d.fixture.json",
+      "variant": "exact-value",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "d8c69cdbde8d.fixture.json",
+      "variant": "value-0.01",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "d8c69cdbde8d.fixture.json",
+      "variant": "value-0.025",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "d8c69cdbde8d.fixture.json",
+      "variant": "value-0.05",
+      "changed": false,
+      "eligibleCandidates": 3,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "d8c69cdbde8d.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": false,
+      "eligibleCandidates": 1,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "d8c69cdbde8d.fixture.json",
+      "variant": "saturated-equal",
+      "changed": false,
+      "eligibleCandidates": 0,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "e28286aceb33.fixture.json",
+      "variant": "exact-value",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "exact-value",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "e28286aceb33.fixture.json",
+      "variant": "value-0.01",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "value-0.01",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "e28286aceb33.fixture.json",
+      "variant": "value-0.025",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "value-0.025",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "e28286aceb33.fixture.json",
+      "variant": "value-0.05",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "e28286aceb33.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": false,
+      "eligibleCandidates": 2,
+      "reason": "value-0.025-visits-0.15",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "e28286aceb33.fixture.json",
+      "variant": "saturated-equal",
+      "changed": false,
+      "eligibleCandidates": 0,
+      "reason": "no-near-tied-alternative",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "ea0610abb2c1.fixture.json",
+      "variant": "exact-value",
+      "changed": true,
+      "eligibleCandidates": 18,
+      "reason": "exact-value",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 6
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 5
+          },
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "ea0610abb2c1.fixture.json",
+      "variant": "value-0.01",
+      "changed": true,
+      "eligibleCandidates": 18,
+      "reason": "value-0.01",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 6
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 5
+          },
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "ea0610abb2c1.fixture.json",
+      "variant": "value-0.025",
+      "changed": true,
+      "eligibleCandidates": 18,
+      "reason": "value-0.025",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 6
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 5
+          },
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "ea0610abb2c1.fixture.json",
+      "variant": "value-0.05",
+      "changed": true,
+      "eligibleCandidates": 19,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 6
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 5
+          },
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "ea0610abb2c1.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": true,
+      "eligibleCandidates": 18,
+      "reason": "value-0.025-visits-0.15",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 6
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 5
+          },
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "ea0610abb2c1.fixture.json",
+      "variant": "saturated-equal",
+      "changed": true,
+      "eligibleCandidates": 18,
+      "reason": "saturated-equal",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 6
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 5
+          },
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "f197c3b937e4.fixture.json",
+      "variant": "exact-value",
+      "changed": true,
+      "eligibleCandidates": 44,
+      "reason": "exact-value",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "f197c3b937e4.fixture.json",
+      "variant": "value-0.01",
+      "changed": true,
+      "eligibleCandidates": 44,
+      "reason": "value-0.01",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "f197c3b937e4.fixture.json",
+      "variant": "value-0.025",
+      "changed": true,
+      "eligibleCandidates": 44,
+      "reason": "value-0.025",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "f197c3b937e4.fixture.json",
+      "variant": "value-0.05",
+      "changed": true,
+      "eligibleCandidates": 44,
+      "reason": "value-0.05",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "f197c3b937e4.fixture.json",
+      "variant": "value-0.025-visits-0.15",
+      "changed": true,
+      "eligibleCandidates": 44,
+      "reason": "value-0.025-visits-0.15",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    },
+    {
+      "fixture": "f197c3b937e4.fixture.json",
+      "variant": "saturated-equal",
+      "changed": true,
+      "eligibleCandidates": 44,
+      "reason": "saturated-equal",
+      "selectedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "exact-value": {
+      "fixtures": 13,
+      "eligibleIn": 9,
+      "interventions": 7,
+      "interventionFrequency": 0.5384615384615384
+    },
+    "value-0.01": {
+      "fixtures": 13,
+      "eligibleIn": 9,
+      "interventions": 7,
+      "interventionFrequency": 0.5384615384615384
+    },
+    "value-0.025": {
+      "fixtures": 13,
+      "eligibleIn": 10,
+      "interventions": 8,
+      "interventionFrequency": 0.6153846153846154
+    },
+    "value-0.05": {
+      "fixtures": 13,
+      "eligibleIn": 13,
+      "interventions": 9,
+      "interventionFrequency": 0.6923076923076923
+    },
+    "value-0.025-visits-0.15": {
+      "fixtures": 13,
+      "eligibleIn": 10,
+      "interventions": 8,
+      "interventionFrequency": 0.6153846153846154
+    },
+    "saturated-equal": {
+      "fixtures": 13,
+      "eligibleIn": 8,
+      "interventions": 7,
+      "interventionFrequency": 0.5384615384615384
+    }
+  }
+}

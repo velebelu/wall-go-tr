@@ -4,14 +4,25 @@ import Footer from './components/ui/Footer'
 import GameModeMenu from './components/ui/GameModeMenu'
 import RuleDialog from './components/ui/RuleDialog'
 import SeoHelmet from './components/SeoHelmet'
-import type { AiLevel } from './lib/types'
-
-type GameMode = 'pvp' | 'ai'
-type AiSide = 'R' | 'B'
+import type { AiLevel, GameMode, AiSide } from './lib/types'
+import {
+  makeNonTerminalWallOnlyTurnFixture,
+  makeSingleActionTurnFixture,
+} from './fixtures/wallOnlyTurn'
 
 export default function App() {
+  const wallOnlyFixtureEnabled =
+    import.meta.env.DEV &&
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('fixture') === 'wall-only-turn'
+  const singleActionFixtureEnabled =
+    import.meta.env.DEV &&
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('fixture') === 'single-action-turn'
   const [showRule, setShowRule] = useState(false)
-  const [mode, setMode] = useState<GameMode | null>(null)
+  const [mode, setMode] = useState<GameMode | null>(
+    wallOnlyFixtureEnabled || singleActionFixtureEnabled ? 'pvp' : null,
+  )
   const [aiSide, setAiSide] = useState<AiSide>('B')
   const [aiLevel, setAiLevel] = useState<AiLevel>('middle')
   const [dark, setDark] = useState(() => {
@@ -56,6 +67,13 @@ export default function App() {
           setShowRule={setShowRule}
           dark={dark}
           setDark={setDark}
+          developmentFixture={
+            wallOnlyFixtureEnabled
+              ? makeNonTerminalWallOnlyTurnFixture('B')
+              : singleActionFixtureEnabled
+                ? makeSingleActionTurnFixture('B')
+                : undefined
+          }
         />
       )}
       <Footer />

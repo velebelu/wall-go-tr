@@ -1,0 +1,20 @@
+{
+  "schema": "TerritorialCutVulnerabilityPrototypeManifestV1",
+  "createdAt": "2026-07-27T08:32:44.084Z",
+  "git": {
+    "commit": "c3c7eb39f40474c5d16a74d1de7572ff7dfca58d",
+    "status": "M src/engine/evaluatePosition.test.ts\n M src/engine/evaluatePosition.ts\n M src/engine/mcts/MCTS.test.ts\n M src/engine/mcts/MCTS.ts\n M src/engine/mcts/types.ts\n?? data/entrenamiento/mcts/benchmark_utilidad_territorial_v1_pilot/\n?? data/entrenamiento/mcts/benchmark_utilidad_territorial_v1_smoke/\n?? docs/mcts-contested-region-support-experiment.md\n?? docs/mcts-territorial-cut-vulnerability-feasibility.md\n?? src/engine/territorialCutVulnerability.test.ts\n?? src/engine/territorialCutVulnerability.ts\n?? src/training/evaluateStrategicPositionBenchmark.test.ts\n?? src/training/evaluateStrategicPositionBenchmark.ts\n?? src/training/evaluateTerritorialCutVulnerabilityPrototype.test.ts\n?? src/training/evaluateTerritorialCutVulnerabilityPrototype.ts"
+  },
+  "definition": "max_m max(0, accessible(player,state) - accessible(player,state with unique immediately legal rival wall m))",
+  "repetitions": {
+    "warmup": 1,
+    "measured": 5
+  },
+  "sourceFiles": [],
+  "commands": [
+    "npx vitest run src/engine/territorialCutVulnerability.test.ts src/training/evaluateTerritorialCutVulnerabilityPrototype.test.ts src/utils/region.test.ts src/utils/wall.test.ts src/engine/evaluatePosition.test.ts",
+    "npm run lint",
+    "npm run build",
+    "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateTerritorialCutVulnerabilityPrototype.ts"
+  ]
+}

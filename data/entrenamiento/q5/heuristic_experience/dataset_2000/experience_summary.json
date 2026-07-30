@@ -1,0 +1,192 @@
+{
+  "totalGames": 2000,
+  "totalExperiences": 38330,
+  "gamesByOpponent": {
+    "random": 1000,
+    "heuristic": 1000
+  },
+  "gamesByColor": {
+    "R": 1000,
+    "B": 1000
+  },
+  "gamesByCombination": {
+    "random_R": 500,
+    "random_B": 500,
+    "heuristic_R": 500,
+    "heuristic_B": 500
+  },
+  "experiencesByOpponent": {
+    "random": 15722,
+    "heuristic": 22608
+  },
+  "experiencesByColor": {
+    "R": 19389,
+    "B": 18941
+  },
+  "results": {
+    "games": 2000,
+    "wins": 1469,
+    "losses": 508,
+    "ties": 23
+  },
+  "resultsByOpponent": {
+    "random": {
+      "games": 1000,
+      "wins": 998,
+      "losses": 2,
+      "ties": 0
+    },
+    "heuristic": {
+      "games": 1000,
+      "wins": 471,
+      "losses": 506,
+      "ties": 23
+    }
+  },
+  "resultsByColor": {
+    "R": {
+      "games": 1000,
+      "wins": 725,
+      "losses": 262,
+      "ties": 13
+    },
+    "B": {
+      "games": 1000,
+      "wins": 744,
+      "losses": 246,
+      "ties": 10
+    }
+  },
+  "averageTerritory": {
+    "heuristic": 29.568,
+    "opponent": 13.5085
+  },
+  "averageTerritoryDiff": 16.0595,
+  "averagePreviousOwnMobility": 23.6886,
+  "averageNextOwnMobility": 24.5005,
+  "averagePreviousOwnTrappedPieces": 0.256,
+  "averageNextOwnTrappedPieces": 0.2603,
+  "averageTurns": 70.3925,
+  "coverage": {
+    "totalExperiences": 38330,
+    "uniqueStates": 958,
+    "uniqueStateActionPairs": 19652,
+    "averageObservedActionsPerState": 32.6445,
+    "stateActionFrequency": {
+      "min": 1,
+      "mean": 1.9504,
+      "median": 1,
+      "max": 778
+    },
+    "repeatedExperiencePercentage": 48.7295,
+    "distribution": {
+      "opponents": {
+        "random": 15722,
+        "heuristic": 22608
+      },
+      "colors": {
+        "R": 19389,
+        "B": 18941
+      },
+      "results": {
+        "win": 1469,
+        "loss": 508,
+        "tie": 23
+      }
+    },
+    "heuristicVsHeuristicByColor": {
+      "R": {
+        "games": 500,
+        "wins": 225,
+        "losses": 262,
+        "ties": 13
+      },
+      "B": {
+        "games": 500,
+        "wins": 246,
+        "losses": 244,
+        "ties": 10
+      }
+    },
+    "conditions": {
+      "random_R": {
+        "games": 500,
+        "experiences": 7950,
+        "wins": 500,
+        "losses": 0,
+        "ties": 0,
+        "averageExperiences": 15.9,
+        "averageTerritoryDiff": 33.202,
+        "averageTurns": 55.574,
+        "averageDeltaTerritory": 0.7219,
+        "averageDeltaMobility": 0.7404,
+        "averageDeltaTrappedPieces": 0.0009
+      },
+      "random_B": {
+        "games": 500,
+        "experiences": 7772,
+        "wins": 498,
+        "losses": 2,
+        "ties": 0,
+        "averageExperiences": 15.544,
+        "averageTerritoryDiff": 32.904,
+        "averageTurns": 56.28,
+        "averageDeltaTerritory": 0.698,
+        "averageDeltaMobility": 0.7532,
+        "averageDeltaTrappedPieces": 0.0009
+      },
+      "heuristic_R": {
+        "games": 500,
+        "experiences": 11439,
+        "wins": 225,
+        "losses": 262,
+        "ties": 13,
+        "averageExperiences": 22.878,
+        "averageTerritoryDiff": -1.662,
+        "averageTurns": 84.902,
+        "averageDeltaTerritory": -0.1704,
+        "averageDeltaMobility": 0.8468,
+        "averageDeltaTrappedPieces": 0.0072
+      },
+      "heuristic_B": {
+        "games": 500,
+        "experiences": 11169,
+        "wins": 246,
+        "losses": 244,
+        "ties": 10,
+        "averageExperiences": 22.338,
+        "averageTerritoryDiff": -0.206,
+        "averageTurns": 84.814,
+        "averageDeltaTerritory": -0.1763,
+        "averageDeltaMobility": 0.8677,
+        "averageDeltaTrappedPieces": 0.0063
+      }
+    },
+    "averageDeltas": {
+      "territory": 0.189,
+      "mobility": 0.8118,
+      "trappedPieces": 0.0043
+    }
+  },
+  "validations": {
+    "allActionsLegal": true,
+    "allStatesUseQ3": true,
+    "plannedConditionCountsPreserved": true,
+    "sameHeuristicConfigurationBothSides": true,
+    "averageExperiencesByOpponent": {
+      "random": 15.722,
+      "heuristic": 22.608
+    },
+    "colorBias": {
+      "winRateR": 72.5,
+      "winRateB": 74.4,
+      "differencePercentagePoints": -1.9
+    },
+    "heuristicMirrorOrderBias": {
+      "games": 1000,
+      "winRateAsR": 45,
+      "winRateAsB": 49.2,
+      "differencePercentagePoints": -4.2
+    }
+  }
+}

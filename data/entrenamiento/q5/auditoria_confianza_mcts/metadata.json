@@ -1,0 +1,24 @@
+{
+  "auditVersion": "q5-confidence-mcts-v1",
+  "createdAt": "2026-07-14T00:00:00.000Z",
+  "offline": true,
+  "inputs": [
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\qtable_q5_hybrid_final_1000.json",
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json",
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\q_update_log.jsonl",
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\q_update_log.jsonl"
+  ],
+  "hashesBefore": {
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\qtable_q5_hybrid_final_1000.json": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json": "cd1fa941b250aef0338cb1ac39c9a34aeea4db6adac86e29b6020688690cdf3d",
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\q_update_log.jsonl": "e29a740ffe5e2d1921e0923d1c69d3a7353af22fbee5ea97f27d6ff51093eee8",
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\q_update_log.jsonl": "23ca15f84f63719fcba14158d6dde3144ebcdcadc3d991b6b314a3fcd95576f1"
+  },
+  "hashesAfter": {
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\qtable_q5_hybrid_final_1000.json": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\heuristic_initial_qtable\\build_summary.json": "cd1fa941b250aef0338cb1ac39c9a34aeea4db6adac86e29b6020688690cdf3d",
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_500\\q_update_log.jsonl": "e29a740ffe5e2d1921e0923d1c69d3a7353af22fbee5ea97f27d6ff51093eee8",
+    "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\q5\\hybrid\\final_checkpoint_1000\\q_update_log.jsonl": "23ca15f84f63719fcba14158d6dde3144ebcdcadc3d991b6b314a3fcd95576f1"
+  },
+  "q5ResourcesModified": false
+}

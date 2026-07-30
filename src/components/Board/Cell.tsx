@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { playerColorClass } from '@/lib/color'
-import type { Phase, Player, Pos, WallDir } from '@/lib/types'
+import { BOARD_SIZE, type Phase, type Player, type Pos, type WallDir } from '@/lib/types'
 import WallButton from './WallButton'
 import { useRef, useEffect } from 'react'
 import { getPosKey } from '@/utils/region'
@@ -35,11 +35,10 @@ export default function Cell({
   placeStone,
   moveTo,
   buildWall,
-  board,
-  boardSize,
   territoryOwner,
 }: CellProps) {
   const posKey = getPosKey({ x, y })
+  const coordinate = `${String.fromCharCode(65 + x)}${BOARD_SIZE - y}`
   // --- 棋子移動動畫 ---
   const stoneRef = useRef<HTMLButtonElement>(null)
   const prevPosRef = useRef<{ x: number; y: number } | null>(null)
@@ -168,6 +167,8 @@ export default function Cell({
           onClick={() =>
             phase === 'playing' && cell.stone === turn && selectStone && selectStone({ x, y })
           }
+          aria-label={`${cell.stone === 'B' ? 'Blue' : 'Red'} stone at ${coordinate}`}
+          aria-pressed={isSel}
         />
       )}
 
@@ -184,6 +185,7 @@ export default function Cell({
         <button
           className="absolute inset-0 bg-emerald-400/20 hover:bg-emerald-400/60 cursor-pointer transition-all duration-200 animate-pulse rounded-lg"
           onClick={() => moveTo({ x, y })}
+          aria-label={`Move to ${coordinate}`}
         />
       )}
 
@@ -194,28 +196,28 @@ export default function Cell({
           const wallDirs = [
             {
               dir: 'top',
-              show: y > 0 && !cell.wallTop,
+              show: legal.has(`wall:${x},${y}:top`),
               btnClass:
                 'absolute left-1/2 -translate-x-1/2 -top-[10%] w-[60%] h-[14%] min-h-[16px] max-h-[32px] min-w-[40px] max-w-[120px] flex items-center justify-center',
               divClass: 'h-[60%] w-full min-h-[4px] max-h-[12px] rounded',
             },
             {
               dir: 'left',
-              show: x > 0 && !cell.wallLeft,
+              show: legal.has(`wall:${x},${y}:left`),
               btnClass:
                 'absolute top-1/2 -translate-y-1/2 -left-[10%] h-[60%] w-[14%] min-h-[40px] max-h-[120px] min-w-[16px] max-w-[32px] flex items-center justify-center',
               divClass: 'w-[60%] h-full min-w-[4px] max-w-[12px] rounded',
             },
             {
               dir: 'right',
-              show: x < boardSize - 1 && !board[y][x + 1].wallLeft,
+              show: legal.has(`wall:${x},${y}:right`),
               btnClass:
                 'absolute top-1/2 -translate-y-1/2 -right-[10%] h-[60%] w-[14%] min-h-[40px] max-h-[120px] min-w-[16px] max-w-[32px] flex items-center justify-center',
               divClass: 'w-[60%] h-full min-w-[4px] max-w-[12px] rounded',
             },
             {
               dir: 'bottom',
-              show: y < boardSize - 1 && !board[y + 1][x].wallTop,
+              show: legal.has(`wall:${x},${y}:bottom`),
               btnClass:
                 'absolute left-1/2 -translate-x-1/2 -bottom-[10%] w-[60%] h-[14%] min-h-[16px] max-h-[32px] min-w-[40px] max-w-[120px] flex items-center justify-center',
               divClass: 'h-[60%] w-full min-h-[4px] max-h-[12px] rounded',

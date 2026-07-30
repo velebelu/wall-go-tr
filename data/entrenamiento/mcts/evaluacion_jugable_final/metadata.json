@@ -1,0 +1,58 @@
+{
+  "commit": "6e789d0dff7646f9ba0baf22272a49d093a89567",
+  "branch": "ia-hibrida-mcts",
+  "createdAt": "2026-07-23T10:41:23.684Z",
+  "nodeVersion": "v24.16.0",
+  "evaluatorVersion": "playable-mcts-final-v1",
+  "finalMCTSConfig": {
+    "simulations": 50,
+    "explorationConstant": 1.4142135623730951,
+    "maxDepth": 60,
+    "rolloutPolicy": "mixed",
+    "heuristicProbability": 0.8,
+    "expansionPolicy": "heuristic",
+    "progressiveWidening": true,
+    "wideningConstant": 2,
+    "wideningExponent": 0.5,
+    "qPriorWeight": 0,
+    "tacticalVerification": true,
+    "tacticalCandidateCount": 2
+  },
+  "baselineMCTSConfig": {
+    "simulations": 50,
+    "explorationConstant": 1.4142135623730951,
+    "maxDepth": 60,
+    "rolloutPolicy": "mixed",
+    "heuristicProbability": 0.8,
+    "expansionPolicy": "heuristic",
+    "progressiveWidening": true,
+    "wideningConstant": 2,
+    "wideningExponent": 0.5,
+    "qPriorWeight": 0,
+    "tacticalVerification": false,
+    "tacticalCandidateCount": 2
+  },
+  "masterSeed": 941000,
+  "seedProtocol": {
+    "scenarioSeed": "(PLAYABLE_MCTS_EVALUATION_SEED + pairIndex) >>> 0",
+    "subjectBaseSeed": "scenarioSeed",
+    "opponentBaseSeed": "(scenarioSeed + 0x9e3779b9) >>> 0",
+    "decisionSeed": "(agentBaseSeed + decisionIndex) >>> 0",
+    "reset": "Each MCTS decision creates a new playable RNG; counters restart at 0 per game."
+  },
+  "plan": {
+    "heuristic": 50,
+    "random": 25,
+    "baseline-mcts": 50
+  },
+  "games": 250,
+  "maxTurns": 250,
+  "protocol": "choosePlayableMCTSAction",
+  "q5": {
+    "loaded": false,
+    "qPriorSource": "undefined",
+    "qPriorWeight": 0
+  },
+  "wilson": "95%; wins/games; ties count as non-wins.",
+  "smoke": false
+}

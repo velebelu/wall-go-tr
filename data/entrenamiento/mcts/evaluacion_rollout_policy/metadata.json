@@ -1,0 +1,158 @@
+{
+  "createdAt": "2026-07-13T21:18:23.794Z",
+  "evaluationVersion": "mcts-rollout-policy-v1",
+  "outputDir": "C:\\Users\\dagar\\OneDrive\\Documentos\\wall-go-tr\\data\\entrenamiento\\mcts\\evaluacion_rollout_policy",
+  "git": {
+    "branch": "ia-hibrida-mcts",
+    "commit": "18a483448e9ac285ec7f72194b979b26daeba7e7"
+  },
+  "protocol": {
+    "gamesPerCombination": 6,
+    "gamesPerColor": 3,
+    "totalGames": 72,
+    "seedBase": 614000,
+    "seeds": [
+      614001,
+      614002,
+      614003,
+      614004,
+      614005,
+      614006,
+      614007,
+      614008,
+      614009,
+      614010,
+      614011,
+      614012,
+      614001,
+      614002,
+      614003,
+      614004,
+      614005,
+      614006,
+      614007,
+      614008,
+      614009,
+      614010,
+      614011,
+      614012,
+      614001,
+      614002,
+      614003,
+      614004,
+      614005,
+      614006,
+      614007,
+      614008,
+      614009,
+      614010,
+      614011,
+      614012,
+      614001,
+      614002,
+      614003,
+      614004,
+      614005,
+      614006,
+      614007,
+      614008,
+      614009,
+      614010,
+      614011,
+      614012,
+      614001,
+      614002,
+      614003,
+      614004,
+      614005,
+      614006,
+      614007,
+      614008,
+      614009,
+      614010,
+      614011,
+      614012,
+      614001,
+      614002,
+      614003,
+      614004,
+      614005,
+      614006,
+      614007,
+      614008,
+      614009,
+      614010,
+      614011,
+      614012
+    ],
+    "maxTurns": 250,
+    "configurations": [
+      {
+        "name": "MCTS-50-random",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "random"
+      },
+      {
+        "name": "MCTS-50-mixed-80",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "mixed",
+        "heuristicProbability": 0.8
+      },
+      {
+        "name": "MCTS-50-heuristic",
+        "simulations": 50,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "heuristic"
+      },
+      {
+        "name": "MCTS-200-random",
+        "simulations": 200,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "random"
+      },
+      {
+        "name": "MCTS-200-mixed-80",
+        "simulations": 200,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "mixed",
+        "heuristicProbability": 0.8
+      },
+      {
+        "name": "MCTS-200-heuristic",
+        "simulations": 200,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "heuristic"
+      }
+    ],
+    "rivals": [
+      "random",
+      "heuristic"
+    ],
+    "learningEnabled": false,
+    "q5UsedOnlyAsFrozenOpponent": false,
+    "turnLimitResolution": "finalizeGameIfNeeded using getTerritoryCounts"
+  },
+  "positionEvaluation": {
+    "version": "evaluatePosition-v1",
+    "normalization": "tanh(score / 100)",
+    "weights": {
+      "territory": 10,
+      "mobility": 2,
+      "trappedPieces": 8,
+      "expansion": 1
+    }
+  },
+  "files": {
+    "summary": "mcts_rollout_summary.json",
+    "results": "mcts_rollout_results.csv",
+    "metadata": "metadata.json"
+  }
+}

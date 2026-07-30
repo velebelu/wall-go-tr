@@ -48,6 +48,10 @@ export class MinimaxAI extends BaseAI {
 
   getBestMove(state: GameSnapshot): PlayerAction {
     this.startTime = performance.now()
+    // Cachés por decisión: valores de la TT calculados con otras ventanas alfa-beta
+    // no son reutilizables entre jugadas y la memoria crecería sin límite.
+    this.tt.clear()
+    this.zocCache.clear()
     const meIsRed = state.turn === 'R'
     const claimedPositions = this.getClaimedTerritoryPositions(state, state.turn)
     const actions = getLegalActions(state)
@@ -113,6 +117,10 @@ export class MinimaxAI extends BaseAI {
     alpha: number = -Infinity,
     beta: number = Infinity,
   ): number {
+    // Corte temporal dentro de la recursión: sin él, una búsqueda profunda puede
+    // exceder el límite aunque la raíz lo compruebe. Se devuelve evaluación estática.
+    if (performance.now() - this.startTime > this.timeLimit) return this.evaluate(state)
+
     const ttKey = getTranspositionKey(state, depth, maximizing)
     if (this.tt.has(ttKey)) return this.tt.get(ttKey)!
 
@@ -120,6 +128,9 @@ export class MinimaxAI extends BaseAI {
 
     const result = this.checkGameResult(state)
     if (result.finished) return this.evaluate(state)
+
+    const alphaOriginal = alpha
+    const betaOriginal = beta
 
     const PROCESS_CONFIG = {
       max: {
@@ -151,7 +162,11 @@ export class MinimaxAI extends BaseAI {
       }
       if (alpha >= beta) break // Cut-off condition met
     }
-    this.tt.set(ttKey, bestScore)
+    // Solo se cachean valores exactos: un resultado acotado por la poda alfa-beta
+    // depende de la ventana usada y no puede reutilizarse como valor real.
+    if (bestScore > alphaOriginal && bestScore < betaOriginal) {
+      this.tt.set(ttKey, bestScore)
+    }
     return bestScore
   }
 
@@ -364,6 +379,7 @@ function computeHash(state: GameSnapshot): number {
 // transposition key: numeric hash combined with depth/max flag
 function getTranspositionKey(state: GameSnapshot, depth: number, maximizing: boolean): number {
   const h = computeHash(state)
-  // shift depth and flag into low bits
-  return (h ^ ((depth << 1) >>> 0) ^ (maximizing ? 1 : 0)) >>> 0
+  // El hash se desplaza fuera de los bits de profundidad/flag para que estados
+  // iguales a distinta profundidad no compartan clave (el XOR anterior colisionaba).
+  return h * 128 + Math.min(depth, 63) * 2 + (maximizing ? 1 : 0)
 }

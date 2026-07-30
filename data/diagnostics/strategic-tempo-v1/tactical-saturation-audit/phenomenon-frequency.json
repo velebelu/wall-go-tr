@@ -1,0 +1,14 @@
+{
+  "decisions": 152,
+  "exactMaximumTie": 68,
+  "exactMaximumTieRate": 0.4473684210526316,
+  "multipleSaturatedValues": 139,
+  "multipleSaturatedValuesRate": 0.9144736842105263,
+  "meanExactTopTieCandidates": 14.25,
+  "maxExactTopTieCandidates": 34,
+  "rawWinnerOutsideTop2": 44,
+  "rawWinnerOutsideTop2Rate": 0.2894736842105263,
+  "top2SetChangesWhenOrderReversed": 89,
+  "top2SetChangesWhenOrderReversedRate": 0.5855263157894737,
+  "baselineFinalChangesWhenOrderReversed": 71
+}

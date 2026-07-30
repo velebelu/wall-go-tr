@@ -1,0 +1,312 @@
+{
+  "auditVersion": "q5-confidence-mcts-v1",
+  "createdAt": "2026-07-14T00:00:00.000Z",
+  "offline": true,
+  "approvedModel": {
+    "path": "data/entrenamiento/q5/hybrid/final_checkpoint_1000/qtable_q5_hybrid_final_1000.json",
+    "expectedSha256": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+    "actualSha256": "cd3dff73d54b8b3cd0a225ebecebc82e66b4bf61cbdb9b710597ceaf15e396a2",
+    "expectedEntries": 27815,
+    "actualEntries": 27815
+  },
+  "confidenceDistribution": {
+    "total": 27815,
+    "min": 1,
+    "max": 778,
+    "mean": 1.715765,
+    "median": 1,
+    "percentiles": {
+      "p50": 1,
+      "p75": 1,
+      "p90": 2,
+      "p95": 3,
+      "p99": 13
+    },
+    "thresholds": {
+      "1": {
+        "count": 27815,
+        "percentage": 100
+      },
+      "2": {
+        "count": 5016,
+        "percentage": 18.033435
+      },
+      "3": {
+        "count": 2141,
+        "percentage": 7.697286
+      },
+      "5": {
+        "count": 968,
+        "percentage": 3.480137
+      },
+      "10": {
+        "count": 404,
+        "percentage": 1.452454
+      },
+      "20": {
+        "count": 169,
+        "percentage": 0.607586
+      }
+    }
+  },
+  "confidenceOrigin": {
+    "observations": {
+      "total": 19652,
+      "min": 1,
+      "max": 778,
+      "mean": 1.950438,
+      "median": 1,
+      "percentiles": {
+        "p50": 1,
+        "p75": 1,
+        "p90": 2,
+        "p95": 4,
+        "p99": 17
+      },
+      "thresholds": {
+        "1": {
+          "count": 19652,
+          "percentage": 100
+        },
+        "2": {
+          "count": 4190,
+          "percentage": 21.320985
+        },
+        "3": {
+          "count": 1921,
+          "percentage": 9.775087
+        },
+        "5": {
+          "count": 938,
+          "percentage": 4.773051
+        },
+        "10": {
+          "count": 400,
+          "percentage": 2.035416
+        },
+        "20": {
+          "count": 169,
+          "percentage": 0.859963
+        }
+      }
+    },
+    "qLearningUpdateCounts": {
+      "total": 12068,
+      "min": 1,
+      "max": 306,
+      "mean": 1.634736,
+      "median": 1,
+      "percentiles": {
+        "p50": 1,
+        "p75": 1,
+        "p90": 2,
+        "p95": 4,
+        "p99": 12
+      },
+      "thresholds": {
+        "1": {
+          "count": 12068,
+          "percentage": 100
+        },
+        "2": {
+          "count": 2050,
+          "percentage": 16.987073
+        },
+        "3": {
+          "count": 951,
+          "percentage": 7.880345
+        },
+        "5": {
+          "count": 434,
+          "percentage": 3.596288
+        },
+        "10": {
+          "count": 178,
+          "percentage": 1.474975
+        },
+        "20": {
+          "count": 50,
+          "percentage": 0.414319
+        }
+      }
+    },
+    "effectivePolicyValue": "max(observations, qLearningUpdateCounts)",
+    "effective": {
+      "total": 27815,
+      "min": 1,
+      "max": 778,
+      "mean": 1.715765,
+      "median": 1,
+      "percentiles": {
+        "p50": 1,
+        "p75": 1,
+        "p90": 2,
+        "p95": 3,
+        "p99": 13
+      },
+      "thresholds": {
+        "1": {
+          "count": 27815,
+          "percentage": 100
+        },
+        "2": {
+          "count": 5016,
+          "percentage": 18.033435
+        },
+        "3": {
+          "count": 2141,
+          "percentage": 7.697286
+        },
+        "5": {
+          "count": 968,
+          "percentage": 3.480137
+        },
+        "10": {
+          "count": 404,
+          "percentage": 1.452454
+        },
+        "20": {
+          "count": 169,
+          "percentage": 0.607586
+        }
+      }
+    },
+    "effectiveEntriesInFrozenBrowserPolicy": 27815,
+    "effectiveEntriesInHistoricalMCTSNodeEvaluation": 0,
+    "historicalMCTSLoaderIssue": "iterator spread over Map.keys() is downlevel-transpiled to an empty array by scripts/run-ts-node-esm.mjs",
+    "keysWithDifferentCounters": 26147,
+    "percentageDifferent": 94.003236
+  },
+  "keyCompatibility": {
+    "qTable": 27815,
+    "confidenceMap": 19652,
+    "qLearningUpdateCounts": 12068,
+    "qTableAndConfidenceMap": 19652,
+    "qTableAndUpdateCounts": 12068,
+    "confidenceMapAndUpdateCounts": 3905,
+    "allThree": 3905,
+    "qTableWithoutConfidenceMap": 8163,
+    "confidenceMapWithoutQTable": 0,
+    "qTableWithoutEffectiveConfidence": 0,
+    "effectiveConfidenceWithoutQTable": 0
+  },
+  "mctsObserved": {
+    "source": "Deterministic replay of the 30 unique games underlying the three identical Q-prior weight runs",
+    "exactReplay": true,
+    "queriedActions": 46443,
+    "uniqueQueriedKeys": 16069,
+    "withQTable": 23382,
+    "withConfidenceMap": 18232,
+    "withUpdateCount": 17744,
+    "percentages": {
+      "qTable": 50.345585,
+      "confidenceMap": 39.256723,
+      "updateCount": 38.205973
+    },
+    "effectiveConfidenceDistribution": {
+      "total": 46443,
+      "min": 0,
+      "max": 0,
+      "mean": 0,
+      "median": 0,
+      "percentiles": {
+        "p50": 0,
+        "p75": 0,
+        "p90": 0,
+        "p95": 0,
+        "p99": 0
+      },
+      "thresholds": {
+        "1": {
+          "count": 0,
+          "percentage": 0
+        },
+        "2": {
+          "count": 0,
+          "percentage": 0
+        },
+        "3": {
+          "count": 0,
+          "percentage": 0
+        },
+        "5": {
+          "count": 0,
+          "percentage": 0
+        },
+        "10": {
+          "count": 0,
+          "percentage": 0
+        },
+        "20": {
+          "count": 0,
+          "percentage": 0
+        }
+      }
+    },
+    "artifactConfidenceDistribution": {
+      "total": 46443,
+      "min": 0,
+      "max": 778,
+      "mean": 4.402472,
+      "median": 1,
+      "percentiles": {
+        "p50": 1,
+        "p75": 2,
+        "p90": 8,
+        "p95": 20,
+        "p99": 64
+      },
+      "thresholds": {
+        "1": {
+          "count": 23382,
+          "percentage": 50.345585
+        },
+        "2": {
+          "count": 14852,
+          "percentage": 31.978985
+        },
+        "3": {
+          "count": 10930,
+          "percentage": 23.534225
+        },
+        "5": {
+          "count": 7338,
+          "percentage": 15.800013
+        },
+        "10": {
+          "count": 4330,
+          "percentage": 9.323256
+        },
+        "20": {
+          "count": 2396,
+          "percentage": 5.159012
+        }
+      }
+    },
+    "runtimeConfidenceMapEntries": 0,
+    "maxConfidence": 0,
+    "maxArtifactConfidence": 778,
+    "replayedGames": 30,
+    "representedPriorConfigurations": 3
+  },
+  "keyGeneration": {
+    "canonicalFunction": "getLearningQTableKeyQ3",
+    "training": true,
+    "q5Final": true,
+    "mcts": true
+  },
+  "symmetries": {
+    "representationCanonicalizesBoardSymmetry": false,
+    "transformsChecked": 8,
+    "qTableKeysWithAtLeastOneRotatedOrReflectedEquivalent": 16315,
+    "directedEquivalentCopiesPresent": 41304,
+    "directedPotentialAdditionalCopies": 173361,
+    "percentageWithEquivalentPresent": 58.655402,
+    "note": "La clave de estado Q3 agrega rasgos pero la clave de accion conserva coordenadas absolutas; las simetrias geometricas pueden fragmentar una misma decision entre hasta ocho claves."
+  },
+  "conclusion": {
+    "reliableCoverageZeroCause": "MCTS recibio un confidence Map vacio por el transpile de iterator spread; su maximo efectivo fue 0, aunque los artefactos alcanzan 778 en las claves consultadas.",
+    "offlineCalibrationJustifiable": false,
+    "recommendation": "No calibrar ni descartar Q5 por estos resultados: la evaluacion del prior fue invalida porque MCTS recibio confianza vacia. Corregir primero la carga en el runner y repetir la evaluacion manteniendo minConfidence=10."
+  }
+}

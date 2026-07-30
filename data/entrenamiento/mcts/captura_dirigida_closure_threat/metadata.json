@@ -1,0 +1,61 @@
+{
+  "schema": "DirectedClosureCaptureMetadataV1",
+  "version": "directed-closure-capture-v1",
+  "generatedAt": "2026-07-26T10:07:21.673Z",
+  "targetInterventions": 20,
+  "maxCaptureGames": 42,
+  "capturePlan": "26 fresh games plus 15 historical-activation-seed games and one final fresh slot",
+  "captureStopReason": "reasonable game limit reached with 19 unique interventions; one below target",
+  "pairsPerIntervention": 10,
+  "pairedSeeds": "0xc1090000 + gameIndex * 100 + pairIndex; identical across branches",
+  "continuationPolicy": "chooseHeuristicOpponentActionQ4 for both players",
+  "detectorDisabledAfterForcedAction": true,
+  "detectorConfig": {
+    "enabled": true,
+    "candidateCount": 4,
+    "maxRepliesPerCandidate": 80,
+    "maxTimeMsPerCandidate": 250,
+    "minimumOpponentTerritoryGain": 12,
+    "minimumOwnAccessibleDrop": 12,
+    "minimumExposedComponentSize": 15,
+    "terminalTerritoryDiffThreshold": -12
+  },
+  "mctsConfig": {
+    "mcts": {
+      "simulations": 250,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5,
+      "qPriorWeight": 0,
+      "tacticalVerification": true,
+      "tacticalCandidateCount": 2
+    },
+    "budget": {
+      "enable750": false,
+      "base": 250,
+      "lowConfidence": 500,
+      "highUncertainty": 500,
+      "maxDecisionMs": 5000,
+      "maxVisitGap": 3,
+      "maxValueGap": 0.04,
+      "maxSelectedVisitShare": 0.12,
+      "highUncertaintyVisitGap": 1,
+      "highUncertaintyValueGap": 0.015,
+      "highUncertaintySelectedVisitShare": 0.08
+    },
+    "endgame": {
+      "enabled": false,
+      "maxLegalActions": 8,
+      "maxConnectedRegions": 3,
+      "maxMobilePieces": 2,
+      "maxDepth": 8,
+      "maxNodes": 40000,
+      "maxTimeMs": 1500
+    }
+  }
+}
