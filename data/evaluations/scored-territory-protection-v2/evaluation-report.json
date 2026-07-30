@@ -1,0 +1,3652 @@
+{
+  "schema": "ScoredTerritoryProtectionEvaluationV1",
+  "generatedAt": "2026-07-30T10:28:10.741Z",
+  "diagnosticOnly": true,
+  "officialConfigurationChanged": false,
+  "limits": {
+    "maxGames": 24,
+    "maxMCTSDecisions": 1200,
+    "maxElapsedMs": 600000,
+    "targetIndependentB": 20,
+    "continuationsPerB": 2
+  },
+  "stoppedBy": "games",
+  "gamesScanned": 24,
+  "mctsDecisionsInspected": 553,
+  "elapsedMs": 9068.079,
+  "naturalFrequencyPer100MCTSDecisions": 1.8083182640144666,
+  "affectedGames": 6,
+  "independentActivations": {
+    "A": 16,
+    "B": 10
+  },
+  "duplicateActivations": 0,
+  "replacementSources": {
+    "expanded": 10,
+    "tacticalLegal": 0,
+    "none": 0
+  },
+  "counterfactualClassifications": {
+    "beneficial": 9,
+    "harmful": 10,
+    "neutral": 1,
+    "inconclusive": 0
+  },
+  "meanDifferentialEffect": -0.65,
+  "activations": [
+    {
+      "stateId": "8f18503ec14f745c05691dc0a3c37820a64a790d3e7755a2009aeb1e581a33b7",
+      "gameId": "diagnostic-2",
+      "seed": 1589642213,
+      "turn": 33,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        }
+      ],
+      "territoryBefore": 22,
+      "territoryAfterOriginal": 22,
+      "territoryAfterReplacement": 22,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 7,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": -7,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "left"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 4
+          },
+          "pos": {
+            "x": 3,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "originalVisits": 14,
+      "replacementVisits": 14,
+      "originalMeanValue": 1,
+      "replacementMeanValue": 1,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "tactical-legal",
+      "protectionChanged": true,
+      "continuations": []
+    },
+    {
+      "stateId": "ad7e40c8319197cf7c6f06906e2bf8df44958ec3a6c0d833af27804aeb08b0ed",
+      "gameId": "diagnostic-2",
+      "seed": 1589642213,
+      "turn": 35,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        }
+      ],
+      "territoryBefore": 22,
+      "territoryAfterOriginal": 22,
+      "territoryAfterReplacement": 22,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "dir": "left"
+        }
+      },
+      "originalVisits": 13,
+      "replacementVisits": 13,
+      "originalMeanValue": 1,
+      "replacementMeanValue": 1,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "tactical-legal",
+      "protectionChanged": true,
+      "continuations": []
+    },
+    {
+      "stateId": "411364e1ac1341e351541999b9ae8d5a53d3701fb59c0873ab67996da1ab10c8",
+      "gameId": "diagnostic-2",
+      "seed": 1589642213,
+      "turn": 39,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        }
+      ],
+      "territoryBefore": 22,
+      "territoryAfterOriginal": 22,
+      "territoryAfterReplacement": 22,
+      "opponentTerritoryBefore": 11,
+      "opponentTerritoryAfterOriginal": 11,
+      "opponentTerritoryAfterReplacement": 11,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "originalVisits": 14,
+      "replacementVisits": 14,
+      "originalMeanValue": 1,
+      "replacementMeanValue": 1,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "023e33308b88f3fa050575c10e959a324bc208761ebaecfcfe41c3688f5c3d46",
+      "gameId": "diagnostic-4",
+      "seed": 1589644207,
+      "turn": 43,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 1,
+          "y": 4
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 0,
+          "y": 6
+        },
+        {
+          "x": 1,
+          "y": 6
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 6
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 6
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 6
+        },
+        {
+          "x": 5,
+          "y": 6
+        },
+        {
+          "x": 6,
+          "y": 6
+        },
+        {
+          "x": 6,
+          "y": 5
+        }
+      ],
+      "territoryBefore": 28,
+      "territoryAfterOriginal": 28,
+      "territoryAfterReplacement": 31,
+      "opponentTerritoryBefore": 13,
+      "opponentTerritoryAfterOriginal": 13,
+      "opponentTerritoryAfterReplacement": 16,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 1,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 3
+          },
+          "pos": {
+            "x": 1,
+            "y": 3
+          },
+          "dir": "top"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 0
+          },
+          "pos": {
+            "x": 4,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      },
+      "originalVisits": 12,
+      "replacementVisits": 12,
+      "originalMeanValue": 1,
+      "replacementMeanValue": 1,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "tactical-legal",
+      "protectionChanged": true,
+      "continuations": []
+    },
+    {
+      "stateId": "15251960b3d21ba958e50157475af557fe13326d452c16bb6cf4206814ad3666",
+      "gameId": "diagnostic-6",
+      "seed": 1589646201,
+      "turn": 25,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 3
+        }
+      ],
+      "territoryBefore": 14,
+      "territoryAfterOriginal": 14,
+      "territoryAfterReplacement": 14,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 3,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "pos": {
+            "x": 3,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 6
+        },
+        "pos": {
+          "x": 6,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 6
+          },
+          "pos": {
+            "x": 6,
+            "y": 6
+          },
+          "dir": "top"
+        }
+      },
+      "originalVisits": 18,
+      "replacementVisits": 18,
+      "originalMeanValue": -0.7777777777777778,
+      "replacementMeanValue": -0.7777777777777778,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "tactical-legal",
+      "protectionChanged": true,
+      "continuations": []
+    },
+    {
+      "stateId": "d9b485089582482b6c7e40f393eb8b1ee0df981b83ec3ebebf9e1c2de4241ac6",
+      "gameId": "diagnostic-6",
+      "seed": 1589646201,
+      "turn": 27,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 1
+        }
+      ],
+      "territoryBefore": 14,
+      "territoryAfterOriginal": 13,
+      "territoryAfterReplacement": 14,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": -1,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [
+        {
+          "x": 3,
+          "y": 2
+        }
+      ],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "dir": "left"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 6
+        },
+        "pos": {
+          "x": 3,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 6
+          },
+          "pos": {
+            "x": 3,
+            "y": 6
+          },
+          "dir": "right"
+        }
+      },
+      "originalVisits": 16,
+      "replacementVisits": 10,
+      "originalMeanValue": -0.625,
+      "replacementMeanValue": -0.8,
+      "legalConservativeAlternatives": 32,
+      "activationType": "B",
+      "replacementVariant": "expanded",
+      "protectionChanged": true,
+      "continuations": [
+        {
+          "seed": 2076533745,
+          "original": {
+            "territory": 11,
+            "opponentTerritory": 26,
+            "differential": -15,
+            "outcome": "loss",
+            "mobility": 4,
+            "blockedPieces": 1,
+            "legalActions": 0,
+            "turnsRemaining": 24
+          },
+          "replacement": {
+            "territory": 18,
+            "opponentTerritory": 31,
+            "differential": -13,
+            "outcome": "loss",
+            "mobility": 9,
+            "blockedPieces": 0,
+            "legalActions": 0,
+            "turnsRemaining": 2
+          },
+          "differentialEffect": 2,
+          "classification": "beneficial"
+        },
+        {
+          "seed": 3908099558,
+          "original": {
+            "territory": 15,
+            "opponentTerritory": 31,
+            "differential": -16,
+            "outcome": "loss",
+            "mobility": 9,
+            "blockedPieces": 0,
+            "legalActions": 0,
+            "turnsRemaining": 12
+          },
+          "replacement": {
+            "territory": 5,
+            "opponentTerritory": 30,
+            "differential": -25,
+            "outcome": "loss",
+            "mobility": 1,
+            "blockedPieces": 3,
+            "legalActions": 0,
+            "turnsRemaining": 22
+          },
+          "differentialEffect": -9,
+          "classification": "harmful"
+        }
+      ]
+    },
+    {
+      "stateId": "d982409722edc52c2df769275b549de5cdfb2ac029b13db3e53a19150d61c682",
+      "gameId": "diagnostic-6",
+      "seed": 1589646201,
+      "turn": 31,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 1
+        }
+      ],
+      "territoryBefore": 13,
+      "territoryAfterOriginal": 13,
+      "territoryAfterReplacement": 13,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "originalVisits": 16,
+      "replacementVisits": 16,
+      "originalMeanValue": -0.6875,
+      "replacementMeanValue": -0.6875,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "0bc5efd1b87580c6a9a3c58f37380aa2018d218fbf29c53914bcfbbff76c957c",
+      "gameId": "diagnostic-6",
+      "seed": 1589646201,
+      "turn": 33,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 1
+        }
+      ],
+      "territoryBefore": 13,
+      "territoryAfterOriginal": 13,
+      "territoryAfterReplacement": 13,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "originalVisits": 21,
+      "replacementVisits": 21,
+      "originalMeanValue": -0.6190476190476191,
+      "replacementMeanValue": -0.6190476190476191,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "c9b98a0ef4bdeac9c93bc620a6f13ae5e75246371a5ce1580bd46322620dd1b7",
+      "gameId": "diagnostic-6",
+      "seed": 1589646201,
+      "turn": 35,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 1
+        }
+      ],
+      "territoryBefore": 13,
+      "territoryAfterOriginal": 13,
+      "territoryAfterReplacement": 13,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "originalVisits": 19,
+      "replacementVisits": 19,
+      "originalMeanValue": -0.6842105263157895,
+      "replacementMeanValue": -0.6842105263157895,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "824ceae5a3f2ebf13c37d7bd60c75524eb351aa6f499662f7b367a6582a13f1f",
+      "gameId": "diagnostic-6",
+      "seed": 1589646201,
+      "turn": 37,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 1
+        }
+      ],
+      "territoryBefore": 13,
+      "territoryAfterOriginal": 13,
+      "territoryAfterReplacement": 13,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 6
+        },
+        "pos": {
+          "x": 4,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 6
+          },
+          "pos": {
+            "x": 4,
+            "y": 6
+          },
+          "dir": "right"
+        }
+      },
+      "originalVisits": 18,
+      "replacementVisits": 18,
+      "originalMeanValue": -0.7777777777777778,
+      "replacementMeanValue": -0.7777777777777778,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "tactical-legal",
+      "protectionChanged": true,
+      "continuations": []
+    },
+    {
+      "stateId": "8026f01b0b370e6cb46552d0905c434e50c589ac1dce1c2620459eb80d88eddc",
+      "gameId": "diagnostic-6",
+      "seed": 1589646201,
+      "turn": 41,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        }
+      ],
+      "territoryBefore": 13,
+      "territoryAfterOriginal": 13,
+      "territoryAfterReplacement": 13,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "originalVisits": 24,
+      "replacementVisits": 24,
+      "originalMeanValue": -0.7916666666666666,
+      "replacementMeanValue": -0.7916666666666666,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "47ad3e1e94c59967e185df244f667d35124549be670f53ff2898560bca3afc2f",
+      "gameId": "diagnostic-6",
+      "seed": 1589646201,
+      "turn": 43,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        }
+      ],
+      "territoryBefore": 13,
+      "territoryAfterOriginal": 12,
+      "territoryAfterReplacement": 13,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": -1,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [
+        {
+          "x": 3,
+          "y": 0
+        }
+      ],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 0
+          },
+          "pos": {
+            "x": 2,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 6
+        },
+        "pos": {
+          "x": 2,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 6
+          },
+          "pos": {
+            "x": 2,
+            "y": 6
+          },
+          "dir": "left"
+        }
+      },
+      "originalVisits": 22,
+      "replacementVisits": 11,
+      "originalMeanValue": -0.7272727272727273,
+      "replacementMeanValue": -1,
+      "legalConservativeAlternatives": 10,
+      "activationType": "B",
+      "replacementVariant": "expanded",
+      "protectionChanged": true,
+      "continuations": [
+        {
+          "seed": 1597833089,
+          "original": {
+            "territory": 4,
+            "opponentTerritory": 26,
+            "differential": -22,
+            "outcome": "loss",
+            "mobility": 0,
+            "blockedPieces": 4,
+            "legalActions": 0,
+            "turnsRemaining": 10
+          },
+          "replacement": {
+            "territory": 7,
+            "opponentTerritory": 21,
+            "differential": -14,
+            "outcome": "loss",
+            "mobility": 3,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 9
+          },
+          "differentialEffect": 8,
+          "classification": "beneficial"
+        },
+        {
+          "seed": 3429398902,
+          "original": {
+            "territory": 4,
+            "opponentTerritory": 23,
+            "differential": -19,
+            "outcome": "loss",
+            "mobility": 0,
+            "blockedPieces": 4,
+            "legalActions": 0,
+            "turnsRemaining": 8
+          },
+          "replacement": {
+            "territory": 5,
+            "opponentTerritory": 24,
+            "differential": -19,
+            "outcome": "loss",
+            "mobility": 1,
+            "blockedPieces": 3,
+            "legalActions": 0,
+            "turnsRemaining": 11
+          },
+          "differentialEffect": 0,
+          "classification": "neutral"
+        }
+      ]
+    },
+    {
+      "stateId": "fe9fbefc0cd2bbedf6ed8c6b3b3e1caa47a23e167b6d768782f5ca2d08c7cad1",
+      "gameId": "diagnostic-6",
+      "seed": 1589646201,
+      "turn": 49,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        }
+      ],
+      "territoryBefore": 10,
+      "territoryAfterOriginal": 8,
+      "territoryAfterReplacement": 10,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": -2,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        }
+      ],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 1
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 1,
+            "y": 6
+          },
+          "dir": "top"
+        }
+      },
+      "originalVisits": 28,
+      "replacementVisits": 23,
+      "originalMeanValue": -0.9285714285714286,
+      "replacementMeanValue": -1,
+      "legalConservativeAlternatives": 6,
+      "activationType": "B",
+      "replacementVariant": "expanded",
+      "protectionChanged": true,
+      "continuations": [
+        {
+          "seed": 344578519,
+          "original": {
+            "territory": 12,
+            "opponentTerritory": 25,
+            "differential": -13,
+            "outcome": "loss",
+            "mobility": 5,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 3
+          },
+          "replacement": {
+            "territory": 14,
+            "opponentTerritory": 25,
+            "differential": -11,
+            "outcome": "loss",
+            "mobility": 5,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 1
+          },
+          "differentialEffect": 2,
+          "classification": "beneficial"
+        },
+        {
+          "seed": 2176144332,
+          "original": {
+            "territory": 6,
+            "opponentTerritory": 25,
+            "differential": -19,
+            "outcome": "loss",
+            "mobility": 2,
+            "blockedPieces": 3,
+            "legalActions": 0,
+            "turnsRemaining": 7
+          },
+          "replacement": {
+            "territory": 14,
+            "opponentTerritory": 24,
+            "differential": -10,
+            "outcome": "loss",
+            "mobility": 4,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 2
+          },
+          "differentialEffect": 9,
+          "classification": "beneficial"
+        }
+      ]
+    },
+    {
+      "stateId": "4f83cbf7836147cc5a1c4794ee74aab14a454606793aa0b8abafb1c0dc5296cf",
+      "gameId": "diagnostic-7",
+      "seed": 1589647198,
+      "turn": 42,
+      "color": "R",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        }
+      ],
+      "territoryBefore": 7,
+      "territoryAfterOriginal": 6,
+      "territoryAfterReplacement": 7,
+      "opponentTerritoryBefore": 6,
+      "opponentTerritoryAfterOriginal": 6,
+      "opponentTerritoryAfterReplacement": 6,
+      "deltaDifferentialOriginal": -1,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [
+        {
+          "x": 6,
+          "y": 2
+        }
+      ],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 0
+          },
+          "pos": {
+            "x": 2,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "originalVisits": 28,
+      "replacementVisits": 28,
+      "originalMeanValue": 1,
+      "replacementMeanValue": 1,
+      "legalConservativeAlternatives": 24,
+      "activationType": "B",
+      "replacementVariant": "expanded",
+      "protectionChanged": true,
+      "continuations": [
+        {
+          "seed": 3238365613,
+          "original": {
+            "territory": 22,
+            "opponentTerritory": 14,
+            "differential": 8,
+            "outcome": "win",
+            "mobility": 8,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 7
+          },
+          "replacement": {
+            "territory": 25,
+            "opponentTerritory": 15,
+            "differential": 10,
+            "outcome": "win",
+            "mobility": 8,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 3
+          },
+          "differentialEffect": 2,
+          "classification": "beneficial"
+        },
+        {
+          "seed": 774964130,
+          "original": {
+            "territory": 21,
+            "opponentTerritory": 6,
+            "differential": 15,
+            "outcome": "win",
+            "mobility": 6,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 17
+          },
+          "replacement": {
+            "territory": 23,
+            "opponentTerritory": 14,
+            "differential": 9,
+            "outcome": "win",
+            "mobility": 12,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 7
+          },
+          "differentialEffect": -6,
+          "classification": "harmful"
+        }
+      ]
+    },
+    {
+      "stateId": "881ac409980f0a2b744c3e8e9038fc200a3607ca3e1e3b36350b25323741af60",
+      "gameId": "diagnostic-12",
+      "seed": 1589652183,
+      "turn": 41,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 0,
+          "y": 6
+        },
+        {
+          "x": 1,
+          "y": 6
+        }
+      ],
+      "territoryBefore": 4,
+      "territoryAfterOriginal": 2,
+      "territoryAfterReplacement": 4,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": -2,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [
+        {
+          "x": 0,
+          "y": 6
+        },
+        {
+          "x": 1,
+          "y": 6
+        }
+      ],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 0,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 5
+          },
+          "pos": {
+            "x": 0,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 4
+        },
+        "pos": {
+          "x": 6,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 3
+          },
+          "pos": {
+            "x": 6,
+            "y": 3
+          },
+          "dir": "top"
+        }
+      },
+      "originalVisits": 17,
+      "replacementVisits": 27,
+      "originalMeanValue": -0.47058823529411764,
+      "replacementMeanValue": -0.2222222222222222,
+      "legalConservativeAlternatives": 20,
+      "activationType": "B",
+      "replacementVariant": "expanded",
+      "protectionChanged": true,
+      "continuations": [
+        {
+          "seed": 583934829,
+          "original": {
+            "territory": 4,
+            "opponentTerritory": 11,
+            "differential": -7,
+            "outcome": "loss",
+            "mobility": 0,
+            "blockedPieces": 4,
+            "legalActions": 0,
+            "turnsRemaining": 19
+          },
+          "replacement": {
+            "territory": 9,
+            "opponentTerritory": 21,
+            "differential": -12,
+            "outcome": "loss",
+            "mobility": 5,
+            "blockedPieces": 1,
+            "legalActions": 0,
+            "turnsRemaining": 13
+          },
+          "differentialEffect": -5,
+          "classification": "harmful"
+        },
+        {
+          "seed": 2415500642,
+          "original": {
+            "territory": 14,
+            "opponentTerritory": 13,
+            "differential": 1,
+            "outcome": "win",
+            "mobility": 5,
+            "blockedPieces": 1,
+            "legalActions": 0,
+            "turnsRemaining": 15
+          },
+          "replacement": {
+            "territory": 11,
+            "opponentTerritory": 20,
+            "differential": -9,
+            "outcome": "loss",
+            "mobility": 5,
+            "blockedPieces": 1,
+            "legalActions": 0,
+            "turnsRemaining": 15
+          },
+          "differentialEffect": -10,
+          "classification": "harmful"
+        }
+      ]
+    },
+    {
+      "stateId": "eb4c27c607fe91f01a7ace73463196973bcf2fcf4eb12388960edd3632f6a39d",
+      "gameId": "diagnostic-12",
+      "seed": 1589652183,
+      "turn": 47,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        }
+      ],
+      "territoryBefore": 6,
+      "territoryAfterOriginal": 5,
+      "territoryAfterReplacement": 6,
+      "opponentTerritoryBefore": 3,
+      "opponentTerritoryAfterOriginal": 3,
+      "opponentTerritoryAfterReplacement": 3,
+      "deltaDifferentialOriginal": -1,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [
+        {
+          "x": 3,
+          "y": 3
+        }
+      ],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 2
+        },
+        "pos": {
+          "x": 2,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 3
+          },
+          "pos": {
+            "x": 2,
+            "y": 3
+          },
+          "dir": "right"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 4
+          },
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "originalVisits": 32,
+      "replacementVisits": 32,
+      "originalMeanValue": -1,
+      "replacementMeanValue": -1,
+      "legalConservativeAlternatives": 10,
+      "activationType": "B",
+      "replacementVariant": "expanded",
+      "protectionChanged": true,
+      "continuations": [
+        {
+          "seed": 3625647555,
+          "original": {
+            "territory": 5,
+            "opponentTerritory": 25,
+            "differential": -20,
+            "outcome": "loss",
+            "mobility": 1,
+            "blockedPieces": 3,
+            "legalActions": 0,
+            "turnsRemaining": 6
+          },
+          "replacement": {
+            "territory": 13,
+            "opponentTerritory": 26,
+            "differential": -13,
+            "outcome": "loss",
+            "mobility": 3,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 3
+          },
+          "differentialEffect": 7,
+          "classification": "beneficial"
+        },
+        {
+          "seed": 1162246072,
+          "original": {
+            "territory": 15,
+            "opponentTerritory": 25,
+            "differential": -10,
+            "outcome": "loss",
+            "mobility": 4,
+            "blockedPieces": 1,
+            "legalActions": 0,
+            "turnsRemaining": 3
+          },
+          "replacement": {
+            "territory": 9,
+            "opponentTerritory": 30,
+            "differential": -21,
+            "outcome": "loss",
+            "mobility": 5,
+            "blockedPieces": 1,
+            "legalActions": 0,
+            "turnsRemaining": 4
+          },
+          "differentialEffect": -11,
+          "classification": "harmful"
+        }
+      ]
+    },
+    {
+      "stateId": "b028e0c63f525761f10bcca264eeb578f7e5485bed319ec16d761510bfedfd8c",
+      "gameId": "diagnostic-13",
+      "seed": 1589653180,
+      "turn": 46,
+      "color": "R",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 5
+        }
+      ],
+      "territoryBefore": 14,
+      "territoryAfterOriginal": 14,
+      "territoryAfterReplacement": 14,
+      "opponentTerritoryBefore": 9,
+      "opponentTerritoryAfterOriginal": 9,
+      "opponentTerritoryAfterReplacement": 9,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 0
+          },
+          "pos": {
+            "x": 2,
+            "y": 0
+          },
+          "dir": "left"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 0
+          },
+          "pos": {
+            "x": 2,
+            "y": 0
+          },
+          "dir": "left"
+        }
+      },
+      "originalVisits": 20,
+      "replacementVisits": 20,
+      "originalMeanValue": 1,
+      "replacementMeanValue": 1,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "15fa1c0c73c7b49c5b4fbf0d0c7c58ce1f7696e6faf3c7b0b390df91e786ee8e",
+      "gameId": "diagnostic-14",
+      "seed": 1589654177,
+      "turn": 39,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        }
+      ],
+      "territoryBefore": 20,
+      "territoryAfterOriginal": 20,
+      "territoryAfterReplacement": 20,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "originalVisits": 28,
+      "replacementVisits": 28,
+      "originalMeanValue": 1,
+      "replacementMeanValue": 1,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "63f108dde2d93a0c7ade9f04ed5423f2eb41896e3d45538daa6f2cf239fe3d7b",
+      "gameId": "diagnostic-16",
+      "seed": 1589656171,
+      "turn": 39,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 0
+        }
+      ],
+      "territoryBefore": 9,
+      "territoryAfterOriginal": 9,
+      "territoryAfterReplacement": 9,
+      "opponentTerritoryBefore": 10,
+      "opponentTerritoryAfterOriginal": 10,
+      "opponentTerritoryAfterReplacement": 10,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 0
+          },
+          "pos": {
+            "x": 6,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 0
+          },
+          "pos": {
+            "x": 6,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      },
+      "originalVisits": 25,
+      "replacementVisits": 25,
+      "originalMeanValue": -0.28,
+      "replacementMeanValue": -0.28,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "08bba7cf4e462da461e3625c89516efe9c815aa9467457b963800d740924c4f3",
+      "gameId": "diagnostic-16",
+      "seed": 1589656171,
+      "turn": 41,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 0
+        }
+      ],
+      "territoryBefore": 9,
+      "territoryAfterOriginal": 8,
+      "territoryAfterReplacement": 9,
+      "opponentTerritoryBefore": 10,
+      "opponentTerritoryAfterOriginal": 10,
+      "opponentTerritoryAfterReplacement": 10,
+      "deltaDifferentialOriginal": -1,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [
+        {
+          "x": 4,
+          "y": 0
+        }
+      ],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 0
+        },
+        "pos": {
+          "x": 5,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 0
+          },
+          "pos": {
+            "x": 5,
+            "y": 0
+          },
+          "dir": "left"
+        }
+      },
+      "replacementAction": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 5
+        },
+        "pos": {
+          "x": 1,
+          "y": 5
+        },
+        "dir": "right"
+      },
+      "originalVisits": 27,
+      "replacementVisits": 13,
+      "originalMeanValue": 0.25925925925925924,
+      "replacementMeanValue": 0,
+      "legalConservativeAlternatives": 26,
+      "activationType": "B",
+      "replacementVariant": "expanded",
+      "protectionChanged": true,
+      "continuations": [
+        {
+          "seed": 583938817,
+          "original": {
+            "territory": 16,
+            "opponentTerritory": 9,
+            "differential": 7,
+            "outcome": "win",
+            "mobility": 7,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 15
+          },
+          "replacement": {
+            "territory": 25,
+            "opponentTerritory": 19,
+            "differential": 6,
+            "outcome": "win",
+            "mobility": 6,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 8
+          },
+          "differentialEffect": -1,
+          "classification": "harmful"
+        },
+        {
+          "seed": 2415504630,
+          "original": {
+            "territory": 21,
+            "opponentTerritory": 15,
+            "differential": 6,
+            "outcome": "win",
+            "mobility": 7,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 14
+          },
+          "replacement": {
+            "territory": 21,
+            "opponentTerritory": 16,
+            "differential": 5,
+            "outcome": "win",
+            "mobility": 2,
+            "blockedPieces": 3,
+            "legalActions": 0,
+            "turnsRemaining": 10
+          },
+          "differentialEffect": -1,
+          "classification": "harmful"
+        }
+      ]
+    },
+    {
+      "stateId": "13bcd61ce9a61a38d08d95dbcd2d88418f84dca2cb08ae9c9ea21adde704c825",
+      "gameId": "diagnostic-16",
+      "seed": 1589656171,
+      "turn": 43,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 0
+        }
+      ],
+      "territoryBefore": 8,
+      "territoryAfterOriginal": 8,
+      "territoryAfterReplacement": 8,
+      "opponentTerritoryBefore": 10,
+      "opponentTerritoryAfterOriginal": 10,
+      "opponentTerritoryAfterReplacement": 10,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "originalVisits": 20,
+      "replacementVisits": 20,
+      "originalMeanValue": 0.45,
+      "replacementMeanValue": 0.45,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "0f56941402602192ac34749f53aaaa17aa3eff20ff911d723b97e5ce4af4e07b",
+      "gameId": "diagnostic-18",
+      "seed": 1589658165,
+      "turn": 51,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        }
+      ],
+      "territoryBefore": 7,
+      "territoryAfterOriginal": 4,
+      "territoryAfterReplacement": 7,
+      "opponentTerritoryBefore": 21,
+      "opponentTerritoryAfterOriginal": 21,
+      "opponentTerritoryAfterReplacement": 21,
+      "deltaDifferentialOriginal": -3,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        }
+      ],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "pos": {
+            "x": 5,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "originalVisits": 30,
+      "replacementVisits": 28,
+      "originalMeanValue": -0.9666666666666667,
+      "replacementMeanValue": -1,
+      "legalConservativeAlternatives": 10,
+      "activationType": "B",
+      "replacementVariant": "expanded",
+      "protectionChanged": true,
+      "continuations": [
+        {
+          "seed": 1358494725,
+          "original": {
+            "territory": 4,
+            "opponentTerritory": 21,
+            "differential": -17,
+            "outcome": "loss",
+            "mobility": 0,
+            "blockedPieces": 4,
+            "legalActions": 0,
+            "turnsRemaining": 8
+          },
+          "replacement": {
+            "territory": 10,
+            "opponentTerritory": 28,
+            "differential": -18,
+            "outcome": "loss",
+            "mobility": 6,
+            "blockedPieces": 1,
+            "legalActions": 0,
+            "turnsRemaining": 2
+          },
+          "differentialEffect": -1,
+          "classification": "harmful"
+        },
+        {
+          "seed": 3190060538,
+          "original": {
+            "territory": 13,
+            "opponentTerritory": 22,
+            "differential": -9,
+            "outcome": "loss",
+            "mobility": 3,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 3
+          },
+          "replacement": {
+            "territory": 7,
+            "opponentTerritory": 18,
+            "differential": -11,
+            "outcome": "loss",
+            "mobility": 3,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 8
+          },
+          "differentialEffect": -2,
+          "classification": "harmful"
+        }
+      ]
+    },
+    {
+      "stateId": "78b7a34b2249328eb41e382a541fdf4a0edd6b28493855e614ae7b20b2a75acf",
+      "gameId": "diagnostic-18",
+      "seed": 1589658165,
+      "turn": 53,
+      "color": "B",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 0,
+          "y": 6
+        }
+      ],
+      "territoryBefore": 4,
+      "territoryAfterOriginal": 3,
+      "territoryAfterReplacement": 4,
+      "opponentTerritoryBefore": 15,
+      "opponentTerritoryAfterOriginal": 15,
+      "opponentTerritoryAfterReplacement": 15,
+      "deltaDifferentialOriginal": -1,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [
+        {
+          "x": 0,
+          "y": 5
+        }
+      ],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 5
+        },
+        "pos": {
+          "x": 0,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 6
+          },
+          "pos": {
+            "x": 0,
+            "y": 6
+          },
+          "dir": "top"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 3
+          },
+          "pos": {
+            "x": 5,
+            "y": 3
+          },
+          "dir": "left"
+        }
+      },
+      "originalVisits": 47,
+      "replacementVisits": 47,
+      "originalMeanValue": -0.9574468085106383,
+      "replacementMeanValue": -0.9574468085106383,
+      "legalConservativeAlternatives": 10,
+      "activationType": "B",
+      "replacementVariant": "expanded",
+      "protectionChanged": true,
+      "continuations": [
+        {
+          "seed": 2372398967,
+          "original": {
+            "territory": 6,
+            "opponentTerritory": 18,
+            "differential": -12,
+            "outcome": "loss",
+            "mobility": 2,
+            "blockedPieces": 3,
+            "legalActions": 0,
+            "turnsRemaining": 4
+          },
+          "replacement": {
+            "territory": 6,
+            "opponentTerritory": 14,
+            "differential": -8,
+            "outcome": "loss",
+            "mobility": 2,
+            "blockedPieces": 3,
+            "legalActions": 0,
+            "turnsRemaining": 6
+          },
+          "differentialEffect": 4,
+          "classification": "beneficial"
+        },
+        {
+          "seed": 4203964780,
+          "original": {
+            "territory": 4,
+            "opponentTerritory": 20,
+            "differential": -16,
+            "outcome": "loss",
+            "mobility": 0,
+            "blockedPieces": 4,
+            "legalActions": 0,
+            "turnsRemaining": 5
+          },
+          "replacement": {
+            "territory": 7,
+            "opponentTerritory": 22,
+            "differential": -15,
+            "outcome": "loss",
+            "mobility": 3,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 2
+          },
+          "differentialEffect": 1,
+          "classification": "beneficial"
+        }
+      ]
+    },
+    {
+      "stateId": "7b01f6e13631fea107e0625a54ef42556573b5d54e357ec65402f0c1750dc376",
+      "gameId": "diagnostic-21",
+      "seed": 1589661156,
+      "turn": 30,
+      "color": "R",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 6
+        },
+        {
+          "x": 6,
+          "y": 6
+        },
+        {
+          "x": 6,
+          "y": 5
+        },
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 5
+        }
+      ],
+      "territoryBefore": 10,
+      "territoryAfterOriginal": 10,
+      "territoryAfterReplacement": 10,
+      "opponentTerritoryBefore": 0,
+      "opponentTerritoryAfterOriginal": 0,
+      "opponentTerritoryAfterReplacement": 0,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 4
+          },
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 4
+          },
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "originalVisits": 30,
+      "replacementVisits": 30,
+      "originalMeanValue": -0.06666666666666667,
+      "replacementMeanValue": -0.06666666666666667,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "d9a640b2d0f05ede7e8f1beb9537427582bbd6d9d5973f4d2304af45a9394e8c",
+      "gameId": "diagnostic-21",
+      "seed": 1589661156,
+      "turn": 34,
+      "color": "R",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 6
+        },
+        {
+          "x": 6,
+          "y": 6
+        },
+        {
+          "x": 6,
+          "y": 5
+        },
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 5
+        }
+      ],
+      "territoryBefore": 15,
+      "territoryAfterOriginal": 15,
+      "territoryAfterReplacement": 15,
+      "opponentTerritoryBefore": 16,
+      "opponentTerritoryAfterOriginal": 16,
+      "opponentTerritoryAfterReplacement": 16,
+      "deltaDifferentialOriginal": 0,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 6
+        },
+        "pos": {
+          "x": 6,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 6
+          },
+          "pos": {
+            "x": 6,
+            "y": 6
+          },
+          "dir": "left"
+        }
+      },
+      "replacementAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 6
+        },
+        "pos": {
+          "x": 6,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 6
+          },
+          "pos": {
+            "x": 6,
+            "y": 6
+          },
+          "dir": "left"
+        }
+      },
+      "originalVisits": 27,
+      "replacementVisits": 27,
+      "originalMeanValue": -0.18518518518518517,
+      "replacementMeanValue": -0.18518518518518517,
+      "legalConservativeAlternatives": 0,
+      "activationType": "A",
+      "replacementVariant": "none",
+      "protectionChanged": false,
+      "continuations": []
+    },
+    {
+      "stateId": "29b8fdeea1d5cf48c2ee4c1cf79d5004bb54ca02b91ad43fbe7e46b7c163a18e",
+      "gameId": "diagnostic-21",
+      "seed": 1589661156,
+      "turn": 40,
+      "color": "R",
+      "phase": "playing",
+      "scoredComponentCells": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "territoryBefore": 15,
+      "territoryAfterOriginal": 13,
+      "territoryAfterReplacement": 15,
+      "opponentTerritoryBefore": 15,
+      "opponentTerritoryAfterOriginal": 15,
+      "opponentTerritoryAfterReplacement": 15,
+      "deltaDifferentialOriginal": -2,
+      "deltaDifferentialReplacement": 0,
+      "lostCells": [
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "replacementAction": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 4
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "dir": "top"
+      },
+      "originalVisits": 30,
+      "replacementVisits": 28,
+      "originalMeanValue": -0.3,
+      "replacementMeanValue": -0.2857142857142857,
+      "legalConservativeAlternatives": 15,
+      "activationType": "B",
+      "replacementVariant": "expanded",
+      "protectionChanged": true,
+      "continuations": [
+        {
+          "seed": 2224475329,
+          "original": {
+            "territory": 7,
+            "opponentTerritory": 25,
+            "differential": -18,
+            "outcome": "loss",
+            "mobility": 3,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 16
+          },
+          "replacement": {
+            "territory": 29,
+            "opponentTerritory": 18,
+            "differential": 11,
+            "outcome": "win",
+            "mobility": 10,
+            "blockedPieces": 0,
+            "legalActions": 0,
+            "turnsRemaining": 1
+          },
+          "differentialEffect": 29,
+          "classification": "beneficial"
+        },
+        {
+          "seed": 4056041142,
+          "original": {
+            "territory": 27,
+            "opponentTerritory": 18,
+            "differential": 9,
+            "outcome": "win",
+            "mobility": 12,
+            "blockedPieces": 0,
+            "legalActions": 0,
+            "turnsRemaining": 1
+          },
+          "replacement": {
+            "territory": 8,
+            "opponentTerritory": 30,
+            "differential": -22,
+            "outcome": "loss",
+            "mobility": 4,
+            "blockedPieces": 2,
+            "legalActions": 0,
+            "turnsRemaining": 10
+          },
+          "differentialEffect": -31,
+          "classification": "harmful"
+        }
+      ]
+    }
+  ]
+}
