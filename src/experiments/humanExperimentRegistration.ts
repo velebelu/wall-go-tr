@@ -1,8 +1,16 @@
 import { readFile, stat } from 'node:fs/promises'
-import { relative, resolve } from 'node:path'
+import { resolve } from 'node:path'
 import { atomicWriteJson, readRegistry } from './humanExperimentExport'
-import type { HumanExperimentGameInput, HumanExperimentParticipant } from './humanExperimentTypes'
-import { addGame, addParticipant, deriveGameFromTrace } from './humanExperimentValidation'
+import type { HumanExperimentParticipant } from './humanExperimentTypes'
+import { addParticipant } from './humanExperimentValidation'
+
+/**
+ * El registro de partidas vivía aquí y escribía `registry.json` por su cuenta. Se retiró:
+ * no validaba `sessionType`, commits, replay ni `traceSha256`, y dejaba sin actualizar
+ * `metadata.json`, el archivo de partida y la traza oficial, de modo que el experimento
+ * quedaba fallando su propia validación. La única vía admitida es
+ * `ingestLatestHumanExperimentTrace`, que publica los cuatro archivos en una transacción.
+ */
 
 export interface RegistrationWriteHooks {
   beforeRename?: () => Promise<void> | void
@@ -25,35 +33,6 @@ export async function registerParticipantFromFiles(params: {
   const updated = addParticipant(registry, participant)
   await atomicWriteJson(registryPath, updated, params.hooks)
   return { participantId: participant.participantId, registryPath }
-}
-
-export async function registerGameFromFiles(params: {
-  experimentDirectory: string
-  gameJsonPath: string
-  traceJsonPath: string
-  hooks?: RegistrationWriteHooks
-}): Promise<{ gameId: string; registryPath: string }> {
-  const experimentDirectory = resolve(params.experimentDirectory)
-  await requireDirectory(experimentDirectory)
-  const registryPath = resolve(experimentDirectory, 'registry.json')
-  const registry = await readRequiredRegistry(registryPath)
-  const input = JSON.parse(
-    await readFile(resolve(params.gameJsonPath), 'utf8'),
-  ) as HumanExperimentGameInput
-  if (input.experimentId !== registry.experimentId)
-    throw new Error('Game experimentId does not match the experiment registry')
-  const absoluteTrace = resolve(params.traceJsonPath)
-  const traceJson = await readFile(absoluteTrace, 'utf8')
-  const relativeTrace = relative(experimentDirectory, absoluteTrace).replace(/\\/g, '/')
-  const game = await deriveGameFromTrace({
-    registry,
-    input,
-    traceJson,
-    tracePath: relativeTrace,
-    pilot: experimentDirectory.replace(/\\/g, '/').split('/').includes('pilot'),
-  })
-  await atomicWriteJson(registryPath, addGame(registry, game), params.hooks)
-  return { gameId: game.gameId, registryPath }
 }
 
 async function requireDirectory(path: string): Promise<void> {

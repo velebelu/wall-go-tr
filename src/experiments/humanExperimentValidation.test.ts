@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
 import type { HumanMCTSTraceV1 } from '@/utils/humanMCTSTrace'
 import { canonicalStringify, sha256Canonical } from './humanExperimentCanonical'
+import { HumanExperimentError } from './humanExperimentErrors'
 import type { HumanExperimentGameInput, HumanExperimentParticipant } from './humanExperimentTypes'
 import {
   addGame,
@@ -169,7 +170,7 @@ describe('game derivation and registry validation', () => {
     ).rejects.toThrow('configuration')
   })
 
-  it('rejects duplicate game, trace, path, and game number', async () => {
+  it('rejects duplicate game, trace, path, hash, and game number', async () => {
     let registry = addParticipant(emptyRegistry('PILOT'), participant)
     const game = await deriveGameFromTrace({
       registry,
@@ -178,11 +179,33 @@ describe('game derivation and registry validation', () => {
       tracePath: 'traces/test.json',
     })
     registry = addGame(registry, game)
+    const otherIds = { gameId: 'x', traceId: 'x', tracePath: 'x' }
     expect(() => addGame(registry, game)).toThrow('Duplicate gameId')
     expect(() => addGame(registry, { ...game, gameId: 'x' })).toThrow('Duplicate traceId')
     expect(() => addGame(registry, { ...game, gameId: 'x', traceId: 'x' })).toThrow('Trace path')
-    expect(() => addGame(registry, { ...game, gameId: 'x', traceId: 'x', tracePath: 'x' })).toThrow(
+    // Identificadores todos distintos, mismo contenido: el registro sigue rechazándolo.
+    expect(() => addGame(registry, { ...game, ...otherIds })).toThrow('Duplicate traceSha256')
+    expect(() => addGame(registry, { ...game, ...otherIds, traceSha256: 'f'.repeat(64) })).toThrow(
       'Duplicate gameNumber',
     )
+  })
+
+  it('classifies duplicate registrations as ALREADY_REGISTERED', async () => {
+    let registry = addParticipant(emptyRegistry('PILOT'), participant)
+    const game = await deriveGameFromTrace({
+      registry,
+      input: input(1),
+      traceJson: JSON.stringify(trace()),
+      tracePath: 'traces/test.json',
+    })
+    registry = addGame(registry, game)
+    try {
+      addGame(registry, { ...game, gameId: 'x', traceId: 'x', tracePath: 'x' })
+      expect.unreachable('the duplicated trace should have been rejected')
+    } catch (error) {
+      expect(error).toBeInstanceOf(HumanExperimentError)
+      expect((error as HumanExperimentError).code).toBe('ALREADY_REGISTERED')
+      expect((error as HumanExperimentError).retry).toBe('final')
+    }
   })
 })

@@ -2,6 +2,7 @@ import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promis
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { HumanExperimentError } from './humanExperimentErrors'
 import type { IngestionSummary } from './humanExperimentIngestion'
 import type { HumanExperimentRegistry } from './humanExperimentTypes'
 import { HumanExperimentWatcher, nextPendingHumanExperimentGame } from './humanExperimentWatcher'
@@ -127,7 +128,7 @@ describe('human experiment watcher', () => {
     const logger = { log: vi.fn(), error: vi.fn() }
     const ingest = vi
       .fn()
-      .mockRejectedValueOnce(new Error('No compatible trace found'))
+      .mockRejectedValueOnce(new HumanExperimentError('INVALID_TRACE', 'No compatible trace found'))
       .mockResolvedValueOnce(result())
     const watcher = new HumanExperimentWatcher({
       experimentDirectory: paths.root,
@@ -142,10 +143,123 @@ describe('human experiment watcher', () => {
     await writeFile(resolve(paths.downloads, 'traza_humano_mcts_bad.json'), '{"bad":true}')
     await watcher.scanOnce()
     expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('No compatible trace found'))
+    expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('INVALID_TRACE (final)'))
     expect(await readdir(resolve(paths.root, 'quarantine'))).toHaveLength(1)
     await writeFile(resolve(paths.downloads, 'traza_humano_mcts_good.json'), '{"good":true}')
     await watcher.scanOnce()
     expect(ingest).toHaveBeenCalledTimes(2)
+    watcher.close()
+  })
+
+  it('reports an already registered content instead of ingesting it twice', async () => {
+    const paths = await fixture()
+    const logger = { log: vi.fn(), error: vi.fn() }
+    const ingest = vi.fn(async () => result())
+    const watcher = new HumanExperimentWatcher({
+      experimentDirectory: paths.root,
+      downloadDirectory: paths.downloads,
+      expectedCommit: COMMIT,
+      pollIntervalMs: 60_000,
+      stabilityIntervalMs: 1,
+      logger,
+      ingest,
+    })
+    await watcher.start()
+    const file = resolve(paths.downloads, 'traza_humano_mcts_repeat.json')
+    await writeFile(file, '{"same":true}')
+    await watcher.scanOnce()
+    // Misma partida descargada de nuevo: se avisa y no se vuelve a ingerir.
+    await writeFile(resolve(paths.downloads, 'traza_humano_mcts_repeat_copy.json'), '{"same":true}')
+    await watcher.scanOnce()
+    expect(ingest).toHaveBeenCalledTimes(1)
+    expect(logger.log).toHaveBeenCalledWith(expect.stringContaining('ya registrada como P01-1'))
+    watcher.close()
+  })
+
+  it('does not retry a final rejection but says so out loud', async () => {
+    const paths = await fixture()
+    const logger = { log: vi.fn(), error: vi.fn() }
+    const ingest = vi
+      .fn()
+      .mockRejectedValue(new HumanExperimentError('COMMIT_MISMATCH', 'commit distinto'))
+    const watcher = new HumanExperimentWatcher({
+      experimentDirectory: paths.root,
+      downloadDirectory: paths.downloads,
+      expectedCommit: COMMIT,
+      pollIntervalMs: 60_000,
+      stabilityIntervalMs: 1,
+      logger,
+      ingest,
+    })
+    await watcher.start()
+    const file = resolve(paths.downloads, 'traza_humano_mcts_commit.json')
+    await writeFile(file, '{"commit":"wrong"}')
+    await watcher.scanOnce()
+    await writeFile(
+      resolve(paths.downloads, 'traza_humano_mcts_commit_again.json'),
+      '{"commit":"wrong"}',
+    )
+    await watcher.scanOnce()
+    expect(ingest).toHaveBeenCalledTimes(1)
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringContaining('No se reintenta: descargue una traza nueva'),
+    )
+    watcher.close()
+  })
+
+  it('retries a recoverable failure up to the limit without quarantining it early', async () => {
+    const paths = await fixture()
+    const logger = { log: vi.fn(), error: vi.fn() }
+    const ingest = vi
+      .fn()
+      .mockRejectedValue(new HumanExperimentError('TRANSACTION_IO_FAILURE', 'disco ocupado'))
+    const watcher = new HumanExperimentWatcher({
+      experimentDirectory: paths.root,
+      downloadDirectory: paths.downloads,
+      expectedCommit: COMMIT,
+      pollIntervalMs: 60_000,
+      stabilityIntervalMs: 1,
+      logger,
+      ingest,
+    })
+    await watcher.start()
+    const contents = '{"io":"failure"}'
+    for (const name of ['one', 'two', 'three', 'four', 'five']) {
+      await writeFile(resolve(paths.downloads, `traza_humano_mcts_${name}.json`), contents)
+      await watcher.scanOnce()
+    }
+    // Tres intentos como máximo, aunque el mismo contenido reaparezca cinco veces.
+    expect(ingest).toHaveBeenCalledTimes(3)
+    expect(logger.log).toHaveBeenCalledWith(expect.stringContaining('Reintento 2/3'))
+    expect(await readdir(resolve(paths.root, 'quarantine'))).toHaveLength(1)
+    watcher.close()
+  })
+
+  it('recovers a pending transaction when it starts', async () => {
+    const paths = await fixture()
+    const transaction = resolve(paths.root, '.ingestion-transaction')
+    await mkdir(resolve(transaction, 'backups'), { recursive: true })
+    const original = await readFile(resolve(paths.root, 'registry.json'), 'utf8')
+    await writeFile(resolve(transaction, 'backups', 'registry.json'), original)
+    await writeFile(resolve(paths.root, 'registry.json'), '{"partial":true}')
+    await writeFile(
+      resolve(transaction, 'manifest.json'),
+      JSON.stringify({
+        schema: 'HumanExperimentIngestionTransactionV1',
+        state: 'prepared',
+        targets: [{ relativePath: 'registry.json', existed: true }],
+      }),
+    )
+    const watcher = new HumanExperimentWatcher({
+      experimentDirectory: paths.root,
+      downloadDirectory: paths.downloads,
+      expectedCommit: COMMIT,
+      pollIntervalMs: 60_000,
+      logger: { log: vi.fn(), error: vi.fn() },
+      ingest: vi.fn(async () => result()),
+    })
+    await watcher.start()
+    expect(await readFile(resolve(paths.root, 'registry.json'), 'utf8')).toBe(original)
     watcher.close()
   })
 

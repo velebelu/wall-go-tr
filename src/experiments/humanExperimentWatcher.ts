@@ -1,12 +1,30 @@
 import { copyFile, mkdir, readdir, stat } from 'node:fs/promises'
 import { basename, resolve } from 'node:path'
 import { readRegistry } from './humanExperimentExport'
+import {
+  describeErrorClassification,
+  humanExperimentErrorCode,
+  retryPolicyOf,
+  type HumanExperimentErrorCode,
+} from './humanExperimentErrors'
 import { ingestLatestHumanExperimentTrace, type IngestionSummary } from './humanExperimentIngestion'
 import type { HumanExperimentRegistry } from './humanExperimentTypes'
 import { readStableFile } from './humanExperimentDownloadDiscovery'
 import { recoverHumanExperimentTransaction } from './humanExperimentTransaction'
 
 const TRACE_FILE = /^traza_humano_mcts_.*\.json$/i
+/** Tope de reintentos por contenido: acota el ruido sin descartar un fallo pasajero. */
+const MAX_RECOVERABLE_ATTEMPTS = 3
+
+type ContentOutcome =
+  | { status: 'registered'; participantId: string; gameNumber: 1 | 2 }
+  | {
+      status: 'rejected'
+      code?: HumanExperimentErrorCode
+      reason: string
+      retry: 'final' | 'recoverable' | 'inspect'
+      attempts: number
+    }
 
 export interface PendingHumanExperimentGame {
   participantId: string
@@ -85,7 +103,7 @@ export class HumanExperimentWatcher {
   }
   private known = new Map<string, string>()
   private processed = new Set<string>()
-  private processedContent = new Set<string>()
+  private processedContent = new Map<string, ContentOutcome>()
   private timer: NodeJS.Timeout | undefined
   private scanning = false
   private closed = false
@@ -137,6 +155,7 @@ export class HumanExperimentWatcher {
 
   private async processFile(path: string, versionKey: string): Promise<void> {
     this.processed.add(versionKey)
+    let contentKey: string | undefined
     try {
       const stable = await readStableFile(path, {
         stableObservations: 3,
@@ -145,11 +164,11 @@ export class HumanExperimentWatcher {
       this.known.set(path, stable.signature)
       const finalVersionKey = `${path}\0${stable.signature}`
       this.processed.add(finalVersionKey)
-      if (this.processedContent.has(stable.contentSha256)) return
-      this.processedContent.add(stable.contentSha256)
+      contentKey = stable.contentSha256
       if (this.closed) return
       const registry = await readRegistry(resolve(this.params.experimentDirectory, 'registry.json'))
       const pending = nextPendingHumanExperimentGame(registry)
+      if (!this.shouldProcessAgain(contentKey, registry)) return
       if (!pending) {
         this.params.logger?.log('Experimento completo: no quedan partidas pendientes.')
         return
@@ -163,21 +182,103 @@ export class HumanExperimentWatcher {
         explicitTracePath: path,
         expectedCommit: this.params.expectedCommit,
       })
+      this.processedContent.set(contentKey, {
+        status: 'registered',
+        participantId: result.participantId,
+        gameNumber: result.gameNumber,
+      })
       this.params.logger?.log(formatIngestionResult(result))
       await this.showNextPending()
     } catch (error) {
-      if (!this.closed) {
-        const quarantine = resolve(
-          this.params.quarantineDirectory ?? resolve(this.params.experimentDirectory, 'quarantine'),
+      if (this.closed) return
+      const retry = retryPolicyOf(error)
+      const attempts = this.recordRejection(contentKey, error, retry)
+      const exhausted = attempts >= MAX_RECOVERABLE_ATTEMPTS
+      // Sólo se conserva copia de lo que ya no puede prosperar: una traza aún en escritura o
+      // un fallo de E/S se reintentan, y copiarlos sólo llenaría la cuarentena de duplicados.
+      if (retry === 'final' || exhausted) await this.quarantine(path)
+      this.params.logger?.error(
+        `Traza rechazada (${path}) [${describeErrorClassification(error)}]: ${errorMessage(error)}\n` +
+          (retry === 'final'
+            ? 'Rechazo definitivo para este contenido: corrija la partida y descargue una traza nueva.'
+            : exhausted
+              ? `Se agotaron los ${MAX_RECOVERABLE_ATTEMPTS} intentos para este contenido; revise el estado antes de reintentar.`
+              : `Se reintentará si el archivo vuelve a aparecer (intento ${attempts}/${MAX_RECOVERABLE_ATTEMPTS}).`),
+      )
+    }
+  }
+
+  /**
+   * Decide si un contenido ya visto vuelve a intentarse. Antes se descartaba en silencio,
+   * de modo que volver a descargar la traza tras un fallo no producía ninguna señal.
+   */
+  private shouldProcessAgain(contentSha256: string, registry: HumanExperimentRegistry): boolean {
+    const previous = this.processedContent.get(contentSha256)
+    if (!previous) return true
+    if (previous.status === 'registered') {
+      this.params.logger?.log(
+        `Traza ya registrada como ${previous.participantId}-${previous.gameNumber}; ` +
+          'se ignora esta copia para no duplicar la partida.',
+      )
+      return false
+    }
+    const classification = `${previous.code ?? 'UNCLASSIFIED'} (${previous.retry})`
+    if (previous.retry === 'final') {
+      this.params.logger?.error(
+        `Este contenido ya fue rechazado [${classification}]: ${previous.reason}\n` +
+          'No se reintenta: descargue una traza nueva tras corregir la partida.',
+      )
+      return false
+    }
+    if (previous.attempts >= MAX_RECOVERABLE_ATTEMPTS) {
+      this.params.logger?.error(
+        `Este contenido acumula ${previous.attempts} intentos fallidos [${classification}]: ` +
+          `${previous.reason}\nNo se reintenta automáticamente.`,
+      )
+      return false
+    }
+    if (previous.retry === 'inspect') {
+      // `DESTINATION_CONFLICT`: el destino existía. Si la partida ya consta en el registro
+      // fue una publicación correcta; si no, quedó un resto que sí conviene reintentar.
+      const pending = nextPendingHumanExperimentGame(registry)
+      if (!pending) {
+        this.params.logger?.log(
+          'El destino ya está ocupado y no quedan partidas pendientes; no se reintenta.',
         )
-        await mkdir(quarantine, { recursive: true })
-        await copyFile(path, resolve(quarantine, `${Date.now()}-${basename(path)}`))
-        this.params.logger?.error(
-          `Traza rechazada (${path}): ${errorMessage(error)}\n` +
-            'El vigilante continúa activo; corrija la partida y descargue una traza nueva.',
-        )
+        return false
       }
     }
+    this.params.logger?.log(
+      `Reintento ${previous.attempts + 1}/${MAX_RECOVERABLE_ATTEMPTS} tras el fallo previo ` +
+        `[${classification}]: ${previous.reason}`,
+    )
+    return true
+  }
+
+  private recordRejection(
+    contentSha256: string | undefined,
+    error: unknown,
+    retry: 'final' | 'recoverable' | 'inspect',
+  ): number {
+    if (!contentSha256) return 1
+    const previous = this.processedContent.get(contentSha256)
+    const attempts = previous?.status === 'rejected' ? previous.attempts + 1 : 1
+    this.processedContent.set(contentSha256, {
+      status: 'rejected',
+      code: humanExperimentErrorCode(error),
+      reason: errorMessage(error),
+      retry,
+      attempts,
+    })
+    return attempts
+  }
+
+  private async quarantine(path: string): Promise<void> {
+    const directory = resolve(
+      this.params.quarantineDirectory ?? resolve(this.params.experimentDirectory, 'quarantine'),
+    )
+    await mkdir(directory, { recursive: true })
+    await copyFile(path, resolve(directory, `${Date.now()}-${basename(path)}`))
   }
 
   private async showNextPending(): Promise<void> {

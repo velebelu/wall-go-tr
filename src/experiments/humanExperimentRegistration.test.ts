@@ -1,8 +1,8 @@
-import { access, copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
-import { registerGameFromFiles, registerParticipantFromFiles } from './humanExperimentRegistration'
+import { registerParticipantFromFiles } from './humanExperimentRegistration'
 import type { HumanExperimentParticipant, HumanExperimentRegistry } from './humanExperimentTypes'
 
 const temporaryDirectories: string[] = []
@@ -137,41 +137,14 @@ describe('explicit experiment root registration', () => {
     expect(await readFile(registryPath, 'utf8')).toBe(before)
   })
 
-  it('registers a nested game against the explicit root registry', async () => {
-    const paths = await fixture()
-    await registerParticipantFromFiles({
-      experimentDirectory: paths.root,
-      participantJsonPath: paths.participantPath,
-    })
-    const gamePath = resolve(paths.participantDirectory, 'game-1.json')
-    const traceDirectory = resolve(paths.participantDirectory, 'traces')
-    const tracePath = resolve(traceDirectory, 'game-1.json')
-    await mkdir(traceDirectory)
-    await writeFile(
-      gamePath,
-      JSON.stringify({
-        schema: 'HumanExperimentGameInputV1',
-        experimentId,
-        participantId: 'P01',
-        gameNumber: 1,
-        sourceCommit: '60d45a283e4b6f91af32f307a2bb613ffad76970',
-        incidents: [],
-      }),
+  it('no longer exposes a direct game registration entry point', async () => {
+    const registration: Record<string, unknown> = await import('./humanExperimentRegistration')
+    expect(Object.keys(registration)).not.toContain('registerGameFromFiles')
+  })
+
+  it('fails explicitly when the retired register-game command is executed', async () => {
+    await expect(import('@/training/registerHumanExperimentGame')).rejects.toThrow(
+      'human-experiment:register-game fue retirado',
     )
-    await copyFile(resolve('data/human-experiment/real-pilot/traces/game-1.json'), tracePath)
-    await registerGameFromFiles({
-      experimentDirectory: paths.root,
-      gameJsonPath: gamePath,
-      traceJsonPath: tracePath,
-    })
-    const registry = JSON.parse(
-      await readFile(resolve(paths.root, 'registry.json'), 'utf8'),
-    ) as HumanExperimentRegistry
-    expect(registry.games).toHaveLength(1)
-    await expect(
-      access(resolve(paths.participantDirectory, 'registry.json')),
-    ).rejects.toMatchObject({
-      code: 'ENOENT',
-    })
   })
 })

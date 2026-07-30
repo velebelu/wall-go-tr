@@ -208,6 +208,17 @@ describe('validateHumanExperimentV3State', () => {
     expectInvalid(state, 'Invalid session was introduced')
   })
 
+  it('rejects a quarantined trace re-registered under a different gameId', () => {
+    const state = validState()
+    register(state, 'P01')
+    const manifest = invalidManifest()
+    state.invalidSessions.push(manifest)
+    // Identificadores nuevos, contenido idéntico: es exactamente lo que la comprobación
+    // anterior por ruta no podía detectar.
+    registerGame(state, { ...game('P01', 1, 'g_renamed'), traceSha256: manifest.traceSha256 })
+    expectInvalid(state, 'Invalid session trace was registered as official')
+  })
+
   it('rejects an unknown participant', () => {
     const state = validState()
     const unknown = { ...participant(1), participantId: 'P09' }

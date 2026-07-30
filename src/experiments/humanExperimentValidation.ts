@@ -10,6 +10,7 @@ import {
   createExperimentalGameId,
   sha256Canonical,
 } from './humanExperimentCanonical'
+import { HumanExperimentError, type HumanExperimentErrorCode } from './humanExperimentErrors'
 import type {
   HumanExperimentGame,
   HumanExperimentGameInput,
@@ -78,7 +79,8 @@ export async function deriveGameFromTrace(params: {
   if (!trace.final) fail('Trace is not finalized')
   const replay = replayHumanMCTSTrace(trace)
   if (!replay.ok)
-    fail(
+    failWith(
+      'REPLAY_MISMATCH',
       replay.divergence
         ? `Trace replay failed at turn ${replay.divergence.turnIndex}: ${replay.divergence.kind}`
         : 'Trace replay failed: unknown divergence',
@@ -167,10 +169,17 @@ export function addGame(
   if (!participant) fail('Participant does not exist')
   if (registry.games.filter((row) => row.participantId === game.participantId).length >= 2)
     fail('Participant already has two games')
-  if (registry.games.some((row) => row.gameId === game.gameId)) fail('Duplicate gameId')
-  if (registry.games.some((row) => row.traceId === game.traceId)) fail('Duplicate traceId')
+  if (registry.games.some((row) => row.gameId === game.gameId))
+    failWith('ALREADY_REGISTERED', 'Duplicate gameId')
+  if (registry.games.some((row) => row.traceId === game.traceId))
+    failWith('ALREADY_REGISTERED', 'Duplicate traceId')
   if (registry.games.some((row) => row.tracePath === game.tracePath))
-    fail('Trace path already used')
+    failWith('ALREADY_REGISTERED', 'Trace path already used')
+  // El contenido manda sobre los identificadores: sin esto, la misma traza podía volver a
+  // registrarse bajo un gameId nuevo y el invariante "una traza, una partida" sólo se
+  // sostenía dentro de la ingesta, no en el propio registro.
+  if (registry.games.some((row) => row.traceSha256 === game.traceSha256))
+    failWith('ALREADY_REGISTERED', 'Duplicate traceSha256')
   if (
     registry.games.some(
       (row) => row.participantId === game.participantId && row.gameNumber === game.gameNumber,
@@ -257,4 +266,8 @@ function nonnegativeInteger(value: number, field: string): void {
 }
 function fail(message: string): never {
   throw new Error(message)
+}
+/** Igual que `fail`, pero adjunta el código que el vigilante usa para decidir si reintenta. */
+function failWith(code: HumanExperimentErrorCode, message: string): never {
+  throw new HumanExperimentError(code, message)
 }

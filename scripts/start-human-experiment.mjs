@@ -16,10 +16,29 @@ const OPERATIONAL_EXPERIMENT_PATHS = [
   /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/auxiliary\/game-[12]\/[^/]+$/,
   /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/checklist\.md$/,
   // Non-playable operational infrastructure may evolve without changing the frozen game runtime.
+  //
+  // El congelado científico cubre IA, MCTS, reglas, configuración y runtime jugable. La capa
+  // operacional de recogida, ingesta, validación, cuarentena y conservación admite
+  // correcciones auditadas que no alteran las condiciones experimentales. Las rutas se
+  // enumeran una a una a propósito: un patrón amplio dejaría de ser una lista revisable.
   /^src\/experiments\/humanExperiment(Ingestion|Transaction|Watcher)(\.test)?\.ts$/,
   /^src\/training\/validateHumanExperimentV3\.test\.ts$/,
   /^src\/experiments\/humanExperimentParticipantSetup\.test\.ts$/,
   /^scripts\/start-human-experiment\.mjs$/,
+  // Endurecimiento operacional posterior al congelado (lote de correcciones 1-6).
+  /^src\/experiments\/humanExperimentErrors\.ts$/,
+  /^src\/experiments\/humanExperimentDownloadDiscovery(\.test)?\.ts$/,
+  /^src\/experiments\/humanExperimentRegistration(\.test)?\.ts$/,
+  // Contiene la definición de partida válida: se admite por la unicidad de traceSha256 y
+  // queda declarado en el TR como capa de admisión de datos, no como runtime congelado.
+  /^src\/experiments\/humanExperimentValidation(\.test)?\.ts$/,
+  /^src\/training\/validateHumanExperimentV3\.ts$/,
+  /^src\/training\/registerHumanExperimentGame\.ts$/,
+  /^src\/training\/recoverHumanExperimentTransaction\.ts$/,
+  /^src\/training\/watchHumanExperiment\.ts$/,
+  /^docs\/human-experiment-protocol\.md$/,
+  /^package\.json$/,
+  /^\.gitignore$/,
 ]
 
 export function validateFullCommit(value) {
@@ -34,6 +53,34 @@ export function getGitCommit(run = execFileSync) {
   } catch (error) {
     throw new Error(
       `Unable to determine Git commit: ${error instanceof Error ? error.message : error}`,
+    )
+  }
+}
+
+/**
+ * Recupera una ingesta interrumpida ANTES de comprobar la limpieza del árbol.
+ *
+ * Una transacción en estado `prepared` deja parte de los renombrados hechos, así que
+ * `registry.json` y `metadata.json` contienen cambios reales a medio publicar. Comprobar
+ * primero la limpieza abortaba la sesión y dejaba el experimento en un punto muerto: la
+ * recuperación vive en el vigilante, que ya no llegaba a arrancar.
+ */
+export function recoverPendingIngestionTransaction(run = execFileSync, node = process.execPath) {
+  try {
+    run(
+      node,
+      [
+        '--import',
+        './scripts/run-ts-node-esm.mjs',
+        'src/training/recoverHumanExperimentTransaction.ts',
+      ],
+      { stdio: 'inherit' },
+    )
+  } catch (error) {
+    throw new Error(
+      'No se pudo recuperar la transacción de ingesta pendiente. Ejecute ' +
+        '`npm run human-experiment:recover-transaction` y revise el resultado antes de continuar: ' +
+        `${error instanceof Error ? error.message : error}`,
     )
   }
 }
@@ -76,6 +123,7 @@ export function startHumanExperimentServer({
   read = readFileSync,
 } = {}) {
   const commit = getGitCommit(run)
+  recoverPendingIngestionTransaction(run)
   assertCleanWorktree(run)
   console.log(`Human experiment commit:\n${commit}`)
   const sessionEnvironment = resolveSessionEnvironment(

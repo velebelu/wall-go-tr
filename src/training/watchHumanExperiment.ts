@@ -8,10 +8,18 @@ const downloadDirectory =
 const expectedCommit = process.env.VITE_GIT_COMMIT
 if (!expectedCommit) throw new Error('VITE_GIT_COMMIT is required')
 
+// Cuarentena bruta y operativa: material rechazado, no versionado y borrable. El registro
+// auditado de sesiones invalidadas es otra cosa y vive versionado en
+// `data/human-experiment/invalid-sessions-v3/`. Se declara aquí de forma explícita en lugar
+// de heredar el valor por defecto, para que la ruta ignorada por Git y la que usa el
+// vigilante sean visiblemente la misma.
+const quarantineDirectory = resolve(experimentDirectory, 'quarantine')
+
 const watcher = new HumanExperimentWatcher({
   experimentDirectory,
   downloadDirectory,
   expectedCommit,
+  quarantineDirectory,
   logger: console,
 })
 

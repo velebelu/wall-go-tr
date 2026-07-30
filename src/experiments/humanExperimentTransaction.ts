@@ -1,5 +1,6 @@
 import { access, copyFile, mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
-import { dirname, resolve } from 'node:path'
+import { dirname, isAbsolute, relative, resolve, sep } from 'node:path'
+import { HumanExperimentError } from './humanExperimentErrors'
 
 const TRANSACTION_DIRECTORY = '.ingestion-transaction'
 
@@ -66,7 +67,14 @@ export async function publishHumanExperimentTransaction(params: {
     await rm(transaction, { recursive: true, force: true })
   } catch (error) {
     await rollback(root, transaction, manifest)
-    throw error
+    // El estado en disco queda restaurado, así que el fallo es recuperable: se conserva el
+    // mensaje original y sólo se añade la clasificación que el vigilante necesita.
+    if (error instanceof HumanExperimentError) throw error
+    throw new HumanExperimentError(
+      'TRANSACTION_IO_FAILURE',
+      error instanceof Error ? error.message : String(error),
+      { cause: error },
+    )
   }
 }
 
@@ -111,12 +119,31 @@ async function writeManifest(transaction: string, manifest: TransactionManifest)
   await rename(temporary, path)
 }
 
-function resolveSafe(root: string, relativePath: string): string {
-  const target = resolve(root, relativePath)
-  const prefix = `${resolve(root)}\\`
-  if (target !== resolve(root) && !target.startsWith(prefix))
-    throw new Error(`Unsafe transaction path: ${relativePath}`)
+/**
+ * Resuelve una ruta relativa dentro de `root` aplicando las reglas del sistema anfitrión.
+ *
+ * Se apoya en `isAbsolute`/`relative`/`sep` en lugar de comparar prefijos con un separador
+ * fijo: la versión anterior incrustaba `\\` y, en POSIX, rechazaba cualquier ruta. No se
+ * normaliza la barra invertida a mano de forma deliberada, porque en POSIX es un carácter
+ * legítimo dentro de un nombre de archivo y no un separador.
+ */
+export function resolveSafeTransactionPath(root: string, relativePath: string): string {
+  const base = resolve(root)
+  if (isAbsolute(relativePath)) throw unsafePath(relativePath)
+  const target = resolve(base, relativePath)
+  const offset = relative(base, target)
+  if (offset === '') return target
+  if (isAbsolute(offset) || offset === '..' || offset.startsWith(`..${sep}`))
+    throw unsafePath(relativePath)
   return target
+}
+
+function unsafePath(relativePath: string): HumanExperimentError {
+  return new HumanExperimentError('INVALID_TRACE', `Unsafe transaction path: ${relativePath}`)
+}
+
+function resolveSafe(root: string, relativePath: string): string {
+  return resolveSafeTransactionPath(root, relativePath)
 }
 
 async function exists(path: string): Promise<boolean> {

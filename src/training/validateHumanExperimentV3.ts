@@ -277,8 +277,11 @@ function validateInvalidSessions(state: HumanExperimentV3State): void {
     if (!/^[0-9a-f]{64}$/i.test(manifest.traceSha256 ?? '')) fail('Invalid-session trace SHA-256')
     if (state.registry.games.some((game) => game.gameId === manifest.gameId))
       fail('Invalid session was introduced into the official sample')
-    if (state.officialTracePaths.some((path) => path.includes(manifest.gameId!)))
-      fail('Invalid session has an official trace')
+    // La comprobación anterior buscaba el gameId dentro de la ruta de la traza, pero las rutas
+    // oficiales son `participants/P0X/traces/game-N.json` y nunca lo contienen: no podía fallar
+    // nunca. El vínculo real entre manifiesto y registro es el contenido de la traza.
+    if (state.registry.games.some((game) => game.traceSha256 === manifest.traceSha256))
+      fail('Invalid session trace was registered as official')
   }
 }
 
