@@ -166,6 +166,15 @@ describe('validateHumanExperimentV3State', () => {
     expectInvalid(state, 'metadata.gameCount mismatch')
   })
 
+  it('rejects an official game file that differs from the registry', () => {
+    const state = validState()
+    register(state, 'P01')
+    const registered = game()
+    registerGame(state, registered)
+    state.gameFiles['P01/1'] = { ...registered, turnCount: registered.turnCount + 1 }
+    expectInvalid(state, 'Registered game file mismatch')
+  })
+
   it('rejects a duplicated participant', () => {
     const state = validState()
     register(state, 'P01', 'P01')
