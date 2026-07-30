@@ -302,7 +302,7 @@ describe('human experiment start script', () => {
     ).toThrow('does not match')
   })
 
-  it('reproduces ee39b9b and reaches both official process spawns without starting them', async () => {
+  it('permanently blocks V3 official sessions before starting any process', async () => {
     // @ts-expect-error The runtime script intentionally has no declaration file.
     const module = await import('../../scripts/start-human-experiment.mjs')
     const runtime = 'ee39b9b888bc0d31a7ce8ef08b9d64f9bb1c1da6'
@@ -333,32 +333,28 @@ describe('human experiment start script', () => {
       participants: [{ participantId: 'P01', colorOrder: ['R', 'B'] }],
       games: [],
     }
-    const result = module.startHumanExperimentServer({
-      run: (_command: string, args: string[]) => {
-        if (args[0] === 'rev-parse') return runtime
-        if (args[0] === 'status') return ''
-        if (args[0] === 'rev-list') return `${binding}\n${runtime}`
-        if (args[0] === 'show' && args[1] === '-s') return implementation
-        if (args[0] === 'show') return JSON.stringify(metadata)
-        if (args[0] === 'diff-tree') return module.CODE_FREEZE_METADATA_PATH
-        if (args[0] === 'diff')
-          return [
-            'data/human-experiment/final-2026-v3/registry.json',
-            'data/human-experiment/final-2026-v3/participants/P01/participant.json',
-          ].join('\n')
-        return ''
-      },
-      read: (path: string) =>
-        path.endsWith('metadata.json') ? JSON.stringify(metadata) : JSON.stringify(registry),
-      spawnProcess,
-      platform: 'linux',
-      environment: {},
-      argv: ['official', 'P01', '1'],
-    })
-    expect(result.commit).toBe(runtime)
-    expect(spawnProcess).toHaveBeenCalledTimes(2)
-    expect(result.watcher).toBe(children[1])
-    result.close()
+    expect(() =>
+      module.startHumanExperimentServer({
+        run: (_command: string, args: string[]) => {
+          if (args[0] === 'rev-parse') return runtime
+          if (args[0] === 'status') return ''
+          if (args[0] === 'rev-list') return `${binding}\n${runtime}`
+          if (args[0] === 'show' && args[1] === '-s') return implementation
+          if (args[0] === 'show') return JSON.stringify(metadata)
+          if (args[0] === 'diff-tree') return module.CODE_FREEZE_METADATA_PATH
+          if (args[0] === 'diff') return ''
+          return ''
+        },
+        read: (path: string) =>
+          path.endsWith('metadata.json') ? JSON.stringify(metadata) : JSON.stringify(registry),
+        spawnProcess,
+        platform: 'linux',
+        environment: {},
+        argv: ['official', 'P01', '1'],
+      }),
+    ).toThrow('archived and closed permanently')
+    expect(spawnProcess).not.toHaveBeenCalled()
+    expect(children).toHaveLength(0)
   })
 
   it.each(['src/components/Game.tsx'])('rejects post-freeze functional change %s', async (path) => {

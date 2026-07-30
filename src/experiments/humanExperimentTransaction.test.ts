@@ -267,7 +267,7 @@ describe('launcher recovery ordering', () => {
       }
       return ''
     }
-    expect(() => startHumanExperimentServer({ run, argv: ['official', 'P01', '2'] })).toThrow(
+    expect(() => startHumanExperimentServer({ run, argv: ['diagnostic', 'R'] })).toThrow(
       'congelado',
     )
     expect(calls).toEqual(['recover', 'clean-worktree'])

@@ -11,6 +11,7 @@ import {
   humanExperimentErrorCode,
   type HumanExperimentErrorCode,
 } from './humanExperimentErrors'
+import { TRANSITION_MISMATCH_SCHEMA } from './humanExperimentTransitionDiagnostics'
 
 /** Espera mínima real entre reintentos: evita el bucle activo cuando `intervalMs` es 0. */
 const MINIMUM_WAIT_MS = 5
@@ -164,6 +165,11 @@ export async function readTraceCandidate(
       { cause: error },
     )
   }
+  if ((parsed as { schema?: unknown } | null)?.schema === TRANSITION_MISMATCH_SCHEMA)
+    throw new HumanExperimentError(
+      'INVALID_TRACE',
+      'Transition mismatch diagnostics are non-official and cannot be ingested',
+    )
   if ((parsed as { schema?: unknown } | null)?.schema !== HUMAN_MCTS_TRACE_SCHEMA)
     throw new NotATraceFileError(path)
   let trace: HumanMCTSTraceV1
