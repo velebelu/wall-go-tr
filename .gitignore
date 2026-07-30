@@ -26,6 +26,16 @@ dist-ssr
 # Reportes de cobertura generados por vitest
 coverage
 
+# Estado interno de la ingesta transaccional: efímero y nunca versionado. Se recupera solo
+# al arrancar una sesión oficial o con `npm run human-experiment:recover-transaction`.
+.ingestion-transaction/
+
+# Cuarentena bruta del vigilante: copias de trazas RECHAZADAS, que por definición no forman
+# parte de la muestra. El registro auditado de sesiones invalidadas sí se versiona y está en
+# data/human-experiment/invalid-sessions-v3/. Se ignora esta ruta concreta, no un patrón
+# general, para que ningún dato real del experimento quede oculto.
+data/human-experiment/final-2026-v3/quarantine/
+
 /REDACTADO TR.pdf
 
 # Corpus diagnóstico completo: se conserva localmente; Git sólo guarda informes,

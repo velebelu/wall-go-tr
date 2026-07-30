@@ -68,11 +68,17 @@ desde la carpeta que contiene la plantilla:
 
 ```powershell
 npm run human-experiment:register-participant -- <experiment-directory> <participant.json>
-npm run human-experiment:register-game -- <experiment-directory> <game.json> <trace.json>
 ```
 
 `<experiment-directory>/registry.json` debe existir previamente y su `experimentId` debe coincidir
-con el de la entrada. Los comandos no crean registros secundarios junto a las plantillas.
+con el de la entrada. El comando no crea registros secundarios junto a las plantillas.
+
+`human-experiment:register-game` fue retirado y ahora falla con una indicación explícita.
+Escribía `registry.json` por su cuenta sin validar `sessionType`, commits, replay ni
+`traceSha256`, y sin actualizar `metadata.json`, el archivo de partida ni la traza oficial, de
+modo que dejaba el experimento fallando `human-experiment:validate-v3`. El registro de partidas
+se hace únicamente con `human-experiment:ingest-latest`, que publica traza, registro, archivo de
+partida y metadatos dentro de una sola transacción recuperable.
 
 Para la recogida definitiva se dispone de un flujo CLI abreviado:
 
@@ -91,6 +97,41 @@ como tercer argumento para resolver una descarga ambigua.
 
 La exportación produce `participants.csv`, `games.csv`, `summary.json` y `manifest.json`. El
 manifiesto contiene hashes SHA-256, commits, conteos y el resultado de validación.
+
+## Trazas rechazadas: cuarentena bruta y sesiones invalidadas
+
+Son dos cosas distintas y conviene no confundirlas:
+
+|                        | `final-2026-v3/quarantine/`         | `invalid-sessions-v3/`                  |
+| ---------------------- | ----------------------------------- | --------------------------------------- |
+| Quién escribe          | El vigilante, automáticamente       | El operador, de forma manual y auditada |
+| Contenido              | Copia bruta de la traza rechazada   | Manifiesto curado de la sesión          |
+| Versionado en Git      | No (ignorado)                       | Sí                                      |
+| Lo comprueba `validate-v3` | No                              | Sí                                      |
+| Ciclo de vida          | Efímero, se puede borrar            | Permanente, forma parte del TR          |
+
+El recorrido normal es: el vigilante rechaza una traza, guarda una copia en `quarantine/`, el
+operador la examina y, si la sesión se declara inválida, escribe el manifiesto correspondiente en
+`invalid-sessions-v3/` con `status`, `validity`, `traceSha256` y el motivo. Sólo ese manifiesto
+tiene valor documental; la copia bruta es material de trabajo.
+
+La cuarentena guarda únicamente lo que ya no puede prosperar: un rechazo definitivo o un
+contenido que agotó sus reintentos. Un archivo aún en escritura o un fallo de entrada/salida se
+reintentan sin dejar copia, hasta tres veces por contenido.
+
+`quarantine/` y `.ingestion-transaction/` están ignorados por Git de forma nominal. Es
+deliberado que sean sólo esas dos rutas: ningún dato real del experimento queda oculto, y a
+cambio una traza rechazada deja de bloquear el arranque de la siguiente sesión oficial, que
+exige un árbol de trabajo limpio.
+
+## Congelado científico y capa operacional
+
+El congelado cubre la IA, el MCTS, las reglas, la configuración y el runtime jugable: nada de eso
+cambia mientras se recogen partidas. La capa operacional —recogida, ingesta, validación,
+cuarentena y conservación de los datos— sí admite correcciones auditadas, siempre que no alteren
+las condiciones experimentales. Las rutas concretas que pueden cambiar tras el congelado están
+enumeradas una a una en `OPERATIONAL_EXPERIMENT_PATHS`, dentro de
+`scripts/start-human-experiment.mjs`, y el lanzador aborta si se modifica cualquier otra.
 
 ## Análisis y limitaciones
 
