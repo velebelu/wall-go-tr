@@ -22,9 +22,10 @@
     "conclusion": "The redundant behaviour exists, but the filter frequently removes strategically superior actions."
   },
   "codeFreeze": {
-    "status": "frozen",
-    "implementationCommit": "d24414802111390f0d4cffc5cb87b0de56932904",
-    "experimentPreparationCommit": "d24414802111390f0d4cffc5cb87b0de56932904",
-    "relation": "Both fields identify the definitive functional implementation; the code-freeze binding is its immediate child commit and modifies only this metadata file."
-  }
+  "status": "frozen",
+  "aiImplementationCommit": "d24414802111390f0d4cffc5cb87b0de56932904",
+  "implementationCommit": "dcef2ea5ce3394920a667ce1eeef18f84030c2a8",
+  "experimentPreparationCommit": "dcef2ea5ce3394920a667ce1eeef18f84030c2a8",
+  "relation": "The frozen AI remains d24414802111390f0d4cffc5cb87b0de56932904; the implementation and experiment preparation commits identify the corrected experimental runtime, and the code-freeze binding is its immediate metadata-only child."
+}
 }
