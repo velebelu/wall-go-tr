@@ -5,16 +5,21 @@ import { fileURLToPath } from 'node:url'
 
 export const CURRENT_EXPERIMENT_ID = 'WGTR-HUMAN-FINAL-2026-V3'
 export const CURRENT_EXPERIMENT_DIRECTORY = 'data/human-experiment/final-2026-v3'
-export const CODE_FREEZE_METADATA_PATH =
-  'data/human-experiment/final-2026-v3/metadata.json'
+export const CODE_FREEZE_METADATA_PATH = 'data/human-experiment/final-2026-v3/metadata.json'
 
 const OPERATIONAL_EXPERIMENT_PATHS = [
+  /^data\/human-experiment\/final-2026-v3\/metadata\.json$/,
   /^data\/human-experiment\/final-2026-v3\/registry\.json$/,
   /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/participant\.json$/,
   /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/game-[12]\.json$/,
   /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/traces\/[^/]+$/,
   /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/auxiliary\/game-[12]\/[^/]+$/,
   /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/checklist\.md$/,
+  // Non-playable operational infrastructure may evolve without changing the frozen game runtime.
+  /^src\/experiments\/humanExperiment(Ingestion|Transaction|Watcher)(\.test)?\.ts$/,
+  /^src\/training\/validateHumanExperimentV3\.test\.ts$/,
+  /^src\/experiments\/humanExperimentParticipantSetup\.test\.ts$/,
+  /^scripts\/start-human-experiment\.mjs$/,
 ]
 
 export function validateFullCommit(value) {
@@ -272,8 +277,7 @@ export function validateOfficialCodeFreeze(metadata, runtimeCommit, git = {}) {
     }
   }
   try {
-    if (!(git.isAncestor ?? (() => true))(implementation, runtime))
-      throw new Error('not ancestor')
+    if (!(git.isAncestor ?? (() => true))(implementation, runtime)) throw new Error('not ancestor')
   } catch {
     throw new Error('Runtime commit does not descend from the V3 implementation commit')
   }
@@ -286,10 +290,7 @@ export function validateOfficialCodeFreeze(metadata, runtimeCommit, git = {}) {
   const bindingPaths = (git.changedPathsInCommit ?? (() => [CODE_FREEZE_METADATA_PATH]))(binding)
     .map(normalizeGitPath)
     .sort()
-  if (
-    bindingPaths.length !== 1 ||
-    bindingPaths[0] !== CODE_FREEZE_METADATA_PATH
-  )
+  if (bindingPaths.length !== 1 || bindingPaths[0] !== CODE_FREEZE_METADATA_PATH)
     throw new Error('V3 code-freeze binding must modify only metadata.json')
   if (git.fileAtCommit) {
     let boundMetadata

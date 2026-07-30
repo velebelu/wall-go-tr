@@ -15,6 +15,7 @@ import {
   type HumanMCTSTraceV1,
 } from '@/utils/humanMCTSTrace'
 import { ingestLatestHumanExperimentTrace } from './humanExperimentIngestion'
+import { recoverHumanExperimentTransaction } from './humanExperimentTransaction'
 import type { HumanExperimentRegistry } from './humanExperimentTypes'
 
 const COMMIT = 'a'.repeat(40)
@@ -111,6 +112,14 @@ async function fixture() {
   }
   await writeFile(resolve(root, 'registry.json'), JSON.stringify(registry))
   await writeFile(
+    resolve(root, 'metadata.json'),
+    JSON.stringify({
+      schema: 'HumanExperimentMetadataV2',
+      experimentId: registry.experimentId,
+      gameCount: 0,
+    }),
+  )
+  await writeFile(
     resolve(participantDirectory, 'game-1.json'),
     JSON.stringify({
       schema: 'HumanExperimentGameInputV1',
@@ -192,6 +201,12 @@ describe('latest trace ingestion', () => {
       await readFile(resolve(paths.root, 'registry.json'), 'utf8'),
     ) as HumanExperimentRegistry
     expect(registry.games).toHaveLength(1)
+    expect(
+      JSON.parse(await readFile(resolve(paths.participantDirectory, 'game-1.json'), 'utf8')),
+    ).toEqual(registry.games[0])
+    expect(JSON.parse(await readFile(resolve(paths.root, 'metadata.json'), 'utf8')).gameCount).toBe(
+      1,
+    )
   })
 
   it('imports P02 game 2 correctly after its first game in an isolated fixture', async () => {
@@ -305,6 +320,24 @@ describe('latest trace ingestion', () => {
     ).rejects.toThrow('Trace replay failed at turn 0: state-after')
   })
 
+  it('rejects a trace whose expected canonical hash is incorrect', async () => {
+    const paths = await fixture()
+    const inputPath = resolve(paths.participantDirectory, 'game-1.json')
+    const input = JSON.parse(await readFile(inputPath, 'utf8'))
+    input.traceSha256 = '0'.repeat(64)
+    await writeFile(inputPath, JSON.stringify(input))
+    const source = await writeTrace(paths.downloads)
+    await expect(
+      ingestLatestHumanExperimentTrace({
+        experimentDirectory: paths.root,
+        participantId: 'P01',
+        gameNumber: 1,
+        explicitTracePath: source,
+        expectedCommit: COMMIT,
+      }),
+    ).rejects.toThrow('Trace SHA-256 mismatch')
+  })
+
   it('rejects a trace from the archived experiment when ingesting into v2', async () => {
     const paths = await fixture()
     const registryPath = resolve(paths.root, 'registry.json')
@@ -402,7 +435,7 @@ describe('latest trace ingestion', () => {
     ).rejects.toThrow('Pilot traces cannot be ingested')
   })
 
-  it('rolls back the copied destination when ingestion fails', async () => {
+  it('does not publish any file when preparation fails', async () => {
     const paths = await fixture()
     await writeTrace(paths.downloads)
     const destination = resolve(paths.participantDirectory, 'traces', 'game-1.json')
@@ -415,7 +448,7 @@ describe('latest trace ingestion', () => {
         downloadDirectories: [paths.downloads],
         expectedCommit: COMMIT,
         hooks: {
-          afterCopy: () => {
+          beforePublish: () => {
             throw new Error('simulated failure')
           },
         },
@@ -423,5 +456,61 @@ describe('latest trace ingestion', () => {
     ).rejects.toThrow('simulated failure')
     await expect(access(destination)).rejects.toMatchObject({ code: 'ENOENT' })
     expect(await readFile(resolve(paths.root, 'registry.json'), 'utf8')).toBe(before)
+  })
+
+  it('rolls back every file after a partial publication failure', async () => {
+    const paths = await fixture()
+    await writeTrace(paths.downloads)
+    const watched = [
+      resolve(paths.root, 'registry.json'),
+      resolve(paths.root, 'metadata.json'),
+      resolve(paths.participantDirectory, 'game-1.json'),
+    ]
+    const before = await Promise.all(watched.map((path) => readFile(path, 'utf8')))
+    await expect(
+      ingestLatestHumanExperimentTrace({
+        experimentDirectory: paths.root,
+        participantId: 'P01',
+        gameNumber: 1,
+        downloadDirectories: [paths.downloads],
+        expectedCommit: COMMIT,
+        hooks: {
+          afterPublish: (_path, index) => {
+            if (index === 1) throw new Error('partial publication failure')
+          },
+        },
+      }),
+    ).rejects.toThrow('partial publication failure')
+    expect(await Promise.all(watched.map((path) => readFile(path, 'utf8')))).toEqual(before)
+    await expect(
+      access(resolve(paths.participantDirectory, 'traces', 'game-1.json')),
+    ).rejects.toMatchObject({ code: 'ENOENT' })
+  })
+
+  it('recovers a prepared transaction by restoring backups and absent targets', async () => {
+    const paths = await fixture()
+    const transaction = resolve(paths.root, '.ingestion-transaction')
+    const backup = resolve(transaction, 'backups', 'registry.json')
+    await mkdir(resolve(transaction, 'backups'), { recursive: true })
+    const original = await readFile(resolve(paths.root, 'registry.json'), 'utf8')
+    await writeFile(backup, original)
+    await writeFile(resolve(paths.root, 'registry.json'), '{"partial":true}')
+    await writeFile(resolve(paths.participantDirectory, 'traces', 'game-1.json'), '{}')
+    await writeFile(
+      resolve(transaction, 'manifest.json'),
+      JSON.stringify({
+        schema: 'HumanExperimentIngestionTransactionV1',
+        state: 'prepared',
+        targets: [
+          { relativePath: 'registry.json', existed: true },
+          { relativePath: 'participants/P01/traces/game-1.json', existed: false },
+        ],
+      }),
+    )
+    await expect(recoverHumanExperimentTransaction(paths.root)).resolves.toBe(true)
+    expect(await readFile(resolve(paths.root, 'registry.json'), 'utf8')).toBe(original)
+    await expect(
+      access(resolve(paths.participantDirectory, 'traces', 'game-1.json')),
+    ).rejects.toMatchObject({ code: 'ENOENT' })
   })
 })

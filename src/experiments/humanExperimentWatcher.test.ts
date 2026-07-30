@@ -204,6 +204,14 @@ describe('human experiment watcher', () => {
     isolatedRegistry.participants = [{ ...isolatedRegistry.participants[0], experimentId }]
     await writeFile(resolve(paths.root, 'registry.json'), JSON.stringify(isolatedRegistry))
     await writeFile(
+      resolve(paths.root, 'metadata.json'),
+      JSON.stringify({
+        schema: 'HumanExperimentMetadataV2',
+        experimentId,
+        gameCount: 0,
+      }),
+    )
+    await writeFile(
       resolve(participantDirectory, 'game-1.json'),
       JSON.stringify({
         schema: 'HumanExperimentGameInputV1',

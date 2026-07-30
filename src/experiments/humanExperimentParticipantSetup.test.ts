@@ -188,6 +188,7 @@ describe('human experiment start script', () => {
     })
     for (const path of [
       'data/human-experiment/final-2026-v3/registry.json',
+      'data/human-experiment/final-2026-v3/metadata.json',
       'data/human-experiment/final-2026-v3/participants/P01/participant.json',
     ]) {
       expect(() =>
@@ -204,22 +205,64 @@ describe('human experiment start script', () => {
     const module = await import('../../scripts/start-human-experiment.mjs')
     for (const path of [
       'data/human-experiment/final-2026-v3/registry.json',
+      'data/human-experiment/final-2026-v3/metadata.json',
       'data/human-experiment/final-2026-v3/participants/P08/participant.json',
       'data/human-experiment/final-2026-v3/participants/P01/game-1.json',
       'data/human-experiment/final-2026-v3/participants/P01/game-2.json',
       'data/human-experiment/final-2026-v3/participants/P01/traces/game-1.json',
       'data/human-experiment/final-2026-v3/participants/P01/auxiliary/game-2/notes.json',
       'data/human-experiment/final-2026-v3/participants/P01/checklist.md',
+      'src/experiments/humanExperimentIngestion.ts',
+      'src/experiments/humanExperimentTransaction.ts',
+      'src/experiments/humanExperimentWatcher.ts',
+      'scripts/start-human-experiment.mjs',
     ])
       expect(module.isAllowedOperationalExperimentPath(path)).toBe(true)
     for (const path of [
-      'data/human-experiment/final-2026-v3/metadata.json',
       'data/human-experiment/final-2026-v3/README.md',
       'data/human-experiment/final-2026-v3/commands.md',
       'data/human-experiment/final-2026-v3/participants/P09/participant.json',
       'data/other/registry.json',
     ])
       expect(module.isAllowedOperationalExperimentPath(path)).toBe(false)
+  })
+
+  it('accepts the complete ingestion infrastructure and data set in a post-freeze commit', async () => {
+    // @ts-expect-error The runtime script intentionally has no declaration file.
+    const module = await import('../../scripts/start-human-experiment.mjs')
+    const implementation = 'a'.repeat(40)
+    const binding = 'b'.repeat(40)
+    const metadata = {
+      aiPolicy: { securedTerritoryPolicy: false },
+      codeFreeze: {
+        status: 'frozen',
+        implementationCommit: implementation,
+        experimentPreparationCommit: implementation,
+      },
+    }
+    expect(() =>
+      module.validateOfficialCodeFreeze(metadata, 'e'.repeat(40), {
+        commitExists: () => true,
+        isAncestor: () => true,
+        ancestryPath: () => [binding],
+        commitParents: () => [implementation],
+        changedPathsInCommit: () => [module.CODE_FREEZE_METADATA_PATH],
+        fileAtCommit: () => JSON.stringify(metadata),
+        changedPaths: () => [
+          'scripts/start-human-experiment.mjs',
+          'src/experiments/humanExperimentIngestion.ts',
+          'src/experiments/humanExperimentTransaction.ts',
+          'src/experiments/humanExperimentWatcher.ts',
+          'src/experiments/humanExperimentIngestion.test.ts',
+          'src/experiments/humanExperimentParticipantSetup.test.ts',
+          'src/training/validateHumanExperimentV3.test.ts',
+          'data/human-experiment/final-2026-v3/metadata.json',
+          'data/human-experiment/final-2026-v3/registry.json',
+          'data/human-experiment/final-2026-v3/participants/P01/game-1.json',
+          'data/human-experiment/final-2026-v3/participants/P01/traces/game-1.json',
+        ],
+      }),
+    ).not.toThrow()
   })
 
   it('derives a non-circular binding and requires it to change only metadata', async () => {
@@ -318,11 +361,7 @@ describe('human experiment start script', () => {
     result.close()
   })
 
-  it.each([
-    'src/components/Game.tsx',
-    'scripts/start-human-experiment.mjs',
-    'data/human-experiment/final-2026-v3/metadata.json',
-  ])('rejects post-freeze functional change %s', async (path) => {
+  it.each(['src/components/Game.tsx'])('rejects post-freeze functional change %s', async (path) => {
     // @ts-expect-error The runtime script intentionally has no declaration file.
     const module = await import('../../scripts/start-human-experiment.mjs')
     const implementation = 'a'.repeat(40)

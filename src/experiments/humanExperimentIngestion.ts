@@ -1,11 +1,16 @@
-import { copyFile, mkdir, readFile, rm } from 'node:fs/promises'
+import { readFile } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
 import { resolve } from 'node:path'
 import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
 import { canonicalStringify, sha256Canonical } from './humanExperimentCanonical'
 import { discoverHumanMCTSTraces, type TraceCandidate } from './humanExperimentDownloadDiscovery'
 import { readRegistry } from './humanExperimentExport'
-import { registerGameFromFiles } from './humanExperimentRegistration'
+import { addGame } from './humanExperimentValidation'
+import {
+  publishHumanExperimentTransaction,
+  recoverHumanExperimentTransaction,
+  type TransactionHooks,
+} from './humanExperimentTransaction'
 import type { HumanExperimentGameInput, HumanExperimentRegistry } from './humanExperimentTypes'
 import { deriveGameFromTrace, validateRegistry } from './humanExperimentValidation'
 import {
@@ -50,13 +55,14 @@ export async function ingestLatestHumanExperimentTrace(params: {
   downloadDirectories?: string[]
   expectedCommit?: string
   expectedCodeFreeze?: HumanExperimentCodeFreezeTraceability
-  hooks?: { afterCopy?: () => Promise<void> | void }
+  hooks?: TransactionHooks
 }): Promise<IngestionSummary> {
   if (!/^P0[1-8]$/.test(params.participantId)) throw new Error('participantId must be P01-P08')
   if (params.gameNumber !== 1 && params.gameNumber !== 2)
     throw new Error('gameNumber must be 1 or 2')
   const gameNumber = params.gameNumber as 1 | 2
   const root = resolve(params.experimentDirectory)
+  await recoverHumanExperimentTransaction(root)
   const registryPath = resolve(root, 'registry.json')
   const registry = await readRegistry(registryPath)
   const participant = registry.participants.find(
@@ -127,40 +133,74 @@ export async function ingestLatestHumanExperimentTrace(params: {
     throw new Error(`Multiple compatible traces found; pass an explicit path:\n${details}`)
   }
   const candidate = discovery.candidates[0]
-  await mkdir(resolve(destination, '..'), { recursive: true })
-  try {
-    await copyFile(candidate.path, destination, 1)
-    await params.hooks?.afterCopy?.()
-    await registerGameFromFiles({
-      experimentDirectory: root,
-      gameJsonPath,
-      traceJsonPath: destination,
-    })
-    const updatedRegistry = await readRegistry(registryPath)
-    validateRegistry(updatedRegistry)
-    const game = updatedRegistry.games.find(
-      (entry) => entry.participantId === params.participantId && entry.gameNumber === gameNumber,
-    )
-    if (!game) throw new Error('Registered game is missing after ingestion')
-    return {
-      participantId: params.participantId,
-      gameNumber,
-      source: candidate.path,
-      destination,
-      humanColor: game.humanColor,
-      aiColor: game.aiColor,
-      winner: game.winner,
-      humanTerritory: game.humanTerritory,
-      aiTerritory: game.aiTerritory,
-      turnCount: game.turnCount,
-      durationMs: game.durationMs,
-      participantCount: updatedRegistry.participants.length,
-      gameCount: updatedRegistry.games.length,
-    }
-  } catch (error) {
-    await rm(destination, { force: true })
-    throw error
+  const traceJson = await readFile(candidate.path, 'utf8')
+  const game = await deriveGameFromTrace({
+    registry,
+    input,
+    traceJson,
+    tracePath: `participants/${params.participantId}/traces/game-${gameNumber}.json`,
+  })
+  const updatedRegistry = addGame(registry, game)
+  validateRegistry(updatedRegistry)
+  const metadataPath = resolve(root, 'metadata.json')
+  const metadata = JSON.parse(await readFile(metadataPath, 'utf8')) as Record<string, unknown>
+  if (metadata.experimentId !== registry.experimentId)
+    throw new Error('Metadata experimentId does not match the registry')
+  const updatedMetadata = { ...metadata, gameCount: updatedRegistry.games.length }
+  validatePreparedState({
+    registry: updatedRegistry,
+    game,
+    traceJson,
+    metadata: updatedMetadata,
+    expectedTracePath: game.tracePath,
+  })
+  await publishHumanExperimentTransaction({
+    root,
+    candidates: {
+      [game.tracePath]: traceJson,
+      'registry.json': json(updatedRegistry),
+      [`participants/${params.participantId}/game-${gameNumber}.json`]: json(game),
+      'metadata.json': json(updatedMetadata),
+    },
+    hooks: params.hooks,
+  })
+  return {
+    participantId: params.participantId,
+    gameNumber,
+    source: candidate.path,
+    destination,
+    humanColor: game.humanColor,
+    aiColor: game.aiColor,
+    winner: game.winner,
+    humanTerritory: game.humanTerritory,
+    aiTerritory: game.aiTerritory,
+    turnCount: game.turnCount,
+    durationMs: game.durationMs,
+    participantCount: updatedRegistry.participants.length,
+    gameCount: updatedRegistry.games.length,
   }
+}
+
+function validatePreparedState(params: {
+  registry: HumanExperimentRegistry
+  game: HumanExperimentRegistry['games'][number]
+  traceJson: string
+  metadata: Record<string, unknown>
+  expectedTracePath: string
+}): void {
+  if (params.metadata.gameCount !== params.registry.games.length)
+    throw new Error('Prepared metadata.gameCount mismatch')
+  const registered = params.registry.games.find((row) => row.gameId === params.game.gameId)
+  if (canonicalStringify(registered) !== canonicalStringify(params.game))
+    throw new Error('Prepared game file differs from registry')
+  const paths = params.registry.games.map((row) => row.tracePath)
+  if (!paths.includes(params.expectedTracePath) || new Set(paths).size !== paths.length)
+    throw new Error('Prepared official trace inventory mismatch')
+  JSON.parse(params.traceJson)
+}
+
+function json(value: unknown): string {
+  return `${JSON.stringify(value, null, 2)}\n`
 }
 
 async function validateCandidate(params: {

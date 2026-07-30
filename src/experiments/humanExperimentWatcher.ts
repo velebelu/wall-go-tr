@@ -4,6 +4,7 @@ import { readRegistry } from './humanExperimentExport'
 import { ingestLatestHumanExperimentTrace, type IngestionSummary } from './humanExperimentIngestion'
 import type { HumanExperimentRegistry } from './humanExperimentTypes'
 import { readStableFile } from './humanExperimentDownloadDiscovery'
+import { recoverHumanExperimentTransaction } from './humanExperimentTransaction'
 
 const TRACE_FILE = /^traza_humano_mcts_.*\.json$/i
 
@@ -94,6 +95,7 @@ export class HumanExperimentWatcher {
   }
 
   async start(): Promise<void> {
+    await recoverHumanExperimentTransaction(this.params.experimentDirectory)
     const details = await stat(this.params.downloadDirectory)
     if (!details.isDirectory())
       throw new Error(`La ruta de descargas no es una carpeta: ${this.params.downloadDirectory}`)
