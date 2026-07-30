@@ -6,6 +6,12 @@ import { HumanExperimentError } from './humanExperimentErrors'
 import type { IngestionSummary } from './humanExperimentIngestion'
 import type { HumanExperimentRegistry } from './humanExperimentTypes'
 import { HumanExperimentWatcher, nextPendingHumanExperimentGame } from './humanExperimentWatcher'
+import {
+  captureTransitionMismatch,
+  prepareTransitionMismatchArtifact,
+} from './humanExperimentTransitionDiagnostics'
+import { makeInitialState } from '@/store/gameState'
+import { applyRecordedPlayerAction } from './atomicPlayerTransition'
 
 const temporaryDirectories: string[] = []
 const COMMIT = 'a'.repeat(40)
@@ -149,6 +155,51 @@ describe('human experiment watcher', () => {
     await watcher.scanOnce()
     expect(ingest).toHaveBeenCalledTimes(2)
     watcher.close()
+  })
+
+  it('archives a transition diagnostic without invoking ingestion or modifying the registry', async () => {
+    const paths = await fixture()
+    const invalidSessions = resolve(paths.root, 'invalid-sessions')
+    const ingest = vi.fn(async () => result())
+    const logger = { log: vi.fn(), error: vi.fn() }
+    const watcher = new HumanExperimentWatcher({
+      experimentDirectory: paths.root,
+      downloadDirectory: paths.downloads,
+      expectedCommit: COMMIT,
+      pollIntervalMs: 60_000,
+      stabilityIntervalMs: 1,
+      invalidSessionDirectory: invalidSessions,
+      logger,
+      ingest,
+    })
+    await watcher.start()
+    const registryBefore = await readFile(resolve(paths.root, 'registry.json'), 'utf8')
+    const stateBefore = makeInitialState()
+    const expectedState = applyRecordedPlayerAction(stateBefore, {
+      type: 'place',
+      pos: { x: 0, y: 0 },
+    })
+    const prepared = await prepareTransitionMismatchArtifact(
+      captureTransitionMismatch({
+        stateBefore,
+        action: { type: 'place', pos: { x: 0, y: 0 } },
+        expectedState,
+        committedState: stateBefore,
+        capturedAt: '2026-07-30T00:00:00.000Z',
+      }),
+    )
+    await writeFile(resolve(paths.downloads, prepared.fileName), prepared.json)
+
+    await watcher.scanOnce()
+    watcher.close()
+
+    expect(ingest).not.toHaveBeenCalled()
+    expect(await readFile(resolve(paths.root, 'registry.json'), 'utf8')).toBe(registryBefore)
+    expect(await readdir(resolve(paths.root, 'quarantine'))).toHaveLength(1)
+    expect(await readdir(invalidSessions)).toHaveLength(1)
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringContaining('Sesión inválida archivada sin ingesta oficial'),
+    )
   })
 
   it('reports an already registered content instead of ingesting it twice', async () => {

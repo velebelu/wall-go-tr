@@ -1,5 +1,5 @@
-import { copyFile, mkdir, readdir, stat } from 'node:fs/promises'
-import { basename, resolve } from 'node:path'
+import { copyFile, mkdir, readdir, stat, writeFile } from 'node:fs/promises'
+import { basename, dirname, resolve } from 'node:path'
 import { readRegistry } from './humanExperimentExport'
 import {
   describeErrorClassification,
@@ -11,8 +11,13 @@ import { ingestLatestHumanExperimentTrace, type IngestionSummary } from './human
 import type { HumanExperimentRegistry } from './humanExperimentTypes'
 import { readStableFile } from './humanExperimentDownloadDiscovery'
 import { recoverHumanExperimentTransaction } from './humanExperimentTransaction'
+import {
+  TRANSITION_MISMATCH_SCHEMA,
+  validateTransitionMismatchArtifact,
+} from './humanExperimentTransitionDiagnostics'
 
 const TRACE_FILE = /^traza_humano_mcts_.*\.json$/i
+const TRANSITION_DIAGNOSTIC_FILE = /^diagnostico_transicion_.*\.json$/i
 /** Tope de reintentos por contenido: acota el ruido sin descartar un fallo pasajero. */
 const MAX_RECOVERABLE_ATTEMPTS = 3
 
@@ -100,6 +105,7 @@ export class HumanExperimentWatcher {
     logger?: Pick<Console, 'log' | 'error'>
     ingest?: typeof ingestLatestHumanExperimentTrace
     quarantineDirectory?: string
+    invalidSessionDirectory?: string
   }
   private known = new Map<string, string>()
   private processed = new Set<string>()
@@ -166,6 +172,17 @@ export class HumanExperimentWatcher {
       this.processed.add(finalVersionKey)
       contentKey = stable.contentSha256
       if (this.closed) return
+      const parsed = JSON.parse(stable.contents) as { schema?: unknown }
+      if (parsed.schema === TRANSITION_MISMATCH_SCHEMA) {
+        await this.archiveTransitionDiagnostic(path, stable.contentSha256, parsed)
+        this.processedContent.set(contentKey, {
+          status: 'rejected',
+          reason: 'non-official transition mismatch diagnostic',
+          retry: 'final',
+          attempts: 1,
+        })
+        return
+      }
       const registry = await readRegistry(resolve(this.params.experimentDirectory, 'registry.json'))
       const pending = nextPendingHumanExperimentGame(registry)
       if (!this.shouldProcessAgain(contentKey, registry)) return
@@ -281,6 +298,49 @@ export class HumanExperimentWatcher {
     await copyFile(path, resolve(directory, `${Date.now()}-${basename(path)}`))
   }
 
+  private async archiveTransitionDiagnostic(
+    path: string,
+    packageSha256: string,
+    parsed: unknown,
+  ): Promise<void> {
+    const artifact = await validateTransitionMismatchArtifact(parsed)
+    const quarantineDirectory = resolve(
+      this.params.quarantineDirectory ?? resolve(this.params.experimentDirectory, 'quarantine'),
+    )
+    await mkdir(quarantineDirectory, { recursive: true })
+    await copyFile(path, resolve(quarantineDirectory, basename(path)))
+    if (artifact.partialTraceDiagnostic) {
+      await writeFile(
+        resolve(
+          quarantineDirectory,
+          `traza_parcial_${safeFileName(artifact.sessionId ?? 'sin-sesion')}.json`,
+        ),
+        `${JSON.stringify(artifact.partialTraceDiagnostic, null, 2)}\n`,
+        { flag: 'wx' },
+      )
+    }
+    const invalidSessionDirectory = resolve(
+      this.params.invalidSessionDirectory ??
+        resolve(dirname(this.params.experimentDirectory), 'invalid-sessions-v3'),
+    )
+    await mkdir(invalidSessionDirectory, { recursive: true })
+    const manifest = {
+      ...artifact.proposedInvalidSessionManifest,
+      packageSha256,
+      manifestPayloadSha256: artifact.artifactHashes.proposedManifestSha256,
+      registration: 'rejected' as const,
+      repeatRequired: true as const,
+    }
+    await writeFile(
+      resolve(invalidSessionDirectory, `${safeFileName(artifact.sessionId ?? packageSha256)}.json`),
+      `${JSON.stringify(manifest, null, 2)}\n`,
+      { flag: 'wx' },
+    )
+    this.params.logger?.error(
+      `Sesión inválida archivada sin ingesta oficial: ${artifact.sessionId ?? '<sin sesión>'}`,
+    )
+  }
+
   private async showNextPending(): Promise<void> {
     const registry = await readRegistry(resolve(this.params.experimentDirectory, 'registry.json'))
     const pending = nextPendingHumanExperimentGame(registry)
@@ -293,7 +353,7 @@ export class HumanExperimentWatcher {
     const names = await readdir(this.params.downloadDirectory)
     const files: FileVersion[] = []
     for (const name of names) {
-      if (!TRACE_FILE.test(name)) continue
+      if (!TRACE_FILE.test(name) && !TRANSITION_DIAGNOSTIC_FILE.test(name)) continue
       const path = resolve(this.params.downloadDirectory, name)
       try {
         const details = await stat(path)
@@ -304,6 +364,10 @@ export class HumanExperimentWatcher {
     }
     return files
   }
+}
+
+function safeFileName(value: string): string {
+  return value.replace(/[^a-z0-9_-]/gi, '_')
 }
 
 function signature(value: { size: number; mtimeMs: number }): string {

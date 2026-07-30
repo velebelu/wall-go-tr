@@ -320,6 +320,34 @@ describe('latest trace ingestion', () => {
     ).rejects.toThrow('Trace replay failed at turn 0: state-after')
   })
 
+  it('explicitly rejects a transition diagnostic without modifying official files', async () => {
+    const paths = await fixture()
+    const registryBefore = await readFile(resolve(paths.root, 'registry.json'), 'utf8')
+    const metadataBefore = await readFile(resolve(paths.root, 'metadata.json'), 'utf8')
+    const source = resolve(paths.downloads, 'diagnostico_transicion_session_turno-5.json')
+    await writeFile(
+      source,
+      JSON.stringify({
+        schema: 'HumanExperimentTransitionMismatchV1',
+        schemaVersion: 1,
+        official: false,
+        registrationAllowed: false,
+      }),
+    )
+
+    await expect(
+      ingestLatestHumanExperimentTrace({
+        experimentDirectory: paths.root,
+        participantId: 'P01',
+        gameNumber: 1,
+        explicitTracePath: source,
+        expectedCommit: COMMIT,
+      }),
+    ).rejects.toThrow('non-official and cannot be ingested')
+    expect(await readFile(resolve(paths.root, 'registry.json'), 'utf8')).toBe(registryBefore)
+    expect(await readFile(resolve(paths.root, 'metadata.json'), 'utf8')).toBe(metadataBefore)
+  })
+
   it('rejects a trace whose expected canonical hash is incorrect', async () => {
     const paths = await fixture()
     const inputPath = resolve(paths.participantDirectory, 'game-1.json')

@@ -53,6 +53,7 @@ import {
 import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
 import { CURRENT_HUMAN_EXPERIMENT_ID } from '@/experiments/humanExperimentConfig'
 import { sessionContextFromEnvironment } from '@/experiments/humanExperimentSession'
+import { verifyCommittedTransition } from '@/experiments/humanExperimentTransitionDiagnostics'
 
 export default function Game({
   gameMode,
@@ -315,7 +316,13 @@ export default function Game({
           })
         }
         const committed = snapshotFromState(useGame.getState())
-        assertCommittedState(committed, transition.stateAfter)
+        verifyCommittedTransition({
+          stateBefore: transition.stateBefore,
+          action,
+          expectedState: transition.stateAfter,
+          committedState: committed,
+          trace: fullMctsTraceRef.current,
+        })
         return committed
       },
       isGameOver: (state) => state.phase === 'finished' || !!state.result,
