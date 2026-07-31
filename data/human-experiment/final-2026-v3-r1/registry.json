@@ -14,6 +14,19 @@
         "B"
       ],
       "notes": ""
+    },
+    {
+      "schema": "HumanExperimentParticipantV1",
+      "experimentId": "WGTR-HUMAN-FINAL-2026-V3-R1",
+      "participantId": "P02",
+      "experienceGroup": "experienced",
+      "previousWallGoGames": 20,
+      "practiceGames": 1,
+      "colorOrder": [
+        "B",
+        "R"
+      ],
+      "notes": ""
     }
   ],
   "games": [
