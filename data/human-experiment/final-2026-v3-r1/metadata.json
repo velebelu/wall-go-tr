@@ -15,15 +15,18 @@
     "beneficial": 1,
     "harmful": 3,
     "meanTerritoryEffect": -1.55,
-    "bootstrap95": [-2.9, -0.3],
+    "bootstrap95": [
+      -2.9,
+      -0.3
+    ],
     "independentInterventionsPer100Decisions": 0.24,
     "conclusion": "The redundant behaviour exists, but the filter frequently removes strategically superior actions."
   },
   "codeFreeze": {
-    "status": "prepared",
+    "status": "frozen",
     "aiImplementationCommit": "d24414802111390f0d4cffc5cb87b0de56932904",
-    "implementationCommit": "PENDING_V3_R1_PREPARATION_COMMIT",
-    "experimentPreparationCommit": "PENDING_V3_R1_PREPARATION_COMMIT",
-    "relation": "After committing this complete runtime and empty experiment preparation, replace both pending values with that commit hash in an immediate metadata-only binding commit."
+    "implementationCommit": "2a4da7d4429a900a1db9663332ccaccae28307ac",
+    "experimentPreparationCommit": "2a4da7d4429a900a1db9663332ccaccae28307ac",
+    "relation": "The frozen AI remains d24414802111390f0d4cffc5cb87b0de56932904; implementationCommit and experimentPreparationCommit identify the complete V3-R1 runtime and empty experiment preparation, and this metadata-only commit is their immediate child."
   }
 }
