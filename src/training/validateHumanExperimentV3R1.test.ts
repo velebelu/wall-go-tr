@@ -1,5 +1,3 @@
-import { readFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
   validateHumanExperimentV3R1Directory,
@@ -7,7 +5,7 @@ import {
 } from './validateHumanExperimentV3R1'
 
 describe('V3-R1 lifecycle', () => {
-  it('starts with no participants, games, traces, or inherited invalid sessions', async () => {
+  it('keeps the live repetition free of games, traces, and inherited invalid sessions', async () => {
     const state = await validateHumanExperimentV3R1Directory()
 
     expect(state.metadata.experimentId).toBe('WGTR-HUMAN-FINAL-2026-V3-R1')
@@ -21,7 +19,6 @@ describe('V3-R1 lifecycle', () => {
       expect(freeze?.implementationCommit).toMatch(/^[0-9a-f]{40}$/)
       expect(freeze?.experimentPreparationCommit).toBe(freeze?.implementationCommit)
     }
-    expect(state.registry.participants).toEqual([])
     expect(state.registry.games).toEqual([])
     expect(state.officialTracePaths).toEqual([])
     expect(state.invalidSessions).toEqual([])
@@ -61,21 +58,20 @@ describe('V3-R1 lifecycle', () => {
     expect(() => validateHumanExperimentV3R1State(arbitrary)).toThrow('neither prepared nor frozen')
   })
 
-  it('allows P01 to be registered again from a blank template', async () => {
-    const participant = JSON.parse(
-      await readFile(
-        resolve('data/human-experiment/final-2026-v3-r1/participants/P01/participant.json'),
-        'utf8',
-      ),
+  it('accepts the initial blank P01 fixture before registration', async () => {
+    const state = await validateHumanExperimentV3R1Directory()
+    const blank = structuredClone(state)
+    blank.registry.participants = blank.registry.participants.filter(
+      (participant) => participant.participantId !== 'P01',
     )
-
-    expect(participant).toMatchObject({
-      experimentId: 'WGTR-HUMAN-FINAL-2026-V3-R1',
-      participantId: 'P01',
+    blank.templates.P01 = {
+      ...blank.templates.P01,
       experienceGroup: null,
       previousWallGoGames: null,
-      colorOrder: ['R', 'B'],
-    })
+      notes: '',
+    } as unknown as (typeof blank.templates)['P01']
+
+    expect(() => validateHumanExperimentV3R1State(blank)).not.toThrow()
   })
 
   it('rejects an inherited official result', async () => {
