@@ -5,7 +5,7 @@ import {
 } from './validateHumanExperimentV3R1'
 
 describe('V3-R1 lifecycle', () => {
-  it('keeps the live repetition coherent after the first official registration', async () => {
+  it('keeps the live repetition coherent as official registrations accumulate', async () => {
     const state = await validateHumanExperimentV3R1Directory()
 
     expect(state.metadata.experimentId).toBe('WGTR-HUMAN-FINAL-2026-V3-R1')
@@ -19,21 +19,24 @@ describe('V3-R1 lifecycle', () => {
       expect(freeze?.implementationCommit).toMatch(/^[0-9a-f]{40}$/)
       expect(freeze?.experimentPreparationCommit).toBe(freeze?.implementationCommit)
     }
-    expect(state.registry.games).toHaveLength(1)
-    expect(state.registry.games[0]).toMatchObject({
-      experimentId: 'WGTR-HUMAN-FINAL-2026-V3-R1',
-      participantId: 'P01',
-      gameNumber: 1,
-      humanColor: 'R',
-      aiColor: 'B',
-      winner: 'human',
-      humanTerritory: 39,
-      aiTerritory: 9,
-      turnCount: 39,
-      durationMs: 122646,
-      tracePath: 'participants/P01/traces/game-1.json',
-    })
-    expect(state.officialTracePaths).toEqual(['participants/P01/traces/game-1.json'])
+    expect(state.registry.games).toContainEqual(
+      expect.objectContaining({
+        experimentId: 'WGTR-HUMAN-FINAL-2026-V3-R1',
+        participantId: 'P01',
+        gameNumber: 1,
+        humanColor: 'R',
+        aiColor: 'B',
+        winner: 'human',
+        humanTerritory: 39,
+        aiTerritory: 9,
+        turnCount: 39,
+        durationMs: 122646,
+        tracePath: 'participants/P01/traces/game-1.json',
+      }),
+    )
+    const registeredTracePaths = state.registry.games.map((game) => game.tracePath).sort()
+    expect(state.officialTracePaths.sort()).toEqual(registeredTracePaths)
+    expect(new Set(registeredTracePaths).size).toBe(registeredTracePaths.length)
     expect(state.invalidSessions).toEqual([])
   })
 
