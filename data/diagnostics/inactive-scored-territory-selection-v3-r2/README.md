@@ -1,13 +1,12 @@
 # Evaluación contrafactual: territorio puntuado inactivo
 
 - Trazas naturales: 36
-- Intervenciones únicas: 8
-- Intervenciones cribadas: 35
+- Intervenciones únicas: 35
 - Controles preservados: 50
-- Beneficiosas: 3
-- Perjudiciales: 4
-- Neutras: 1
-- Efecto territorial medio: 0.16666666666666657
+- Beneficiosas: 13
+- Perjudiciales: 20
+- Neutras: 2
+- Efecto territorial medio: -0.1314285714285713
 - Acciones ilegales: 0
 - Aceptada: no
 - Motivo: harmful-paired-interventions-detected
