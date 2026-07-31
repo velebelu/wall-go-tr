@@ -1,0 +1,29 @@
+{
+  "schema": "HumanExperimentMetadataV2",
+  "experimentId": "WGTR-HUMAN-FINAL-2026-V3-R1",
+  "supersedes": "WGTR-HUMAN-FINAL-2026-V3",
+  "archivedExperimentDirectory": "data/human-experiment/final-2026-v3",
+  "createdAt": "2026-07-31",
+  "gameCount": 0,
+  "repeatReason": "V3 was closed after a committed-state transition mismatch; V3-R1 repeats the unchanged protocol with hardened diagnostics and ingestion.",
+  "aiPolicy": {
+    "securedTerritoryPolicy": false,
+    "status": "rejected",
+    "accepted": false,
+    "reason": "negative-counterfactual-effect",
+    "independentInterventions": 4,
+    "beneficial": 1,
+    "harmful": 3,
+    "meanTerritoryEffect": -1.55,
+    "bootstrap95": [-2.9, -0.3],
+    "independentInterventionsPer100Decisions": 0.24,
+    "conclusion": "The redundant behaviour exists, but the filter frequently removes strategically superior actions."
+  },
+  "codeFreeze": {
+    "status": "prepared",
+    "aiImplementationCommit": "d24414802111390f0d4cffc5cb87b0de56932904",
+    "implementationCommit": "PENDING_V3_R1_PREPARATION_COMMIT",
+    "experimentPreparationCommit": "PENDING_V3_R1_PREPARATION_COMMIT",
+    "relation": "After committing this complete runtime and empty experiment preparation, replace both pending values with that commit hash in an immediate metadata-only binding commit."
+  }
+}

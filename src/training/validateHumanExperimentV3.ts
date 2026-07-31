@@ -3,10 +3,7 @@ import { execFileSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { FINAL_HUMAN_CHALLENGE_MCTS_CONFIG } from '@/agents/humanChallengeMCTS'
-import {
-  CURRENT_HUMAN_EXPERIMENT_DIRECTORY,
-  CURRENT_HUMAN_EXPERIMENT_ID,
-} from '@/experiments/humanExperimentConfig'
+import { ARCHIVED_HUMAN_EXPERIMENT_DIRECTORY } from '@/experiments/humanExperimentConfig'
 import { canonicalStringify } from '@/experiments/humanExperimentCanonical'
 import { readRegistry } from '@/experiments/humanExperimentExport'
 import type {
@@ -17,6 +14,8 @@ import type {
 import { validateParticipant, validateRegistry } from '@/experiments/humanExperimentValidation'
 
 const EXPECTED_PARTICIPANTS = Array.from({ length: 8 }, (_, index) => `P0${index + 1}`)
+const V3_EXPERIMENT_ID = 'WGTR-HUMAN-FINAL-2026-V3'
+const V3_EXPERIMENT_DIRECTORY = ARCHIVED_HUMAN_EXPERIMENT_DIRECTORY
 const FULL_COMMIT = /^[0-9a-f]{40}$/i
 const TRACE_FILE = /\.json$/i
 
@@ -76,10 +75,7 @@ export interface HumanExperimentV3State {
 export function validateHumanExperimentV3State(state: HumanExperimentV3State): void {
   const { metadata, registry } = state
   if (metadata.schema !== 'HumanExperimentMetadataV2') fail('Invalid V3 metadata schema')
-  if (
-    metadata.experimentId !== CURRENT_HUMAN_EXPERIMENT_ID ||
-    registry.experimentId !== CURRENT_HUMAN_EXPERIMENT_ID
-  )
+  if (metadata.experimentId !== V3_EXPERIMENT_ID || registry.experimentId !== V3_EXPERIMENT_ID)
     fail('V3 experimentId mismatch')
   validateRegistry(registry)
   if (metadata.gameCount !== registry.games.length) fail('metadata.gameCount mismatch')
@@ -117,7 +113,7 @@ export function validateHumanExperimentV3State(state: HumanExperimentV3State): v
 }
 
 export async function validateHumanExperimentV3Directory(
-  root = resolve(CURRENT_HUMAN_EXPERIMENT_DIRECTORY),
+  root = resolve(V3_EXPERIMENT_DIRECTORY),
   options: { bindingMode?: 'current-runtime' | 'archive' } = {},
 ): Promise<HumanExperimentV3State> {
   const registry = await readRegistry(resolve(root, 'registry.json'))
@@ -402,7 +398,7 @@ function validateInvalidSessionWithoutArtifacts(
   ids: Set<string>,
 ): void {
   if (
-    manifest.experimentId !== CURRENT_HUMAN_EXPERIMENT_ID ||
+    manifest.experimentId !== V3_EXPERIMENT_ID ||
     manifest.validity !== 'invalid' ||
     manifest.registration !== 'rejected' ||
     manifest.repeatRequired !== true ||
@@ -444,9 +440,9 @@ function fail(message: string): never {
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
-  const state = await validateHumanExperimentV3Directory()
+  const state = await validateHumanExperimentV3Directory(undefined, { bindingMode: 'archive' })
   console.log(
-    `Valid V3 operational state: ${state.registry.participants.length} registered participants, ` +
+    `Valid archived V3 state: ${state.registry.participants.length} registered participants, ` +
       `${state.registry.games.length} games, ${state.officialTracePaths.length} official traces, ` +
       `${state.invalidSessions.length} quarantined invalid sessions.`,
   )

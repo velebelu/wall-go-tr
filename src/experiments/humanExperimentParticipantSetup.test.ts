@@ -187,9 +187,9 @@ describe('human experiment start script', () => {
       codeFreezeBindingCommit: binding,
     })
     for (const path of [
-      'data/human-experiment/final-2026-v3/registry.json',
-      'data/human-experiment/final-2026-v3/metadata.json',
-      'data/human-experiment/final-2026-v3/participants/P01/participant.json',
+      'data/human-experiment/final-2026-v3-r1/registry.json',
+      'data/human-experiment/final-2026-v3-r1/metadata.json',
+      'data/human-experiment/final-2026-v3-r1/participants/P01/participant.json',
     ]) {
       expect(() =>
         module.validateOfficialCodeFreeze(metadata, 'e'.repeat(40), {
@@ -204,24 +204,26 @@ describe('human experiment start script', () => {
     // @ts-expect-error The runtime script intentionally has no declaration file.
     const module = await import('../../scripts/start-human-experiment.mjs')
     for (const path of [
-      'data/human-experiment/final-2026-v3/registry.json',
-      'data/human-experiment/final-2026-v3/metadata.json',
-      'data/human-experiment/final-2026-v3/participants/P08/participant.json',
-      'data/human-experiment/final-2026-v3/participants/P01/game-1.json',
-      'data/human-experiment/final-2026-v3/participants/P01/game-2.json',
-      'data/human-experiment/final-2026-v3/participants/P01/traces/game-1.json',
-      'data/human-experiment/final-2026-v3/participants/P01/auxiliary/game-2/notes.json',
-      'data/human-experiment/final-2026-v3/participants/P01/checklist.md',
+      'data/human-experiment/final-2026-v3-r1/registry.json',
+      'data/human-experiment/final-2026-v3-r1/metadata.json',
+      'data/human-experiment/final-2026-v3-r1/participants/P08/participant.json',
+      'data/human-experiment/final-2026-v3-r1/participants/P01/game-1.json',
+      'data/human-experiment/final-2026-v3-r1/participants/P01/game-2.json',
+      'data/human-experiment/final-2026-v3-r1/participants/P01/traces/game-1.json',
+      'data/human-experiment/final-2026-v3-r1/participants/P01/auxiliary/game-2/notes.json',
+      'data/human-experiment/final-2026-v3-r1/participants/P01/checklist.md',
+      'data/human-experiment/invalid-sessions-v3-r1/session.json',
       'src/experiments/humanExperimentIngestion.ts',
       'src/experiments/humanExperimentTransaction.ts',
       'src/experiments/humanExperimentWatcher.ts',
+      'src/training/validateHumanExperimentV3R1.ts',
       'scripts/start-human-experiment.mjs',
     ])
       expect(module.isAllowedOperationalExperimentPath(path)).toBe(true)
     for (const path of [
-      'data/human-experiment/final-2026-v3/README.md',
-      'data/human-experiment/final-2026-v3/commands.md',
-      'data/human-experiment/final-2026-v3/participants/P09/participant.json',
+      'data/human-experiment/final-2026-v3-r1/README.md',
+      'data/human-experiment/final-2026-v3-r1/commands.md',
+      'data/human-experiment/final-2026-v3-r1/participants/P09/participant.json',
       'data/other/registry.json',
     ])
       expect(module.isAllowedOperationalExperimentPath(path)).toBe(false)
@@ -256,10 +258,10 @@ describe('human experiment start script', () => {
           'src/experiments/humanExperimentIngestion.test.ts',
           'src/experiments/humanExperimentParticipantSetup.test.ts',
           'src/training/validateHumanExperimentV3.test.ts',
-          'data/human-experiment/final-2026-v3/metadata.json',
-          'data/human-experiment/final-2026-v3/registry.json',
-          'data/human-experiment/final-2026-v3/participants/P01/game-1.json',
-          'data/human-experiment/final-2026-v3/participants/P01/traces/game-1.json',
+          'data/human-experiment/final-2026-v3-r1/metadata.json',
+          'data/human-experiment/final-2026-v3-r1/registry.json',
+          'data/human-experiment/final-2026-v3-r1/participants/P01/game-1.json',
+          'data/human-experiment/final-2026-v3-r1/participants/P01/traces/game-1.json',
         ],
       }),
     ).not.toThrow()
@@ -302,7 +304,7 @@ describe('human experiment start script', () => {
     ).toThrow('does not match')
   })
 
-  it('permanently blocks V3 official sessions before starting any process', async () => {
+  it('blocks V3-R1 official sessions while the binding is pending', async () => {
     // @ts-expect-error The runtime script intentionally has no declaration file.
     const module = await import('../../scripts/start-human-experiment.mjs')
     const runtime = 'ee39b9b888bc0d31a7ce8ef08b9d64f9bb1c1da6'
@@ -323,9 +325,9 @@ describe('human experiment start script', () => {
       experimentId: module.CURRENT_EXPERIMENT_ID,
       aiPolicy: { securedTerritoryPolicy: false },
       codeFreeze: {
-        status: 'frozen',
-        implementationCommit: implementation,
-        experimentPreparationCommit: implementation,
+        status: 'prepared',
+        implementationCommit: 'PENDING_V3_R1_PREPARATION_COMMIT',
+        experimentPreparationCommit: 'PENDING_V3_R1_PREPARATION_COMMIT',
       },
     }
     const registry = {
@@ -352,9 +354,56 @@ describe('human experiment start script', () => {
         environment: {},
         argv: ['official', 'P01', '1'],
       }),
-    ).toThrow('archived and closed permanently')
+    ).toThrow('prepared but not bound')
     expect(spawnProcess).not.toHaveBeenCalled()
     expect(children).toHaveLength(0)
+  })
+
+  it('exports coherent V3-R1 freeze hashes for a future bound official session', async () => {
+    // @ts-expect-error The runtime script intentionally has no declaration file.
+    const module = await import('../../scripts/start-human-experiment.mjs')
+    const implementation = 'a'.repeat(40)
+    const binding = 'b'.repeat(40)
+    const runtime = 'c'.repeat(40)
+    const metadata = {
+      experimentId: module.CURRENT_EXPERIMENT_ID,
+      aiPolicy: { securedTerritoryPolicy: false },
+      codeFreeze: {
+        status: 'frozen',
+        aiImplementationCommit: 'd24414802111390f0d4cffc5cb87b0de56932904',
+        implementationCommit: implementation,
+        experimentPreparationCommit: implementation,
+      },
+    }
+    const registry = {
+      experimentId: module.CURRENT_EXPERIMENT_ID,
+      participants: [{ participantId: 'P01', colorOrder: ['R', 'B'] }],
+      games: [],
+    }
+
+    const environment = module.resolveSessionEnvironment(
+      ['official', 'P01', '1'],
+      {
+        RUNTIME_GIT_COMMIT: runtime,
+        COMMIT_EXISTS: () => true,
+        COMMIT_IS_ANCESTOR: () => true,
+        ANCESTRY_PATH: () => [binding, runtime],
+        COMMIT_PARENTS: () => [implementation],
+        CHANGED_PATHS_IN_COMMIT: () => [module.CODE_FREEZE_METADATA_PATH],
+        FILE_AT_COMMIT: () => JSON.stringify(metadata),
+        CHANGED_PATHS_SINCE_BINDING: () => [],
+      },
+      (path: string) =>
+        path.endsWith('metadata.json') ? JSON.stringify(metadata) : JSON.stringify(registry),
+    )
+
+    expect(environment).toMatchObject({
+      VITE_EXPERIMENT_ID: 'WGTR-HUMAN-FINAL-2026-V3-R1',
+      VITE_SESSION_TYPE: 'official',
+      VITE_IMPLEMENTATION_COMMIT: implementation,
+      VITE_EXPERIMENT_PREPARATION_COMMIT: implementation,
+      VITE_CODE_FREEZE_BINDING_COMMIT: binding,
+    })
   })
 
   it.each(['src/components/Game.tsx'])('rejects post-freeze functional change %s', async (path) => {
@@ -379,7 +428,7 @@ describe('human experiment start script', () => {
         changedPathsInCommit: () => [module.CODE_FREEZE_METADATA_PATH],
         changedPaths: () => [path],
       }),
-    ).toThrow('Functional files changed')
+    ).toThrow('outside the V3-R1 post-freeze allowlist')
   })
 
   it('rejects non-descendants, dirty trees, and missing or incorrect frozen hashes', async () => {

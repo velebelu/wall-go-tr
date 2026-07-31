@@ -102,18 +102,33 @@ manifiesto contiene hashes SHA-256, commits, conteos y el resultado de validaci�
 
 Son dos cosas distintas y conviene no confundirlas:
 
-|                            | `final-2026-v3/quarantine/`       | `invalid-sessions-v3/`                  |
+| | `final-2026-v3/quarantine/` | `invalid-sessions-v3/` |
 | -------------------------- | --------------------------------- | --------------------------------------- |
-| Quién escribe              | El vigilante, automáticamente     | El operador, de forma manual y auditada |
-| Contenido                  | Copia bruta de la traza rechazada | Manifiesto curado de la sesión          |
-| Versionado en Git          | No (ignorado)                     | Sí                                      |
-| Lo comprueba `validate-v3` | No                                | Sí                                      |
-| Ciclo de vida              | Efímero, se puede borrar          | Permanente, forma parte del TR          |
+| Quién escribe | El vigilante, automáticamente | El operador, de forma manual y auditada |
+| Contenido | Copia bruta de la traza rechazada | Manifiesto curado de la sesión |
+| Versionado en Git | No (ignorado) | Sí |
+| Lo comprueba `validate-v3` | No | Sí |
+| Ciclo de vida | Efímero, se puede borrar | Permanente, forma parte del TR |
 
 El recorrido normal es: el vigilante rechaza una traza, guarda una copia en `quarantine/`, el
 operador la examina y, si la sesión se declara inválida, escribe el manifiesto correspondiente en
 `invalid-sessions-v3/` con `status`, `validity`, `traceSha256` y el motivo. Sólo ese manifiesto
 tiene valor documental; la copia bruta es material de trabajo.
+
+## Repetición V3-R1
+
+V3 está archivada permanentemente después de una discrepancia de transición en el intento
+P01-2. La partida P01-1 se conserva en V3 como evidencia técnicamente válida, pero no se
+reutiliza en la nueva muestra emparejada.
+
+`WGTR-HUMAN-FINAL-2026-V3-R1`, en `data/human-experiment/final-2026-v3-r1`, repite el mismo
+protocolo, reglas, IA y configuración MCTS con el runtime operacional y diagnóstico endurecido.
+Empieza con registro, partidas, trazas y sesiones inválidas vacíos. P01 se registra de nuevo.
+
+El congelado se publica en dos commits: primero toda la preparación funcional y experimental;
+después, como hijo inmediato, un commit que modifica exclusivamente `metadata.json` para fijar
+el hash de preparación en `implementationCommit` y `experimentPreparationCommit`. No se inicia
+ninguna sesión oficial hasta publicar ambos commits y superar `human-experiment:validate-v3-r1`.
 
 La cuarentena guarda únicamente lo que ya no puede prosperar: un rechazo definitivo o un
 contenido que agotó sus reintentos. Un archivo aún en escritura o un fallo de entrada/salida se

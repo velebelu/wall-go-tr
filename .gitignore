@@ -35,6 +35,7 @@ coverage
 # data/human-experiment/invalid-sessions-v3/. Se ignora esta ruta concreta, no un patrón
 # general, para que ningún dato real del experimento quede oculto.
 data/human-experiment/final-2026-v3/quarantine/
+data/human-experiment/final-2026-v3-r1/quarantine/
 
 /REDACTADO TR.pdf
 

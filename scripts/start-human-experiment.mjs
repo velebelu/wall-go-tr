@@ -3,20 +3,19 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-export const CURRENT_EXPERIMENT_ID = 'WGTR-HUMAN-FINAL-2026-V3'
-export const CURRENT_EXPERIMENT_DIRECTORY = 'data/human-experiment/final-2026-v3'
-export const CODE_FREEZE_METADATA_PATH = 'data/human-experiment/final-2026-v3/metadata.json'
-export const V3_ARCHIVED_ERROR =
-  'WGTR-HUMAN-FINAL-2026-V3 is archived and closed permanently to new official sessions.'
+export const CURRENT_EXPERIMENT_ID = 'WGTR-HUMAN-FINAL-2026-V3-R1'
+export const CURRENT_EXPERIMENT_DIRECTORY = 'data/human-experiment/final-2026-v3-r1'
+export const CODE_FREEZE_METADATA_PATH = 'data/human-experiment/final-2026-v3-r1/metadata.json'
 
 const OPERATIONAL_EXPERIMENT_PATHS = [
-  /^data\/human-experiment\/final-2026-v3\/metadata\.json$/,
-  /^data\/human-experiment\/final-2026-v3\/registry\.json$/,
-  /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/participant\.json$/,
-  /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/game-[12]\.json$/,
-  /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/traces\/[^/]+$/,
-  /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/auxiliary\/game-[12]\/[^/]+$/,
-  /^data\/human-experiment\/final-2026-v3\/participants\/P0[1-8]\/checklist\.md$/,
+  /^data\/human-experiment\/final-2026-v3-r1\/metadata\.json$/,
+  /^data\/human-experiment\/final-2026-v3-r1\/registry\.json$/,
+  /^data\/human-experiment\/final-2026-v3-r1\/participants\/P0[1-8]\/participant\.json$/,
+  /^data\/human-experiment\/final-2026-v3-r1\/participants\/P0[1-8]\/game-[12]\.json$/,
+  /^data\/human-experiment\/final-2026-v3-r1\/participants\/P0[1-8]\/traces\/[^/]+$/,
+  /^data\/human-experiment\/final-2026-v3-r1\/participants\/P0[1-8]\/auxiliary\/game-[12]\/[^/]+$/,
+  /^data\/human-experiment\/final-2026-v3-r1\/participants\/P0[1-8]\/checklist\.md$/,
+  /^data\/human-experiment\/invalid-sessions-v3-r1\/[^/]+\.json$/,
   // Non-playable operational infrastructure may evolve without changing the frozen game runtime.
   //
   // El congelado científico cubre IA, MCTS, reglas, configuración y runtime jugable. La capa
@@ -24,7 +23,7 @@ const OPERATIONAL_EXPERIMENT_PATHS = [
   // correcciones auditadas que no alteran las condiciones experimentales. Las rutas se
   // enumeran una a una a propósito: un patrón amplio dejaría de ser una lista revisable.
   /^src\/experiments\/humanExperiment(Ingestion|Transaction|Watcher)(\.test)?\.ts$/,
-  /^src\/training\/validateHumanExperimentV3\.test\.ts$/,
+  /^src\/training\/validateHumanExperimentV3(R1)?\.test\.ts$/,
   /^src\/experiments\/humanExperimentParticipantSetup\.test\.ts$/,
   /^scripts\/start-human-experiment\.mjs$/,
   // Endurecimiento operacional posterior al congelado (lote de correcciones 1-6).
@@ -34,7 +33,7 @@ const OPERATIONAL_EXPERIMENT_PATHS = [
   // Contiene la definición de partida válida: se admite por la unicidad de traceSha256 y
   // queda declarado en el TR como capa de admisión de datos, no como runtime congelado.
   /^src\/experiments\/humanExperimentValidation(\.test)?\.ts$/,
-  /^src\/training\/validateHumanExperimentV3\.ts$/,
+  /^src\/training\/validateHumanExperimentV3(R1)?\.ts$/,
   /^src\/training\/registerHumanExperimentGame\.ts$/,
   /^src\/training\/recoverHumanExperimentTransaction\.ts$/,
   /^src\/training\/watchHumanExperiment\.ts$/,
@@ -124,7 +123,6 @@ export function startHumanExperimentServer({
   argv = process.argv.slice(2),
   read = readFileSync,
 } = {}) {
-  if (argv[0] === 'official') throw new Error(V3_ARCHIVED_ERROR)
   const commit = getGitCommit(run)
   recoverPendingIngestionTransaction(run)
   assertCleanWorktree(run)
@@ -222,7 +220,59 @@ export function startHumanExperimentServer({
 export function resolveSessionEnvironment(argv, environment = process.env, read = readFileSync) {
   const [sessionType, participantId, gameNumberOrAiColor] = argv
   if (sessionType === 'official') {
-    throw new Error(V3_ARCHIVED_ERROR)
+    if (!participantId || !gameNumberOrAiColor)
+      throw new Error('Uso: npm run human-experiment:start -- official P01 <1|2>')
+    const gameNumber = Number(gameNumberOrAiColor)
+    if (gameNumber !== 1 && gameNumber !== 2) throw new Error('gameNumber must be 1 or 2')
+    if (
+      environment.HUMAN_EXPERIMENT_DIRECTORY &&
+      environment.HUMAN_EXPERIMENT_DIRECTORY.replace(/\\/g, '/') !== CURRENT_EXPERIMENT_DIRECTORY
+    )
+      throw new Error('Official sessions only accept the current V3-R1 experiment directory')
+    const directory = CURRENT_EXPERIMENT_DIRECTORY
+    const registry = JSON.parse(read(resolve(directory, 'registry.json'), 'utf8'))
+    const metadata = JSON.parse(read(resolve(directory, 'metadata.json'), 'utf8'))
+    if (
+      registry.experimentId !== CURRENT_EXPERIMENT_ID ||
+      metadata.experimentId !== CURRENT_EXPERIMENT_ID
+    )
+      throw new Error(`Official sessions only accept ${CURRENT_EXPERIMENT_ID}`)
+    const validatedFreeze = validateOfficialCodeFreeze(metadata, environment.RUNTIME_GIT_COMMIT, {
+      commitExists: environment.COMMIT_EXISTS,
+      isAncestor: environment.COMMIT_IS_ANCESTOR,
+      ancestryPath: environment.ANCESTRY_PATH,
+      commitParents: environment.COMMIT_PARENTS,
+      changedPathsInCommit: environment.CHANGED_PATHS_IN_COMMIT,
+      fileAtCommit: environment.FILE_AT_COMMIT,
+      changedPaths: environment.CHANGED_PATHS_SINCE_BINDING,
+    })
+    const participant = registry.participants.find((row) => row.participantId === participantId)
+    if (!participant) throw new Error(`Participant is not registered: ${participantId}`)
+    if (
+      registry.games.some(
+        (row) => row.participantId === participantId && row.gameNumber === gameNumber,
+      )
+    )
+      throw new Error(`Game ${gameNumber} is already registered for ${participantId}`)
+    if (
+      gameNumber === 2 &&
+      !registry.games.some((row) => row.participantId === participantId && row.gameNumber === 1)
+    )
+      throw new Error('Game 1 must be registered before game 2')
+    const humanColor = participant.colorOrder[gameNumber - 1]
+    const aiColor = humanColor === 'R' ? 'B' : 'R'
+    return {
+      VITE_EXPERIMENT_ID: registry.experimentId,
+      VITE_PARTICIPANT_ID: participantId,
+      VITE_GAME_NUMBER: String(gameNumber),
+      VITE_SESSION_TYPE: 'official',
+      VITE_SESSION_ID: crypto.randomUUID(),
+      VITE_HUMAN_COLOR: humanColor,
+      VITE_AI_COLOR: aiColor,
+      VITE_IMPLEMENTATION_COMMIT: validatedFreeze.implementationCommit,
+      VITE_EXPERIMENT_PREPARATION_COMMIT: validatedFreeze.experimentPreparationCommit,
+      VITE_CODE_FREEZE_BINDING_COMMIT: validatedFreeze.codeFreezeBindingCommit,
+    }
   }
   if (sessionType === 'practice') {
     if (!participantId || gameNumberOrAiColor)
@@ -261,11 +311,14 @@ export function validateOfficialCodeFreeze(metadata, runtimeCommit, git = {}) {
   const freeze = metadata?.codeFreeze
   if (metadata?.aiPolicy?.securedTerritoryPolicy !== false)
     throw new Error('securedTerritoryPolicy must remain disabled')
-  if (freeze?.status !== 'frozen') throw new Error('V3 metadata is not frozen')
+  if (freeze?.status !== 'frozen')
+    throw new Error(
+      'V3-R1 is prepared but not bound; create and publish the metadata-only binding commit',
+    )
   const implementation = validateFullCommit(freeze?.implementationCommit)
   const preparation = validateFullCommit(freeze?.experimentPreparationCommit)
   if (implementation !== preparation)
-    throw new Error('V3 implementationCommit and experimentPreparationCommit must match')
+    throw new Error('V3-R1 implementationCommit and experimentPreparationCommit must match')
   const runtime = validateFullCommit(runtimeCommit)
   const commitExists = git.commitExists ?? (() => true)
   for (const commit of [implementation, preparation, runtime]) {
@@ -278,35 +331,37 @@ export function validateOfficialCodeFreeze(metadata, runtimeCommit, git = {}) {
   try {
     if (!(git.isAncestor ?? (() => true))(implementation, runtime)) throw new Error('not ancestor')
   } catch {
-    throw new Error('Runtime commit does not descend from the V3 implementation commit')
+    throw new Error('Runtime commit does not descend from the V3-R1 implementation commit')
   }
   const ancestry = (git.ancestryPath ?? (() => []))(implementation, runtime).map(validateFullCommit)
   const binding = ancestry[0]
-  if (!binding) throw new Error('V3 code-freeze binding commit is missing')
+  if (!binding) throw new Error('V3-R1 code-freeze binding commit is missing')
   const parents = (git.commitParents ?? (() => [implementation]))(binding).map(validateFullCommit)
   if (parents.length !== 1 || parents[0] !== implementation)
-    throw new Error('V3 code-freeze binding must be the immediate child of the implementation')
+    throw new Error('V3-R1 code-freeze binding must be the immediate child of the implementation')
   const bindingPaths = (git.changedPathsInCommit ?? (() => [CODE_FREEZE_METADATA_PATH]))(binding)
     .map(normalizeGitPath)
     .sort()
   if (bindingPaths.length !== 1 || bindingPaths[0] !== CODE_FREEZE_METADATA_PATH)
-    throw new Error('V3 code-freeze binding must modify only metadata.json')
+    throw new Error('V3-R1 code-freeze binding must modify only metadata.json')
   if (git.fileAtCommit) {
     let boundMetadata
     try {
       boundMetadata = JSON.parse(git.fileAtCommit(binding, CODE_FREEZE_METADATA_PATH))
     } catch {
-      throw new Error('Unable to read V3 metadata from the code-freeze binding commit')
+      throw new Error('Unable to read V3-R1 metadata from the code-freeze binding commit')
     }
     if (JSON.stringify(boundMetadata?.codeFreeze) !== JSON.stringify(freeze))
-      throw new Error('Runtime metadata does not match the code-freeze binding commit')
+      throw new Error('Runtime metadata does not match the V3-R1 code-freeze binding commit')
   }
   const changedPaths = (git.changedPaths ?? (() => []))(binding, runtime)
   const forbidden = changedPaths
     .map(normalizeGitPath)
     .filter((path) => !isAllowedOperationalExperimentPath(path))
   if (forbidden.length)
-    throw new Error(`Functional files changed after the V3 code freeze: ${forbidden.join(', ')}`)
+    throw new Error(
+      `Files outside the V3-R1 post-freeze allowlist changed: ${forbidden.join(', ')}`,
+    )
   return { ...freeze, codeFreezeBindingCommit: binding }
 }
 

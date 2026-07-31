@@ -39,6 +39,7 @@
     "human-experiment:validate": "node --import ./scripts/run-ts-node-esm.mjs src/training/validateHumanExperiment.ts",
     "human-experiment:validate-v3": "node --import ./scripts/run-ts-node-esm.mjs src/training/validateHumanExperimentV3.ts",
     "human-experiment:validate-v3-archive": "node --import ./scripts/run-ts-node-esm.mjs src/training/validateHumanExperimentV3Archive.ts",
+    "human-experiment:validate-v3-r1": "node --import ./scripts/run-ts-node-esm.mjs src/training/validateHumanExperimentV3R1.ts",
     "human-experiment:export": "node --import ./scripts/run-ts-node-esm.mjs src/training/exportHumanExperiment.ts",
     "human-experiment:start": "node scripts/start-human-experiment.mjs",
     "human-experiment:setup-participant": "node --import ./scripts/run-ts-node-esm.mjs src/training/setupHumanExperimentParticipant.ts",
