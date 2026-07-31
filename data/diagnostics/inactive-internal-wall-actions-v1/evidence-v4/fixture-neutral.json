@@ -1,0 +1,276 @@
+{
+  "board": [
+    [
+      {
+        "stone": "B",
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": "B"
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": "B"
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      }
+    ],
+    [
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": "B",
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": "B"
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      }
+    ],
+    [
+      {
+        "stone": "B",
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": "B",
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": "B",
+        "wallTop": null,
+        "wallLeft": "B"
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": "B"
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      }
+    ],
+    [
+      {
+        "stone": null,
+        "wallTop": "B",
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": "B",
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": "B",
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      }
+    ],
+    [
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      }
+    ],
+    [
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": "R",
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": "R",
+        "wallTop": null,
+        "wallLeft": null
+      }
+    ],
+    [
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": null,
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": "R",
+        "wallTop": null,
+        "wallLeft": null
+      },
+      {
+        "stone": "R",
+        "wallTop": null,
+        "wallLeft": null
+      }
+    ]
+  ],
+  "turn": "B",
+  "legal": [],
+  "stepsTaken": 0,
+  "phase": "playing",
+  "players": [
+    "R",
+    "B"
+  ],
+  "stonesLimit": 4,
+  "stonesPlaced": {
+    "R": 4,
+    "B": 4
+  }
+}

@@ -1,0 +1,4907 @@
+{
+  "schema": "InactiveInternalWallActionsDiagnosticV1",
+  "decision": {
+    "status": "diagnostic-only",
+    "accepted": false,
+    "productionModified": false,
+    "v3R1Modified": false,
+    "reason": "P02-1 trace unavailable; synthetic evidence only"
+  },
+  "observedCase": {
+    "participant": "P02",
+    "gameNumber": 1,
+    "available": false,
+    "reason": "V3-R1 registry has P02 registered with zero games and no official trace"
+  },
+  "definitions": {
+    "internal": "same initial component, own-only, no rival influence, and no mobility leaving the original component",
+    "A": "reject only immediate own-territory-loss walls",
+    "B": "apply a valuation penalty without exclusion",
+    "C": "compare original and alternatives with paired continuations",
+    "D": "exclude neutral walls only after a robust counterfactual margin"
+  },
+  "fixtures": [
+    {
+      "id": "synthetic-own-only-internal-wall-immediate-loss",
+      "source": "synthetic-generated-rules-fixture",
+      "exactP02Reproduction": false,
+      "player": "B",
+      "stateBefore": {
+        "board": [
+          [
+            {
+              "stone": "B",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": "B"
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": "B"
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "B",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": "B"
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": "B",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "B",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": "B"
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": "B"
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": null,
+              "wallTop": "B",
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": "B",
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": "B",
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "R",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "R",
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "R",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "R",
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ]
+        ],
+        "turn": "B",
+        "legal": [],
+        "stepsTaken": 0,
+        "phase": "playing",
+        "players": [
+          "R",
+          "B"
+        ],
+        "stonesLimit": 4,
+        "stonesPlaced": {
+          "R": 4,
+          "B": 4
+        }
+      },
+      "mctsSelectedAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 2,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 1
+          },
+          "pos": {
+            "x": 2,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "selectedWallAction": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "dir": "right"
+      },
+      "selectedDiagnostic": {
+        "action": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 1
+          },
+          "dir": "right"
+        },
+        "wall": {
+          "pos": {
+            "x": 1,
+            "y": 1
+          },
+          "dir": "right",
+          "endpoints": [
+            {
+              "x": 1,
+              "y": 1
+            },
+            {
+              "x": 2,
+              "y": 1
+            }
+          ]
+        },
+        "strictlyInternal": true,
+        "immediateTerritoryLoss": 3,
+        "immediateTerritoryGain": 0,
+        "territoryPreserved": false,
+        "componentSplit": true,
+        "emptySubregionCreated": true,
+        "affectsEndOfGame": true,
+        "endedByAction": true,
+        "externalMobilityChanged": false,
+        "opponentInfluenceChanged": false,
+        "reasons": [
+          "wall-splits-component",
+          "creates-empty-subregion",
+          "affects-end-of-game",
+          "immediate-own-territory-loss"
+        ],
+        "before": {
+          "territory": {
+            "R": 40,
+            "B": 9
+          },
+          "accessible": {
+            "R": 40,
+            "B": 9
+          },
+          "mobility": {
+            "R": {
+              "totalDestinations": 13,
+              "trapPieces": 1,
+              "lowPieces": 0
+            },
+            "B": {
+              "totalDestinations": 8,
+              "trapPieces": 1,
+              "lowPieces": 1
+            }
+          },
+          "components": [
+            {
+              "size": 9,
+              "redStones": 0,
+              "blueStones": 4,
+              "owner": "B",
+              "containsWallEndpoint": true
+            },
+            {
+              "size": 40,
+              "redStones": 4,
+              "blueStones": 0,
+              "owner": "R",
+              "containsWallEndpoint": false
+            }
+          ],
+          "evaluation": -351
+        },
+        "after": {
+          "territory": {
+            "R": 40,
+            "B": 6
+          },
+          "accessible": {
+            "R": 40,
+            "B": 6
+          },
+          "mobility": {
+            "R": {
+              "totalDestinations": 13,
+              "trapPieces": 1,
+              "lowPieces": 0
+            },
+            "B": {
+              "totalDestinations": 5,
+              "trapPieces": 1,
+              "lowPieces": 1
+            }
+          },
+          "components": [
+            {
+              "size": 6,
+              "redStones": 0,
+              "blueStones": 4,
+              "owner": "B",
+              "containsWallEndpoint": true
+            },
+            {
+              "size": 3,
+              "redStones": 0,
+              "blueStones": 0,
+              "owner": null,
+              "containsWallEndpoint": true
+            },
+            {
+              "size": 40,
+              "redStones": 4,
+              "blueStones": 0,
+              "owner": "R",
+              "containsWallEndpoint": false
+            }
+          ],
+          "evaluation": -1000000
+        }
+      },
+      "rootCandidates": [
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "bottom"
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 4,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "right"
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "top"
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "left"
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "right"
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "pos": {
+              "x": 0,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 1
+              },
+              "pos": {
+                "x": 0,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "pos": {
+              "x": 0,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 1
+              },
+              "pos": {
+                "x": 0,
+                "y": 1
+              },
+              "dir": "right"
+            }
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 0,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 1
+              },
+              "pos": {
+                "x": 0,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 1,
+          "value": -1
+        }
+      ],
+      "mcts": {
+        "seed": 1701,
+        "simulations": 32,
+        "selectedVisits": 3,
+        "selectedValue": -1,
+        "candidates": [
+          {
+            "action": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "bottom"
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 1
+                },
+                "dir": "left"
+              }
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 1
+                },
+                "dir": "bottom"
+              }
+            },
+            "visits": 4,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 1
+                },
+                "dir": "top"
+              }
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "right"
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "top"
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "left"
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 2
+              },
+              "pos": {
+                "x": 0,
+                "y": 2
+              },
+              "dir": "right"
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "pos": {
+                "x": 0,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 1
+                },
+                "dir": "bottom"
+              }
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "pos": {
+                "x": 0,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 1
+                },
+                "dir": "right"
+              }
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 0,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 0,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 1
+                },
+                "dir": "bottom"
+              }
+            },
+            "visits": 1,
+            "value": -1
+          }
+        ]
+      },
+      "candidates": [
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "dir": "right"
+          },
+          "wall": {
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "dir": "right",
+            "endpoints": [
+              {
+                "x": 0,
+                "y": 0
+              },
+              {
+                "x": 1,
+                "y": 0
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -351
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 7,
+                "trapPieces": 1,
+                "lowPieces": 2
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "dir": "bottom"
+          },
+          "wall": {
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "dir": "bottom",
+            "endpoints": [
+              {
+                "x": 0,
+                "y": 0
+              },
+              {
+                "x": 0,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -351
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 7,
+                "trapPieces": 1,
+                "lowPieces": 2
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "left"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "left",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 1
+              },
+              {
+                "x": 0,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -351
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 7,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "bottom"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "bottom",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -351
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "top"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "top",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 0
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -351
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 7,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "right"
+          },
+          "wall": {
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "right",
+            "endpoints": [
+              {
+                "x": 0,
+                "y": 2
+              },
+              {
+                "x": 1,
+                "y": 2
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -351
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "top"
+          },
+          "wall": {
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "top",
+            "endpoints": [
+              {
+                "x": 0,
+                "y": 2
+              },
+              {
+                "x": 0,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -351
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 7,
+                "trapPieces": 2,
+                "lowPieces": 0
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "dir": "left"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "dir": "left",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 0,
+                "y": 2
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -351
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "dir": "top"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "dir": "top",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 1,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -351
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "right"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "right",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 1
+              },
+              {
+                "x": 2,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 3,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": false,
+          "componentSplit": true,
+          "emptySubregionCreated": true,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "wall-splits-component",
+            "creates-empty-subregion",
+            "affects-end-of-game",
+            "immediate-own-territory-loss"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -351
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 6
+            },
+            "accessible": {
+              "R": 40,
+              "B": 6
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 5,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 6,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 3,
+                "redStones": 0,
+                "blueStones": 0,
+                "owner": null,
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        }
+      ],
+      "interventions": {
+        "A_immediateLossOnly": 1,
+        "B_penaltyOnly": "measured independently; no selection change applied",
+        "C_pairedContinuations": [
+          {
+            "originalAction": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "right"
+            },
+            "alternative": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "pos": {
+                "x": 0,
+                "y": 0
+              },
+              "dir": "right"
+            },
+            "original": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 6
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "alternativeResult": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "classification": "beneficial"
+          },
+          {
+            "originalAction": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "right"
+            },
+            "alternative": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "pos": {
+                "x": 0,
+                "y": 0
+              },
+              "dir": "bottom"
+            },
+            "original": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 6
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "alternativeResult": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "classification": "beneficial"
+          },
+          {
+            "originalAction": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "right"
+            },
+            "alternative": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "left"
+            },
+            "original": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 6
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "alternativeResult": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "classification": "beneficial"
+          },
+          {
+            "originalAction": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "right"
+            },
+            "alternative": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "bottom"
+            },
+            "original": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 6
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "alternativeResult": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "classification": "beneficial"
+          }
+        ],
+        "D_robustNeutralExclusion": "not activated without an independent robust margin"
+      }
+    },
+    {
+      "id": "synthetic-own-only-internal-wall-neutral",
+      "source": "synthetic-generated-rules-fixture",
+      "exactP02Reproduction": false,
+      "player": "B",
+      "stateBefore": {
+        "board": [
+          [
+            {
+              "stone": "B",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": "B"
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": "B"
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "B",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": "B"
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": "B",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "B",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "B",
+              "wallTop": null,
+              "wallLeft": "B"
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": "B"
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": null,
+              "wallTop": "B",
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": "B",
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": "B",
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "R",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "R",
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ],
+          [
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": null,
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "R",
+              "wallTop": null,
+              "wallLeft": null
+            },
+            {
+              "stone": "R",
+              "wallTop": null,
+              "wallLeft": null
+            }
+          ]
+        ],
+        "turn": "B",
+        "legal": [],
+        "stepsTaken": 0,
+        "phase": "playing",
+        "players": [
+          "R",
+          "B"
+        ],
+        "stonesLimit": 4,
+        "stonesPlaced": {
+          "R": 4,
+          "B": 4
+        }
+      },
+      "mctsSelectedAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 2
+        },
+        "pos": {
+          "x": 2,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 1
+          },
+          "pos": {
+            "x": 2,
+            "y": 1
+          },
+          "dir": "left"
+        }
+      },
+      "selectedWallAction": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "dir": "right"
+      },
+      "selectedDiagnostic": {
+        "action": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 1
+          },
+          "dir": "right"
+        },
+        "wall": {
+          "pos": {
+            "x": 1,
+            "y": 1
+          },
+          "dir": "right",
+          "endpoints": [
+            {
+              "x": 1,
+              "y": 1
+            },
+            {
+              "x": 2,
+              "y": 1
+            }
+          ]
+        },
+        "strictlyInternal": true,
+        "immediateTerritoryLoss": 0,
+        "immediateTerritoryGain": 0,
+        "territoryPreserved": true,
+        "componentSplit": true,
+        "emptySubregionCreated": false,
+        "affectsEndOfGame": true,
+        "endedByAction": true,
+        "externalMobilityChanged": false,
+        "opponentInfluenceChanged": false,
+        "reasons": [
+          "wall-splits-component",
+          "affects-end-of-game",
+          "territory-preserved"
+        ],
+        "before": {
+          "territory": {
+            "R": 40,
+            "B": 9
+          },
+          "accessible": {
+            "R": 40,
+            "B": 9
+          },
+          "mobility": {
+            "R": {
+              "totalDestinations": 13,
+              "trapPieces": 1,
+              "lowPieces": 0
+            },
+            "B": {
+              "totalDestinations": 9,
+              "trapPieces": 1,
+              "lowPieces": 1
+            }
+          },
+          "components": [
+            {
+              "size": 9,
+              "redStones": 0,
+              "blueStones": 5,
+              "owner": "B",
+              "containsWallEndpoint": true
+            },
+            {
+              "size": 40,
+              "redStones": 4,
+              "blueStones": 0,
+              "owner": "R",
+              "containsWallEndpoint": false
+            }
+          ],
+          "evaluation": -349
+        },
+        "after": {
+          "territory": {
+            "R": 40,
+            "B": 9
+          },
+          "accessible": {
+            "R": 40,
+            "B": 9
+          },
+          "mobility": {
+            "R": {
+              "totalDestinations": 13,
+              "trapPieces": 1,
+              "lowPieces": 0
+            },
+            "B": {
+              "totalDestinations": 7,
+              "trapPieces": 1,
+              "lowPieces": 1
+            }
+          },
+          "components": [
+            {
+              "size": 6,
+              "redStones": 0,
+              "blueStones": 4,
+              "owner": "B",
+              "containsWallEndpoint": true
+            },
+            {
+              "size": 3,
+              "redStones": 0,
+              "blueStones": 1,
+              "owner": "B",
+              "containsWallEndpoint": true
+            },
+            {
+              "size": 40,
+              "redStones": 4,
+              "blueStones": 0,
+              "owner": "R",
+              "containsWallEndpoint": false
+            }
+          ],
+          "evaluation": -1000000
+        }
+      },
+      "rootCandidates": [
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "bottom"
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 2
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 4,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "top"
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "right"
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "left"
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "left"
+            }
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 2
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "top"
+            }
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "move",
+            "from": {
+              "x": 2,
+              "y": 2
+            },
+            "pos": {
+              "x": 2,
+              "y": 1
+            },
+            "followUp": {
+              "type": "wall",
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "dir": "bottom"
+            }
+          },
+          "visits": 3,
+          "value": -1
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "right"
+          },
+          "visits": 1,
+          "value": -1
+        }
+      ],
+      "mcts": {
+        "seed": 1702,
+        "simulations": 32,
+        "selectedVisits": 3,
+        "selectedValue": -1,
+        "candidates": [
+          {
+            "action": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "bottom"
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 1
+                },
+                "dir": "bottom"
+              }
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 2,
+                "y": 2
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 1
+                },
+                "dir": "left"
+              }
+            },
+            "visits": 4,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "top"
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "right"
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "left"
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 1
+                },
+                "dir": "top"
+              }
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 1
+                },
+                "dir": "left"
+              }
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 2,
+                "y": 2
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 1
+                },
+                "dir": "top"
+              }
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "move",
+              "from": {
+                "x": 2,
+                "y": 2
+              },
+              "pos": {
+                "x": 2,
+                "y": 1
+              },
+              "followUp": {
+                "type": "wall",
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 1
+                },
+                "dir": "bottom"
+              }
+            },
+            "visits": 3,
+            "value": -1
+          },
+          {
+            "action": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 2
+              },
+              "pos": {
+                "x": 0,
+                "y": 2
+              },
+              "dir": "right"
+            },
+            "visits": 1,
+            "value": -1
+          }
+        ]
+      },
+      "candidates": [
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "dir": "right"
+          },
+          "wall": {
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "dir": "right",
+            "endpoints": [
+              {
+                "x": 0,
+                "y": 0
+              },
+              {
+                "x": 1,
+                "y": 0
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 2
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "dir": "bottom"
+          },
+          "wall": {
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "dir": "bottom",
+            "endpoints": [
+              {
+                "x": 0,
+                "y": 0
+              },
+              {
+                "x": 0,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 2
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "right"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "right",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 1
+              },
+              {
+                "x": 2,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": true,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "wall-splits-component",
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 7,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 6,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 3,
+                "redStones": 0,
+                "blueStones": 1,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "left"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "left",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 1
+              },
+              {
+                "x": 0,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "bottom"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "bottom",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 1
+            },
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "top"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 1
+            },
+            "dir": "top",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 0
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "right"
+          },
+          "wall": {
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "right",
+            "endpoints": [
+              {
+                "x": 0,
+                "y": 2
+              },
+              {
+                "x": 1,
+                "y": 2
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 2
+            },
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "top"
+          },
+          "wall": {
+            "pos": {
+              "x": 0,
+              "y": 2
+            },
+            "dir": "top",
+            "endpoints": [
+              {
+                "x": 0,
+                "y": 2
+              },
+              {
+                "x": 0,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 8,
+                "trapPieces": 2,
+                "lowPieces": 0
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "dir": "left"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "dir": "left",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 0,
+                "y": 2
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 2
+            },
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "dir": "top"
+          },
+          "wall": {
+            "pos": {
+              "x": 1,
+              "y": 2
+            },
+            "dir": "top",
+            "endpoints": [
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 1,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": false,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -1000000
+          }
+        },
+        {
+          "action": {
+            "type": "wall",
+            "from": {
+              "x": 2,
+              "y": 2
+            },
+            "pos": {
+              "x": 2,
+              "y": 2
+            },
+            "dir": "top"
+          },
+          "wall": {
+            "pos": {
+              "x": 2,
+              "y": 2
+            },
+            "dir": "top",
+            "endpoints": [
+              {
+                "x": 2,
+                "y": 2
+              },
+              {
+                "x": 2,
+                "y": 1
+              }
+            ]
+          },
+          "strictlyInternal": true,
+          "immediateTerritoryLoss": 0,
+          "immediateTerritoryGain": 0,
+          "territoryPreserved": true,
+          "componentSplit": true,
+          "emptySubregionCreated": false,
+          "affectsEndOfGame": true,
+          "endedByAction": true,
+          "externalMobilityChanged": false,
+          "opponentInfluenceChanged": false,
+          "reasons": [
+            "wall-splits-component",
+            "affects-end-of-game",
+            "territory-preserved"
+          ],
+          "before": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 9,
+                "trapPieces": 1,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 9,
+                "redStones": 0,
+                "blueStones": 5,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              }
+            ],
+            "evaluation": -349
+          },
+          "after": {
+            "territory": {
+              "R": 40,
+              "B": 9
+            },
+            "accessible": {
+              "R": 40,
+              "B": 9
+            },
+            "mobility": {
+              "R": {
+                "totalDestinations": 13,
+                "trapPieces": 1,
+                "lowPieces": 0
+              },
+              "B": {
+                "totalDestinations": 7,
+                "trapPieces": 2,
+                "lowPieces": 1
+              }
+            },
+            "components": [
+              {
+                "size": 8,
+                "redStones": 0,
+                "blueStones": 4,
+                "owner": "B",
+                "containsWallEndpoint": true
+              },
+              {
+                "size": 40,
+                "redStones": 4,
+                "blueStones": 0,
+                "owner": "R",
+                "containsWallEndpoint": false
+              },
+              {
+                "size": 1,
+                "redStones": 0,
+                "blueStones": 1,
+                "owner": "B",
+                "containsWallEndpoint": true
+              }
+            ],
+            "evaluation": -1000000
+          }
+        }
+      ],
+      "interventions": {
+        "A_immediateLossOnly": 0,
+        "B_penaltyOnly": "measured independently; no selection change applied",
+        "C_pairedContinuations": [
+          {
+            "originalAction": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "right"
+            },
+            "alternative": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "pos": {
+                "x": 0,
+                "y": 0
+              },
+              "dir": "right"
+            },
+            "original": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "alternativeResult": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "classification": "neutral"
+          },
+          {
+            "originalAction": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "right"
+            },
+            "alternative": {
+              "type": "wall",
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "pos": {
+                "x": 0,
+                "y": 0
+              },
+              "dir": "bottom"
+            },
+            "original": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "alternativeResult": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "classification": "neutral"
+          },
+          {
+            "originalAction": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "right"
+            },
+            "alternative": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "left"
+            },
+            "original": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "alternativeResult": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "classification": "neutral"
+          },
+          {
+            "originalAction": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "right"
+            },
+            "alternative": {
+              "type": "wall",
+              "from": {
+                "x": 1,
+                "y": 1
+              },
+              "pos": {
+                "x": 1,
+                "y": 1
+              },
+              "dir": "bottom"
+            },
+            "original": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "alternativeResult": {
+              "territoryFinal": {
+                "R": 40,
+                "B": 9
+              },
+              "result": "R",
+              "turnsRemaining": 12,
+              "illegalActions": 0
+            },
+            "classification": "neutral"
+          }
+        ],
+        "D_robustNeutralExclusion": "not activated without an independent robust margin"
+      }
+    }
+  ],
+  "mandatoryCoverage": {
+    "immediateLoss": true,
+    "territoryPreserved": true,
+    "activeFrontierControl": true,
+    "rivalComponentControl": true,
+    "endgameAndThreatControls": "covered by separate existing engine tests; no production hook added",
+    "fallback": true,
+    "deterministicSeeds": true,
+    "illegalActions": 0,
+    "traceReproducibility": "stateBefore is serialized from the rule fixture; no P02 trace claimed"
+  }
+}
