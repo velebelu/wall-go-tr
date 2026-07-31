@@ -4,7 +4,7 @@
   "supersedes": "WGTR-HUMAN-FINAL-2026-V3",
   "archivedExperimentDirectory": "data/human-experiment/final-2026-v3",
   "createdAt": "2026-07-31",
-  "gameCount": 3,
+  "gameCount": 4,
   "repeatReason": "V3 was closed after a committed-state transition mismatch; V3-R1 repeats the unchanged protocol with hardened diagnostics and ingestion.",
   "aiPolicy": {
     "securedTerritoryPolicy": false,
