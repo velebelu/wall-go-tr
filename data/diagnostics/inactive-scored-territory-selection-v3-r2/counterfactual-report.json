@@ -1,0 +1,2367 @@
+{
+  "schema": "InactiveScoredTerritorySelectionEvaluationV1",
+  "createdAt": "2026-07-31T16:41:59.701Z",
+  "continuationsPerIntervention": 3,
+  "corpus": {
+    "diagnosticTraces": 36,
+    "p01Turn40Included": true,
+    "uniqueInterventions": 8,
+    "screenedInterventions": 35,
+    "preservedControls": 50
+  },
+  "classifications": {
+    "beneficial": 3,
+    "harmful": 4,
+    "neutral": 1
+  },
+  "meanTerritoryEffect": 0.16666666666666657,
+  "meanOutcomeEffect": -0.08333333333333334,
+  "illegalCorrectedActions": 0,
+  "fallbackCount": 0,
+  "accepted": false,
+  "acceptanceReason": "harmful-paired-interventions-detected",
+  "rows": [
+    {
+      "id": 35,
+      "source": "v3-r1:p01:game-2:turn-40",
+      "aiColor": "R",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 5
+          },
+          "pos": {
+            "x": 5,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      },
+      "correctedAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      },
+      "filterEvidence": {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 3,
+            "y": 5
+          },
+          "pos": {
+            "x": 5,
+            "y": 5
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 5,
+              "y": 5
+            },
+            "pos": {
+              "x": 5,
+              "y": 5
+            },
+            "dir": "bottom"
+          }
+        },
+        "componentSize": 21,
+        "ownStones": 2,
+        "territoryBefore": {
+          "R": 22,
+          "B": 3
+        },
+        "territoryAfter": {
+          "R": 22,
+          "B": 3
+        },
+        "territoryDelta": {
+          "R": 0,
+          "B": 0
+        },
+        "classification": "neutral-internal"
+      },
+      "immediateOriginal": {
+        "territory": {
+          "R": 22,
+          "B": 3
+        },
+        "mobility": {
+          "active": 4,
+          "internal": 12,
+          "total": 16
+        },
+        "expansion": 19,
+        "evaluation": 221
+      },
+      "immediateCorrected": {
+        "territory": {
+          "R": 22,
+          "B": 3
+        },
+        "mobility": {
+          "active": 3,
+          "internal": 9,
+          "total": 12
+        },
+        "expansion": 19,
+        "evaluation": 213
+      },
+      "continuations": [
+        {
+          "seed": 2995969175,
+          "original": {
+            "territory": {
+              "R": 23,
+              "B": 14
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 12,
+              "total": 12
+            },
+            "outcome": "win",
+            "turns": 6
+          },
+          "corrected": {
+            "territory": {
+              "R": 23,
+              "B": 15
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 9,
+              "total": 9
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "territoryEffect": 0,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 532567692,
+          "original": {
+            "territory": {
+              "R": 27,
+              "B": 8
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 15,
+              "total": 15
+            },
+            "outcome": "win",
+            "turns": 8
+          },
+          "corrected": {
+            "territory": {
+              "R": 23,
+              "B": 16
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 9,
+              "total": 9
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "territoryEffect": -4,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 2364133505,
+          "original": {
+            "territory": {
+              "R": 28,
+              "B": 10
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 11,
+              "total": 11
+            },
+            "outcome": "win",
+            "turns": 8
+          },
+          "corrected": {
+            "territory": {
+              "R": 23,
+              "B": 15
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 9,
+              "total": 9
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "territoryEffect": -5,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        }
+      ],
+      "meanTerritoryEffect": -3,
+      "meanOutcomeEffect": 0,
+      "classification": "harmful"
+    },
+    {
+      "id": 4,
+      "source": "secured-territory-14-1589654177:39",
+      "aiColor": "B",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "correctedAction": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 2
+          },
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "dir": "top"
+        }
+      },
+      "filterEvidence": {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 1,
+              "y": 0
+            },
+            "pos": {
+              "x": 1,
+              "y": 0
+            },
+            "dir": "right"
+          }
+        },
+        "componentSize": 20,
+        "ownStones": 2,
+        "territoryBefore": {
+          "R": 0,
+          "B": 20
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 20
+        },
+        "territoryDelta": {
+          "R": 0,
+          "B": 0
+        },
+        "classification": "neutral-internal"
+      },
+      "immediateOriginal": {
+        "territory": {
+          "R": 0,
+          "B": 20
+        },
+        "mobility": {
+          "active": 5,
+          "internal": 5,
+          "total": 10
+        },
+        "expansion": 20,
+        "evaluation": 212
+      },
+      "immediateCorrected": {
+        "territory": {
+          "R": 0,
+          "B": 20
+        },
+        "mobility": {
+          "active": 5,
+          "internal": 7,
+          "total": 12
+        },
+        "expansion": 20,
+        "evaluation": 216
+      },
+      "continuations": [
+        {
+          "seed": 3864999877,
+          "original": {
+            "territory": {
+              "R": 14,
+              "B": 25
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 8
+          },
+          "corrected": {
+            "territory": {
+              "R": 14,
+              "B": 24
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 9,
+              "total": 9
+            },
+            "outcome": "win",
+            "turns": 6
+          },
+          "territoryEffect": -1,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 1401598394,
+          "original": {
+            "territory": {
+              "R": 19,
+              "B": 24
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "corrected": {
+            "territory": {
+              "R": 15,
+              "B": 24
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 9,
+              "total": 9
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "territoryEffect": 0,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 3233164207,
+          "original": {
+            "territory": {
+              "R": 18,
+              "B": 27
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 9,
+              "total": 9
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "corrected": {
+            "territory": {
+              "R": 21,
+              "B": 23
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 8,
+              "total": 8
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "territoryEffect": -4,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        }
+      ],
+      "meanTerritoryEffect": -1.6666666666666667,
+      "meanOutcomeEffect": 0,
+      "classification": "harmful"
+    },
+    {
+      "id": 5,
+      "source": "secured-territory-16-1589656171:39",
+      "aiColor": "B",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 0
+        },
+        "pos": {
+          "x": 6,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 0
+          },
+          "pos": {
+            "x": 6,
+            "y": 0
+          },
+          "dir": "bottom"
+        }
+      },
+      "correctedAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 5
+          },
+          "pos": {
+            "x": 3,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "filterEvidence": {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 4,
+            "y": 0
+          },
+          "pos": {
+            "x": 6,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 6,
+              "y": 0
+            },
+            "pos": {
+              "x": 6,
+              "y": 0
+            },
+            "dir": "bottom"
+          }
+        },
+        "componentSize": 7,
+        "ownStones": 1,
+        "territoryBefore": {
+          "R": 10,
+          "B": 9
+        },
+        "territoryAfter": {
+          "R": 10,
+          "B": 9
+        },
+        "territoryDelta": {
+          "R": 0,
+          "B": 0
+        },
+        "classification": "neutral-internal"
+      },
+      "immediateOriginal": {
+        "territory": {
+          "R": 10,
+          "B": 9
+        },
+        "mobility": {
+          "active": 8,
+          "internal": 3,
+          "total": 11
+        },
+        "expansion": -1,
+        "evaluation": -35
+      },
+      "immediateCorrected": {
+        "territory": {
+          "R": 10,
+          "B": 9
+        },
+        "mobility": {
+          "active": 5,
+          "internal": 3,
+          "total": 8
+        },
+        "expansion": -1,
+        "evaluation": -41
+      },
+      "continuations": [
+        {
+          "seed": 3865001871,
+          "original": {
+            "territory": {
+              "R": 17,
+              "B": 23
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 13
+          },
+          "corrected": {
+            "territory": {
+              "R": 15,
+              "B": 19
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 6,
+              "total": 6
+            },
+            "outcome": "win",
+            "turns": 14
+          },
+          "territoryEffect": -4,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 1401600388,
+          "original": {
+            "territory": {
+              "R": 18,
+              "B": 11
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 4,
+              "total": 4
+            },
+            "outcome": "loss",
+            "turns": 17
+          },
+          "corrected": {
+            "territory": {
+              "R": 15,
+              "B": 16
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 5,
+              "total": 5
+            },
+            "outcome": "win",
+            "turns": 12
+          },
+          "territoryEffect": 5,
+          "evaluationEffect": 2000000,
+          "outcomeEffect": 2
+        },
+        {
+          "seed": 3233166201,
+          "original": {
+            "territory": {
+              "R": 15,
+              "B": 13
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 5,
+              "total": 5
+            },
+            "outcome": "loss",
+            "turns": 21
+          },
+          "corrected": {
+            "territory": {
+              "R": 22,
+              "B": 23
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 6
+          },
+          "territoryEffect": 10,
+          "evaluationEffect": 2000000,
+          "outcomeEffect": 2
+        }
+      ],
+      "meanTerritoryEffect": 3.6666666666666665,
+      "meanOutcomeEffect": 1.3333333333333333,
+      "classification": "beneficial"
+    },
+    {
+      "id": 10,
+      "source": "secured-territory-2-1589642213:33",
+      "aiColor": "B",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "dir": "left"
+        }
+      },
+      "correctedAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 4
+          },
+          "pos": {
+            "x": 3,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "filterEvidence": {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 4,
+            "y": 1
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 1
+            },
+            "pos": {
+              "x": 4,
+              "y": 1
+            },
+            "dir": "left"
+          }
+        },
+        "componentSize": 22,
+        "ownStones": 3,
+        "territoryBefore": {
+          "R": 0,
+          "B": 22
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 22
+        },
+        "territoryDelta": {
+          "R": 0,
+          "B": 0
+        },
+        "classification": "neutral-internal"
+      },
+      "immediateOriginal": {
+        "territory": {
+          "R": 0,
+          "B": 22
+        },
+        "mobility": {
+          "active": 6,
+          "internal": 13,
+          "total": 19
+        },
+        "expansion": 22,
+        "evaluation": 250
+      },
+      "immediateCorrected": {
+        "territory": {
+          "R": 7,
+          "B": 22
+        },
+        "mobility": {
+          "active": 2,
+          "internal": 14,
+          "total": 16
+        },
+        "expansion": 15,
+        "evaluation": 171
+      },
+      "continuations": [
+        {
+          "seed": 823275187,
+          "original": {
+            "territory": {
+              "R": 14,
+              "B": 34
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 15,
+              "total": 15
+            },
+            "outcome": "win",
+            "turns": 5
+          },
+          "corrected": {
+            "territory": {
+              "R": 19,
+              "B": 27
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 17,
+              "total": 17
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "territoryEffect": -7,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 2654841000,
+          "original": {
+            "territory": {
+              "R": 22,
+              "B": 24
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 14,
+              "total": 14
+            },
+            "outcome": "win",
+            "turns": 6
+          },
+          "corrected": {
+            "territory": {
+              "R": 20,
+              "B": 28
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 18,
+              "total": 18
+            },
+            "outcome": "win",
+            "turns": 2
+          },
+          "territoryEffect": 4,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 191439517,
+          "original": {
+            "territory": {
+              "R": 23,
+              "B": 24
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 14,
+              "total": 14
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "corrected": {
+            "territory": {
+              "R": 19,
+              "B": 27
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 17,
+              "total": 17
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "territoryEffect": 3,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        }
+      ],
+      "meanTerritoryEffect": 0,
+      "meanOutcomeEffect": 0,
+      "classification": "neutral"
+    },
+    {
+      "id": 20,
+      "source": "secured-territory-30-1589670129:49",
+      "aiColor": "B",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 3
+        },
+        "pos": {
+          "x": 4,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "pos": {
+            "x": 4,
+            "y": 3
+          },
+          "dir": "right"
+        }
+      },
+      "correctedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 6
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 5
+          },
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "right"
+        }
+      },
+      "filterEvidence": {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 5,
+            "y": 3
+          },
+          "pos": {
+            "x": 4,
+            "y": 3
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 4,
+              "y": 3
+            },
+            "pos": {
+              "x": 4,
+              "y": 3
+            },
+            "dir": "right"
+          }
+        },
+        "componentSize": 5,
+        "ownStones": 1,
+        "territoryBefore": {
+          "R": 9,
+          "B": 20
+        },
+        "territoryAfter": {
+          "R": 9,
+          "B": 19
+        },
+        "territoryDelta": {
+          "R": 0,
+          "B": -1
+        },
+        "classification": "harmful-internal"
+      },
+      "immediateOriginal": {
+        "territory": {
+          "R": 9,
+          "B": 19
+        },
+        "mobility": {
+          "active": 2,
+          "internal": 6,
+          "total": 8
+        },
+        "expansion": 10,
+        "evaluation": 102
+      },
+      "immediateCorrected": {
+        "territory": {
+          "R": 13,
+          "B": 22
+        },
+        "mobility": {
+          "active": 0,
+          "internal": 7,
+          "total": 7
+        },
+        "expansion": 0,
+        "evaluation": 1000000,
+        "result": {
+          "finished": true,
+          "winner": "B",
+          "score": {
+            "R": 13,
+            "B": 22
+          }
+        }
+      },
+      "continuations": [
+        {
+          "seed": 344602447,
+          "original": {
+            "territory": {
+              "R": 12,
+              "B": 21
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 2
+          },
+          "corrected": {
+            "territory": {
+              "R": 13,
+              "B": 22
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 0
+          },
+          "territoryEffect": 1,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 2176168260,
+          "original": {
+            "territory": {
+              "R": 10,
+              "B": 21
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 2
+          },
+          "corrected": {
+            "territory": {
+              "R": 13,
+              "B": 22
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 0
+          },
+          "territoryEffect": 1,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 4007734073,
+          "original": {
+            "territory": {
+              "R": 11,
+              "B": 20
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 6,
+              "total": 6
+            },
+            "outcome": "win",
+            "turns": 3
+          },
+          "corrected": {
+            "territory": {
+              "R": 13,
+              "B": 22
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 0
+          },
+          "territoryEffect": 2,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        }
+      ],
+      "meanTerritoryEffect": 1.3333333333333333,
+      "meanOutcomeEffect": 0,
+      "classification": "beneficial"
+    },
+    {
+      "id": 1,
+      "source": "secured-territory-12-1589652183:41",
+      "aiColor": "B",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 0,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 5
+          },
+          "pos": {
+            "x": 0,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      },
+      "correctedAction": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 4
+        },
+        "pos": {
+          "x": 6,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 3
+          },
+          "pos": {
+            "x": 6,
+            "y": 3
+          },
+          "dir": "top"
+        }
+      },
+      "filterEvidence": {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 1,
+            "y": 6
+          },
+          "pos": {
+            "x": 0,
+            "y": 5
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 0,
+              "y": 5
+            },
+            "pos": {
+              "x": 0,
+              "y": 5
+            },
+            "dir": "bottom"
+          }
+        },
+        "componentSize": 4,
+        "ownStones": 1,
+        "territoryBefore": {
+          "R": 0,
+          "B": 4
+        },
+        "territoryAfter": {
+          "R": 0,
+          "B": 2
+        },
+        "territoryDelta": {
+          "R": 0,
+          "B": -2
+        },
+        "classification": "harmful-internal"
+      },
+      "immediateOriginal": {
+        "territory": {
+          "R": 0,
+          "B": 2
+        },
+        "mobility": {
+          "active": 7,
+          "internal": 1,
+          "total": 8
+        },
+        "expansion": 2,
+        "evaluation": -2
+      },
+      "immediateCorrected": {
+        "territory": {
+          "R": 0,
+          "B": 4
+        },
+        "mobility": {
+          "active": 7,
+          "internal": 2,
+          "total": 9
+        },
+        "expansion": 4,
+        "evaluation": 22
+      },
+      "continuations": [
+        {
+          "seed": 583934829,
+          "original": {
+            "territory": {
+              "R": 12,
+              "B": 14
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 8,
+              "total": 8
+            },
+            "outcome": "win",
+            "turns": 16
+          },
+          "corrected": {
+            "territory": {
+              "R": 21,
+              "B": 20
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 8,
+              "total": 8
+            },
+            "outcome": "loss",
+            "turns": 9
+          },
+          "territoryEffect": 6,
+          "evaluationEffect": -2000000,
+          "outcomeEffect": -2
+        },
+        {
+          "seed": 2415500642,
+          "original": {
+            "territory": {
+              "R": 18,
+              "B": 19
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 12
+          },
+          "corrected": {
+            "territory": {
+              "R": 17,
+              "B": 16
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 8,
+              "total": 8
+            },
+            "outcome": "loss",
+            "turns": 13
+          },
+          "territoryEffect": -3,
+          "evaluationEffect": -2000000,
+          "outcomeEffect": -2
+        },
+        {
+          "seed": 4247066455,
+          "original": {
+            "territory": {
+              "R": 17,
+              "B": 20
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 13
+          },
+          "corrected": {
+            "territory": {
+              "R": 18,
+              "B": 15
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 8,
+              "total": 8
+            },
+            "outcome": "loss",
+            "turns": 13
+          },
+          "territoryEffect": -5,
+          "evaluationEffect": -2000000,
+          "outcomeEffect": -2
+        }
+      ],
+      "meanTerritoryEffect": -0.6666666666666666,
+      "meanOutcomeEffect": -2,
+      "classification": "harmful"
+    },
+    {
+      "id": 2,
+      "source": "secured-territory-12-1589652183:47",
+      "aiColor": "B",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 2
+        },
+        "pos": {
+          "x": 2,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 3
+          },
+          "pos": {
+            "x": 2,
+            "y": 3
+          },
+          "dir": "right"
+        }
+      },
+      "correctedAction": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 4
+          },
+          "pos": {
+            "x": 5,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "filterEvidence": {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 2,
+            "y": 2
+          },
+          "pos": {
+            "x": 2,
+            "y": 3
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 2,
+              "y": 3
+            },
+            "pos": {
+              "x": 2,
+              "y": 3
+            },
+            "dir": "right"
+          }
+        },
+        "componentSize": 3,
+        "ownStones": 1,
+        "territoryBefore": {
+          "R": 3,
+          "B": 6
+        },
+        "territoryAfter": {
+          "R": 3,
+          "B": 5
+        },
+        "territoryDelta": {
+          "R": 0,
+          "B": -1
+        },
+        "classification": "harmful-internal"
+      },
+      "immediateOriginal": {
+        "territory": {
+          "R": 3,
+          "B": 5
+        },
+        "mobility": {
+          "active": 4,
+          "internal": 2,
+          "total": 6
+        },
+        "expansion": 2,
+        "evaluation": -6
+      },
+      "immediateCorrected": {
+        "territory": {
+          "R": 3,
+          "B": 6
+        },
+        "mobility": {
+          "active": 2,
+          "internal": 3,
+          "total": 5
+        },
+        "expansion": 3,
+        "evaluation": 3
+      },
+      "continuations": [
+        {
+          "seed": 3625647555,
+          "original": {
+            "territory": {
+              "R": 26,
+              "B": 14
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 4,
+              "total": 4
+            },
+            "outcome": "loss",
+            "turns": 3
+          },
+          "corrected": {
+            "territory": {
+              "R": 32,
+              "B": 9
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 5,
+              "total": 5
+            },
+            "outcome": "loss",
+            "turns": 2
+          },
+          "territoryEffect": -5,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 1162246072,
+          "original": {
+            "territory": {
+              "R": 22,
+              "B": 6
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 2,
+              "total": 2
+            },
+            "outcome": "loss",
+            "turns": 8
+          },
+          "corrected": {
+            "territory": {
+              "R": 33,
+              "B": 8
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 4,
+              "total": 4
+            },
+            "outcome": "loss",
+            "turns": 2
+          },
+          "territoryEffect": 2,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 2993811885,
+          "original": {
+            "territory": {
+              "R": 28,
+              "B": 8
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 4,
+              "total": 4
+            },
+            "outcome": "loss",
+            "turns": 6
+          },
+          "corrected": {
+            "territory": {
+              "R": 30,
+              "B": 8
+            },
+            "evaluation": -1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 4,
+              "total": 4
+            },
+            "outcome": "loss",
+            "turns": 4
+          },
+          "territoryEffect": 0,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        }
+      ],
+      "meanTerritoryEffect": -1,
+      "meanOutcomeEffect": 0,
+      "classification": "harmful"
+    },
+    {
+      "id": 3,
+      "source": "secured-territory-13-1589653180:46",
+      "aiColor": "R",
+      "originalAction": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 0
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 0
+          },
+          "pos": {
+            "x": 2,
+            "y": 0
+          },
+          "dir": "left"
+        }
+      },
+      "correctedAction": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 3
+          },
+          "pos": {
+            "x": 5,
+            "y": 3
+          },
+          "dir": "bottom"
+        }
+      },
+      "filterEvidence": {
+        "action": {
+          "type": "move",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "pos": {
+            "x": 2,
+            "y": 0
+          },
+          "followUp": {
+            "type": "wall",
+            "from": {
+              "x": 2,
+              "y": 0
+            },
+            "pos": {
+              "x": 2,
+              "y": 0
+            },
+            "dir": "left"
+          }
+        },
+        "componentSize": 14,
+        "ownStones": 2,
+        "territoryBefore": {
+          "R": 14,
+          "B": 9
+        },
+        "territoryAfter": {
+          "R": 14,
+          "B": 9
+        },
+        "territoryDelta": {
+          "R": 0,
+          "B": 0
+        },
+        "classification": "neutral-internal"
+      },
+      "immediateOriginal": {
+        "territory": {
+          "R": 14,
+          "B": 9
+        },
+        "mobility": {
+          "active": 6,
+          "internal": 4,
+          "total": 10
+        },
+        "expansion": 5,
+        "evaluation": 59
+      },
+      "immediateCorrected": {
+        "territory": {
+          "R": 16,
+          "B": 9
+        },
+        "mobility": {
+          "active": 4,
+          "internal": 6,
+          "total": 10
+        },
+        "expansion": 7,
+        "evaluation": 81
+      },
+      "continuations": [
+        {
+          "seed": 971212783,
+          "original": {
+            "territory": {
+              "R": 24,
+              "B": 17
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 7,
+              "total": 7
+            },
+            "outcome": "win",
+            "turns": 6
+          },
+          "corrected": {
+            "territory": {
+              "R": 32,
+              "B": 10
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 12,
+              "total": 12
+            },
+            "outcome": "win",
+            "turns": 3
+          },
+          "territoryEffect": 8,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 2802778596,
+          "original": {
+            "territory": {
+              "R": 33,
+              "B": 11
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 10,
+              "total": 10
+            },
+            "outcome": "win",
+            "turns": 1
+          },
+          "corrected": {
+            "territory": {
+              "R": 28,
+              "B": 13
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 10,
+              "total": 10
+            },
+            "outcome": "win",
+            "turns": 4
+          },
+          "territoryEffect": -5,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        },
+        {
+          "seed": 339377113,
+          "original": {
+            "territory": {
+              "R": 28,
+              "B": 14
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 10,
+              "total": 10
+            },
+            "outcome": "win",
+            "turns": 2
+          },
+          "corrected": {
+            "territory": {
+              "R": 33,
+              "B": 11
+            },
+            "evaluation": 1000000,
+            "mobility": {
+              "active": 0,
+              "internal": 10,
+              "total": 10
+            },
+            "outcome": "win",
+            "turns": 1
+          },
+          "territoryEffect": 5,
+          "evaluationEffect": 0,
+          "outcomeEffect": 0
+        }
+      ],
+      "meanTerritoryEffect": 2.6666666666666665,
+      "meanOutcomeEffect": 0,
+      "classification": "beneficial"
+    }
+  ],
+  "controls": [
+    {
+      "source": "secured-territory-1-1589641216:4",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 4
+          },
+          "pos": {
+            "x": 3,
+            "y": 4
+          },
+          "dir": "right"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:6",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 5
+          },
+          "pos": {
+            "x": 2,
+            "y": 5
+          },
+          "dir": "left"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:8",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 5
+          },
+          "pos": {
+            "x": 3,
+            "y": 5
+          },
+          "dir": "top"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:10",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 5
+        },
+        "pos": {
+          "x": 5,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 3
+          },
+          "pos": {
+            "x": 5,
+            "y": 3
+          },
+          "dir": "top"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:12",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 5
+          },
+          "pos": {
+            "x": 4,
+            "y": 5
+          },
+          "dir": "bottom"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:14",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "pos": {
+            "x": 3,
+            "y": 1
+          },
+          "dir": "top"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:16",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 2
+        },
+        "pos": {
+          "x": 1,
+          "y": 3
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 3
+          },
+          "pos": {
+            "x": 1,
+            "y": 3
+          },
+          "dir": "right"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:20",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 1
+        },
+        "pos": {
+          "x": 2,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 1
+          },
+          "pos": {
+            "x": 2,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:22",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 3
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "pos": {
+            "x": 1,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:24",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 3
+        },
+        "pos": {
+          "x": 6,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 2
+          },
+          "pos": {
+            "x": 6,
+            "y": 2
+          },
+          "dir": "bottom"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:26",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 2
+          },
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "dir": "right"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:28",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "pos": {
+            "x": 1,
+            "y": 1
+          },
+          "dir": "right"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:30",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "pos": {
+            "x": 5,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:32",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 5
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 5
+          },
+          "pos": {
+            "x": 3,
+            "y": 5
+          },
+          "dir": "right"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:34",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 6,
+          "y": 1
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 1
+          },
+          "pos": {
+            "x": 6,
+            "y": 1
+          },
+          "dir": "bottom"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:36",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 0,
+            "y": 4
+          },
+          "pos": {
+            "x": 0,
+            "y": 4
+          },
+          "dir": "bottom"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:38",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 6
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 3,
+            "y": 6
+          },
+          "pos": {
+            "x": 3,
+            "y": 6
+          },
+          "dir": "top"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:40",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 2,
+            "y": 0
+          },
+          "pos": {
+            "x": 2,
+            "y": 0
+          },
+          "dir": "left"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:42",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 4,
+            "y": 0
+          },
+          "pos": {
+            "x": 4,
+            "y": 0
+          },
+          "dir": "right"
+        }
+      },
+      "preserved": true
+    },
+    {
+      "source": "secured-territory-1-1589641216:44",
+      "action": {
+        "type": "move",
+        "from": {
+          "x": 6,
+          "y": 1
+        },
+        "pos": {
+          "x": 6,
+          "y": 0
+        },
+        "followUp": {
+          "type": "wall",
+          "from": {
+            "x": 6,
+            "y": 0
+          },
+          "pos": {
+            "x": 6,
+            "y": 0
+          },
+          "dir": "left"
+        }
+      },
+      "preserved": true
+    }
+  ]
+}

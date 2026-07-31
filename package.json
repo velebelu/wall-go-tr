@@ -48,6 +48,7 @@
     "evaluate:secured-territory-policy": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateSecuredTerritoryPolicy.ts",
     "diagnostic:capture-secured-territory": "node --import ./scripts/run-ts-node-esm.mjs src/training/captureSecuredTerritoryDiagnostics.ts",
     "diagnostic:evaluate-secured-territory": "node --import ./scripts/run-ts-node-esm.mjs src/training/evaluateSecuredTerritoryDiagnostics.ts",
+    "diagnostic:evaluate-inactive-scored-territory": "vite-node src/training/evaluateInactiveScoredTerritorySelection.ts",
     "training:analyze-q3-heuristic-traces": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeHeuristicTracesForQ3.ts",
     "training:analyze-q3-representation": "node --import ./scripts/run-ts-node-esm.mjs src/training/analyzeQ3Representation.ts",
     "prepare": "husky"
