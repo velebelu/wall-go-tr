@@ -57,7 +57,11 @@ export async function publishHumanExperimentTransaction(params: {
   await writeManifest(transaction, manifest)
   try {
     await params.hooks?.beforePublish?.()
-    for (const [index, target] of targets.entries()) {
+    // No usar `for ... of targets.entries()` aquí. El cargador operacional de TypeScript
+    // transpila ese iterador como si fuese un array y el bucle no ejecuta ninguna vuelta:
+    // se eliminaba el journal y se devolvía éxito sin publicar un solo archivo.
+    for (let index = 0; index < targets.length; index += 1) {
+      const target = targets[index]
       const destination = resolveSafe(root, target.relativePath)
       await mkdir(dirname(destination), { recursive: true })
       await rename(resolveSafe(staged, target.relativePath), destination)

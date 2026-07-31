@@ -172,16 +172,19 @@ export async function ingestLatestHumanExperimentTrace(params: {
     metadata: updatedMetadata,
     expectedTracePath: game.tracePath,
   })
+  const candidates = {
+    [game.tracePath]: traceJson,
+    'registry.json': json(updatedRegistry),
+    [`participants/${params.participantId}/game-${gameNumber}.json`]: json(game),
+    'metadata.json': json(updatedMetadata),
+  }
   await publishHumanExperimentTransaction({
     root,
-    candidates: {
-      [game.tracePath]: traceJson,
-      'registry.json': json(updatedRegistry),
-      [`participants/${params.participantId}/game-${gameNumber}.json`]: json(game),
-      'metadata.json': json(updatedMetadata),
-    },
+    candidates,
     hooks: params.hooks,
   })
+  await assertPublishedState(root, candidates)
+  const persistedRegistry = await readRegistry(registryPath)
   return {
     participantId: params.participantId,
     gameNumber,
@@ -194,8 +197,31 @@ export async function ingestLatestHumanExperimentTrace(params: {
     aiTerritory: game.aiTerritory,
     turnCount: game.turnCount,
     durationMs: game.durationMs,
-    participantCount: updatedRegistry.participants.length,
-    gameCount: updatedRegistry.games.length,
+    participantCount: persistedRegistry.participants.length,
+    gameCount: persistedRegistry.games.length,
+  }
+}
+
+async function assertPublishedState(
+  root: string,
+  candidates: Record<string, string>,
+): Promise<void> {
+  for (const [relativePath, expected] of Object.entries(candidates)) {
+    let actual: string
+    try {
+      actual = await readFile(resolve(root, relativePath), 'utf8')
+    } catch (error) {
+      throw new HumanExperimentError(
+        'TRANSACTION_IO_FAILURE',
+        `Published human-experiment file is missing: ${relativePath}`,
+        { cause: error },
+      )
+    }
+    if (actual !== expected)
+      throw new HumanExperimentError(
+        'TRANSACTION_IO_FAILURE',
+        `Published human-experiment file differs from the committed candidate: ${relativePath}`,
+      )
   }
 }
 

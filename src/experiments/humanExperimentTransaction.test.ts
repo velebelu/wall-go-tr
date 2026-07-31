@@ -1,6 +1,8 @@
 import { access, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { execFile } from 'node:child_process'
 import { tmpdir } from 'node:os'
 import { isAbsolute, resolve, sep } from 'node:path'
+import { promisify } from 'node:util'
 import { afterEach, describe, expect, it } from 'vitest'
 import { HumanExperimentError } from './humanExperimentErrors'
 import {
@@ -10,6 +12,7 @@ import {
 } from './humanExperimentTransaction'
 
 const temporaryDirectories: string[] = []
+const execFileAsync = promisify(execFile)
 /**
  * Windows trata `\` como separador y `C:\...` como absoluta; POSIX admite ambos como
  * caracteres corrientes dentro de un nombre. Los intentos de escape se prueban en las dos
@@ -117,6 +120,31 @@ describe('resolveSafeTransactionPath', () => {
 })
 
 describe('human experiment transaction', () => {
+  it('really publishes when executed through the operational TypeScript loader', async () => {
+    const base = await root()
+    const program = [
+      "import('./src/experiments/humanExperimentTransaction.ts')",
+      '.then(({publishHumanExperimentTransaction}) => publishHumanExperimentTransaction({',
+      `root: ${JSON.stringify(base)},`,
+      "candidates: {'registry.json': '{\"published\":true}\\n', 'participants/P01/traces/game-1.json': '{\"trace\":true}\\n'}",
+      '}))',
+    ].join('')
+    await execFileAsync(process.execPath, [
+      '--import',
+      './scripts/run-ts-node-esm.mjs',
+      '-e',
+      program,
+    ])
+
+    expect(await readFile(resolve(base, 'registry.json'), 'utf8')).toBe('{"published":true}\n')
+    expect(await readFile(resolve(base, 'participants/P01/traces/game-1.json'), 'utf8')).toBe(
+      '{"trace":true}\n',
+    )
+    await expect(access(resolve(base, '.ingestion-transaction'))).rejects.toMatchObject({
+      code: 'ENOENT',
+    })
+  })
+
   it('publishes nested candidates and clears the transaction directory', async () => {
     const base = await root()
     await publishHumanExperimentTransaction({

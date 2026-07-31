@@ -5,7 +5,7 @@ import {
 } from './validateHumanExperimentV3R1'
 
 describe('V3-R1 lifecycle', () => {
-  it('keeps the live repetition free of games, traces, and inherited invalid sessions', async () => {
+  it('keeps the live repetition coherent after the first official registration', async () => {
     const state = await validateHumanExperimentV3R1Directory()
 
     expect(state.metadata.experimentId).toBe('WGTR-HUMAN-FINAL-2026-V3-R1')
@@ -19,8 +19,21 @@ describe('V3-R1 lifecycle', () => {
       expect(freeze?.implementationCommit).toMatch(/^[0-9a-f]{40}$/)
       expect(freeze?.experimentPreparationCommit).toBe(freeze?.implementationCommit)
     }
-    expect(state.registry.games).toEqual([])
-    expect(state.officialTracePaths).toEqual([])
+    expect(state.registry.games).toHaveLength(1)
+    expect(state.registry.games[0]).toMatchObject({
+      experimentId: 'WGTR-HUMAN-FINAL-2026-V3-R1',
+      participantId: 'P01',
+      gameNumber: 1,
+      humanColor: 'R',
+      aiColor: 'B',
+      winner: 'human',
+      humanTerritory: 39,
+      aiTerritory: 9,
+      turnCount: 39,
+      durationMs: 122646,
+      tracePath: 'participants/P01/traces/game-1.json',
+    })
+    expect(state.officialTracePaths).toEqual(['participants/P01/traces/game-1.json'])
     expect(state.invalidSessions).toEqual([])
   })
 
@@ -58,18 +71,18 @@ describe('V3-R1 lifecycle', () => {
     expect(() => validateHumanExperimentV3R1State(arbitrary)).toThrow('neither prepared nor frozen')
   })
 
-  it('accepts the initial blank P01 fixture before registration', async () => {
+  it('accepts an unregistered blank participant fixture', async () => {
     const state = await validateHumanExperimentV3R1Directory()
     const blank = structuredClone(state)
     blank.registry.participants = blank.registry.participants.filter(
-      (participant) => participant.participantId !== 'P01',
+      (participant) => participant.participantId !== 'P02',
     )
-    blank.templates.P01 = {
-      ...blank.templates.P01,
+    blank.templates.P02 = {
+      ...blank.templates.P02,
       experienceGroup: null,
       previousWallGoGames: null,
       notes: '',
-    } as unknown as (typeof blank.templates)['P01']
+    } as unknown as (typeof blank.templates)['P02']
 
     expect(() => validateHumanExperimentV3R1State(blank)).not.toThrow()
   })

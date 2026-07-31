@@ -441,6 +441,20 @@ describe('human experiment watcher', () => {
     ) as HumanExperimentRegistry
     expect(updated.games).toHaveLength(1)
     expect(updated.games[0]).toMatchObject({ participantId: 'P01', gameNumber: 1 })
+    expect(nextPendingHumanExperimentGame(updated)).toMatchObject({
+      participantId: 'P01',
+      gameNumber: 2,
+      humanColor: 'B',
+      aiColor: 'R',
+    })
+    expect(
+      JSON.parse(await readFile(resolve(participantDirectory, 'traces', 'game-1.json'), 'utf8'))
+        .metadata.sessionId,
+    ).toBe('watcher-integration')
+    expect(
+      JSON.parse(await readFile(resolve(participantDirectory, 'game-1.json'), 'utf8')).gameNumber,
+    ).toBe(1)
+    expect(logger.log).toHaveBeenCalledWith(expect.stringContaining('Partida: 2'))
     expect(logger.error).not.toHaveBeenCalled()
   })
 })
