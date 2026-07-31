@@ -7,7 +7,6 @@ import {
   analyzeInactiveScoredMovement,
   chooseInactiveScoredTerritoryCandidate,
 } from './inactiveScoredTerritorySelection'
-import { chooseHumanChallengeMCTSDecision } from './humanChallengeMCTS'
 
 function playing(): GameSnapshot {
   const state = makeInitialState()
@@ -63,21 +62,6 @@ describe('inactive scored territory final selection', () => {
     expect(result.action).not.toEqual(decision.action)
     expect(decision.legalActions).toContainEqual(result.action)
     expect(analyzeInactiveScoredMovement(state, result.action)).toBeUndefined()
-  })
-
-  it('applies the correction in the complete final human MCTS decision path', () => {
-    const { state, decision } = p01Turn40()
-    const corrected = chooseHumanChallengeMCTSDecision({
-      gameState: state,
-      seed: 1_164_403_362,
-    })
-    expect(corrected.action).not.toEqual(decision.action)
-    expect(corrected).toMatchObject({
-      inactiveScoredTerritoryIntervention: true,
-      inactiveScoredTerritoryChangedAction: true,
-      inactiveScoredTerritoryFallback: false,
-    })
-    expect(decision.legalActions).toContainEqual(corrected.action)
   })
 
   it('does not create artificial movement preference in a one-stone closed component', () => {

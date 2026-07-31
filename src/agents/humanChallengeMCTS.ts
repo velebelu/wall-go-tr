@@ -10,7 +10,6 @@ import { getLegalActions } from '@/utils/ai'
 import { floodRegions } from '@/utils/region'
 import { getTerritoryMap } from '@/utils/territory'
 import { chooseSecuredTerritoryCandidate } from './securedTerritoryPolicy'
-import { chooseInactiveScoredTerritoryCandidate } from './inactiveScoredTerritorySelection'
 
 export interface HumanChallengeConfig {
   mcts: Readonly<MCTSConfig>
@@ -230,10 +229,6 @@ export interface HumanChallengeDecision {
   securedTerritoryChangedAction: boolean
   securedTerritoryRemovedMovements: number
   securedTerritoryFallback: boolean
-  inactiveScoredTerritoryIntervention: boolean
-  inactiveScoredTerritoryChangedAction: boolean
-  inactiveScoredTerritoryRemovedMovements: number
-  inactiveScoredTerritoryFallback: boolean
 }
 
 export interface HumanChallengeDecisionParams {
@@ -307,19 +302,14 @@ function chooseHumanChallengeMCTSDecisionInternal(
     ? solveSmallEndgame(params.gameState, params.gameState.turn, config.endgame, now)
     : { completed: false, nodes: 0, elapsedMs: 0 }
   const prePolicyAction = solver.completed && solver.action ? solver.action : staged.result.action
-  const inactiveScoredPolicy = chooseInactiveScoredTerritoryCandidate({
-    state: params.gameState,
-    selected: prePolicyAction,
-    candidates: staged.result.children,
-  })
   const policy = securedTerritoryPolicyEnabled
     ? chooseSecuredTerritoryCandidate({
         state: params.gameState,
-        selected: inactiveScoredPolicy.action,
+        selected: prePolicyAction,
         candidates: staged.result.children,
       })
     : {
-        action: inactiveScoredPolicy.action,
+        action: prePolicyAction,
         intervention: false,
         changed: false,
         removedMovements: 0,
@@ -349,9 +339,5 @@ function chooseHumanChallengeMCTSDecisionInternal(
     securedTerritoryChangedAction: policy.changed,
     securedTerritoryRemovedMovements: policy.removedMovements,
     securedTerritoryFallback: policy.usedFallback,
-    inactiveScoredTerritoryIntervention: inactiveScoredPolicy.intervention,
-    inactiveScoredTerritoryChangedAction: inactiveScoredPolicy.changed,
-    inactiveScoredTerritoryRemovedMovements: inactiveScoredPolicy.removedMovements,
-    inactiveScoredTerritoryFallback: inactiveScoredPolicy.usedFallback,
   }
 }
