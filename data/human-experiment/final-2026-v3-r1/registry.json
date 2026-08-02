@@ -503,6 +503,70 @@
       "sourceCommit": "2f1e9c4cc539dea933534d414926f02f76befc74",
       "recordedAt": "2026-08-02T17:17:12.954Z",
       "incidents": []
+    },
+    {
+      "schema": "HumanExperimentGameV1",
+      "experimentId": "WGTR-HUMAN-FINAL-2026-V3-R1",
+      "participantId": "P04",
+      "gameId": "WGTR-2026-P04-G2-526677cf-d6da-4825-a2af-8b88b278147a",
+      "gameNumber": 2,
+      "humanColor": "R",
+      "aiColor": "B",
+      "winner": "ai",
+      "humanTerritory": 16,
+      "aiTerritory": 33,
+      "territoryDiffHuman": -17,
+      "turnCount": 43,
+      "startedAt": "2026-08-02T17:18:37.991Z",
+      "finishedAt": "2026-08-02T17:21:54.394Z",
+      "durationMs": 196403,
+      "terminalReason": "game-result",
+      "traceId": "trace-2177bc84-28b5-4098-9e32-d411b7f835b6",
+      "tracePath": "participants/P04/traces/game-2.json",
+      "traceSha256": "de11b2a860d86ad4743a646cf8a13119c57c9b3e55a50fbf30e6aa1c7a1d7e81",
+      "seed": 260151028,
+      "effectiveConfig": {
+        "mcts": {
+          "simulations": 250,
+          "explorationConstant": 1.4142135623730951,
+          "maxDepth": 60,
+          "rolloutPolicy": "mixed",
+          "heuristicProbability": 0.8,
+          "expansionPolicy": "heuristic",
+          "progressiveWidening": true,
+          "wideningConstant": 2,
+          "wideningExponent": 0.5,
+          "qPriorWeight": 0,
+          "tacticalVerification": true,
+          "tacticalCandidateCount": 2
+        },
+        "budget": {
+          "enable750": false,
+          "base": 250,
+          "lowConfidence": 500,
+          "highUncertainty": 500,
+          "maxDecisionMs": 5000,
+          "maxVisitGap": 3,
+          "maxValueGap": 0.04,
+          "maxSelectedVisitShare": 0.12,
+          "highUncertaintyVisitGap": 1,
+          "highUncertaintyValueGap": 0.015,
+          "highUncertaintySelectedVisitShare": 0.08
+        },
+        "endgame": {
+          "enabled": false,
+          "maxLegalActions": 8,
+          "maxConnectedRegions": 3,
+          "maxMobilePieces": 2,
+          "maxDepth": 8,
+          "maxNodes": 40000,
+          "maxTimeMs": 1500
+        }
+      },
+      "effectiveConfigSha256": "7d137f48f941045742aacbeeadffcd8db036477e355a2f8c61aace3af4e7fca8",
+      "sourceCommit": "17a6e18ebccb3de040004c5cc0c8169f5e50e6f4",
+      "recordedAt": "2026-08-02T17:22:04.967Z",
+      "incidents": []
     }
   ]
 }
