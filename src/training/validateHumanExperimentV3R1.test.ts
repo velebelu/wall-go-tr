@@ -77,15 +77,28 @@ describe('V3-R1 lifecycle', () => {
   it('accepts an unregistered blank participant fixture', async () => {
     const state = await validateHumanExperimentV3R1Directory()
     const blank = structuredClone(state)
-    blank.registry.participants = blank.registry.participants.filter(
-      (participant) => participant.participantId !== 'P02',
-    )
-    blank.templates.P02 = {
-      ...blank.templates.P02,
+    // El participante debe estar sin registrar y sin partidas: quitar del registro a uno que ya
+    // tenga partidas dejaria partidas huerfanas, y el validador las rechaza con razon. Se elige
+    // dinamicamente para que el fixture siga siendo valido segun avanza el experimento.
+    const blankParticipantId = Object.keys(blank.templates)
+      .sort()
+      .find(
+        (participantId) =>
+          !blank.registry.participants.some(
+            (participant) => participant.participantId === participantId,
+          ) && !blank.registry.games.some((game) => game.participantId === participantId),
+      )
+    expect(
+      blankParticipantId,
+      'no queda ningun participante sin registrar y sin partidas',
+    ).toBeDefined()
+
+    blank.templates[blankParticipantId!] = {
+      ...blank.templates[blankParticipantId!],
       experienceGroup: null,
       previousWallGoGames: null,
       notes: '',
-    } as unknown as (typeof blank.templates)['P02']
+    } as unknown as (typeof blank.templates)[string]
 
     expect(() => validateHumanExperimentV3R1State(blank)).not.toThrow()
   })
