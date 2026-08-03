@@ -1,0 +1,122 @@
+[
+  {
+    "pairNumber": 1,
+    "alphaSeedBase": 2026080300,
+    "betaSeedBase": 2026081300,
+    "gameId": "pair-001-direct",
+    "gameNumber": 1,
+    "orientation": "direct",
+    "redSeedBase": 2026080300,
+    "blueSeedBase": 2026081300,
+    "redSeedStream": "alpha",
+    "blueSeedStream": "beta"
+  },
+  {
+    "pairNumber": 1,
+    "alphaSeedBase": 2026080300,
+    "betaSeedBase": 2026081300,
+    "gameId": "pair-001-swapped",
+    "gameNumber": 2,
+    "orientation": "swapped",
+    "redSeedBase": 2026081300,
+    "blueSeedBase": 2026080300,
+    "redSeedStream": "beta",
+    "blueSeedStream": "alpha"
+  },
+  {
+    "pairNumber": 2,
+    "alphaSeedBase": 2026082300,
+    "betaSeedBase": 2026083300,
+    "gameId": "pair-002-direct",
+    "gameNumber": 3,
+    "orientation": "direct",
+    "redSeedBase": 2026082300,
+    "blueSeedBase": 2026083300,
+    "redSeedStream": "alpha",
+    "blueSeedStream": "beta"
+  },
+  {
+    "pairNumber": 2,
+    "alphaSeedBase": 2026082300,
+    "betaSeedBase": 2026083300,
+    "gameId": "pair-002-swapped",
+    "gameNumber": 4,
+    "orientation": "swapped",
+    "redSeedBase": 2026083300,
+    "blueSeedBase": 2026082300,
+    "redSeedStream": "beta",
+    "blueSeedStream": "alpha"
+  },
+  {
+    "pairNumber": 3,
+    "alphaSeedBase": 2026084300,
+    "betaSeedBase": 2026085300,
+    "gameId": "pair-003-direct",
+    "gameNumber": 5,
+    "orientation": "direct",
+    "redSeedBase": 2026084300,
+    "blueSeedBase": 2026085300,
+    "redSeedStream": "alpha",
+    "blueSeedStream": "beta"
+  },
+  {
+    "pairNumber": 3,
+    "alphaSeedBase": 2026084300,
+    "betaSeedBase": 2026085300,
+    "gameId": "pair-003-swapped",
+    "gameNumber": 6,
+    "orientation": "swapped",
+    "redSeedBase": 2026085300,
+    "blueSeedBase": 2026084300,
+    "redSeedStream": "beta",
+    "blueSeedStream": "alpha"
+  },
+  {
+    "pairNumber": 4,
+    "alphaSeedBase": 2026086300,
+    "betaSeedBase": 2026087300,
+    "gameId": "pair-004-direct",
+    "gameNumber": 7,
+    "orientation": "direct",
+    "redSeedBase": 2026086300,
+    "blueSeedBase": 2026087300,
+    "redSeedStream": "alpha",
+    "blueSeedStream": "beta"
+  },
+  {
+    "pairNumber": 4,
+    "alphaSeedBase": 2026086300,
+    "betaSeedBase": 2026087300,
+    "gameId": "pair-004-swapped",
+    "gameNumber": 8,
+    "orientation": "swapped",
+    "redSeedBase": 2026087300,
+    "blueSeedBase": 2026086300,
+    "redSeedStream": "beta",
+    "blueSeedStream": "alpha"
+  },
+  {
+    "pairNumber": 5,
+    "alphaSeedBase": 2026088300,
+    "betaSeedBase": 2026089300,
+    "gameId": "pair-005-direct",
+    "gameNumber": 9,
+    "orientation": "direct",
+    "redSeedBase": 2026088300,
+    "blueSeedBase": 2026089300,
+    "redSeedStream": "alpha",
+    "blueSeedStream": "beta"
+  },
+  {
+    "pairNumber": 5,
+    "alphaSeedBase": 2026088300,
+    "betaSeedBase": 2026089300,
+    "gameId": "pair-005-swapped",
+    "gameNumber": 10,
+    "orientation": "swapped",
+    "redSeedBase": 2026089300,
+    "blueSeedBase": 2026088300,
+    "redSeedStream": "beta",
+    "blueSeedStream": "alpha"
+  }
+]

@@ -1,0 +1,216 @@
+{
+  "schema": "MCTSSelfPlayColorBiasSummaryV1",
+  "experimentId": "WGTR-MCTS-SELFPLAY-COLOR-BIAS-2026-V1",
+  "generatedAt": "2026-08-03T15:54:27.871Z",
+  "implementationCommit": "52105edc963c85c23b3ed5d8a7297117bdb3cd73",
+  "configSha256": "7d137f48f941045742aacbeeadffcd8db036477e355a2f8c61aace3af4e7fca8",
+  "complete": true,
+  "design": {
+    "games": 10,
+    "pairs": 5,
+    "analysisUnit": "pair",
+    "pairingRule": "Each pair plays the same two seed streams twice with the colours of the streams swapped.",
+    "seedRule": "alphaSeedBase = SELF_PLAY_SEED_BASE + (pairNumber - 1) * SELF_PLAY_PAIR_SEED_STRIDE; betaSeedBase = alphaSeedBase + SELF_PLAY_STREAM_SEED_OFFSET; decision seed = sideSeedBase + decisionIndexOfThatSide",
+    "firstActionColor": "R",
+    "colourAndFirstMoveConfounded": true
+  },
+  "outcomes": {
+    "games": 10,
+    "redWins": 3,
+    "blueWins": 7,
+    "ties": 0,
+    "decisiveGames": 10,
+    "redWinPercentage": 30,
+    "blueWinPercentage": 70,
+    "tiePercentage": 0,
+    "redWinPercentageAmongDecisive": 30,
+    "meanRedScore": 0.3
+  },
+  "territory": {
+    "meanRed": 15.7,
+    "meanBlue": 18.7,
+    "diff": {
+      "n": 10,
+      "mean": -3,
+      "median": -5.5,
+      "standardDeviation": 10.0775,
+      "min": -17,
+      "max": 14
+    }
+  },
+  "turns": {
+    "meanTotalDecisions": 56.2,
+    "medianTotalDecisions": 54.5,
+    "meanRedDecisions": 28.3,
+    "meanBlueDecisions": 27.9
+  },
+  "actions": {
+    "meanRedMoves": 23.8,
+    "meanBlueMoves": 23.5,
+    "meanRedWalls": 26.3,
+    "meanBlueWalls": 25.9,
+    "meanRedPlacements": 2,
+    "meanBluePlacements": 2
+  },
+  "duration": {
+    "meanMs": 652488.8497,
+    "medianMs": 655172.684,
+    "totalMs": 6524888.497
+  },
+  "termination": {
+    "all-territory-closed": 10,
+    "all-players-blocked": 0,
+    "no-legal-actions": 0,
+    "safety-limit": 0
+  },
+  "searchDiagnostics": {
+    "decisions": 562,
+    "stoppedByTimeLimit": 0,
+    "expandedTo500": 358,
+    "tacticalChanged": 293,
+    "meanSimulationsPerDecision": 409.2527
+  },
+  "pairAnalysis": {
+    "pairs": 5,
+    "redScore": {
+      "n": 5,
+      "mean": 0.3,
+      "median": 0.5,
+      "standardDeviation": 0.2739,
+      "min": 0,
+      "max": 0.5
+    },
+    "alphaStreamScore": {
+      "n": 5,
+      "mean": 0.8,
+      "median": 1,
+      "standardDeviation": 0.2739,
+      "min": 0.5,
+      "max": 1
+    },
+    "territoryDiff": {
+      "n": 5,
+      "mean": -3,
+      "median": 2,
+      "standardDeviation": 7.6567,
+      "min": -13,
+      "max": 3.5
+    },
+    "colourWinnerAgreement": {
+      "same-colour-twice": 2,
+      "split-between-colours": 3,
+      "involves-tie": 0
+    },
+    "streamWinnerAgreement": {
+      "same-stream-twice": 3,
+      "split-between-streams": 2,
+      "involves-tie": 0
+    }
+  },
+  "inference": {
+    "analysisUnit": "pair",
+    "alpha": 0.05,
+    "rationale": "The two games of a pair share their seed streams, so they are not guaranteed to be independent. The 100 pairs are the independent units, and every primary test is run on pair-level values. The game-level binomial test is reported only as a sensitivity analysis, together with the measured intra-pair correlation that justifies it.",
+    "primaryColourTest": {
+      "name": "Cluster (pair) bootstrap of the mean pair red score against 0.5",
+      "iterations": 10000,
+      "seed": 2026080301,
+      "mean": 0.3,
+      "ci95": {
+        "low": 0.1,
+        "high": 0.5
+      },
+      "excludesNull": false
+    },
+    "colourWilcoxon": {
+      "n": 5,
+      "nonZero": 2,
+      "zeroDifferences": 3,
+      "wPlus": 0,
+      "wMinus": 3,
+      "z": -0.9428,
+      "pValue": 0.3458,
+      "rankBiserialCorrelation": -1
+    },
+    "colourZTest": {
+      "n": 5,
+      "mean": 0.3,
+      "standardDeviation": 0.2739,
+      "standardError": 0.1225,
+      "z": -1.633,
+      "pValue": 0.1025
+    },
+    "primaryTerritoryTest": {
+      "name": "Cluster (pair) bootstrap of the mean pair territory difference against 0",
+      "iterations": 10000,
+      "seed": 2026080302,
+      "mean": -3,
+      "ci95": {
+        "low": -9.3,
+        "high": 2.6
+      },
+      "excludesNull": false
+    },
+    "territoryWilcoxon": {
+      "n": 5,
+      "nonZero": 5,
+      "zeroDifferences": 0,
+      "wPlus": 6,
+      "wMinus": 9,
+      "z": -0.2709,
+      "pValue": 0.7865,
+      "rankBiserialCorrelation": -0.2
+    },
+    "territoryZTest": {
+      "n": 5,
+      "mean": -3,
+      "standardDeviation": 7.6567,
+      "standardError": 3.4242,
+      "z": -0.8761,
+      "pValue": 0.381
+    },
+    "seedStreamControl": {
+      "name": "Cluster (pair) bootstrap of the mean alpha-stream score against 0.5",
+      "purpose": "Negative control. The colour contrast and the stream contrast are orthogonal in this design, so a stream effect would point at seed luck instead of colour.",
+      "mean": 0.8,
+      "ci95": {
+        "low": 0.6,
+        "high": 1
+      },
+      "excludesNull": true
+    },
+    "sensitivityGameLevel": {
+      "name": "Exact two-sided sign (binomial) test on decisive games, assumes independence",
+      "redWins": 3,
+      "blueWins": 7,
+      "tiesExcluded": 0,
+      "pValue": 0.3438,
+      "wilson95RedWinPercentage": {
+        "low": 10.7791,
+        "high": 60.3222
+      }
+    },
+    "dependence": {
+      "intraPairCorrelation": -0.3333,
+      "clusterSize": 2,
+      "designEffect": 0.6667,
+      "note": "A design effect near 1 means the pair structure barely changes the effective sample size, so the game-level test and the pair-level tests should agree."
+    }
+  },
+  "effectSizes": {
+    "colourCohensH": -0.4115,
+    "colourCohensHAmongDecisive": -0.4115,
+    "colourCohensD": -0.7303,
+    "colourCohensDLabel": "medium",
+    "territoryCohensD": -0.3918,
+    "territoryCohensDLabel": "small",
+    "colourRankBiserial": -1,
+    "territoryRankBiserial": -0.2
+  },
+  "findings": {
+    "colourEffectDetected": false,
+    "territoryEffectDetected": false,
+    "seedStreamEffectDetected": true,
+    "direction": "none"
+  }
+}

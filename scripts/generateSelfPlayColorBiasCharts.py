@@ -17,6 +17,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DIR = ROOT / "data" / "mcts-selfplay" / "final-2026-color-bias-v1"
@@ -60,6 +61,7 @@ def chart_wins(summary: dict, output_dir: Path) -> None:
     axes.set_title(f"Reparto de victorias en {total} partidas MCTS contra MCTS")
     axes.set_ylim(0, max(values + [total / 2]) * 1.25)
     axes.legend(loc="upper right", fontsize=9)
+    axes.yaxis.set_major_locator(MaxNLocator(integer=True))
     axes.spines[["top", "right"]].set_visible(False)
     save(fig, output_dir, "victorias-por-color")
 
@@ -108,6 +110,7 @@ def chart_territory_distribution(results: list[dict[str, str]], output_dir: Path
     )
     axes.set_xlabel("Diferencia de territorio (rojo − azul)")
     axes.set_ylabel("Partidas")
+    axes.yaxis.set_major_locator(MaxNLocator(integer=True))
     axes.set_title("Distribución de la diferencia territorial")
     axes.legend(fontsize=9)
     axes.spines[["top", "right"]].set_visible(False)
@@ -138,6 +141,7 @@ def chart_pairs(summary: dict, pairs: list[dict[str, str]], output_dir: Path) ->
             )
     axes[0].set_xlabel("Puntuación de rojo en la pareja (0 = azul gana las dos)")
     axes[0].set_ylabel("Parejas")
+    axes[0].yaxis.set_major_locator(MaxNLocator(integer=True))
     axes[0].set_title("Resultado emparejado por color")
     axes[0].spines[["top", "right"]].set_visible(False)
 

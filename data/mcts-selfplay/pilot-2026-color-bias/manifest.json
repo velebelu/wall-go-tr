@@ -1,0 +1,46 @@
+{
+  "schema": "MCTSSelfPlayColorBiasManifestV1",
+  "experimentId": "WGTR-MCTS-SELFPLAY-COLOR-BIAS-2026-V1",
+  "files": [
+    {
+      "path": "games/game-001.json",
+      "sha256": "c44dc3438d69f9e84979ed4400c3a33fb203fb98727f2528d2b0fe87241528f7"
+    },
+    {
+      "path": "games/game-002.json",
+      "sha256": "d53ce2ab3ad1ffc96db4c66747aeb49a9bd5855f1ce605dc4e13663c05635b12"
+    },
+    {
+      "path": "games/game-003.json",
+      "sha256": "043d19e7bccc023b4514b2cc386b7c65039d3feef5a1aff31b0e12d80a527a20"
+    },
+    {
+      "path": "games/game-004.json",
+      "sha256": "c355d8fb569288506f1564c0a637b3e7583ba3e965770475fdad601f5ed504ab"
+    },
+    {
+      "path": "games/game-005.json",
+      "sha256": "55da2b3e44afa5af789e6da3865717d01e7961d6de799ac0e9fbc00100b7e1dc"
+    },
+    {
+      "path": "games/game-006.json",
+      "sha256": "7cad7850612978e573432babffb523c547acf259bf85f70fca1ae20be6df461d"
+    },
+    {
+      "path": "games/game-007.json",
+      "sha256": "cbef67a3c59066ac072d478a2147294abb9fd60c60aac56182a0d326d7a815d2"
+    },
+    {
+      "path": "games/game-008.json",
+      "sha256": "447557ce094556956c1ece96bb3f6ae448fb50887b2641bb74d955370c97fd49"
+    },
+    {
+      "path": "games/game-009.json",
+      "sha256": "f501f0e8ee7f9ebfa4b29ecda6bb8497b76bd18a9c1cd95e7a94806f448c77de"
+    },
+    {
+      "path": "games/game-010.json",
+      "sha256": "404f5417246fdbf521b8f2a20e8a2609f996edfe8a320000f8a383fd0d03ab07"
+    }
+  ]
+}

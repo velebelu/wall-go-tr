@@ -1,0 +1,84 @@
+{
+  "schema": "MCTSSelfPlayColorBiasMetadataV1",
+  "experimentId": "WGTR-MCTS-SELFPLAY-COLOR-BIAS-2026-V1",
+  "gameSchema": "MCTSSelfPlayColorBiasV1",
+  "startedAt": "2026-08-03T15:43:08.759Z",
+  "finishedAt": "2026-08-03T15:54:27.858Z",
+  "pairs": 5,
+  "games": 10,
+  "maxDecisionsSafetyLimit": 400,
+  "implementationCommit": "52105edc963c85c23b3ed5d8a7297117bdb3cd73",
+  "implementationWorkingTreeClean": true,
+  "agent": {
+    "name": "FINAL_HUMAN_CHALLENGE_MCTS_CONFIG",
+    "source": "src/agents/humanChallengeMCTS.ts",
+    "appliedToBothColours": true,
+    "securedTerritoryPolicy": false,
+    "endgameSolverEnabled": false,
+    "configSha256": "7d137f48f941045742aacbeeadffcd8db036477e355a2f8c61aace3af4e7fca8",
+    "config": {
+      "mcts": {
+        "simulations": 250,
+        "explorationConstant": 1.4142135623730951,
+        "maxDepth": 60,
+        "rolloutPolicy": "mixed",
+        "heuristicProbability": 0.8,
+        "expansionPolicy": "heuristic",
+        "progressiveWidening": true,
+        "wideningConstant": 2,
+        "wideningExponent": 0.5,
+        "qPriorWeight": 0,
+        "tacticalVerification": true,
+        "tacticalCandidateCount": 2
+      },
+      "budget": {
+        "enable750": false,
+        "base": 250,
+        "lowConfidence": 500,
+        "highUncertainty": 500,
+        "maxDecisionMs": 5000,
+        "maxVisitGap": 3,
+        "maxValueGap": 0.04,
+        "maxSelectedVisitShare": 0.12,
+        "highUncertaintyVisitGap": 1,
+        "highUncertaintyValueGap": 0.015,
+        "highUncertaintySelectedVisitShare": 0.08
+      },
+      "endgame": {
+        "enabled": false,
+        "maxLegalActions": 8,
+        "maxConnectedRegions": 3,
+        "maxMobilePieces": 2,
+        "maxDepth": 8,
+        "maxNodes": 40000,
+        "maxTimeMs": 1500
+      }
+    }
+  },
+  "seeds": {
+    "rule": "alphaSeedBase = SELF_PLAY_SEED_BASE + (pairNumber - 1) * SELF_PLAY_PAIR_SEED_STRIDE; betaSeedBase = alphaSeedBase + SELF_PLAY_STREAM_SEED_OFFSET; decision seed = sideSeedBase + decisionIndexOfThatSide",
+    "base": 2026080300,
+    "pairStride": 2000,
+    "streamOffset": 1000
+  },
+  "runtime": {
+    "node": "v24.16.0",
+    "platform": "win32",
+    "cpuModel": "AMD Ryzen 7 5800X 8-Core Processor             ",
+    "workers": 10,
+    "virtualClock": true,
+    "latencyGuardDisabled": true,
+    "latencyGuardMs": 5000,
+    "latencyGuardNote": "The 5 s per-decision guard is a user-interface latency limit. Offline it would make the outcome depend on machine load, so a frozen virtual clock is injected through the official now parameter. No search parameter is altered and both colours are affected identically; every decision completes its full 250/500 simulation budget."
+  },
+  "humanExperimentGuard": {
+    "directory": "data/human-experiment/final-2026-v3-r1",
+    "referenceCommit": "941368c3c5447471aee1802320e08b0bdae8072c",
+    "referenceTree": "c37c8db86ea74fd2df0b1b6398e046140b7de6a5"
+  },
+  "reproduction": {
+    "run": "npm run experiment:mcts-selfplay-color-bias",
+    "validate": "npm run experiment:mcts-selfplay-color-bias:validate",
+    "note": "Every decision reseeds a fresh RNG from sideSeedBase + decisionIndex, so games are independent of execution order and can be replayed one by one in any process."
+  }
+}

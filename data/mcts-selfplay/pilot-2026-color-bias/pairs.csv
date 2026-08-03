@@ -1,0 +1,6 @@
+pairNumber,directGameId,swappedGameId,alphaSeedBase,betaSeedBase,directWinner,swappedWinner,pairRedScore,pairAlphaScore,directTerritoryDiff,swappedTerritoryDiff,pairTerritoryDiff,colourWinnerAgreement,streamWinnerAgreement,directDecisions,swappedDecisions
+"1","pair-001-direct","pair-001-swapped","2026080300","2026081300","B","B","0","0.5","-9","-17","-13","same-colour-twice","split-between-streams","56","54"
+"2","pair-002-direct","pair-002-swapped","2026082300","2026083300","R","B","0.5","1","14","-10","2","split-between-colours","same-stream-twice","53","64"
+"3","pair-003-direct","pair-003-swapped","2026084300","2026085300","B","B","0","0.5","-12","-7","-9.5","same-colour-twice","split-between-streams","56","52"
+"4","pair-004-direct","pair-004-swapped","2026086300","2026087300","R","B","0.5","1","8","-4","2","split-between-colours","same-stream-twice","55","69"
+"5","pair-005-direct","pair-005-swapped","2026088300","2026089300","R","B","0.5","1","8","-1","3.5","split-between-colours","same-stream-twice","51","52"
