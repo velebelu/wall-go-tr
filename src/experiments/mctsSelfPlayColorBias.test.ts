@@ -143,6 +143,27 @@ describe('determinismo del motor de partidas', () => {
     expect(result.territoryDiff).toBe(result.territoryRed - result.territoryBlue)
   }, 180_000)
 
+  it('coincide con la huella obtenida al ejecutar el mismo motor bajo ts-node', () => {
+    // Los comandos npm ejecutan el experimento con ts-node, que compila a ES5, mientras que
+    // los tests usan esbuild. Esta huella fijada garantiza que los dos entornos producen
+    // exactamente la misma partida y que el motor de juego no depende del compilador.
+    const result = runSelfPlayGame(planned!, {
+      implementationCommit: 'a'.repeat(40),
+      config: FAST_SELF_PLAY_CONFIG,
+      sha256,
+    })
+    expect(result.actionSequenceSha256).toBe(
+      '18a2525d3c6b7df4dde983da04e4c2a2b201754d6a1c2b4e05d492e3c555eeed',
+    )
+    expect(result.outcomeSha256).toBe(
+      'fe1507e15206b1e3cdfcbc3f2bdcd342580257be0527ce647ac12bb252b32c41',
+    )
+    expect(result.winner).toBe('R')
+    expect(result.territoryRed).toBe(20)
+    expect(result.territoryBlue).toBe(19)
+    expect(result.totalDecisions).toBe(54)
+  }, 180_000)
+
   it('usa la configuración final congelada cuando no se indica ninguna', () => {
     // Una sola decisión basta para comprobar el valor por defecto sin jugar la partida entera.
     const result = runSelfPlayGame(planned!, {

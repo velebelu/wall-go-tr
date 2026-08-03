@@ -70,7 +70,9 @@ export function replayRecordedGame(result: SelfPlayGameResult) {
   let state = makeInitialState()
   const counts = { R: emptyActionCounts(), B: emptyActionCounts() }
   const decisions = { R: 0, B: 0 }
-  for (const [index, action] of result.actions.entries()) {
+  // Indexed loop, not an iterator: the ts-node runner downlevels to ES5.
+  for (let index = 0; index < result.actions.length; index++) {
+    const action = result.actions[index]!
     if (state.phase === 'finished' || state.result)
       return { ok: false as const, reason: `action ${index} applied after the game ended` }
     const mover = state.turn

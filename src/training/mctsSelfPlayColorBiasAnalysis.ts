@@ -48,7 +48,10 @@ export interface SelfPlayPairRow {
 }
 
 export function buildSelfPlayPairRows(results: readonly SelfPlayGameResult[]): SelfPlayPairRow[] {
-  const pairNumbers = [...new Set(results.map((row) => row.pairNumber))].sort((a, b) => a - b)
+  // Array.from, not iterator spread: see the note in mctsSelfPlayColorBias.ts.
+  const pairNumbers = Array.from(new Set(results.map((row) => row.pairNumber))).sort(
+    (a, b) => a - b,
+  )
   return pairNumbers.map((pairNumber) => {
     const direct = results.find(
       (row) => row.pairNumber === pairNumber && row.orientation === 'direct',

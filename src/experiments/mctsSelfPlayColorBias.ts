@@ -179,7 +179,9 @@ export function validateSelfPlayPlan(
       throw new Error(`Pair ${pairNumber} does not swap the seed streams between colours`)
   }
   const blocks = plan.flatMap((row) => [row.redSeedBase, row.blueSeedBase])
-  const sorted = [...new Set(blocks)].sort((left, right) => left - right)
+  // Array.from, not iterator spread: the ts-node runner downlevels to ES5, where spreading
+  // a Set silently yields an empty array.
+  const sorted = Array.from(new Set(blocks)).sort((left, right) => left - right)
   if (sorted.length !== pairCount * 2)
     throw new Error('Every pair must define exactly two distinct seed streams')
   for (let index = 1; index < sorted.length; index++) {
