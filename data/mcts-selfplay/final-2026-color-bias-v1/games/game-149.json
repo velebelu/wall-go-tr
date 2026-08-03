@@ -1,0 +1,1209 @@
+{
+  "pairNumber": 75,
+  "alphaSeedBase": 2026228300,
+  "betaSeedBase": 2026229300,
+  "gameId": "pair-075-direct",
+  "gameNumber": 149,
+  "orientation": "direct",
+  "redSeedBase": 2026228300,
+  "blueSeedBase": 2026229300,
+  "redSeedStream": "alpha",
+  "blueSeedStream": "beta",
+  "schema": "MCTSSelfPlayColorBiasV1",
+  "experimentId": "WGTR-MCTS-SELFPLAY-COLOR-BIAS-2026-V1",
+  "implementationCommit": "c539e23d1acb9cfa8c451c32d5abc5db78cfaaf0",
+  "configSha256": "7d137f48f941045742aacbeeadffcd8db036477e355a2f8c61aace3af4e7fca8",
+  "redConfig": {
+    "mcts": {
+      "simulations": 250,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5,
+      "qPriorWeight": 0,
+      "tacticalVerification": true,
+      "tacticalCandidateCount": 2
+    },
+    "budget": {
+      "enable750": false,
+      "base": 250,
+      "lowConfidence": 500,
+      "highUncertainty": 500,
+      "maxDecisionMs": 5000,
+      "maxVisitGap": 3,
+      "maxValueGap": 0.04,
+      "maxSelectedVisitShare": 0.12,
+      "highUncertaintyVisitGap": 1,
+      "highUncertaintyValueGap": 0.015,
+      "highUncertaintySelectedVisitShare": 0.08
+    },
+    "endgame": {
+      "enabled": false,
+      "maxLegalActions": 8,
+      "maxConnectedRegions": 3,
+      "maxMobilePieces": 2,
+      "maxDepth": 8,
+      "maxNodes": 40000,
+      "maxTimeMs": 1500
+    }
+  },
+  "blueConfig": {
+    "mcts": {
+      "simulations": 250,
+      "explorationConstant": 1.4142135623730951,
+      "maxDepth": 60,
+      "rolloutPolicy": "mixed",
+      "heuristicProbability": 0.8,
+      "expansionPolicy": "heuristic",
+      "progressiveWidening": true,
+      "wideningConstant": 2,
+      "wideningExponent": 0.5,
+      "qPriorWeight": 0,
+      "tacticalVerification": true,
+      "tacticalCandidateCount": 2
+    },
+    "budget": {
+      "enable750": false,
+      "base": 250,
+      "lowConfidence": 500,
+      "highUncertainty": 500,
+      "maxDecisionMs": 5000,
+      "maxVisitGap": 3,
+      "maxValueGap": 0.04,
+      "maxSelectedVisitShare": 0.12,
+      "highUncertaintyVisitGap": 1,
+      "highUncertaintyValueGap": 0.015,
+      "highUncertaintySelectedVisitShare": 0.08
+    },
+    "endgame": {
+      "enabled": false,
+      "maxLegalActions": 8,
+      "maxConnectedRegions": 3,
+      "maxMobilePieces": 2,
+      "maxDepth": 8,
+      "maxNodes": 40000,
+      "maxTimeMs": 1500
+    }
+  },
+  "configsIdentical": true,
+  "firstActionColor": "R",
+  "winner": "R",
+  "tie": false,
+  "territoryRed": 25,
+  "territoryBlue": 14,
+  "territoryDiff": 11,
+  "redScore": 1,
+  "totalDecisions": 51,
+  "redDecisions": 26,
+  "blueDecisions": 25,
+  "redSeedCount": 26,
+  "blueSeedCount": 25,
+  "redActions": {
+    "placements": 2,
+    "moves": 23,
+    "walls": 24
+  },
+  "blueActions": {
+    "placements": 2,
+    "moves": 21,
+    "walls": 23
+  },
+  "terminationReason": "all-territory-closed",
+  "terminal": true,
+  "durationMs": 801949.984,
+  "diagnostics": {
+    "expandedTo500": 33,
+    "stoppedByTimeLimit": 0,
+    "tacticalChanged": 26,
+    "totalSimulations": 21000
+  },
+  "actions": [
+    {
+      "type": "place",
+      "pos": {
+        "x": 5,
+        "y": 3
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 3,
+        "y": 0
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 2,
+        "y": 2
+      }
+    },
+    {
+      "type": "place",
+      "pos": {
+        "x": 3,
+        "y": 5
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 3
+      },
+      "pos": {
+        "x": 4,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 3
+        },
+        "pos": {
+          "x": 4,
+          "y": 3
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 2,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 4
+        },
+        "dir": "bottom"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 3
+      },
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 2
+        },
+        "pos": {
+          "x": 4,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 4
+      },
+      "pos": {
+        "x": 4,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 4
+        },
+        "pos": {
+          "x": 4,
+          "y": 4
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 2
+      },
+      "pos": {
+        "x": 3,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 4
+      },
+      "pos": {
+        "x": 5,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 3
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "wall",
+      "from": {
+        "x": 5,
+        "y": 5
+      },
+      "pos": {
+        "x": 5,
+        "y": 5
+      },
+      "dir": "top"
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 2
+      },
+      "pos": {
+        "x": 3,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 2
+        },
+        "pos": {
+          "x": 3,
+          "y": 2
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 1
+      },
+      "pos": {
+        "x": 2,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 0
+        },
+        "pos": {
+          "x": 2,
+          "y": 0
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 2
+      },
+      "pos": {
+        "x": 2,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 2
+        },
+        "pos": {
+          "x": 2,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 5
+      },
+      "pos": {
+        "x": 4,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 5
+        },
+        "pos": {
+          "x": 4,
+          "y": 5
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 2
+      },
+      "pos": {
+        "x": 1,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 2
+        },
+        "pos": {
+          "x": 1,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 5
+      },
+      "pos": {
+        "x": 3,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 3
+        },
+        "pos": {
+          "x": 3,
+          "y": 3
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 2
+      },
+      "pos": {
+        "x": 1,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 4
+        },
+        "pos": {
+          "x": 1,
+          "y": 4
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 3
+      },
+      "pos": {
+        "x": 1,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 3
+        },
+        "pos": {
+          "x": 1,
+          "y": 3
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 0
+      },
+      "pos": {
+        "x": 4,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 0
+        },
+        "pos": {
+          "x": 4,
+          "y": 0
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 1
+      },
+      "pos": {
+        "x": 2,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 2
+        },
+        "pos": {
+          "x": 2,
+          "y": 2
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 0
+      },
+      "pos": {
+        "x": 3,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 1
+        },
+        "pos": {
+          "x": 3,
+          "y": 1
+        },
+        "dir": "bottom"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 5
+      },
+      "pos": {
+        "x": 6,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 5
+        },
+        "pos": {
+          "x": 6,
+          "y": 5
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 1
+      },
+      "pos": {
+        "x": 1,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 1
+        },
+        "pos": {
+          "x": 1,
+          "y": 1
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 5
+      },
+      "pos": {
+        "x": 6,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 4
+        },
+        "pos": {
+          "x": 6,
+          "y": 4
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 3
+      },
+      "pos": {
+        "x": 6,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 2
+        },
+        "pos": {
+          "x": 6,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 4
+      },
+      "pos": {
+        "x": 6,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "pos": {
+          "x": 6,
+          "y": 3
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 1
+      },
+      "pos": {
+        "x": 5,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 2
+        },
+        "pos": {
+          "x": 5,
+          "y": 2
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 3
+      },
+      "pos": {
+        "x": 0,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 4
+      },
+      "pos": {
+        "x": 1,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 5
+        },
+        "pos": {
+          "x": 1,
+          "y": 5
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 0
+      },
+      "pos": {
+        "x": 1,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 0
+        },
+        "pos": {
+          "x": 1,
+          "y": 0
+        },
+        "dir": "bottom"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 1
+      },
+      "pos": {
+        "x": 0,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 1
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 2
+      },
+      "pos": {
+        "x": 2,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 3
+        },
+        "pos": {
+          "x": 2,
+          "y": 3
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 2
+      },
+      "pos": {
+        "x": 5,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 3
+      },
+      "pos": {
+        "x": 2,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 2
+        },
+        "pos": {
+          "x": 2,
+          "y": 2
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "wall",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 5
+      },
+      "dir": "left"
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 2
+      },
+      "pos": {
+        "x": 3,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 3
+        },
+        "pos": {
+          "x": 3,
+          "y": 3
+        },
+        "dir": "bottom"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 6,
+        "y": 2
+      },
+      "pos": {
+        "x": 5,
+        "y": 3
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 3
+        },
+        "pos": {
+          "x": 5,
+          "y": 3
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 3
+      },
+      "pos": {
+        "x": 2,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 4
+        },
+        "pos": {
+          "x": 2,
+          "y": 4
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "wall",
+      "from": {
+        "x": 5,
+        "y": 3
+      },
+      "pos": {
+        "x": 5,
+        "y": 3
+      },
+      "dir": "top"
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 4
+      },
+      "pos": {
+        "x": 3,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 5
+        },
+        "pos": {
+          "x": 3,
+          "y": 5
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 1,
+        "y": 5
+      },
+      "pos": {
+        "x": 2,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 6
+        },
+        "pos": {
+          "x": 2,
+          "y": 6
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 5
+      },
+      "pos": {
+        "x": 3,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 3,
+          "y": 6
+        },
+        "pos": {
+          "x": 3,
+          "y": 6
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 1
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 0
+        },
+        "pos": {
+          "x": 0,
+          "y": 0
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 2
+      },
+      "pos": {
+        "x": 0,
+        "y": 4
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 4
+        },
+        "pos": {
+          "x": 0,
+          "y": 4
+        },
+        "dir": "bottom"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 5,
+        "y": 1
+      },
+      "pos": {
+        "x": 4,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 4,
+          "y": 1
+        },
+        "pos": {
+          "x": 4,
+          "y": 1
+        },
+        "dir": "left"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 0,
+        "y": 4
+      },
+      "pos": {
+        "x": 0,
+        "y": 2
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 0,
+          "y": 2
+        },
+        "pos": {
+          "x": 0,
+          "y": 2
+        },
+        "dir": "top"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 4,
+        "y": 1
+      },
+      "pos": {
+        "x": 5,
+        "y": 1
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 5,
+          "y": 1
+        },
+        "pos": {
+          "x": 5,
+          "y": 1
+        },
+        "dir": "bottom"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 3,
+        "y": 6
+      },
+      "pos": {
+        "x": 2,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 2,
+          "y": 5
+        },
+        "pos": {
+          "x": 2,
+          "y": 5
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 6
+      },
+      "pos": {
+        "x": 1,
+        "y": 6
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 6
+        },
+        "pos": {
+          "x": 1,
+          "y": 6
+        },
+        "dir": "right"
+      }
+    },
+    {
+      "type": "move",
+      "from": {
+        "x": 2,
+        "y": 5
+      },
+      "pos": {
+        "x": 1,
+        "y": 5
+      },
+      "followUp": {
+        "type": "wall",
+        "from": {
+          "x": 1,
+          "y": 5
+        },
+        "pos": {
+          "x": 1,
+          "y": 5
+        },
+        "dir": "bottom"
+      }
+    }
+  ],
+  "actionSequenceSha256": "b3cb75f2dfc3e632cbda144d7b9497614692040164461fb1b9fdb4131d48cc26",
+  "outcomeSha256": "d7f773882f10daccd36f154a51f84e1535c9ece2e331199fb72d2c308552bddb",
+  "reproducible": true,
+  "virtualClock": true,
+  "latencyGuardDisabled": true,
+  "startedAt": "2026-08-03T18:41:18.204Z",
+  "finishedAt": "2026-08-03T18:54:40.157Z"
+}

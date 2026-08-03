@@ -456,7 +456,12 @@ export function validateSelfPlayColorBiasDirectory(options: ValidateSelfPlayOpti
   }
 
   if (replaySample > 0 && results.length) {
-    const sample = plan.slice(0, replaySample)
+    // Evenly spaced across the plan: a sample taken only from the first pair would not show
+    // that a game played late in the run is just as reproducible as one played first.
+    const step = Math.max(1, Math.floor(plan.length / replaySample))
+    const sample = Array.from({ length: Math.min(replaySample, plan.length) }, (_, index) => {
+      return plan[Math.min(plan.length - 1, index * step)]!
+    })
     for (const planned of sample) {
       const stored = results.find((row) => row.gameId === planned.gameId)
       if (!stored) continue
