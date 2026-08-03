@@ -40,6 +40,26 @@ const OPERATIONAL_EXPERIMENT_PATHS = [
   /^docs\/human-experiment-protocol\.md$/,
   /^package\.json$/,
   /^\.gitignore$/,
+  // Experimento posterior de autoenfrentamiento MCTS (sesgo de color y orden de juego).
+  //
+  // Se ejecuta cuando el experimento humano V3-R1 ya está cerrado y no toca ni la IA, ni el
+  // MCTS, ni las reglas, ni la configuración, ni el runtime jugable: solo añade archivos
+  // nuevos que leen esas piezas sin modificarlas. Se comprobó que el diff entre
+  // implementationCommit y HEAD está vacío para src/agents, src/engine, src/store, src/lib,
+  // src/utils, src/components y src/ai. Las rutas de código se enumeran una a una, igual que
+  // el resto de la lista.
+  /^src\/experiments\/mctsSelfPlayColorBias(\.test)?\.ts$/,
+  /^src\/fixtures\/mctsSelfPlayFastConfig\.ts$/,
+  /^src\/training\/mctsSelfPlayStatistics(\.test)?\.ts$/,
+  /^src\/training\/mctsSelfPlayColorBiasAnalysis(\.test)?\.ts$/,
+  /^src\/training\/runMCTSSelfPlayColorBias\.ts$/,
+  /^src\/training\/validateMCTSSelfPlayColorBias(\.test)?\.ts$/,
+  /^src\/training\/reportMCTSSelfPlayColorBias\.ts$/,
+  /^scripts\/generateSelfPlayColorBiasCharts\.py$/,
+  /^docs\/mcts-selfplay-color-bias\.md$/,
+  // Árbol de datos independiente del experimento humano. Aquí sí se usa un patrón de
+  // directorio porque son miles de archivos generados y ninguno puede influir en V3-R1.
+  /^data\/mcts-selfplay\/[^/]+\/.+$/,
 ]
 
 export function validateFullCommit(value) {

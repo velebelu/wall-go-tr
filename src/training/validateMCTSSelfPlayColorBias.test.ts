@@ -218,6 +218,49 @@ describe('validador del autoenfrentamiento MCTS', () => {
   })
 })
 
+describe('lista blanca posterior al congelado del experimento humano', () => {
+  let isAllowedOperationalExperimentPath: (path: string) => boolean
+
+  beforeAll(async () => {
+    // @ts-expect-error The runtime launcher is JavaScript and intentionally has no declaration file.
+    const launcher = await import('../../scripts/start-human-experiment.mjs')
+    isAllowedOperationalExperimentPath = launcher.isAllowedOperationalExperimentPath
+  })
+
+  it('admite los archivos nuevos de este experimento', () => {
+    for (const path of [
+      'src/experiments/mctsSelfPlayColorBias.ts',
+      'src/experiments/mctsSelfPlayColorBias.test.ts',
+      'src/fixtures/mctsSelfPlayFastConfig.ts',
+      'src/training/mctsSelfPlayStatistics.ts',
+      'src/training/mctsSelfPlayColorBiasAnalysis.ts',
+      'src/training/runMCTSSelfPlayColorBias.ts',
+      'src/training/validateMCTSSelfPlayColorBias.ts',
+      'src/training/reportMCTSSelfPlayColorBias.ts',
+      'scripts/generateSelfPlayColorBiasCharts.py',
+      'docs/mcts-selfplay-color-bias.md',
+      'data/mcts-selfplay/final-2026-color-bias-v1/summary.json',
+      'data/mcts-selfplay/final-2026-color-bias-v1/games/game-001.json',
+    ])
+      expect(isAllowedOperationalExperimentPath(path), path).toBe(true)
+  })
+
+  it('sigue rechazando cualquier archivo del runtime jugable congelado', () => {
+    for (const path of [
+      'src/agents/humanChallengeMCTS.ts',
+      'src/agents/mctsConfig.ts',
+      'src/engine/mcts/MCTS.ts',
+      'src/engine/gameSimulator.ts',
+      'src/store/actions.ts',
+      'src/utils/ai.ts',
+      'src/utils/territory.ts',
+      'src/lib/types.ts',
+      'data/mcts-selfplay/suelto.json',
+    ])
+      expect(isAllowedOperationalExperimentPath(path), path).toBe(false)
+  })
+})
+
 describe('protección del experimento humano congelado', () => {
   it('acepta el estado real del repositorio', () => {
     const collector = new SelfPlayValidationCollector()
