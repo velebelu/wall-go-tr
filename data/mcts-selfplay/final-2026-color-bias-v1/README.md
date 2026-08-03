@@ -56,8 +56,24 @@ npm run experiment:mcts-selfplay-color-bias:charts     # regenera las gráficas
 
 Opciones útiles del ejecutor: `--pairs=N`, `--workers=N`, `--output=ruta`. El ejecutor omite
 las partidas ya guardadas, de modo que una interrupción se retoma sin perder trabajo.
-Opciones del validador: `--replay=N` para volver a jugar N partidas (2 por defecto) y `--pairs`
-/ `--output` equivalentes.
+Opciones del validador: `--replay=N` para volver a jugar N partidas repartidas por todo el
+plan (2 por defecto) y `--pairs` / `--output` equivalentes.
+
+### Pruebas de reproducibilidad realizadas
+
+1. **Dentro del validador.** Se volvieron a jugar cuatro partidas repartidas por el plan
+   (parejas 1, 26, 51 y 76), en un proceso nuevo, y sus huellas de secuencia de acciones y de
+   resultado coincidieron exactamente con las guardadas.
+2. **Repetición de las acciones.** Las 200 secuencias de acciones guardadas se vuelven a
+   aplicar con el motor oficial y reproducen ganador, territorio, contadores y motivo de
+   finalización.
+3. **Entre ejecuciones independientes.** El piloto de 10 partidas se ejecutó horas antes, con
+   otro commit (`52105ed`) y con 10 procesos en lugar de 12. Sus diez partidas coinciden bit a
+   bit con las diez primeras de la ejecución definitiva. Es la comprobación más fuerte: ni el
+   commit, ni el número de procesos, ni el momento de ejecución alteran el resultado.
+4. **Entre compiladores.** Un test fija la huella de una partida medida bajo ts-node (ES5) y la
+   comprueba bajo esbuild, de modo que los dos entornos de ejecución del repositorio producen
+   partidas idénticas.
 
 ## Desviación documentada respecto a la IA desplegada
 

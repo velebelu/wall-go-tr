@@ -30,7 +30,7 @@ function percent(value: number): string {
   return `${decimal(value, 1)} %`
 }
 
-function interval(ci: { low: number; high: number }, digits = 3): string {
+function interval(ci: { low: number; high: number }, digits = 4): string {
   return `[${decimal(ci.low, digits)} ; ${decimal(ci.high, digits)}]`
 }
 
