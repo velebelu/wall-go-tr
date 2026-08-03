@@ -2,7 +2,58 @@ import { describe, expect, it } from 'vitest'
 import {
   validateHumanExperimentV3R1Directory,
   validateHumanExperimentV3R1State,
+  type HumanExperimentV3R1State,
 } from './validateHumanExperimentV3R1'
+
+/**
+ * Devuelve una copia en memoria del estado en la que un participante vuelve a la situación
+ * previa a su registro: carpeta y plantillas creadas, datos demográficos todavía sin rellenar,
+ * plantillas de partida vacías y ninguna partida ni traza en el registro.
+ *
+ * Se construye siempre, en lugar de buscar un participante que casualmente siga sin registrar,
+ * porque el experimento oficial ya está completo con sus ocho participantes y sus dieciséis
+ * partidas. Nada de esto toca el disco: `data/human-experiment/final-2026-v3-r1` permanece
+ * intacto.
+ */
+function withBlankUnregisteredParticipant(
+  state: HumanExperimentV3R1State,
+  participantId: string,
+): HumanExperimentV3R1State {
+  const blank = structuredClone(state)
+
+  blank.templates[participantId] = {
+    ...blank.templates[participantId],
+    experienceGroup: null,
+    previousWallGoGames: null,
+    notes: '',
+  } as unknown as (typeof blank.templates)[string]
+
+  // Hay que quitar al participante y sus partidas a la vez: dejar partidas sin su participante
+  // deja huérfanas en el registro y el validador las rechaza, con razón.
+  blank.registry.participants = blank.registry.participants.filter(
+    (participant) => participant.participantId !== participantId,
+  )
+  blank.registry.games = blank.registry.games.filter((game) => game.participantId !== participantId)
+  blank.metadata.gameCount = blank.registry.games.length
+
+  // El inventario de trazas debe coincidir exactamente con el registro.
+  const tracePrefix = `participants/${participantId}/traces/`
+  blank.officialTracePaths = blank.officialTracePaths.filter(
+    (path) => !path.startsWith(tracePrefix),
+  )
+
+  // Plantilla de partida vacía, con la misma forma que genera la preparación de una sesión.
+  for (const gameNumber of [1, 2])
+    blank.gameFiles[`${participantId}/${gameNumber}`] = {
+      schema: 'HumanExperimentGameInputV1',
+      experimentId: blank.metadata.experimentId,
+      participantId,
+      gameNumber,
+      incidents: [],
+    }
+
+  return blank
+}
 
 describe('V3-R1 lifecycle', () => {
   it('keeps the live repetition coherent as official registrations accumulate', async () => {
@@ -76,31 +127,48 @@ describe('V3-R1 lifecycle', () => {
 
   it('accepts an unregistered blank participant fixture', async () => {
     const state = await validateHumanExperimentV3R1Directory()
-    const blank = structuredClone(state)
-    // El participante debe estar sin registrar y sin partidas: quitar del registro a uno que ya
-    // tenga partidas dejaria partidas huerfanas, y el validador las rechaza con razon. Se elige
-    // dinamicamente para que el fixture siga siendo valido segun avanza el experimento.
-    const blankParticipantId = Object.keys(blank.templates)
-      .sort()
-      .find(
-        (participantId) =>
-          !blank.registry.participants.some(
-            (participant) => participant.participantId === participantId,
-          ) && !blank.registry.games.some((game) => game.participantId === participantId),
-      )
-    expect(
-      blankParticipantId,
-      'no queda ningun participante sin registrar y sin partidas',
-    ).toBeDefined()
+    // El último identificador de plantilla: elección determinista que no depende de cuántos
+    // participantes estén registrados en este momento. Se indexa en vez de usar `at`, que
+    // exige la biblioteca ES2022 y este proyecto compila contra ES2020.
+    const templateIds = Object.keys(state.templates).sort()
+    const participantId = templateIds[templateIds.length - 1]
+    expect(participantId, 'el experimento debe tener plantillas de participante').toBeDefined()
 
-    blank.templates[blankParticipantId!] = {
-      ...blank.templates[blankParticipantId!],
+    const blank = withBlankUnregisteredParticipant(state, participantId!)
+
+    // El fixture es de verdad un participante preparado y todavía sin registrar.
+    expect(blank.registry.participants.some((row) => row.participantId === participantId)).toBe(
+      false,
+    )
+    expect(blank.registry.games.some((game) => game.participantId === participantId)).toBe(false)
+    expect(blank.officialTracePaths.some((path) => path.includes(`/${participantId}/`))).toBe(false)
+    expect(blank.templates[participantId!]).toMatchObject({
+      participantId,
       experienceGroup: null,
       previousWallGoGames: null,
-      notes: '',
-    } as unknown as (typeof blank.templates)[string]
+    })
 
     expect(() => validateHumanExperimentV3R1State(blank)).not.toThrow()
+
+    // El estado real del disco sigue intacto y sigue validando.
+    expect(state.registry.participants.some((row) => row.participantId === participantId)).toBe(
+      true,
+    )
+    expect(() => validateHumanExperimentV3R1State(state)).not.toThrow()
+  })
+
+  it('still rejects a participant removed from the registry while keeping its games', async () => {
+    const state = await validateHumanExperimentV3R1Directory()
+    const templateIds = Object.keys(state.templates).sort()
+    const participantId = templateIds[templateIds.length - 1]!
+    const orphaned = withBlankUnregisteredParticipant(state, participantId)
+    // Se devuelven las partidas sin devolver al participante: el registro queda incoherente.
+    orphaned.registry.games = structuredClone(state.registry.games)
+    orphaned.metadata.gameCount = orphaned.registry.games.length
+    orphaned.gameFiles = structuredClone(state.gameFiles)
+    orphaned.officialTracePaths = [...state.officialTracePaths]
+
+    expect(() => validateHumanExperimentV3R1State(orphaned)).toThrow()
   })
 
   it('rejects an inherited official result', async () => {
